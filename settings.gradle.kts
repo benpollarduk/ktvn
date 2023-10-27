@@ -9,5 +9,6 @@
 
 rootProject.name = "ktvn"
 include(
-    ":ktvn"
+    ":ktvn",
+    ":ktvn-example"
 )
