@@ -10,6 +10,7 @@ import com.github.benpollarduk.ktvn.characters.Narrator
 import com.github.benpollarduk.ktvn.characters.Speaks
 import com.github.benpollarduk.ktvn.layout.CharacterPosition
 import com.github.benpollarduk.ktvn.layout.Layout
+import com.github.benpollarduk.ktvn.layout.Moves
 import com.github.benpollarduk.ktvn.layout.Positions.leftOf
 import com.github.benpollarduk.ktvn.layout.Positions.rightOf
 import com.github.benpollarduk.ktvn.logic.Act
@@ -21,19 +22,20 @@ import com.github.benpollarduk.ktvn.logic.content
 public class ExampleScript(
     speaks: Speaks,
     emotionChanged: Emotes,
-    narrates: Narrates
+    narrates: Narrates,
+    private val moves: Moves
 ) {
     private val narrator = Narrator(narrates)
     private val ben = Character("Ben", speaks, emotionChanged)
     private val beth = Character("Beth", speaks, emotionChanged)
 
     private fun scene1(): Scene {
-        val positions = listOf(
+        val characterPositions = listOf(
             CharacterPosition(ben, leftOf),
             CharacterPosition(beth, rightOf)
         )
 
-        val layout = Layout(positions)
+        val layout = Layout(characterPositions, moves)
 
         val content = content(
             then { narrator narrates "It was a dark and stormy night..." },

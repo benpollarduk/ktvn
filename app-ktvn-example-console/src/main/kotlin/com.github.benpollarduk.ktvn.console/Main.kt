@@ -6,6 +6,8 @@ import com.github.benpollarduk.ktvn.characters.Emotion
 import com.github.benpollarduk.ktvn.characters.Emotes
 import com.github.benpollarduk.ktvn.characters.Narrates
 import com.github.benpollarduk.ktvn.example.ExampleScript
+import com.github.benpollarduk.ktvn.layout.Moves
+import com.github.benpollarduk.ktvn.layout.Position
 import org.apache.logging.log4j.kotlin.Logging
 
 object Main : Logging {
@@ -21,7 +23,6 @@ object Main : Logging {
         val emotionChanged = object : Emotes {
             override fun invoke(character: Character, emotion: Emotion) {
                 println("${character.name} looks $emotion.")
-                readln()
             }
         }
 
@@ -32,8 +33,14 @@ object Main : Logging {
             }
         }
 
+        val moves = object : Moves {
+            override fun invoke(character: Character, fromPosition: Position, toPosition: Position) {
+                println("${character.name} moves from $fromPosition to $toPosition.")
+            }
+        }
+
         logger.info("Beginning execution of example...")
-        val example = ExampleScript(speaks, emotionChanged, narrates)
+        val example = ExampleScript(speaks, emotionChanged, narrates, moves)
         example.begin()
         logger.info("Ended execution of example.")
     }

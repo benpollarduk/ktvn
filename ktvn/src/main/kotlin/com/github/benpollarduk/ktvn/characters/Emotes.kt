@@ -1,7 +1,7 @@
 package com.github.benpollarduk.ktvn.characters
 
 /**
- * Provides an interface for objects that can handle a specified [character] shows an [emotion].
+ * Provides an interface for objects that can handle [Emotion] changes.
  */
 public interface Emotes {
     /**
