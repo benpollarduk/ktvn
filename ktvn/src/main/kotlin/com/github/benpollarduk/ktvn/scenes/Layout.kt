@@ -10,7 +10,7 @@ import com.github.benpollarduk.ktvn.scenes.Positions.right
 import com.github.benpollarduk.ktvn.scenes.Positions.rightOf
 
 /**
- * Provides a layout.
+ * Provides a layout for a specified list of [positions].
  */
 public class Layout(positions: List<CharacterPosition>) {
     private val mutablePositions: MutableList<CharacterPosition> = mutableListOf()
@@ -20,46 +20,68 @@ public class Layout(positions: List<CharacterPosition>) {
         }
     }
 
+    /**
+     * Add a [character] to this [Layout] at a [position].
+     */
     public fun add(character: Character, position: Position) {
         mutablePositions.removeAll { it.character == character }
         mutablePositions.add(CharacterPosition(character, position))
     }
 
-    public fun move(character: Character, to: Position) {
+    /**
+     * Move a [character] to a [position].
+     */
+    public fun move(character: Character, position: Position) {
         mutablePositions.removeAll { it.character == character }
-        mutablePositions.add(CharacterPosition(character, to))
+        mutablePositions.add(CharacterPosition(character, position))
     }
 
+    /**
+     * Move a [character] to the left position.
+     */
     public infix fun moveLeft(character: Character) {
         move(character, left)
     }
 
+    /**
+     * Move a [character] to the center position.
+     */
     public infix fun moveCenter(character: Character) {
         move(character, center)
     }
 
+    /**
+     * Move a [character] to the right position.
+     */
     public infix fun moveRight(character: Character) {
         move(character, right)
     }
 
-    public fun exit(character: Character, to: Position) {
-        println(to)
-        mutablePositions.removeAll { it.character == character }
-    }
-
+    /**
+     * Exit a [character] to the left.
+     */
     public infix fun exitLeft(character: Character) {
-        exit(character, leftOf)
+        move(character, leftOf)
     }
 
+    /**
+     * Exit a [character] to the top.
+     */
     public infix fun exitTop(character: Character) {
-        exit(character, above)
+        move(character, above)
     }
 
+    /**
+     * Exit a [character] to the right.
+     */
     public infix fun exitRight(character: Character) {
-        exit(character, rightOf)
+        move(character, rightOf)
     }
 
-    public infix fun exitDown(character: Character) {
-        exit(character, below)
+    /**
+     * Exit a [character] to the bottom.
+     */
+    public infix fun exitBottom(character: Character) {
+        move(character, below)
     }
 }
