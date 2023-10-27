@@ -4,7 +4,7 @@ package com.github.benpollarduk.ktvn.logic
  * Provides a default 'next' step.
  */
 public class Then private constructor(private val script: () -> Unit) : Step {
-    override fun invoke() {
+    override fun invoke(flags: Flags) {
         script()
     }
 
