@@ -11,6 +11,12 @@ public class Story(private val acts: List<Act>) {
         private set
 
     /**
+     * Get the flags
+     */
+    public var flags: Flags = Flags.empty
+        private set
+
+    /**
      * Get the current position within this story.
      */
     public val currentPosition: StoryPosition
@@ -21,16 +27,16 @@ public class Story(private val acts: List<Act>) {
         }
 
     /**
-     * Begin the [Story]. The [storyPosition] can be optionally specified.
+     * Begin the [Story] with specified [flags]. The [storyPosition] can be optionally specified.
      **/
-    public fun begin(storyPosition: StoryPosition = StoryPosition.start) {
+    public fun begin(flags: Flags, storyPosition: StoryPosition = StoryPosition.start) {
         for (i in storyPosition.act until acts.size) {
             indexOfCurrentAct = i
 
             if (i == storyPosition.act) {
-                acts[i].begin(storyPosition.scene, storyPosition.step)
+                acts[i].begin(flags, storyPosition.scene, storyPosition.step)
             } else {
-                acts[i].begin()
+                acts[i].begin(flags)
             }
         }
     }

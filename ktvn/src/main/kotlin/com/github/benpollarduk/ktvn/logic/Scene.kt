@@ -18,13 +18,13 @@ public class Scene(
         private set
 
     /**
-     * Begin the scene from a specified [startStep].
+     * Begin the scene with specified [flags] from a specified [startStep].
      */
-    public fun begin(startStep: Int = 0) {
+    public fun begin(flags: Flags, startStep: Int = 0) {
         for (i in startStep until content.size) {
             indexOfCurrentStep = i
 
-            content[i]()
+            content[i](flags)
         }
     }
 }

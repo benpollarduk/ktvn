@@ -14,6 +14,7 @@ import com.github.benpollarduk.ktvn.layout.Moves
 import com.github.benpollarduk.ktvn.layout.Positions.leftOf
 import com.github.benpollarduk.ktvn.layout.Positions.rightOf
 import com.github.benpollarduk.ktvn.logic.Act
+import com.github.benpollarduk.ktvn.logic.Flags
 import com.github.benpollarduk.ktvn.logic.Scene
 import com.github.benpollarduk.ktvn.logic.Story
 import com.github.benpollarduk.ktvn.logic.Then.Companion.then
@@ -58,6 +59,6 @@ public class ExampleScript(
     public fun begin() {
         val act = Act(listOf(scene1()))
         val game = Story(listOf(act))
-        game.begin()
+        game.begin(Flags.empty)
     }
 }
