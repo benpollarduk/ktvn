@@ -1,4 +1,4 @@
-package com.github.benpollarduk.ktvn.scenes
+package com.github.benpollarduk.ktvn.logic
 
 /**
  * Provides an interface for a step in a [Scene].

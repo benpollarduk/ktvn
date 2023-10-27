@@ -1,4 +1,4 @@
-package com.github.benpollarduk.ktvn.scenes
+package com.github.benpollarduk.ktvn.logic
 
 /**
  * Provides a default 'next' step.

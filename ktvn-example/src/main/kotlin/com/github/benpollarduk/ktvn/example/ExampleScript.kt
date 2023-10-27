@@ -8,15 +8,15 @@ import com.github.benpollarduk.ktvn.characters.Emotes
 import com.github.benpollarduk.ktvn.characters.Narrates
 import com.github.benpollarduk.ktvn.characters.Narrator
 import com.github.benpollarduk.ktvn.characters.Speaks
+import com.github.benpollarduk.ktvn.layout.CharacterPosition
+import com.github.benpollarduk.ktvn.layout.Layout
+import com.github.benpollarduk.ktvn.layout.Positions.leftOf
+import com.github.benpollarduk.ktvn.layout.Positions.rightOf
 import com.github.benpollarduk.ktvn.logic.Act
+import com.github.benpollarduk.ktvn.logic.Scene
 import com.github.benpollarduk.ktvn.logic.Story
-import com.github.benpollarduk.ktvn.scenes.CharacterPosition
-import com.github.benpollarduk.ktvn.scenes.Layout
-import com.github.benpollarduk.ktvn.scenes.Positions.leftOf
-import com.github.benpollarduk.ktvn.scenes.Positions.rightOf
-import com.github.benpollarduk.ktvn.scenes.Scene
-import com.github.benpollarduk.ktvn.scenes.Then.Companion.then
-import com.github.benpollarduk.ktvn.scenes.content
+import com.github.benpollarduk.ktvn.logic.Then.Companion.then
+import com.github.benpollarduk.ktvn.logic.content
 
 public class ExampleScript(
     speaks: Speaks,

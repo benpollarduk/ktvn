@@ -1,6 +1,7 @@
-package com.github.benpollarduk.ktvn.scenes
+package com.github.benpollarduk.ktvn.logic
 
 import com.github.benpollarduk.ktvn.backgrounds.Background
+import com.github.benpollarduk.ktvn.layout.Layout
 
 /**
  * Provides a scene with a specified [background], [layout] and [content].
@@ -11,10 +12,18 @@ public class Scene(
     private val content: SceneContent
 ) {
     /**
+     * Get the index of the current [Step].
+     */
+    public var indexOfCurrentStep: Int = 0
+        private set
+
+    /**
      * Begin the scene from a specified [startStep].
      */
     public fun begin(startStep: Int = 0) {
         for (i in startStep until content.size) {
+            indexOfCurrentStep = i
+
             content[i]()
         }
     }

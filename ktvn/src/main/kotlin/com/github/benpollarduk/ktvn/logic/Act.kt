@@ -1,16 +1,28 @@
 package com.github.benpollarduk.ktvn.logic
 
-import com.github.benpollarduk.ktvn.scenes.Scene
-
 /**
  * An act within a [Story], made up of [scenes].
  */
 public class Act(private val scenes: List<Scene>) {
     /**
+     * Get the index of the current [Scene].
+     */
+    public var indexOfCurrentScene: Int = 0
+        private set
+
+    /**
+     * Get the current [Scene].
+     */
+    public val currentScene: Scene
+        get() = scenes[indexOfCurrentScene]
+
+    /**
      * Begin the act. The first [scene] and [step] can be optionally specified.
      */
     public fun begin(scene: Int = 0, step: Int = 0) {
         for (i in scene until scenes.size) {
+            indexOfCurrentScene = i
+
             if (i == scene) {
                 scenes[i].begin(step)
             } else {

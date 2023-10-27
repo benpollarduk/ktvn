@@ -1,13 +1,13 @@
-package com.github.benpollarduk.ktvn.scenes
+package com.github.benpollarduk.ktvn.layout
 
 import com.github.benpollarduk.ktvn.characters.Character
-import com.github.benpollarduk.ktvn.scenes.Positions.above
-import com.github.benpollarduk.ktvn.scenes.Positions.below
-import com.github.benpollarduk.ktvn.scenes.Positions.center
-import com.github.benpollarduk.ktvn.scenes.Positions.left
-import com.github.benpollarduk.ktvn.scenes.Positions.leftOf
-import com.github.benpollarduk.ktvn.scenes.Positions.right
-import com.github.benpollarduk.ktvn.scenes.Positions.rightOf
+import com.github.benpollarduk.ktvn.layout.Positions.above
+import com.github.benpollarduk.ktvn.layout.Positions.below
+import com.github.benpollarduk.ktvn.layout.Positions.center
+import com.github.benpollarduk.ktvn.layout.Positions.left
+import com.github.benpollarduk.ktvn.layout.Positions.leftOf
+import com.github.benpollarduk.ktvn.layout.Positions.right
+import com.github.benpollarduk.ktvn.layout.Positions.rightOf
 
 /**
  * Provides a layout for a specified list of [positions].

@@ -1,4 +1,4 @@
-package com.github.benpollarduk.ktvn.scenes
+package com.github.benpollarduk.ktvn.logic
 
 /**
  * A series of [Step] that make up the content of a [Scene].

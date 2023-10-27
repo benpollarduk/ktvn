@@ -1,4 +1,4 @@
-package com.github.benpollarduk.ktvn.scenes
+package com.github.benpollarduk.ktvn.layout
 
 import com.github.benpollarduk.ktvn.characters.Character
 

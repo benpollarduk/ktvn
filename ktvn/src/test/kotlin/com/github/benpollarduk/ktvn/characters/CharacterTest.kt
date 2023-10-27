@@ -7,13 +7,13 @@ import org.junit.jupiter.api.Test
 class CharacterTest {
     private val speaks = object : Speaks {
         override fun invoke(character: Character, line: String) {
-            println("${character.name}: $line")
+            // nothing
         }
     }
 
     private val emotionChanged = object : Emotes {
         override fun invoke(character: Character, emotion: Emotion) {
-            println("${character.name} looks $emotion.")
+            // nothing
         }
     }
 
