@@ -1,7 +1,7 @@
 package com.github.benpollarduk.ktvn.characters
 
 /**
- * Provides an interface for objects that can handle a specified [character] speaking a [line].
+ * Provides an interface for objects that can handle speech.
  */
 public interface Speaks {
     /**

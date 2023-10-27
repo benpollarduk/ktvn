@@ -12,7 +12,10 @@ import com.github.benpollarduk.ktvn.layout.Positions.rightOf
 /**
  * Provides a layout for a specified list of [positions].
  */
-public class Layout(positions: List<CharacterPosition>) {
+public class Layout(
+    positions: List<CharacterPosition>,
+    private val moves: Moves
+) {
     private val mutablePositions: MutableList<CharacterPosition> = mutableListOf()
     init {
         positions.forEach {
@@ -32,8 +35,11 @@ public class Layout(positions: List<CharacterPosition>) {
      * Move a [character] to a [position].
      */
     public fun move(character: Character, position: Position) {
+        val current = mutablePositions.firstOrNull { it.character == character }
+        val fromPosition = current?.position ?: left
         mutablePositions.removeAll { it.character == character }
         mutablePositions.add(CharacterPosition(character, position))
+        moves(character, fromPosition, position)
     }
 
     /**
