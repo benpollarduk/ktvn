@@ -5,7 +5,7 @@ package com.github.benpollarduk.ktvn.logic
  */
 public interface Step {
     /**
-     * Invoke the step.
+     * Invoke the step with the specified flags.
      */
-    public operator fun invoke()
+    public operator fun invoke(flags: Flags = Flags.empty)
 }
