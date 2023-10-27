@@ -1,13 +1,16 @@
 package com.github.benpollarduk.ktvn.scenes
 
-import com.github.benpollarduk.ktvn.scenes.backgrounds.Background
+import com.github.benpollarduk.ktvn.backgrounds.Background
+import com.github.benpollarduk.ktvn.steps.Step
 
 public class Scene(
     public val background: Background,
     public val layout: Layout,
-    public val callback: (Layout) -> Unit
+    private val steps: List<Step>
 ) {
-    public fun begin() {
-        callback(layout)
+    public fun begin(startStep: Int = 0) {
+        for (i in startStep..steps.size) {
+            steps[i]()
+        }
     }
 }

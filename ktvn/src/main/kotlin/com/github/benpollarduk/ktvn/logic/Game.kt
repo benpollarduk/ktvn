@@ -1,4 +1,4 @@
-package com.github.benpollarduk.ktvn.scenes
+package com.github.benpollarduk.ktvn.logic
 
 public class Game(private val acts: List<Act>) {
     public fun begin() {
