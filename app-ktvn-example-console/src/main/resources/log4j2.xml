@@ -20,16 +20,10 @@
                 </Delete>
             </DefaultRolloverStrategy>
         </RollingFile>
-        <Console name="consoleLogger" target="SYSTEM_OUT">
-            <PatternLayout>
-                <pattern>[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n</pattern>
-            </PatternLayout>
-        </Console>
     </Appenders>
     <Loggers>
         <Root level="info" additivity="false">
             <appender-ref ref="fileLogger" />
-            <appender-ref ref="consoleLogger" />
         </Root>
     </Loggers>
 </Configuration>

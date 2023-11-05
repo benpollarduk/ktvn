@@ -1,9 +1,10 @@
-package com.github.benpollarduk.ktvn.layout
+package com.github.benpollarduk.ktvn.logic.listeners
 
 import com.github.benpollarduk.ktvn.characters.Character
+import com.github.benpollarduk.ktvn.layout.Position
 
 /**
- * Provides an interface for objects that can handle a movement.
+ * Provides an interface for objects that can handle movements.
  */
 public interface Moves {
     /**

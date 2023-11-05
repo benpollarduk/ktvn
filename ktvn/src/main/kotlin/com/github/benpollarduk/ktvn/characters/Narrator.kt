@@ -1,14 +1,32 @@
 package com.github.benpollarduk.ktvn.characters
 
-/**
- * Provides a narrator with a specified listener for [narrate].
- */
-public class Narrator(private val narrate: Narrates) {
+import com.github.benpollarduk.ktvn.logic.Answer
+import com.github.benpollarduk.ktvn.logic.Question
+import com.github.benpollarduk.ktvn.logic.listeners.Acknowledges
+import com.github.benpollarduk.ktvn.logic.listeners.Answers
+import com.github.benpollarduk.ktvn.logic.listeners.Asks
+import com.github.benpollarduk.ktvn.logic.listeners.Narrates
 
+/**
+ * Provides a narrator. Listeners for [narrates], [asks], [acknowledges] and [answers] must be specified.
+ */
+public class Narrator(
+    private val narrates: Narrates,
+    private val asks: Asks,
+    private val acknowledges: Acknowledges,
+    private val answers: Answers
+) {
     /**
      * Narrate a [line].
      */
     public infix fun narrates(line: String) {
-        narrate(line)
+        narrates(line, acknowledges)
+    }
+
+    /**
+     * Ask a [question]. Returns the selected answer.
+     */
+    public infix fun asks(question: Question): Answer {
+        return asks(this, question, answers)
     }
 }

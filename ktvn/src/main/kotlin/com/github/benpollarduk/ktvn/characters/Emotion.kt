@@ -1,6 +1,6 @@
 package com.github.benpollarduk.ktvn.characters
 
 /**
- * Represents an emotion.
+ * Provides an interface for emotions.
  */
 public interface Emotion

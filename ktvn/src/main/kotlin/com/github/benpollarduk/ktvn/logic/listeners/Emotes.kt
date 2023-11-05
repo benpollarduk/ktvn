@@ -1,4 +1,7 @@
-package com.github.benpollarduk.ktvn.characters
+package com.github.benpollarduk.ktvn.logic.listeners
+
+import com.github.benpollarduk.ktvn.characters.Character
+import com.github.benpollarduk.ktvn.characters.Emotion
 
 /**
  * Provides an interface for objects that can handle [Emotion] changes.

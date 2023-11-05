@@ -1,7 +1,7 @@
 package com.github.benpollarduk.ktvn.characters
 
 /**
- * Provides a library of base emotions.
+ * Provides a collection of base emotions.
  */
 public object BaseEmotions {
     /**
@@ -28,6 +28,42 @@ public object BaseEmotions {
     public val sad: Emotion = object : Emotion {
         override fun toString(): String {
             return "sad"
+        }
+    }
+
+    /**
+     * Base emotion for excited.
+     */
+    public val excited: Emotion = object : Emotion {
+        override fun toString(): String {
+            return "excited"
+        }
+    }
+
+    /**
+     * Base emotion for angry.
+     */
+    public val angry: Emotion = object : Emotion {
+        override fun toString(): String {
+            return "angry"
+        }
+    }
+
+    /**
+     * Base emotion for confused.
+     */
+    public val confused: Emotion = object : Emotion {
+        override fun toString(): String {
+            return "confused"
+        }
+    }
+
+    /**
+     * Base emotion for concerned.
+     */
+    public val concerned: Emotion = object : Emotion {
+        override fun toString(): String {
+            return "concerned"
         }
     }
 }

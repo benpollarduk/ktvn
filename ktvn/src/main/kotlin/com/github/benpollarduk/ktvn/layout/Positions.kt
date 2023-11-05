@@ -1,5 +1,8 @@
 package com.github.benpollarduk.ktvn.layout
 
+/**
+ * Provides a collection of base positions.
+ */
 public object Positions {
     /**
      * Above.

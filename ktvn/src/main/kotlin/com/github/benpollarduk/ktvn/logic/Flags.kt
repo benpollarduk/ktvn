@@ -7,16 +7,30 @@ public class Flags {
     private val values: MutableMap<String, Boolean> = mutableMapOf()
 
     /**
-     * Set a [flag] to a specified [value].
+     * Get a flag with a specified [name].
      */
-    public fun setFlag(flag: String, value: Boolean) {
+    public operator fun get(name: String): Boolean {
+        return getFlag(name)
+    }
+
+    /**
+     * Sets a flag with a specified [name] to a specified [value].
+     */
+    public operator fun set(name: String, value: Boolean) {
+        setFlag(name, value)
+    }
+
+    /**
+     * Set a [flag] to a [value]. If the [value] is not specified it will default to true.
+     */
+    public fun setFlag(flag: String, value: Boolean = true) {
         values[flag] = value
     }
 
     /**
      * Get the value of [flag].
      */
-    public fun setFlag(flag: String): Boolean {
+    public fun getFlag(flag: String): Boolean {
         values.putIfAbsent(flag, false)
         return values[flag] ?: false
     }

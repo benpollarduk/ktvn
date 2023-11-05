@@ -8,19 +8,22 @@ import com.github.benpollarduk.ktvn.layout.Positions.left
 import com.github.benpollarduk.ktvn.layout.Positions.leftOf
 import com.github.benpollarduk.ktvn.layout.Positions.right
 import com.github.benpollarduk.ktvn.layout.Positions.rightOf
+import com.github.benpollarduk.ktvn.logic.listeners.Moves
 
 /**
- * Provides a layout for a specified list of [positions].
+ * Provides a layout for positioning characters.
  */
-public class Layout(
-    positions: List<CharacterPosition>,
-    private val moves: Moves
-) {
+@Suppress("TooManyFunctions")
+public class Layout private constructor(setup: (Layout) -> Unit) {
     private val mutablePositions: MutableList<CharacterPosition> = mutableListOf()
-    init {
-        positions.forEach {
-            mutablePositions.add(it)
+    private var moves: Moves = object : Moves {
+        override fun invoke(character: Character, fromPosition: Position, toPosition: Position) {
+            // nothing
         }
+    }
+
+    init {
+        setup(this)
     }
 
     /**
@@ -40,6 +43,41 @@ public class Layout(
         mutablePositions.removeAll { it.character == character }
         mutablePositions.add(CharacterPosition(character, position))
         moves(character, fromPosition, position)
+    }
+
+    /**
+     * Specify how moves should be handled.
+     */
+    public infix fun setMoves(moves: Moves) {
+        this.moves = moves
+    }
+
+    /**
+     * Add a [character] at the left of position.
+     */
+    public infix fun addLeftOf(character: Character) {
+        move(character, leftOf)
+    }
+
+    /**
+     * Add a [character] at the above position.
+     */
+    public infix fun addAbove(character: Character) {
+        move(character, above)
+    }
+
+    /**
+     * Add a [character] at the right of position.
+     */
+    public infix fun addRightOf(character: Character) {
+        move(character, rightOf)
+    }
+
+    /**
+     * Add a [character] at the below position.
+     */
+    public infix fun addBelow(character: Character) {
+        move(character, below)
     }
 
     /**
@@ -89,5 +127,14 @@ public class Layout(
      */
     public infix fun exitBottom(character: Character) {
         move(character, below)
+    }
+
+    public companion object {
+        /**
+         * Create a new [Layout] with a specified [setup].
+         */
+        public infix fun createLayout(setup: (Layout) -> Unit): Layout {
+            return Layout(setup)
+        }
     }
 }

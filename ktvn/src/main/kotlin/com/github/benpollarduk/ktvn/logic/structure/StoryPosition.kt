@@ -1,15 +1,15 @@
-package com.github.benpollarduk.ktvn.logic
+package com.github.benpollarduk.ktvn.logic.structure
 
 /**
- * Provides a position in a [Story], with a specified [act], [scene] and [step].
+ * Provides a position in a [Story], with a specified [chapter], [scene] and [step].
  */
 public class StoryPosition(
-    public val act: Int,
+    public val chapter: Int,
     public val scene: Int,
     public val step: Int
 ) {
     override fun toString(): String {
-        return "$act.$scene.$step"
+        return "$chapter.$scene.$step"
     }
 
     public companion object {
