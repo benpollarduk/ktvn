@@ -18,8 +18,8 @@ import com.github.benpollarduk.ktvn.logic.structure.SceneType
 import com.github.benpollarduk.ktvn.logic.structure.StepResult
 import com.github.benpollarduk.ktvn.logic.structure.Story
 import com.github.benpollarduk.ktvn.logic.structure.Story.Companion.story
-import com.github.benpollarduk.ktvn.logic.structure.steps.Choice.Companion.choice
 import com.github.benpollarduk.ktvn.logic.structure.steps.Conditional.Companion.conditional
+import com.github.benpollarduk.ktvn.logic.structure.steps.Decision.Companion.decision
 import com.github.benpollarduk.ktvn.logic.structure.steps.End.Companion.end
 import com.github.benpollarduk.ktvn.logic.structure.steps.Then.Companion.next
 
@@ -86,9 +86,9 @@ public class ExampleCreator(private val listeners: ListenerProvider) {
                 next { michel looks concerned },
                 next { michel says "Perhaps then we should at least try and get along?" },
                 next { morgana looks amused },
-                choice { choice ->
-                    choice name "Michel's feeling towards Morgana"
-                    choice does {
+                decision { decision ->
+                    decision name "Michel's feeling towards Morgana"
+                    decision does {
                         morgana asks question { question ->
                             question line "Why we do, don't we dear?"
                             question option answer { answer ->

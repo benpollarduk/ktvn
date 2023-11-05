@@ -7,13 +7,13 @@ import com.github.benpollarduk.ktvn.logic.structure.Step
 import com.github.benpollarduk.ktvn.logic.structure.StepResult
 
 /**
- * A step that acts as a choice. A [setup] must be specified.
+ * A step that acts as a decision. A [setup] must be specified.
  */
-public class Choice private constructor(private val setup: (Choice) -> Unit) : Step {
+public class Decision private constructor(private val setup: (Decision) -> Unit) : Step {
     private var script: (Flags) -> Answer = { answer { } }
         private set
 
-    override var name: String = "Choice"
+    override var name: String = "Decision"
         private set
 
     init {
@@ -42,10 +42,20 @@ public class Choice private constructor(private val setup: (Choice) -> Unit) : S
 
     public companion object {
         /**
-         * Create a choice with a specified [setup].
+         * Create a step with a specified [setup].
          */
-        public infix fun choice(setup: (Choice) -> Unit): Choice {
-            return Choice(setup)
+        public infix fun decision(setup: (Decision) -> Unit): Decision {
+            return Decision(setup)
+        }
+
+        /**
+         * Create a step with a specified [script]. This is a simple wrapper of 'decision' that provides the same
+         * functionality but with simplified syntax.
+         */
+        public infix fun choice(script: (Flags) -> Answer): Decision {
+            return Decision {
+                it does script
+            }
         }
     }
 }
