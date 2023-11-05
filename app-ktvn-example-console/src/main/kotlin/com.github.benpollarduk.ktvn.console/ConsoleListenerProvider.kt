@@ -16,15 +16,30 @@ import com.github.benpollarduk.ktvn.logic.listeners.Narrates
 import com.github.benpollarduk.ktvn.logic.listeners.Speaks
 
 internal object ConsoleListenerProvider : ListenerProvider {
+    private fun clear() {
+        print("\u001b[H\u001b[2J")
+    }
+
     override val acknowledges = object : Acknowledges {
         override fun waitFor() {
             readln()
+            clear()
         }
     }
 
     override val answers = object : Answers {
         override fun waitFor(question: Question): Answer {
-            val index = readln().toInt() - 1
+            var index = Int.MIN_VALUE
+
+            while (index == Int.MIN_VALUE) {
+                index = try {
+                    readln().toInt() - 1
+                } catch (e: NumberFormatException) {
+                    Int.MIN_VALUE
+                }
+            }
+
+            clear()
             return question.answers[index]
         }
     }
@@ -58,14 +73,21 @@ internal object ConsoleListenerProvider : ListenerProvider {
     override val asks = object : Asks {
         override fun invoke(character: Character, question: Question, answers: Answers): Answer {
             println("${character.name}: ${question.line}")
+
             for (i in question.answers.indices) {
                 println("  ${i + 1}: ${question.answers[i].line}")
             }
+
             return answers.waitFor(question)
         }
 
         override fun invoke(narrator: Narrator, question: Question, answers: Answers): Answer {
             println(question.line)
+
+            for (i in question.answers.indices) {
+                println("  ${i + 1}: ${question.answers[i].line}")
+            }
+
             return answers.waitFor(question)
         }
     }
