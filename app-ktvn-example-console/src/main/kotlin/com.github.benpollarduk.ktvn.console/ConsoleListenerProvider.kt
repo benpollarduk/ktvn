@@ -16,24 +16,30 @@ import com.github.benpollarduk.ktvn.logic.listeners.Narrates
 import com.github.benpollarduk.ktvn.logic.listeners.Speaks
 
 internal object ConsoleListenerProvider : ListenerProvider {
+    private fun clear() {
+        print("\u001b[H\u001b[2J")
+    }
+
     override val acknowledges = object : Acknowledges {
         override fun waitFor() {
             readln()
+            clear()
         }
     }
 
     override val answers = object : Answers {
         override fun waitFor(question: Question): Answer {
-            var index = -1
+            var index = Int.MIN_VALUE
 
-            while (index == -1) {
-                try {
-                    index = readln().toInt() - 1
+            while (index == Int.MIN_VALUE) {
+                index = try {
+                    readln().toInt() - 1
                 } catch (e: NumberFormatException) {
-                    index = -1
+                    Int.MIN_VALUE
                 }
             }
 
+            clear()
             return question.answers[index]
         }
     }
