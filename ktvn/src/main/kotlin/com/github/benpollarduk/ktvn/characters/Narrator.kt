@@ -8,19 +8,19 @@ import com.github.benpollarduk.ktvn.logic.listeners.Asks
 import com.github.benpollarduk.ktvn.logic.listeners.Narrates
 
 /**
- * Provides a narrator. Listeners for [narrates], [asks], [acknowledges] and [answers] must be specified.
+ * Provides a narrator. Listeners for [narrates], [asks], [speaksAcknowledges] and [answers] must be specified.
  */
 public class Narrator(
     private val narrates: Narrates,
     private val asks: Asks,
-    private val acknowledges: Acknowledges,
+    private val speaksAcknowledgment: Acknowledges,
     private val answers: Answers
 ) {
     /**
      * Narrate a [line].
      */
     public infix fun narrates(line: String) {
-        narrates(line, acknowledges)
+        narrates(line, speaksAcknowledgment)
     }
 
     /**

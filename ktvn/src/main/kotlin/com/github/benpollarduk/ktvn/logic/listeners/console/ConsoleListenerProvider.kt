@@ -1,4 +1,4 @@
-package com.github.benpollarduk.ktvn.logic.listeners.defaultProviders
+package com.github.benpollarduk.ktvn.logic.listeners.console
 
 import com.github.benpollarduk.ktvn.characters.Character
 import com.github.benpollarduk.ktvn.characters.Emotion
@@ -26,7 +26,19 @@ public object ConsoleListenerProvider : ListenerProvider {
         print("\u001b[H\u001b[2J")
     }
 
-    override val acknowledges: Acknowledges = object : Acknowledges {
+    override val emotesAcknowledgement: Acknowledges = object : Acknowledges {
+        override fun waitFor() {
+            // continue without acknowledgement
+        }
+    }
+
+    override val movesAcknowledgement: Acknowledges = object : Acknowledges {
+        override fun waitFor() {
+            // continue without acknowledgement
+        }
+    }
+
+    override val speaksAcknowledgement: Acknowledges = object : Acknowledges {
         override fun waitFor() {
             readln()
             clear()
@@ -58,8 +70,9 @@ public object ConsoleListenerProvider : ListenerProvider {
     }
 
     override val emotes: Emotes = object : Emotes {
-        override fun invoke(character: Character, emotion: Emotion) {
+        override fun invoke(character: Character, emotion: Emotion, acknowledgement: Acknowledges) {
             println("${character.name} looks $emotion.")
+            acknowledgement.waitFor()
         }
     }
 
@@ -71,8 +84,14 @@ public object ConsoleListenerProvider : ListenerProvider {
     }
 
     override val moves: Moves = object : Moves {
-        override fun invoke(character: Character, fromPosition: Position, toPosition: Position) {
-            println("${character.name} moves from $fromPosition to $toPosition.")
+        override fun invoke(
+            character: Character,
+            fromPosition: Position,
+            toPosition: Position,
+            acknowledgement: Acknowledges
+        ) {
+            println("${character.name} moves from '$fromPosition' to '$toPosition'.")
+            acknowledgement.waitFor()
         }
     }
 

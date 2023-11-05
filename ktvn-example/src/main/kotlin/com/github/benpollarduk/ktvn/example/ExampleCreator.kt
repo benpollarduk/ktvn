@@ -32,7 +32,7 @@ public class ExampleCreator(private val listeners: ListenerProvider) {
     private val narrator = Narrator(
         listeners.narrates,
         listeners.asks,
-        listeners.acknowledges,
+        listeners.speaksAcknowledgement,
         listeners.answers
     )
 
@@ -42,7 +42,8 @@ public class ExampleCreator(private val listeners: ListenerProvider) {
             listeners.speaks,
             listeners.emotes,
             listeners.asks,
-            listeners.acknowledges,
+            listeners.speaksAcknowledgement,
+            listeners.emotesAcknowledgement,
             listeners.answers
         )
     }
@@ -53,7 +54,9 @@ public class ExampleCreator(private val listeners: ListenerProvider) {
             scene name "Introduction"
             scene background EmptyBackground()
             scene type SceneType.Narrative
-            scene layout createLayout { }
+            scene layout createLayout {
+                it setMoveAcknowledgments listeners.movesAcknowledgement
+            }
             scene steps listOf(
                 next { narrator narrates "Many years have passed since Michel moved in to the mansion." },
                 next { narrator narrates "Although Michel has remained amicable, the witch, Morgana, has not." }
@@ -70,6 +73,7 @@ public class ExampleCreator(private val listeners: ListenerProvider) {
                 layout addLeftOf michel
                 layout addRightOf morgana
                 layout setMoves listeners.moves
+                layout setMoveAcknowledgments listeners.movesAcknowledgement
             }
             scene steps listOf(
                 next { scene.layout moveLeft michel },

@@ -2,7 +2,7 @@ package com.github.benpollarduk.ktvn.console
 
 import com.github.benpollarduk.ktvn.example.ExampleCreator
 import com.github.benpollarduk.ktvn.logic.Flags
-import com.github.benpollarduk.ktvn.logic.listeners.defaultProviders.ConsoleListenerProvider
+import com.github.benpollarduk.ktvn.logic.listeners.console.ConsoleListenerProvider
 import com.github.benpollarduk.ktvn.logic.structure.Chapter
 import com.github.benpollarduk.ktvn.logic.structure.ChapterListener
 import com.github.benpollarduk.ktvn.logic.structure.Scene

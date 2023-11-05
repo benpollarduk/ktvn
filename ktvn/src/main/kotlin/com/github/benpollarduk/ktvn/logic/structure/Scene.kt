@@ -39,7 +39,7 @@ public class Scene private constructor(setup: (Scene) -> Unit) {
     /**
      * Get the name of this [Scene].
      */
-    public var name: String = ""
+    public var name: String = "Scene"
         private set
 
     init {

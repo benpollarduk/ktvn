@@ -9,15 +9,17 @@ import com.github.benpollarduk.ktvn.logic.listeners.Emotes
 import com.github.benpollarduk.ktvn.logic.listeners.Speaks
 
 /**
- * Provides a character with a specified [name]. Listeners for [speaks], [emotes], [asks], [acknowledges] and
- * [answers] must be specified.
+ * Provides a character with a specified [name]. Listeners for [speaks], [emotes], [asks], [speaksAcknowledgment],
+ * [emotesAcknowledgment] and [answers] must be specified.
  */
+@Suppress("LongParameterList")
 public class Character(
     public val name: String,
     private val speaks: Speaks,
     private val emotes: Emotes,
     private val asks: Asks,
-    private val acknowledges: Acknowledges,
+    private val speaksAcknowledgment: Acknowledges,
+    private val emotesAcknowledgment: Acknowledges,
     private val answers: Answers
 ) {
     /**
@@ -31,14 +33,14 @@ public class Character(
      */
     public infix fun looks(emotion: Emotion) {
         this.emotion = emotion
-        emotes(this, emotion)
+        emotes(this, emotion, emotesAcknowledgment)
     }
 
     /**
      * Say a [line].
      */
     public infix fun says(line: String) {
-        speaks(this, line, acknowledges)
+        speaks(this, line, speaksAcknowledgment)
     }
 
     /**

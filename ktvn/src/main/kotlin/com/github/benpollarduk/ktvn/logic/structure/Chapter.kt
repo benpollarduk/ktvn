@@ -11,7 +11,7 @@ public class Chapter private constructor(setup: (Chapter) -> Unit) {
     /**
      * Get the name of this [Chapter].
      */
-    public var name: String = ""
+    public var name: String = "Chapter"
         private set
 
     /**

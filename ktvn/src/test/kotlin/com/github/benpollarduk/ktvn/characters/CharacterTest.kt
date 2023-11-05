@@ -19,7 +19,7 @@ class CharacterTest {
     }
 
     private val emotes = object : Emotes {
-        override fun invoke(character: Character, emotion: Emotion) {
+        override fun invoke(character: Character, emotion: Emotion, acknowledgement: Acknowledges) {
             // nothing
         }
     }
@@ -49,7 +49,7 @@ class CharacterTest {
     @Test
     fun `given a character named Test then name is assigned`() {
         // Given
-        val character = Character("Test", speaks, emotes, asks, acknowledges, answers)
+        val character = Character("Test", speaks, emotes, asks, acknowledges, acknowledges, answers)
 
         // Then
         Assertions.assertEquals("Test", character.name)
@@ -58,7 +58,7 @@ class CharacterTest {
     @Test
     fun `given a character when assigning emotion then emotion is assigned`() {
         // Given
-        val character = Character("", speaks, emotes, asks, acknowledges, answers)
+        val character = Character("", speaks, emotes, asks, acknowledges, acknowledges, answers)
 
         // Conditional
         character looks happy

@@ -11,7 +11,7 @@ public class Then private constructor(private val setup: (Then) -> Unit) : Step 
     private var script: (Flags) -> Unit = { }
         private set
 
-    override var name: String = ""
+    override var name: String = "Then"
         private set
 
     init {

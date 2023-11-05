@@ -14,7 +14,7 @@ public class End private constructor(private val setup: (End) -> Unit) : Step {
     private var ending: Int = 0
         private set
 
-    override var name: String = ""
+    override var name: String = "End"
         private set
 
     init {

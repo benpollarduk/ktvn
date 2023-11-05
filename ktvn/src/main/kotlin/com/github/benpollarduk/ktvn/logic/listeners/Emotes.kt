@@ -8,7 +8,7 @@ import com.github.benpollarduk.ktvn.characters.Emotion
  */
 public interface Emotes {
     /**
-     * Invoke the listener with a specified [character] and [emotion].
+     * Invoke the listener with a specified [character], [emotion] and [acknowledgement].
      */
-    public operator fun invoke(character: Character, emotion: Emotion)
+    public operator fun invoke(character: Character, emotion: Emotion, acknowledgement: Acknowledges)
 }

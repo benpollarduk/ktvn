@@ -8,6 +8,7 @@ import com.github.benpollarduk.ktvn.layout.Positions.left
 import com.github.benpollarduk.ktvn.layout.Positions.leftOf
 import com.github.benpollarduk.ktvn.layout.Positions.right
 import com.github.benpollarduk.ktvn.layout.Positions.rightOf
+import com.github.benpollarduk.ktvn.logic.listeners.Acknowledges
 import com.github.benpollarduk.ktvn.logic.listeners.Moves
 
 /**
@@ -17,7 +18,17 @@ import com.github.benpollarduk.ktvn.logic.listeners.Moves
 public class Layout private constructor(setup: (Layout) -> Unit) {
     private val mutablePositions: MutableList<CharacterPosition> = mutableListOf()
     private var moves: Moves = object : Moves {
-        override fun invoke(character: Character, fromPosition: Position, toPosition: Position) {
+        override fun invoke(
+            character: Character,
+            fromPosition: Position,
+            toPosition: Position,
+            acknowledgement: Acknowledges
+        ) {
+            // nothing
+        }
+    }
+    private var moveAcknowledgement: Acknowledges = object : Acknowledges {
+        override fun waitFor() {
             // nothing
         }
     }
@@ -42,7 +53,7 @@ public class Layout private constructor(setup: (Layout) -> Unit) {
         val fromPosition = current?.position ?: left
         mutablePositions.removeAll { it.character == character }
         mutablePositions.add(CharacterPosition(character, position))
-        moves(character, fromPosition, position)
+        moves(character, fromPosition, position, moveAcknowledgement)
     }
 
     /**
@@ -50,6 +61,13 @@ public class Layout private constructor(setup: (Layout) -> Unit) {
      */
     public infix fun setMoves(moves: Moves) {
         this.moves = moves
+    }
+
+    /**
+     * Specify how move acknowledgments should be handled.
+     */
+    public infix fun setMoveAcknowledgments(moveAcknowledgement: Acknowledges) {
+        this.moveAcknowledgement = moveAcknowledgement
     }
 
     /**

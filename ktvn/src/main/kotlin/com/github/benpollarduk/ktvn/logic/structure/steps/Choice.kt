@@ -13,7 +13,7 @@ public class Choice private constructor(private val setup: (Choice) -> Unit) : S
     private var script: (Flags) -> Answer = { answer { } }
         private set
 
-    override var name: String = ""
+    override var name: String = "Choice"
         private set
 
     init {

@@ -15,7 +15,7 @@ public class Conditional private constructor(setup: (Conditional) -> Unit) : Ste
     private var result: StepResult = StepResult.Continue
         private set
 
-    override var name: String = ""
+    override var name: String = "Conditional"
         private set
 
     init {

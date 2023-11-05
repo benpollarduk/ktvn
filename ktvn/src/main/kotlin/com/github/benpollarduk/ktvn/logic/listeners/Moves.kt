@@ -8,7 +8,12 @@ import com.github.benpollarduk.ktvn.layout.Position
  */
 public interface Moves {
     /**
-     * Invoke the listener with a specified [character], [fromPosition] and [toPosition].
+     * Invoke the listener with a specified [character], [fromPosition], [toPosition] and [acknowledgement].
      */
-    public operator fun invoke(character: Character, fromPosition: Position, toPosition: Position)
+    public operator fun invoke(
+        character: Character,
+        fromPosition: Position,
+        toPosition: Position,
+        acknowledgement: Acknowledges
+    )
 }
