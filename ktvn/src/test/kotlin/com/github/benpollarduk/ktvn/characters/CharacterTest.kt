@@ -60,7 +60,7 @@ class CharacterTest {
         // Given
         val character = Character("", speaks, emotes, asks, acknowledges, answers)
 
-        // OnlyWhen
+        // Conditional
         character looks happy
 
         // Then

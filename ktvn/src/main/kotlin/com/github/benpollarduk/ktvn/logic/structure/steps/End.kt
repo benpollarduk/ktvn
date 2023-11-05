@@ -51,7 +51,7 @@ public class End private constructor(private val setup: (End) -> Unit) : Step {
         /**
          * Create a step with a specified [setup].
          */
-        public infix fun then(setup: (End) -> Unit): End {
+        public infix fun end(setup: (End) -> Unit): End {
             return End(setup)
         }
     }

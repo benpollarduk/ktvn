@@ -7,14 +7,14 @@ public class Flags {
     private val values: MutableMap<String, Boolean> = mutableMapOf()
 
     /**
-     * Get a flag with a specified [name].
+     * Get a condition with a specified [name].
      */
     public operator fun get(name: String): Boolean {
         return getFlag(name)
     }
 
     /**
-     * Sets a flag with a specified [name] to a specified [value].
+     * Sets a condition with a specified [name] to a specified [value].
      */
     public operator fun set(name: String, value: Boolean) {
         setFlag(name, value)
