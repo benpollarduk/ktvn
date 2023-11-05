@@ -73,14 +73,21 @@ internal object ConsoleListenerProvider : ListenerProvider {
     override val asks = object : Asks {
         override fun invoke(character: Character, question: Question, answers: Answers): Answer {
             println("${character.name}: ${question.line}")
+
             for (i in question.answers.indices) {
                 println("  ${i + 1}: ${question.answers[i].line}")
             }
+
             return answers.waitFor(question)
         }
 
         override fun invoke(narrator: Narrator, question: Question, answers: Answers): Answer {
             println(question.line)
+
+            for (i in question.answers.indices) {
+                println("  ${i + 1}: ${question.answers[i].line}")
+            }
+
             return answers.waitFor(question)
         }
     }
