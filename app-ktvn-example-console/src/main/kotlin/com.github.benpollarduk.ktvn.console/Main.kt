@@ -1,10 +1,13 @@
 package com.github.benpollarduk.ktvn.console
 
-import com.github.benpollarduk.ktvn.example.ExampleScript
+import com.github.benpollarduk.ktvn.example.ExampleCreator
+import com.github.benpollarduk.ktvn.logic.Flags
+import com.github.benpollarduk.ktvn.logic.listeners.defaultProviders.ConsoleListenerProvider
 import com.github.benpollarduk.ktvn.logic.structure.Chapter
 import com.github.benpollarduk.ktvn.logic.structure.ChapterListener
 import com.github.benpollarduk.ktvn.logic.structure.Scene
 import com.github.benpollarduk.ktvn.logic.structure.SceneListener
+import com.github.benpollarduk.ktvn.logic.structure.StoryPosition
 import org.apache.logging.log4j.kotlin.Logging
 
 object Main : Logging {
@@ -22,6 +25,7 @@ object Main : Logging {
 
         val chapterListener = object : ChapterListener {
             override fun enter(chapter: Chapter) {
+                ConsoleListenerProvider.clear()
                 println("Entered ${chapter.name}")
             }
 
@@ -31,8 +35,8 @@ object Main : Logging {
         }
 
         logger.info("Beginning execution of example...")
-        val example = ExampleScript(ConsoleListenerProvider)
-        example.begin(chapterListener, sceneListener)
+        val example = ExampleCreator(ConsoleListenerProvider).create()
+        example.begin(Flags(), StoryPosition.start, chapterListener, sceneListener)
         logger.info("Ended execution of example.")
     }
 }

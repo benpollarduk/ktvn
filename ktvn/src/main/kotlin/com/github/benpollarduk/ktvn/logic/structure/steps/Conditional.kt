@@ -7,7 +7,7 @@ import com.github.benpollarduk.ktvn.logic.structure.StepResult
 /**
  * A step that only happens if a condition is true. A [script] must be specified.
  */
-public class OnlyWhen private constructor(setup: (OnlyWhen) -> Unit) : Step {
+public class Conditional private constructor(setup: (Conditional) -> Unit) : Step {
     private var script: (Flags) -> Unit = { }
         private set
 
@@ -32,7 +32,7 @@ public class OnlyWhen private constructor(setup: (OnlyWhen) -> Unit) : Step {
     /**
      * Set the flag that is checked as part of the condition.
      */
-    public infix fun flag(flag: String) {
+    public infix fun condition(flag: String) {
         this.flag = flag
     }
 
@@ -63,8 +63,8 @@ public class OnlyWhen private constructor(setup: (OnlyWhen) -> Unit) : Step {
         /**
          * Create a step with a specified [setup].
          */
-        public infix fun onlyWhen(setup: (OnlyWhen) -> Unit): OnlyWhen {
-            return OnlyWhen(setup)
+        public infix fun conditional(setup: (Conditional) -> Unit): Conditional {
+            return Conditional(setup)
         }
     }
 }

@@ -66,4 +66,13 @@ public object BaseEmotions {
             return "concerned"
         }
     }
+
+    /**
+     * Base emotion for amused.
+     */
+    public val amused: Emotion = object : Emotion {
+        override fun toString(): String {
+            return "amused"
+        }
+    }
 }

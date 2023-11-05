@@ -46,9 +46,10 @@ public class Then private constructor(private val setup: (Then) -> Unit) : Step 
         }
 
         /**
-         * Create a step with a specified [script].
+         * Create a step with a specified [script]. This is a simple wrapper of 'then' that provides the same
+         * functionality but with simplified syntax.
          */
-        public infix fun simple(script: (Flags) -> Unit): Then {
+        public infix fun next(script: (Flags) -> Unit): Then {
             return Then {
                 it does script
             }
