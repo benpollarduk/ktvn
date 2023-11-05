@@ -24,7 +24,16 @@ internal object ConsoleListenerProvider : ListenerProvider {
 
     override val answers = object : Answers {
         override fun waitFor(question: Question): Answer {
-            val index = readln().toInt() - 1
+            var index = -1
+
+            while (index == -1) {
+                try {
+                    index = readln().toInt() - 1
+                } catch (e: NumberFormatException) {
+                    index = -1
+                }
+            }
+
             return question.answers[index]
         }
     }
