@@ -19,8 +19,8 @@ import com.github.benpollarduk.ktvn.logic.structure.StepResult
 import com.github.benpollarduk.ktvn.logic.structure.Story
 import com.github.benpollarduk.ktvn.logic.structure.Story.Companion.story
 import com.github.benpollarduk.ktvn.logic.structure.steps.Choice.Companion.choice
-import com.github.benpollarduk.ktvn.logic.structure.steps.End.Companion.end
 import com.github.benpollarduk.ktvn.logic.structure.steps.Conditional.Companion.conditional
+import com.github.benpollarduk.ktvn.logic.structure.steps.End.Companion.end
 import com.github.benpollarduk.ktvn.logic.structure.steps.Then.Companion.next
 
 /**
@@ -33,7 +33,7 @@ public class ExampleCreator(private val listeners: ListenerProvider) {
         listeners.narrates,
         listeners.asks,
         listeners.acknowledges,
-        listeners.answers,
+        listeners.answers
     )
 
     private fun createCharacter(name: String): Character {
@@ -43,7 +43,7 @@ public class ExampleCreator(private val listeners: ListenerProvider) {
             listeners.emotes,
             listeners.asks,
             listeners.acknowledges,
-            listeners.answers,
+            listeners.answers
         )
     }
 
@@ -56,7 +56,7 @@ public class ExampleCreator(private val listeners: ListenerProvider) {
             scene layout createLayout { }
             scene steps listOf(
                 next { narrator narrates "Many years have passed since Michel moved in to the mansion." },
-                next { narrator narrates "Although Michel has remained amicable, the witch, Morgana, has not." },
+                next { narrator narrates "Although Michel has remained amicable, the witch, Morgana, has not." }
             )
         }
     }
@@ -124,7 +124,7 @@ public class ExampleCreator(private val listeners: ListenerProvider) {
                 next { narrator narrates "And that was the end of that!" },
                 end {
                     it number 0
-                },
+                }
             )
         }
     }

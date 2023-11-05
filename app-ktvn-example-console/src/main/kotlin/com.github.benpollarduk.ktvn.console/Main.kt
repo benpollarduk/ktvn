@@ -15,22 +15,22 @@ object Main : Logging {
     fun main(args: Array<String>) {
         val sceneListener = object : SceneListener {
             override fun enter(scene: Scene) {
-                println("Entered ${scene.type}")
+                println("Entered scene: ${scene.name}")
             }
 
             override fun exit(scene: Scene) {
-                println("Exited ${scene.type}")
+                println("Exited scene: ${scene.name}")
             }
         }
 
         val chapterListener = object : ChapterListener {
             override fun enter(chapter: Chapter) {
                 ConsoleListenerProvider.clear()
-                println("Entered ${chapter.name}")
+                println("Started chapter: ${chapter.name}")
             }
 
             override fun exit(chapter: Chapter) {
-                println("Exited ${chapter.name}")
+                println("Ended chapter: ${chapter.name}")
             }
         }
 
