@@ -16,13 +16,13 @@ Please visit [https://benpollarduk.github.io/ktvn-docs/](https://benpollarduk.gi
 
 # Hello World
 ```kotlin
-val story = story { story ->
-    story add chapter { chapter ->
-        chapter name "Hello World!"
-        chapter add scene { scene ->
-            scene name "Introduction"
-            scene background EmptyBackground()
-            scene steps listOf(
+val story = story {
+    it add chapter {
+        it name "Hello World!"
+        it add scene {
+            it name "Introduction"
+            it background EmptyBackground()
+            it steps listOf(
                 next { narrator narrates "Welcome to a Ktvn visual novel!" }
             )
         }
