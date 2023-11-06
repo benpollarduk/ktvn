@@ -32,11 +32,35 @@ val story = story {
 # Structure
 A Ktvn visual novel starts with a **Story**. A Story contains one or more **Chapters**. Each Chapter contains one or 
 more **Scenes**. Each Scene contains one or more **Steps**. There are several types of Step, and Step is extensisible 
-so that the DSL can be customised.   
+so that the DSL can be customised.
+
+For example:
+
+* Story
+  * Chapter
+    * Scene
+      * Step
+      * Step
+      * Step
+    * Scene
+      * Step
+      * Step
+      * Step
+  * Chapter
+    * Scene
+      * Step
+      * Step       
   
 Simple classes and DSL exist to support characters, narration, choices, flags, emotions and positioning of characters. 
-Interfaces for listeners are provided so that UIs can respond events, and interfaces for acknowledgments are included 
-to aid with flow control.
+Emotions and character positions are fully and easily extensible. When a characters emotion  or position changes a 
+listener is invoked, so regardless of the UI system being used to render the visual novel these events can be heard 
+and invoked. Each event requires an acknowledgment before the story continues, so flow control is easy. 
+Listeners are provided for:
+* Speaks - when a character speaks.
+* Narrates - when the narrator narrates.
+* Moves - when a characters position changes.
+* Emotes - when a characters emotion changes.
+* Asks - when either the narrator or a character asks a question.
 
 # Core DSL
 The Ktvn DSL is simple but powerful. Each step in a story has access to the parent story's flags, which allows variables 
