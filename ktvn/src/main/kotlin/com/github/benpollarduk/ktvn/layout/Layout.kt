@@ -23,7 +23,7 @@ public class Layout private constructor(setup: (Layout) -> Unit) {
             character: Character,
             fromPosition: Position,
             toPosition: Position,
-            acknowledgement: Acknowledges,
+            acknowledgement: Acknowledges
         ) {
             // nothing
         }

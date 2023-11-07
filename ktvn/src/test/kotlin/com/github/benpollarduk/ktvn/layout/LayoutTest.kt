@@ -125,7 +125,7 @@ class LayoutTest {
                 character: Character,
                 fromPosition: Position,
                 toPosition: Position,
-                acknowledgement: Acknowledges,
+                acknowledgement: Acknowledges
             ) {
                 called = true
             }

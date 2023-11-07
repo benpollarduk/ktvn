@@ -39,7 +39,7 @@ class SceneTest {
     fun `given scene when layout is set then layout is not null`() {
         // Given
         val scene = scene {
-            it layout createLayout {  }
+            it layout createLayout { }
         }
 
         // When
