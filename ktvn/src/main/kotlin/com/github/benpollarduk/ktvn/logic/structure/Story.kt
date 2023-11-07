@@ -9,10 +9,22 @@ public class Story private constructor(setup: (Story) -> Unit) {
     private val chapters: MutableList<Chapter> = mutableListOf()
 
     /**
+     * Get the name of this [Chapter].
+     */
+    public var name: String = "Story"
+        private set
+
+    /**
      * Get the index of the current [Chapter].
      */
     public var indexOfCurrentChapter: Int = 0
         private set
+
+    /**
+     * Get the number of the [Chapter] in this [Story].
+     */
+    public val numberOfChapters: Int
+        get() = chapters.size
 
     /**
      * Get the flags
@@ -68,6 +80,13 @@ public class Story private constructor(setup: (Story) -> Unit) {
         }
 
         return 0
+    }
+
+    /**
+     * Set the [name] of this [Story].
+     */
+    public infix fun name(name: String) {
+        this.name = name
     }
 
     /**
