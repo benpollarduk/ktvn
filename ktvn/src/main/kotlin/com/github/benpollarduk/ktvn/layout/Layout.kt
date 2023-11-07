@@ -17,6 +17,7 @@ import com.github.benpollarduk.ktvn.logic.listeners.Moves
 @Suppress("TooManyFunctions")
 public class Layout private constructor(setup: (Layout) -> Unit) {
     private val mutablePositions: MutableList<CharacterPosition> = mutableListOf()
+
     private var moves: Moves = object : Moves {
         override fun invoke(
             character: Character,
@@ -27,11 +28,18 @@ public class Layout private constructor(setup: (Layout) -> Unit) {
             // nothing
         }
     }
+
     private var moveAcknowledgement: Acknowledges = object : Acknowledges {
         override fun waitFor() {
             // nothing
         }
     }
+
+    /**
+     * Get the number of characters in this layout.
+     */
+    public val characters: Int
+        get() = mutablePositions.size
 
     init {
         setup(this)

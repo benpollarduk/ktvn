@@ -21,6 +21,12 @@ public class Chapter private constructor(setup: (Chapter) -> Unit) {
         private set
 
     /**
+     * Get the number of the [Scene] in this [Chapter].
+     */
+    public val numberOfScenes: Int
+        get() = scenes.size
+
+    /**
      * Get the current [Scene].
      */
     public val currentScene: Scene
