@@ -1,7 +1,6 @@
 package com.github.benpollarduk.ktvn.logic
 
 import com.github.benpollarduk.ktvn.io.Save
-import com.github.benpollarduk.ktvn.io.SaveSerializer
 import com.github.benpollarduk.ktvn.logic.structure.Chapter
 import com.github.benpollarduk.ktvn.logic.structure.Chapter.Companion.chapter
 import com.github.benpollarduk.ktvn.logic.structure.ChapterListener
