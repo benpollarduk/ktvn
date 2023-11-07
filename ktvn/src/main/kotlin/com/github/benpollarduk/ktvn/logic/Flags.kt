@@ -35,10 +35,28 @@ public class Flags {
         return values[flag] ?: false
     }
 
+    /**
+     * Convert to a map.
+     */
+    public fun toMap(): Map<String, Boolean> {
+        return values
+    }
+
     public companion object {
         /**
          * Provides an empty implementation of [Flags].
          */
         public val empty: Flags = Flags()
+
+        /**
+         * Create a new [Flags] from a map.
+         */
+        public fun fromMap(map: Map<String, Boolean>): Flags {
+            val flags = Flags()
+            map.forEach {
+                flags.setFlag(it.key, it.value)
+            }
+            return flags
+        }
     }
 }

@@ -97,6 +97,9 @@ dependencies {
     // https://mvnrepository.com/artifact/io.gitlab.arturbosch.detekt/detekt-gradle-plugin
     implementation("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.23.1")
 
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.module/jackson-module-kotlin
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.8.+")
+
     // Use kotlin reflection.
     implementation(kotlin("reflect"))
 
