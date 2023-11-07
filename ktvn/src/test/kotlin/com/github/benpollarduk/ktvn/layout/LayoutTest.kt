@@ -1,17 +1,22 @@
-package com.github.benpollarduk.ktvn.characters
+package com.github.benpollarduk.ktvn.layout
 
-import com.github.benpollarduk.ktvn.characters.BaseEmotions.happy
+import com.github.benpollarduk.ktvn.characters.Character
+import com.github.benpollarduk.ktvn.characters.Emotion
+import com.github.benpollarduk.ktvn.characters.Narrator
+import com.github.benpollarduk.ktvn.layout.Positions.left
+import com.github.benpollarduk.ktvn.layout.Positions.right
 import com.github.benpollarduk.ktvn.logic.Answer
 import com.github.benpollarduk.ktvn.logic.Question
 import com.github.benpollarduk.ktvn.logic.listeners.Acknowledges
 import com.github.benpollarduk.ktvn.logic.listeners.Answers
 import com.github.benpollarduk.ktvn.logic.listeners.Asks
 import com.github.benpollarduk.ktvn.logic.listeners.Emotes
+import com.github.benpollarduk.ktvn.logic.listeners.Moves
 import com.github.benpollarduk.ktvn.logic.listeners.Speaks
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
-class CharacterTest {
+class LayoutTest {
     private val speaks = object : Speaks {
         override fun invoke(character: Character, line: String, acknowledgement: Acknowledges) {
             // nothing
@@ -47,94 +52,92 @@ class CharacterTest {
     }
 
     @Test
-    fun `given a character named Test then name is assigned`() {
+    fun `given layout when add character then one character`() {
         // Given
-        val character = Character("Test", speaks, emotes, asks, acknowledges, acknowledges, answers)
-
-        // Then
-        Assertions.assertEquals("Test", character.name)
-    }
-
-    @Test
-    fun `given a character when assigning emotion then emotion is assigned`() {
-        // Given
+        val layout = Layout.createLayout { }
         val character = Character("", speaks, emotes, asks, acknowledges, acknowledges, answers)
 
-        // Conditional
-        character looks happy
+        // When
+        layout.add(character, left)
 
         // Then
-        Assertions.assertEquals(happy, character.emotion)
+        Assertions.assertEquals(1, layout.characters)
     }
 
     @Test
-    fun `given a character when says then speaks is called`() {
+    fun `given layout when add left of then one character`() {
+        // Given
+        val layout = Layout.createLayout { }
+        val character = Character("", speaks, emotes, asks, acknowledges, acknowledges, answers)
+
+        // When
+        layout.addLeftOf(character)
+
+        // Then
+        Assertions.assertEquals(1, layout.characters)
+    }
+
+    @Test
+    fun `given layout when add right of then one character`() {
+        // Given
+        val layout = Layout.createLayout { }
+        val character = Character("", speaks, emotes, asks, acknowledges, acknowledges, answers)
+
+        // When
+        layout.addRightOf(character)
+
+        // Then
+        Assertions.assertEquals(1, layout.characters)
+    }
+
+    @Test
+    fun `given layout when add above then one character`() {
+        // Given
+        val layout = Layout.createLayout { }
+        val character = Character("", speaks, emotes, asks, acknowledges, acknowledges, answers)
+
+        // When
+        layout.addAbove(character)
+
+        // Then
+        Assertions.assertEquals(1, layout.characters)
+    }
+
+    @Test
+    fun `given layout when add below then one character`() {
+        // Given
+        val layout = Layout.createLayout { }
+        val character = Character("", speaks, emotes, asks, acknowledges, acknowledges, answers)
+
+        // When
+        layout.addBelow(character)
+
+        // Then
+        Assertions.assertEquals(1, layout.characters)
+    }
+
+    @Test
+    fun `given layout when move character then moves is called`() {
         // Given
         var called = false
-        val speaks = object : Speaks {
-            override fun invoke(character: Character, line: String, acknowledgement: Acknowledges) {
+        val moves = object : Moves {
+            override fun invoke(
+                character: Character,
+                fromPosition: Position,
+                toPosition: Position,
+                acknowledgement: Acknowledges,
+            ) {
                 called = true
             }
         }
+        val layout = Layout.createLayout { it setMoves moves }
         val character = Character("", speaks, emotes, asks, acknowledges, acknowledges, answers)
+        layout.add(character, left)
 
         // When
-        character.says("")
+        layout.move(character, right)
 
         // Then
         Assertions.assertTrue(called)
-    }
-
-    @Test
-    fun `given a character when ask then asks is called`() {
-        // Given
-        var called = false
-        val asks = object : Asks {
-            override fun invoke(character: Character, question: Question, answers: Answers): Answer {
-                called = true
-                return Answer.answer { }
-            }
-
-            override fun invoke(narrator: Narrator, question: Question, answers: Answers): Answer {
-                return Answer.answer { }
-            }
-        }
-        val character = Character("", speaks, emotes, asks, acknowledges, acknowledges, answers)
-
-        // When
-        character.asks(Question.question { })
-
-        // Then
-        Assertions.assertTrue(called)
-    }
-
-    @Test
-    fun `given a character when looks then emotes is called`() {
-        // Given
-        var called = false
-        val emotes = object : Emotes {
-            override fun invoke(character: Character, emotion: Emotion, acknowledgement: Acknowledges) {
-                called = true
-            }
-        }
-        val character = Character("", speaks, emotes, asks, acknowledges, acknowledges, answers)
-
-        // When
-        character.looks(happy)
-
-        // Then
-        Assertions.assertTrue(called)
-    }
-
-    @Test
-    fun `given a character when looks happy then emotion is happy`() {
-        // Given
-        val character = Character("", speaks, emotes, asks, acknowledges, acknowledges, answers)
-
-        // When
-        character.looks(happy)
-
-        // Then
-        Assertions.assertEquals(happy, character.emotion)
     }
 }
