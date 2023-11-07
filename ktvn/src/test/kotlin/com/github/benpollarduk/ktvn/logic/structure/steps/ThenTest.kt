@@ -1,5 +1,6 @@
 package com.github.benpollarduk.ktvn.logic.structure.steps
 
+import com.github.benpollarduk.ktvn.logic.structure.CancellationToken
 import com.github.benpollarduk.ktvn.logic.structure.steps.Then.Companion.next
 import com.github.benpollarduk.ktvn.logic.structure.steps.Then.Companion.then
 import org.junit.jupiter.api.Assertions
@@ -31,7 +32,7 @@ class ThenTest {
         }
 
         // When
-        next()
+        next(cancellationToken = CancellationToken())
 
         // Then
         Assertions.assertTrue(result)
@@ -46,7 +47,7 @@ class ThenTest {
         }
 
         // When
-        next()
+        next(cancellationToken = CancellationToken())
 
         // Then
         Assertions.assertTrue(result)

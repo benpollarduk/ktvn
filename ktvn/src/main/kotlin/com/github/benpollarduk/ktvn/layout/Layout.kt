@@ -6,6 +6,7 @@ import com.github.benpollarduk.ktvn.layout.Positions.below
 import com.github.benpollarduk.ktvn.layout.Positions.center
 import com.github.benpollarduk.ktvn.layout.Positions.left
 import com.github.benpollarduk.ktvn.layout.Positions.leftOf
+import com.github.benpollarduk.ktvn.layout.Positions.none
 import com.github.benpollarduk.ktvn.layout.Positions.right
 import com.github.benpollarduk.ktvn.layout.Positions.rightOf
 import com.github.benpollarduk.ktvn.logic.listeners.Acknowledges
@@ -58,7 +59,7 @@ public class Layout private constructor(setup: (Layout) -> Unit) {
      */
     public fun move(character: Character, position: Position) {
         val current = mutablePositions.firstOrNull { it.character == character }
-        val fromPosition = current?.position ?: left
+        val fromPosition = current?.position ?: none
         mutablePositions.removeAll { it.character == character }
         mutablePositions.add(CharacterPosition(character, position))
         moves(character, fromPosition, position, moveAcknowledgement)
@@ -153,6 +154,13 @@ public class Layout private constructor(setup: (Layout) -> Unit) {
      */
     public infix fun exitBottom(character: Character) {
         move(character, below)
+    }
+
+    /**
+     * Make a [character] disappear.
+     */
+    public infix fun disappear(character: Character) {
+        move(character, none)
     }
 
     public companion object {

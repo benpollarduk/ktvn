@@ -1,6 +1,7 @@
 package com.github.benpollarduk.ktvn.logic.structure.steps
 
 import com.github.benpollarduk.ktvn.logic.Flags
+import com.github.benpollarduk.ktvn.logic.structure.CancellationToken
 import com.github.benpollarduk.ktvn.logic.structure.Step
 import com.github.benpollarduk.ktvn.logic.structure.StepResult
 
@@ -9,11 +10,8 @@ import com.github.benpollarduk.ktvn.logic.structure.StepResult
  */
 public class Conditional private constructor(setup: (Conditional) -> Unit) : Step {
     private var script: (Flags) -> Unit = { }
-        private set
-
     private var flag: String = ""
     private var result: StepResult = StepResult.Continue
-        private set
 
     override var name: String = "Conditional"
         private set
@@ -50,13 +48,17 @@ public class Conditional private constructor(setup: (Conditional) -> Unit) : Ste
         this.result = result
     }
 
-    override fun invoke(flags: Flags): StepResult {
-        if (flags[flag]) {
-            script(flags)
-            return result
+    override fun invoke(flags: Flags, cancellationToken: CancellationToken): StepResult {
+        if (cancellationToken.wasCancelled) {
+            return StepResult.Cancelled
         }
 
-        return StepResult.Continue
+        return if (flags[flag]) {
+            script(flags)
+            result
+        } else {
+            StepResult.Continue
+        }
     }
 
     public companion object {

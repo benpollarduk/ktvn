@@ -29,7 +29,7 @@ val story = story {
     }
 }
 ```
-# Structure
+# Story Structure
 A Ktvn visual novel starts with a **Story**. A Story contains one or more **Chapters**. Each Chapter contains one or 
 more **Scenes**. Each Scene contains one or more **Steps**. There are several types of Step, and Step is extensisible 
 so that the DSL can be customised.
@@ -61,6 +61,38 @@ Listeners are provided for:
 * Moves - when a characters position changes.
 * Emotes - when a characters emotion changes.
 * Asks - when either the narrator or a character asks a question.
+
+# Execution #
+Stories can be executed as a **Game**. Games must be executed through the **GameExecutor**, an object dedicated to game 
+management. The GameExecutor can run games synchronously or asynchronously.
+```kotlin
+// create a story
+val story = story { story ->
+    story add chapter { chapter ->
+        chapter add scene { scene ->
+            scene steps listOf(
+                end {
+                    it ending Ending.default
+                }
+            )
+        }
+    }
+}
+
+// create a game
+val game = Game(story, Save.empty, chapterListener, sceneListener)
+
+// execute the game synchronously
+GameExecutor.execute(game)
+```
+
+# Persistence #
+Progress in a game can be persisted as a **Save**. A save can be generated at any point before, during or after a games 
+execution and persisted to file using the **SaveSerializer**.
+```kotlin
+val save = game.getSave("File1")
+SaveSerializer.toFile(save, path)
+```
 
 # Core DSL
 The Ktvn DSL is simple but powerful. Each step in a story has access to the parent story's flags, which allows variables 
@@ -166,10 +198,10 @@ continue, branch or end as required.
 end is a simple step that signifies that an ending has been reached.
 ```kotlin
 end {
-    it number 0
+    it ending Ending("True End.", 1)
 }
 ```
-The ending that was reached can be specified with the **number** keyword.
+The ending that was reached can be specified with the **ending** keyword.
 
 For further examples please see the ktvn-example directory in the repo.
 

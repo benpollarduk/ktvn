@@ -66,4 +66,13 @@ public object Positions {
             return "right"
         }
     }
+
+    /**
+     * None.
+     */
+    public val none: Position = object : Position {
+        override fun toString(): String {
+            return "none"
+        }
+    }
 }

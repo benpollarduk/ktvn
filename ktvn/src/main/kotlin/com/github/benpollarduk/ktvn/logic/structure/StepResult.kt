@@ -1,5 +1,7 @@
 package com.github.benpollarduk.ktvn.logic.structure
 
+import com.github.benpollarduk.ktvn.logic.Ending
+
 /**
  * Provides the result of a [Step].
  */
@@ -27,5 +29,10 @@ public sealed interface StepResult {
     /**
      * The specified [ending] has been reached.
      */
-    public data class End(public val ending: Int) : StepResult
+    public data class End(public val ending: Ending) : StepResult
+
+    /**
+     * Execution was cancelled.
+     */
+    public data object Cancelled : StepResult
 }
