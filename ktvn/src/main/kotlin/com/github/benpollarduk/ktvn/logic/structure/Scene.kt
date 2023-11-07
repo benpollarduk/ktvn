@@ -42,6 +42,12 @@ public class Scene private constructor(setup: (Scene) -> Unit) {
     public var name: String = "Scene"
         private set
 
+    /**
+     * Get the number of [Step] that make up this [Scene].
+     */
+    public val numberOfSteps: Int
+        get() = content.size
+
     init {
         setup(this)
     }
