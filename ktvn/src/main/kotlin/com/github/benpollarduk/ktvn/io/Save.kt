@@ -12,8 +12,8 @@ public data class Save(
 ) {
     public companion object {
         /**
-         * Provides a corrupt save.
+         * Provides an empty save.
          */
-        public val corrupt: Save = Save("", emptyMap(), StoryPosition.start)
+        public val empty: Save = Save("", emptyMap(), StoryPosition.start)
     }
 }
