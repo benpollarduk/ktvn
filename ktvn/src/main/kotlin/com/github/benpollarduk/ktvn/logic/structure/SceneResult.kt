@@ -1,5 +1,7 @@
 package com.github.benpollarduk.ktvn.logic.structure
 
+import com.github.benpollarduk.ktvn.logic.Ending
+
 /**
  * Provides the result of a [Scene].
  */
@@ -22,5 +24,10 @@ public sealed interface SceneResult {
     /**
      * The specified [ending] has been reached.
      */
-    public data class End(public val ending: Int) : SceneResult
+    public data class End(public val ending: Ending) : SceneResult
+
+    /**
+     * Execution was cancelled.
+     */
+    public data object Cancelled : SceneResult
 }

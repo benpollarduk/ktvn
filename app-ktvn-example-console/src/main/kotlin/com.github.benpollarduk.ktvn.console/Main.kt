@@ -1,13 +1,14 @@
 package com.github.benpollarduk.ktvn.console
 
 import com.github.benpollarduk.ktvn.example.ExampleCreator
-import com.github.benpollarduk.ktvn.logic.Flags
+import com.github.benpollarduk.ktvn.io.Save
+import com.github.benpollarduk.ktvn.logic.Game
+import com.github.benpollarduk.ktvn.logic.GameExecutor
 import com.github.benpollarduk.ktvn.logic.listeners.console.ConsoleListenerProvider
 import com.github.benpollarduk.ktvn.logic.structure.Chapter
 import com.github.benpollarduk.ktvn.logic.structure.ChapterListener
 import com.github.benpollarduk.ktvn.logic.structure.Scene
 import com.github.benpollarduk.ktvn.logic.structure.SceneListener
-import com.github.benpollarduk.ktvn.logic.structure.StoryPosition
 import org.apache.logging.log4j.kotlin.Logging
 
 object Main : Logging {
@@ -35,8 +36,9 @@ object Main : Logging {
         }
 
         logger.info("Beginning execution of example...")
-        val example = ExampleCreator(ConsoleListenerProvider).create()
-        example.begin(Flags(), StoryPosition.start, chapterListener, sceneListener)
+        val exampleStory = ExampleCreator(ConsoleListenerProvider).create()
+        val exampleGame = Game(exampleStory, Save.empty, chapterListener, sceneListener)
+        GameExecutor.execute(exampleGame)
         logger.info("Ended execution of example.")
     }
 }

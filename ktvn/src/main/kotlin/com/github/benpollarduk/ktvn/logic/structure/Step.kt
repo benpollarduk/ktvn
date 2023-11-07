@@ -12,7 +12,8 @@ public interface Step {
     public val name: String
 
     /**
-     * Invoke the step with the specified flags to return a [StepResult].
+     * Invoke the step with the specified flags to return a [StepResult]. A [cancellationToken] must be provided to
+     * allow for the story to be cancelled.
      */
-    public operator fun invoke(flags: Flags = Flags.empty): StepResult
+    public operator fun invoke(flags: Flags = Flags.empty, cancellationToken: CancellationToken): StepResult
 }

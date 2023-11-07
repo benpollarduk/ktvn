@@ -1,6 +1,8 @@
 package com.github.benpollarduk.ktvn.logic.structure.steps
 
+import com.github.benpollarduk.ktvn.logic.Ending
 import com.github.benpollarduk.ktvn.logic.Flags
+import com.github.benpollarduk.ktvn.logic.structure.CancellationToken
 import com.github.benpollarduk.ktvn.logic.structure.Step
 import com.github.benpollarduk.ktvn.logic.structure.StepResult
 
@@ -9,10 +11,7 @@ import com.github.benpollarduk.ktvn.logic.structure.StepResult
  */
 public class End private constructor(private val setup: (End) -> Unit) : Step {
     private var script: (Flags) -> Unit = { }
-        private set
-
-    private var ending: Int = 0
-        private set
+    private var ending: Ending = Ending.default
 
     override var name: String = "End"
         private set
@@ -38,13 +37,22 @@ public class End private constructor(private val setup: (End) -> Unit) : Step {
     /**
      * Set the ending.
      */
-    public infix fun number(ending: Int) {
+    public infix fun ending(ending: Ending) {
         this.ending = ending
     }
 
-    override fun invoke(flags: Flags): StepResult {
+    override fun invoke(flags: Flags, cancellationToken: CancellationToken): StepResult {
+        if (cancellationToken.wasCancelled) {
+            return StepResult.Cancelled
+        }
+
         script(flags)
-        return StepResult.End(ending)
+
+        return if (cancellationToken.wasCancelled) {
+            StepResult.Cancelled
+        } else {
+            StepResult.End(ending)
+        }
     }
 
     public companion object {

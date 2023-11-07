@@ -3,6 +3,7 @@ package com.github.benpollarduk.ktvn.logic.structure.steps
 import com.github.benpollarduk.ktvn.logic.Answer
 import com.github.benpollarduk.ktvn.logic.Answer.Companion.answer
 import com.github.benpollarduk.ktvn.logic.Flags
+import com.github.benpollarduk.ktvn.logic.structure.CancellationToken
 import com.github.benpollarduk.ktvn.logic.structure.Step
 import com.github.benpollarduk.ktvn.logic.structure.StepResult
 
@@ -11,7 +12,6 @@ import com.github.benpollarduk.ktvn.logic.structure.StepResult
  */
 public class Decision private constructor(private val setup: (Decision) -> Unit) : Step {
     private var script: (Flags) -> Answer = { answer { } }
-        private set
 
     override var name: String = "Decision"
         private set
@@ -34,10 +34,20 @@ public class Decision private constructor(private val setup: (Decision) -> Unit)
         this.script = script
     }
 
-    override fun invoke(flags: Flags): StepResult {
+    override fun invoke(flags: Flags, cancellationToken: CancellationToken): StepResult {
         val answer = script(flags)
+
+        if (cancellationToken.wasCancelled) {
+            return StepResult.Cancelled
+        }
+
         answer.script(flags)
-        return StepResult.Continue
+
+        return if (cancellationToken.wasCancelled) {
+            StepResult.Cancelled
+        } else {
+            StepResult.Continue
+        }
     }
 
     public companion object {

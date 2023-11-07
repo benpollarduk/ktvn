@@ -1,5 +1,6 @@
 package com.github.benpollarduk.ktvn.logic.structure
 
+import com.github.benpollarduk.ktvn.logic.Ending
 import com.github.benpollarduk.ktvn.logic.Flags
 
 /**
@@ -47,16 +48,18 @@ public class Story private constructor(setup: (Story) -> Unit) {
     }
 
     /**
-     * Begin the [Story] with specified [flags]. The [storyPosition] can be optionally specified. Returns the ending
-     * number reached.
+     * Begin the [Story] with specified [flags]. The [storyPosition] can be optionally specified. A [chapterListener]
+     * and [sceneListener] must be provided to receive progression updates. A [cancellationToken] must be provided to
+     * allow for the story to be cancelled. Returns the ending.
      **/
     @Suppress("ReturnCount")
-    public fun begin(
+    internal fun begin(
         flags: Flags,
         storyPosition: StoryPosition = StoryPosition.start,
         chapterListener: ChapterListener,
-        sceneListener: SceneListener
-    ): Int {
+        sceneListener: SceneListener,
+        cancellationToken: CancellationToken
+    ): Ending {
         var i = storyPosition.chapter
 
         while (i < chapters.size) {
@@ -65,9 +68,9 @@ public class Story private constructor(setup: (Story) -> Unit) {
             chapterListener.enter(chapter)
 
             val result = if (i == storyPosition.chapter) {
-                chapter.begin(flags, storyPosition.scene, storyPosition.step, sceneListener)
+                chapter.begin(flags, storyPosition.scene, storyPosition.step, sceneListener, cancellationToken)
             } else {
-                chapter.begin(flags, sceneListener = sceneListener)
+                chapter.begin(flags, sceneListener = sceneListener, cancellationToken = cancellationToken)
             }
 
             chapterListener.exit(chapter)
@@ -76,10 +79,11 @@ public class Story private constructor(setup: (Story) -> Unit) {
                 is ChapterResult.Continue -> { i++ }
                 is ChapterResult.SelectChapter -> { i = chapters.indexOfFirst { it.name.equals(result.name, true) } }
                 is ChapterResult.End -> { return result.ending }
+                is ChapterResult.Cancelled -> { return Ending.noEnding }
             }
         }
 
-        return 0
+        return Ending.default
     }
 
     /**

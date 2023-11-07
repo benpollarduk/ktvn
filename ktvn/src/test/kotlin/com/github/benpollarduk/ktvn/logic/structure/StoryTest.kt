@@ -1,5 +1,6 @@
 package com.github.benpollarduk.ktvn.logic.structure
 
+import com.github.benpollarduk.ktvn.logic.Ending
 import com.github.benpollarduk.ktvn.logic.Flags
 import com.github.benpollarduk.ktvn.logic.structure.Chapter.Companion.chapter
 import com.github.benpollarduk.ktvn.logic.structure.Scene.Companion.scene
@@ -73,10 +74,10 @@ class StoryTest {
         }
 
         // When
-        val result = story.begin(Flags(), StoryPosition.start, chapterListener, sceneListener)
+        val result = story.begin(Flags(), StoryPosition.start, chapterListener, sceneListener, CancellationToken())
 
         // Then
-        Assertions.assertEquals(0, result)
+        Assertions.assertEquals(0, result.number)
     }
 
     @Test
@@ -88,7 +89,7 @@ class StoryTest {
                     scene steps listOf(
                         next { },
                         end {
-                            it number 1
+                            it ending Ending("", 1)
                         }
                     )
                 }
@@ -96,10 +97,10 @@ class StoryTest {
         }
 
         // When
-        val result = story.begin(Flags(), StoryPosition.start, chapterListener, sceneListener)
+        val result = story.begin(Flags(), StoryPosition.start, chapterListener, sceneListener, CancellationToken())
 
         // Then
-        Assertions.assertEquals(1, result)
+        Assertions.assertEquals(1, result.number)
     }
 
     @Test
@@ -127,7 +128,7 @@ class StoryTest {
         }
 
         // When
-        story.begin(Flags(), StoryPosition.start, chapterListener, sceneListener)
+        story.begin(Flags(), StoryPosition.start, chapterListener, sceneListener, CancellationToken())
 
         // Then
         Assertions.assertTrue(enterCalled)
@@ -159,7 +160,7 @@ class StoryTest {
         }
 
         // When
-        story.begin(Flags(), StoryPosition.start, chapterListener, sceneListener)
+        story.begin(Flags(), StoryPosition.start, chapterListener, sceneListener, CancellationToken())
 
         // Then
         Assertions.assertTrue(enterCalled)

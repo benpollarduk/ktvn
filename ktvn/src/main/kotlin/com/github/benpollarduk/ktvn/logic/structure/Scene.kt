@@ -88,15 +88,21 @@ public class Scene private constructor(setup: (Scene) -> Unit) {
     }
 
     /**
-     * Begin the scene with specified [flags] from a specified [startStep].
+     * Begin the scene with specified [flags] from a specified [startStep]. A [cancellationToken] must be provided to
+     * allow for the chapter to be cancelled.
      */
     @Suppress("ReturnCount")
-    internal fun begin(flags: Flags, startStep: Int = 0): SceneResult {
+    internal fun begin(flags: Flags, startStep: Int = 0, cancellationToken: CancellationToken): SceneResult {
         var indexOfCurrentStep = startStep
 
         while (indexOfCurrentStep < content.size) {
-            when (val result = content[indexOfCurrentStep](flags)) {
-                is StepResult.Continue -> { indexOfCurrentStep++ }
+            when (val result = content[indexOfCurrentStep](flags, cancellationToken)) {
+                StepResult.Cancelled -> {
+                    return SceneResult.Cancelled
+                }
+                StepResult.Continue -> {
+                    indexOfCurrentStep++
+                }
                 is StepResult.GotoStep -> {
                     indexOfCurrentStep = content.indexOfFirst { it.name.equals(result.name, true) }
                 }

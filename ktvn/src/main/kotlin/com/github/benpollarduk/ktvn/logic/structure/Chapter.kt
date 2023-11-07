@@ -38,13 +38,15 @@ public class Chapter private constructor(setup: (Chapter) -> Unit) {
 
     /**
      * Begin the chapter with specified [flags]. The first [scene] and [step] can be optionally specified.
+     * A [cancellationToken] must be provided to allow for the chapter to be cancelled.
      */
     @Suppress("ReturnCount")
     internal fun begin(
         flags: Flags,
         scene: Int = 0,
         step: Int = 0,
-        sceneListener: SceneListener
+        sceneListener: SceneListener,
+        cancellationToken: CancellationToken
     ): ChapterResult {
         indexOfCurrentScene = scene
 
@@ -53,15 +55,20 @@ public class Chapter private constructor(setup: (Chapter) -> Unit) {
             sceneListener.enter(currentScene)
 
             val result = if (indexOfCurrentScene == scene) {
-                currentScene.begin(flags, step)
+                currentScene.begin(flags, step, cancellationToken)
             } else {
-                currentScene.begin(flags)
+                currentScene.begin(flags, cancellationToken = cancellationToken)
             }
 
             sceneListener.exit(currentScene)
 
             when (result) {
-                is SceneResult.Continue -> { indexOfCurrentScene++ }
+                SceneResult.Cancelled -> {
+                    return ChapterResult.Cancelled
+                }
+                SceneResult.Continue -> {
+                    indexOfCurrentScene++
+                }
                 is SceneResult.SelectChapter -> {
                     return ChapterResult.SelectChapter(result.name)
                 }

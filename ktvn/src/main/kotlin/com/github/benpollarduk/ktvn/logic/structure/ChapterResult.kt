@@ -1,5 +1,7 @@
 package com.github.benpollarduk.ktvn.logic.structure
 
+import com.github.benpollarduk.ktvn.logic.Ending
+
 /**
  * Provides the result of a [Chapter].
  */
@@ -17,5 +19,10 @@ public sealed interface ChapterResult {
     /**
      * The specified [ending] has been reached.
      */
-    public data class End(public val ending: Int) : ChapterResult
+    public data class End(public val ending: Ending) : ChapterResult
+
+    /**
+     * Execution was cancelled.
+     */
+    public data object Cancelled : ChapterResult
 }

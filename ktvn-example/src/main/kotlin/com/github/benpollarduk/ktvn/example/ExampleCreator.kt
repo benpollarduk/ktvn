@@ -9,6 +9,7 @@ import com.github.benpollarduk.ktvn.characters.Character
 import com.github.benpollarduk.ktvn.characters.Narrator
 import com.github.benpollarduk.ktvn.layout.Layout.Companion.createLayout
 import com.github.benpollarduk.ktvn.logic.Answer.Companion.answer
+import com.github.benpollarduk.ktvn.logic.Ending
 import com.github.benpollarduk.ktvn.logic.Question.Companion.question
 import com.github.benpollarduk.ktvn.logic.listeners.ListenerProvider
 import com.github.benpollarduk.ktvn.logic.structure.Chapter.Companion.chapter
@@ -123,11 +124,11 @@ public class ExampleCreator(private val listeners: ListenerProvider) {
                         scene.layout exitRight morgana
                         narrator narrates "Michel was left in isolation for eternity."
                     }
-                    it returns StepResult.End(1)
+                    it returns StepResult.End(Ending("Michel dies alone.", 1))
                 },
                 next { narrator narrates "And that was the end of that!" },
                 end {
-                    it number 0
+                    it ending Ending.default
                 }
             )
         }
