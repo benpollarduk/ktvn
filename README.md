@@ -61,7 +61,7 @@ Listeners are provided for:
 
 # Execution #
 Stories can be executed as a **Game**. Games must be executed through the **GameExecutor**, an object dedicated to game 
-management. The GameExecutor can run games synchronously or asynchronously.
+management. The game executor can run games synchronously or asynchronously.
 ```kotlin
 // create a story
 val story = story { story ->
