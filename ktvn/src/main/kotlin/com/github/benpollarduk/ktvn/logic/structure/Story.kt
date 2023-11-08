@@ -54,7 +54,6 @@ public class Story private constructor(setup: (Story) -> Unit) {
      * and [sceneListener] must be provided to receive progression updates. A [cancellationToken] must be provided to
      * allow for the story to be cancelled. Returns the ending.
      **/
-    @Suppress("ReturnCount")
     internal fun begin(
         flags: Flags,
         storyPosition: StoryPosition = StoryPosition.start,
@@ -63,29 +62,43 @@ public class Story private constructor(setup: (Story) -> Unit) {
         cancellationToken: CancellationToken
     ): Ending {
         var i = storyPosition.chapter
+        var ending: Ending? = null
 
         while (i < chapters.size) {
             indexOfCurrentChapter = i
             val chapter = chapters[i]
-            chapterListener.enter(chapter)
 
             val result = if (i == storyPosition.chapter) {
-                chapter.begin(flags, storyPosition.scene, storyPosition.step, sceneListener, cancellationToken)
+                chapter.begin(
+                    flags,
+                    storyPosition.scene,
+                    storyPosition.step,
+                    sceneListener,
+                    chapterListener,
+                    cancellationToken
+                )
             } else {
-                chapter.begin(flags, sceneListener = sceneListener, cancellationToken = cancellationToken)
+                chapter.begin(
+                    flags,
+                    sceneListener = sceneListener,
+                    chapterListener = chapterListener,
+                    cancellationToken = cancellationToken
+                )
             }
-
-            chapterListener.exit(chapter)
 
             when (result) {
                 is ChapterResult.Continue -> { i++ }
                 is ChapterResult.SelectChapter -> { i = chapters.indexOfFirst { it.name.equals(result.name, true) } }
-                is ChapterResult.End -> { return result.ending }
-                is ChapterResult.Cancelled -> { return Ending.noEnding }
+                is ChapterResult.End -> { ending = result.ending }
+                is ChapterResult.Cancelled -> { ending = Ending.noEnding }
+            }
+
+            if (ending != null) {
+                break
             }
         }
 
-        return Ending.default
+        return ending ?: Ending.default
     }
 
     /**

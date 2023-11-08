@@ -8,7 +8,7 @@ public data class StaticBackground(public var key: String) : Background {
         /**
          * Create a static background with a [key].
          */
-        public infix fun static(key: String) : StaticBackground {
+        public infix fun static(key: String): StaticBackground {
             return StaticBackground(key)
         }
     }

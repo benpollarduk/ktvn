@@ -22,7 +22,7 @@ public object ConsoleListenerProvider : ListenerProvider {
     /**
      * Clear the console. This only works on terminals that support ANSI.
      */
-    public fun clear() {
+    public fun clearConsole() {
         print("\u001b[H\u001b[2J")
     }
 
@@ -41,7 +41,7 @@ public object ConsoleListenerProvider : ListenerProvider {
     override val speaksAcknowledgementListener: AcknowledgeListener = object : AcknowledgeListener {
         override fun waitFor() {
             readln()
-            clear()
+            clearConsole()
         }
     }
 
@@ -57,7 +57,7 @@ public object ConsoleListenerProvider : ListenerProvider {
                 }
             }
 
-            clear()
+            clearConsole()
             return question.answers[index]
         }
     }

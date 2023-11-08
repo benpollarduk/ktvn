@@ -7,6 +7,7 @@ import com.github.benpollarduk.ktvn.logic.listeners.SceneListener
 import com.github.benpollarduk.ktvn.logic.structure.Chapter.Companion.chapter
 import com.github.benpollarduk.ktvn.logic.structure.Scene.Companion.scene
 import com.github.benpollarduk.ktvn.logic.structure.Story.Companion.story
+import com.github.benpollarduk.ktvn.logic.structure.steps.Clear.Companion.clear
 import com.github.benpollarduk.ktvn.logic.structure.steps.End.Companion.end
 import com.github.benpollarduk.ktvn.logic.structure.steps.Then.Companion.next
 import com.github.benpollarduk.ktvn.logic.structure.steps.Then.Companion.then
@@ -29,6 +30,10 @@ class StoryTest {
         }
 
         override fun exit(scene: Scene) {
+            // nothing
+        }
+
+        override fun clear(scene: Scene) {
             // nothing
         }
     }
@@ -117,7 +122,7 @@ class StoryTest {
                 }
             }
         }
-        var enterCalled = true
+        var enterCalled = false
         var exitCalled = false
         val chapterListener = object : ChapterListener {
             override fun enter(chapter: Chapter) {
@@ -149,7 +154,7 @@ class StoryTest {
                 }
             }
         }
-        var enterCalled = true
+        var enterCalled = false
         var exitCalled = false
         val sceneListener = object : SceneListener {
             override fun enter(scene: Scene) {
@@ -159,6 +164,10 @@ class StoryTest {
             override fun exit(scene: Scene) {
                 exitCalled = true
             }
+
+            override fun clear(scene: Scene) {
+                // nothing
+            }
         }
 
         // When
@@ -167,5 +176,39 @@ class StoryTest {
         // Then
         Assertions.assertTrue(enterCalled)
         Assertions.assertTrue(exitCalled)
+    }
+
+    @Test
+    fun `given story with clear step when begin then clear called`() {
+        // Given
+        val story = story { story ->
+            story add chapter { chapter ->
+                chapter add scene { scene ->
+                    scene steps listOf(
+                        clear { }
+                    )
+                }
+            }
+        }
+        var clearCalled = false
+        val sceneListener = object : SceneListener {
+            override fun enter(scene: Scene) {
+                // nothing
+            }
+
+            override fun exit(scene: Scene) {
+                // nothing
+            }
+
+            override fun clear(scene: Scene) {
+                clearCalled = true
+            }
+        }
+
+        // When
+        story.begin(Flags(), StoryPosition.start, chapterListener, sceneListener, CancellationToken())
+
+        // Then
+        Assertions.assertTrue(clearCalled)
     }
 }

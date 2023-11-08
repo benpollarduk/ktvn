@@ -10,7 +10,7 @@ public class EmptyBackground(public val color: Color = Color.BLACK) : Background
         /**
          * Create an empty background with a [color].
          */
-        public infix fun static(color: Color) : EmptyBackground {
+        public infix fun static(color: Color): EmptyBackground {
             return EmptyBackground(color)
         }
     }

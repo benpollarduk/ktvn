@@ -22,11 +22,15 @@ object Main : Logging {
             override fun exit(scene: Scene) {
                 println("Exited scene: ${scene.name}")
             }
+
+            override fun clear(scene: Scene) {
+                ConsoleListenerProvider.clearConsole()
+            }
         }
 
         val chapterListener = object : ChapterListener {
             override fun enter(chapter: Chapter) {
-                ConsoleListenerProvider.clear()
+                ConsoleListenerProvider.clearConsole()
                 println("Started chapter: ${chapter.name}")
             }
 

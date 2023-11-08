@@ -62,7 +62,7 @@ public class Layout private constructor(setup: (Layout) -> Unit) {
         val fromPosition = current?.position ?: none
         mutablePositions.removeAll { it.character == character }
         mutablePositions.add(CharacterPosition(character, position))
-        moveListener(character, fromPosition, position, moveAcknowledgement)
+        moveListener.move(character, fromPosition, position, moveAcknowledgement)
     }
 
     /**

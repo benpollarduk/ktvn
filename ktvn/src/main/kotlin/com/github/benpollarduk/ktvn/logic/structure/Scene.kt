@@ -5,6 +5,7 @@ import com.github.benpollarduk.ktvn.backgrounds.EmptyBackground
 import com.github.benpollarduk.ktvn.layout.Layout
 import com.github.benpollarduk.ktvn.layout.Layout.Companion.createLayout
 import com.github.benpollarduk.ktvn.logic.Flags
+import com.github.benpollarduk.ktvn.logic.listeners.SceneListener
 
 /**
  * A scene within a [Chapter].
@@ -88,17 +89,24 @@ public class Scene private constructor(setup: (Scene) -> Unit) {
     }
 
     /**
-     * Begin the scene with specified [flags] from a specified [startStep]. A [cancellationToken] must be provided to
-     * allow for the chapter to be cancelled.
+     * Begin the scene with specified [flags] from a specified [startStep]. The [sceneListener] allows events to be
+     * invoked for this scene. A [cancellationToken] must be provided to allow for the chapter to be cancelled.
      */
-    @Suppress("ReturnCount")
-    internal fun begin(flags: Flags, startStep: Int = 0, cancellationToken: CancellationToken): SceneResult {
+    internal fun begin(
+        flags: Flags,
+        startStep: Int = 0,
+        sceneListener: SceneListener,
+        cancellationToken: CancellationToken
+    ): SceneResult {
+        sceneListener.enter(this)
+
         var indexOfCurrentStep = startStep
+        var sceneResult: SceneResult? = null
 
         while (indexOfCurrentStep < content.size) {
             when (val result = content[indexOfCurrentStep](flags, cancellationToken)) {
                 StepResult.Cancelled -> {
-                    return SceneResult.Cancelled
+                    sceneResult = SceneResult.Cancelled
                 }
                 StepResult.Continue -> {
                     indexOfCurrentStep++
@@ -107,18 +115,28 @@ public class Scene private constructor(setup: (Scene) -> Unit) {
                     indexOfCurrentStep = content.indexOfFirst { it.name.equals(result.name, true) }
                 }
                 is StepResult.SelectChapter -> {
-                    return SceneResult.SelectChapter(result.name)
+                    sceneResult = SceneResult.SelectChapter(result.name)
                 }
                 is StepResult.SelectScene -> {
-                    return SceneResult.SelectScene(result.name)
+                    sceneResult = SceneResult.SelectScene(result.name)
                 }
                 is StepResult.End -> {
-                    return SceneResult.End(result.ending)
+                    sceneResult = SceneResult.End(result.ending)
                 }
+                is StepResult.Clear -> {
+                    indexOfCurrentStep++
+                    sceneListener.clear(this)
+                }
+            }
+
+            if (sceneResult != null) {
+                break
             }
         }
 
-        return SceneResult.Continue
+        sceneListener.exit(this)
+
+        return sceneResult ?: SceneResult.Continue
     }
 
     public companion object {

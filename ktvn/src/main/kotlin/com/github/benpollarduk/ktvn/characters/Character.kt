@@ -9,8 +9,8 @@ import com.github.benpollarduk.ktvn.logic.listeners.EmoteListener
 import com.github.benpollarduk.ktvn.logic.listeners.SpeakListener
 
 /**
- * Provides a character with a specified [name]. Listeners for [speakListener], [emoteListener], [askListener], [speakAcknowledgmentListener],
- * [emoteAcknowledgmentListener] and [answerListener] must be specified.
+ * Provides a character with a specified [name]. Listeners for [speakListener], [emoteListener], [askListener],
+ * [speakAcknowledgmentListener], [emoteAcknowledgmentListener] and [answerListener] must be specified.
  */
 @Suppress("LongParameterList")
 public class Character(
@@ -33,20 +33,20 @@ public class Character(
      */
     public infix fun looks(emotion: Emotion) {
         this.emotion = emotion
-        emoteListener(this, emotion, emoteAcknowledgmentListener)
+        emoteListener.emote(this, emotion, emoteAcknowledgmentListener)
     }
 
     /**
      * Say a [line].
      */
     public infix fun says(line: String) {
-        speakListener(this, line, speakAcknowledgmentListener)
+        speakListener.speak(this, line, speakAcknowledgmentListener)
     }
 
     /**
      * Ask a [question]. Returns the selected answer.
      */
     public infix fun asks(question: Question): Answer {
-        return askListener(this, question, answerListener)
+        return askListener.ask(this, question, answerListener)
     }
 }

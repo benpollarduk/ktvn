@@ -49,7 +49,6 @@ public class ExampleCreator(private val listeners: ListenerProvider) {
         )
     }
 
-    @Suppress("LongMethod")
     private fun introduction(): Scene {
         return scene { scene ->
             scene name "Introduction"

@@ -55,7 +55,15 @@ class LayoutTest {
     fun `given layout when add character then one character`() {
         // Given
         val layout = Layout.createLayout { }
-        val character = Character("", speakListener, emoteListener, askListener, acknowledgeListener, acknowledgeListener, answerListener)
+        val character = Character(
+            "",
+            speakListener,
+            emoteListener,
+            askListener,
+            acknowledgeListener,
+            acknowledgeListener,
+            answerListener
+        )
 
         // When
         layout.add(character, left)
@@ -68,7 +76,15 @@ class LayoutTest {
     fun `given layout when add left of then one character`() {
         // Given
         val layout = Layout.createLayout { }
-        val character = Character("", speakListener, emoteListener, askListener, acknowledgeListener, acknowledgeListener, answerListener)
+        val character = Character(
+            "",
+            speakListener,
+            emoteListener,
+            askListener,
+            acknowledgeListener,
+            acknowledgeListener,
+            answerListener
+        )
 
         // When
         layout.addLeftOf(character)
@@ -81,7 +97,15 @@ class LayoutTest {
     fun `given layout when add right of then one character`() {
         // Given
         val layout = Layout.createLayout { }
-        val character = Character("", speakListener, emoteListener, askListener, acknowledgeListener, acknowledgeListener, answerListener)
+        val character = Character(
+            "",
+            speakListener,
+            emoteListener,
+            askListener,
+            acknowledgeListener,
+            acknowledgeListener,
+            answerListener
+        )
 
         // When
         layout.addRightOf(character)
@@ -94,7 +118,15 @@ class LayoutTest {
     fun `given layout when add above then one character`() {
         // Given
         val layout = Layout.createLayout { }
-        val character = Character("", speakListener, emoteListener, askListener, acknowledgeListener, acknowledgeListener, answerListener)
+        val character = Character(
+            "",
+            speakListener,
+            emoteListener,
+            askListener,
+            acknowledgeListener,
+            acknowledgeListener,
+            answerListener
+        )
 
         // When
         layout.addAbove(character)
@@ -107,7 +139,15 @@ class LayoutTest {
     fun `given layout when add below then one character`() {
         // Given
         val layout = Layout.createLayout { }
-        val character = Character("", speakListener, emoteListener, askListener, acknowledgeListener, acknowledgeListener, answerListener)
+        val character = Character(
+            "",
+            speakListener,
+            emoteListener,
+            askListener,
+            acknowledgeListener,
+            acknowledgeListener,
+            answerListener
+        )
 
         // When
         layout.addBelow(character)
@@ -131,7 +171,15 @@ class LayoutTest {
             }
         }
         val layout = Layout.createLayout { it setMoves moveListener }
-        val character = Character("", speakListener, emoteListener, askListener, acknowledgeListener, acknowledgeListener, answerListener)
+        val character = Character(
+            "",
+            speakListener,
+            emoteListener,
+            askListener,
+            acknowledgeListener,
+            acknowledgeListener,
+            answerListener
+        )
         layout.add(character, left)
 
         // When

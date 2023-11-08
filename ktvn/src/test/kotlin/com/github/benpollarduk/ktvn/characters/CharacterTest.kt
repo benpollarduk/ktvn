@@ -49,7 +49,15 @@ class CharacterTest {
     @Test
     fun `given a character named Test then name is assigned`() {
         // Given
-        val character = Character("Test", speakListener, emoteListener, askListener, acknowledgeListener, acknowledgeListener, answerListener)
+        val character = Character(
+            "Test",
+            speakListener,
+            emoteListener,
+            askListener,
+            acknowledgeListener,
+            acknowledgeListener,
+            answerListener
+        )
 
         // Then
         Assertions.assertEquals("Test", character.name)
@@ -58,7 +66,15 @@ class CharacterTest {
     @Test
     fun `given a character when assigning emotion then emotion is assigned`() {
         // Given
-        val character = Character("", speakListener, emoteListener, askListener, acknowledgeListener, acknowledgeListener, answerListener)
+        val character = Character(
+            "",
+            speakListener,
+            emoteListener,
+            askListener,
+            acknowledgeListener,
+            acknowledgeListener,
+            answerListener
+        )
 
         // Conditional
         character looks happy
@@ -76,7 +92,15 @@ class CharacterTest {
                 called = true
             }
         }
-        val character = Character("", speakListener, emoteListener, askListener, acknowledgeListener, acknowledgeListener, answerListener)
+        val character = Character(
+            "",
+            speakListener,
+            emoteListener,
+            askListener,
+            acknowledgeListener,
+            acknowledgeListener,
+            answerListener
+        )
 
         // When
         character.says("")
@@ -99,7 +123,15 @@ class CharacterTest {
                 return Answer.answer { }
             }
         }
-        val character = Character("", speakListener, emoteListener, askListener, acknowledgeListener, acknowledgeListener, answerListener)
+        val character = Character(
+            "",
+            speakListener,
+            emoteListener,
+            askListener,
+            acknowledgeListener,
+            acknowledgeListener,
+            answerListener
+        )
 
         // When
         character.asks(Question.question { })
@@ -117,7 +149,15 @@ class CharacterTest {
                 called = true
             }
         }
-        val character = Character("", speakListener, emoteListener, askListener, acknowledgeListener, acknowledgeListener, answerListener)
+        val character = Character(
+            "",
+            speakListener,
+            emoteListener,
+            askListener,
+            acknowledgeListener,
+            acknowledgeListener,
+            answerListener
+        )
 
         // When
         character.looks(happy)
@@ -129,7 +169,15 @@ class CharacterTest {
     @Test
     fun `given a character when looks happy then emotion is happy`() {
         // Given
-        val character = Character("", speakListener, emoteListener, askListener, acknowledgeListener, acknowledgeListener, answerListener)
+        val character = Character(
+            "",
+            speakListener,
+            emoteListener,
+            askListener,
+            acknowledgeListener,
+            acknowledgeListener,
+            answerListener
+        )
 
         // When
         character.looks(happy)

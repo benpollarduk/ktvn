@@ -1,6 +1,7 @@
 package com.github.benpollarduk.ktvn.logic.structure
 
 import com.github.benpollarduk.ktvn.logic.Flags
+import com.github.benpollarduk.ktvn.logic.listeners.ChapterListener
 import com.github.benpollarduk.ktvn.logic.listeners.SceneListener
 
 /**
@@ -39,50 +40,58 @@ public class Chapter private constructor(setup: (Chapter) -> Unit) {
 
     /**
      * Begin the chapter with specified [flags]. The first [scene] and [step] can be optionally specified.
-     * A [cancellationToken] must be provided to allow for the chapter to be cancelled.
+     * The [chapterListener] allows events to be invoked for this chapter. A [cancellationToken] must be provided to
+     * allow for the chapter to be cancelled.
      */
-    @Suppress("ReturnCount")
+    @Suppress("LongParameterList")
     internal fun begin(
         flags: Flags,
         scene: Int = 0,
         step: Int = 0,
         sceneListener: SceneListener,
+        chapterListener: ChapterListener,
         cancellationToken: CancellationToken
     ): ChapterResult {
+        chapterListener.enter(this)
+
         indexOfCurrentScene = scene
+        var chapterResult: ChapterResult? = null
 
         while (indexOfCurrentScene < scenes.size) {
             val currentScene = scenes[indexOfCurrentScene]
-            sceneListener.enter(currentScene)
 
             val result = if (indexOfCurrentScene == scene) {
-                currentScene.begin(flags, step, cancellationToken)
+                currentScene.begin(flags, step, sceneListener, cancellationToken)
             } else {
-                currentScene.begin(flags, cancellationToken = cancellationToken)
+                currentScene.begin(flags, sceneListener = sceneListener, cancellationToken = cancellationToken)
             }
-
-            sceneListener.exit(currentScene)
 
             when (result) {
                 SceneResult.Cancelled -> {
-                    return ChapterResult.Cancelled
+                    chapterResult = ChapterResult.Cancelled
                 }
                 SceneResult.Continue -> {
                     indexOfCurrentScene++
                 }
                 is SceneResult.SelectChapter -> {
-                    return ChapterResult.SelectChapter(result.name)
+                    chapterResult = ChapterResult.SelectChapter(result.name)
                 }
                 is SceneResult.SelectScene -> {
                     indexOfCurrentScene = scenes.indexOfFirst { it.name.equals(result.name, true) }
                 }
                 is SceneResult.End -> {
-                    return ChapterResult.End(result.ending)
+                    chapterResult = ChapterResult.End(result.ending)
                 }
+            }
+
+            if (chapterResult != null) {
+                break
             }
         }
 
-        return ChapterResult.Continue
+        chapterListener.exit(this)
+
+        return chapterResult ?: ChapterResult.Continue
     }
 
     /**

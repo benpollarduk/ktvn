@@ -191,6 +191,22 @@ The **condition** keyword specifies the flag. If that flag is set to true then t
 keyword will be executed. Lastly the **returns** keyword specifies the result of the step so that the story can 
 continue, branch or end as required.
 
+### delay ###
+delay is a step that prevents the story from progressing for the specified time, in milliseconds.
+```kotlin
+delay {
+    it time 1000L
+}
+```
+The **time** keyword allows the delay time to be specified, in milliseconds.
+
+### clear ###
+clear is a step that signals that the current scene should be cleared. How this is interpreted is up to the calling UI.
+```kotlin
+clear { }
+```
+Suggested use cases are for clearing the text from a narrative scene, or removing all dialog from a dialog scene.
+
 ### end ###
 end is a simple step that signifies that an ending has been reached.
 ```kotlin
