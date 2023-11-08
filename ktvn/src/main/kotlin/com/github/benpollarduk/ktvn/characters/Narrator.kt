@@ -27,6 +27,6 @@ public class Narrator(
      * Ask a [question]. Returns the selected answer.
      */
     public infix fun asks(question: Question): Answer {
-        return askListener(this, question, answerListener)
+        return askListener.ask(this, question, answerListener)
     }
 }

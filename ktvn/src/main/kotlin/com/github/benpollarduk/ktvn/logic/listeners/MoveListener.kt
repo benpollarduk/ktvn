@@ -10,7 +10,7 @@ public interface MoveListener {
     /**
      * Invoke the listener with a specified [character], [fromPosition], [toPosition] and [acknowledgement].
      */
-    public operator fun invoke(
+    public fun move(
         character: Character,
         fromPosition: Position,
         toPosition: Position,

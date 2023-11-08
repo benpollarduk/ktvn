@@ -13,17 +13,17 @@ import org.junit.jupiter.api.Test
 
 class NarratorTest {
     private val narrateListener = object : NarrateListener {
-        override fun invoke(line: String, acknowledgement: AcknowledgeListener) {
+        override fun narrate(line: String, acknowledgement: AcknowledgeListener) {
             // nothing
         }
     }
 
     private val askListener = object : AskListener {
-        override fun invoke(character: Character, question: Question, answerListener: AnswerListener): Answer {
+        override fun ask(character: Character, question: Question, answerListener: AnswerListener): Answer {
             return question.answers.first()
         }
 
-        override fun invoke(narrator: Narrator, question: Question, answerListener: AnswerListener): Answer {
+        override fun ask(narrator: Narrator, question: Question, answerListener: AnswerListener): Answer {
             return question.answers.first()
         }
     }
@@ -45,7 +45,7 @@ class NarratorTest {
         // Given
         var called = false
         val narrateListener = object : NarrateListener {
-            override fun invoke(line: String, acknowledgement: AcknowledgeListener) {
+            override fun narrate(line: String, acknowledgement: AcknowledgeListener) {
                 called = true
             }
         }
@@ -63,11 +63,11 @@ class NarratorTest {
         // Given
         var called = false
         val askListener = object : AskListener {
-            override fun invoke(character: Character, question: Question, answerListener: AnswerListener): Answer {
+            override fun ask(character: Character, question: Question, answerListener: AnswerListener): Answer {
                 return answer { }
             }
 
-            override fun invoke(narrator: Narrator, question: Question, answerListener: AnswerListener): Answer {
+            override fun ask(narrator: Narrator, question: Question, answerListener: AnswerListener): Answer {
                 called = true
                 return answer { }
             }

@@ -9,5 +9,5 @@ public interface SpeakListener {
     /**
      * Invoke the listener with a specified [character], [line] and [acknowledgement].
      */
-    public operator fun invoke(character: Character, line: String, acknowledgement: AcknowledgeListener)
+    public fun speak(character: Character, line: String, acknowledgement: AcknowledgeListener)
 }

@@ -20,7 +20,7 @@ public class Layout private constructor(setup: (Layout) -> Unit) {
     private val mutablePositions: MutableList<CharacterPosition> = mutableListOf()
 
     private var moveListener: MoveListener = object : MoveListener {
-        override fun invoke(
+        override fun move(
             character: Character,
             fromPosition: Position,
             toPosition: Position,

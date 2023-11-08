@@ -10,5 +10,5 @@ public interface EmoteListener {
     /**
      * Invoke the listener with a specified [character], [emotion] and [acknowledgement].
      */
-    public operator fun invoke(character: Character, emotion: Emotion, acknowledgement: AcknowledgeListener)
+    public fun emote(character: Character, emotion: Emotion, acknowledgement: AcknowledgeListener)
 }

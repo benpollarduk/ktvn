@@ -7,5 +7,5 @@ public interface NarrateListener {
     /**
      * Invoke the listener with a specified [line] and [acknowledgement].
      */
-    public operator fun invoke(line: String, acknowledgement: AcknowledgeListener)
+    public fun narrate(line: String, acknowledgement: AcknowledgeListener)
 }

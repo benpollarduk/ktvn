@@ -63,28 +63,28 @@ public object ConsoleListenerProvider : ListenerProvider {
     }
 
     override val speakListener: SpeakListener = object : SpeakListener {
-        override fun invoke(character: Character, line: String, acknowledgement: AcknowledgeListener) {
+        override fun speak(character: Character, line: String, acknowledgement: AcknowledgeListener) {
             println("${character.name}: $line")
             acknowledgement.waitFor()
         }
     }
 
     override val emoteListener: EmoteListener = object : EmoteListener {
-        override fun invoke(character: Character, emotion: Emotion, acknowledgement: AcknowledgeListener) {
+        override fun emote(character: Character, emotion: Emotion, acknowledgement: AcknowledgeListener) {
             println("${character.name} looks $emotion.")
             acknowledgement.waitFor()
         }
     }
 
     override val narrateListener: NarrateListener = object : NarrateListener {
-        override fun invoke(line: String, acknowledgement: AcknowledgeListener) {
+        override fun narrate(line: String, acknowledgement: AcknowledgeListener) {
             println(line)
             acknowledgement.waitFor()
         }
     }
 
     override val moveListener: MoveListener = object : MoveListener {
-        override fun invoke(
+        override fun move(
             character: Character,
             fromPosition: Position,
             toPosition: Position,
@@ -96,7 +96,7 @@ public object ConsoleListenerProvider : ListenerProvider {
     }
 
     override val askListener: AskListener = object : AskListener {
-        override fun invoke(character: Character, question: Question, answerListener: AnswerListener): Answer {
+        override fun ask(character: Character, question: Question, answerListener: AnswerListener): Answer {
             println("${character.name}: ${question.line}")
 
             for (i in question.answers.indices) {
@@ -106,7 +106,7 @@ public object ConsoleListenerProvider : ListenerProvider {
             return answerListener.waitFor(question)
         }
 
-        override fun invoke(narrator: Narrator, question: Question, answerListener: AnswerListener): Answer {
+        override fun ask(narrator: Narrator, question: Question, answerListener: AnswerListener): Answer {
             println(question.line)
 
             for (i in question.answers.indices) {

@@ -18,23 +18,23 @@ import org.junit.jupiter.api.Test
 
 class LayoutTest {
     private val speakListener = object : SpeakListener {
-        override fun invoke(character: Character, line: String, acknowledgement: AcknowledgeListener) {
+        override fun speak(character: Character, line: String, acknowledgement: AcknowledgeListener) {
             // nothing
         }
     }
 
     private val emoteListener = object : EmoteListener {
-        override fun invoke(character: Character, emotion: Emotion, acknowledgement: AcknowledgeListener) {
+        override fun emote(character: Character, emotion: Emotion, acknowledgement: AcknowledgeListener) {
             // nothing
         }
     }
 
     private val askListener = object : AskListener {
-        override fun invoke(character: Character, question: Question, answerListener: AnswerListener): Answer {
+        override fun ask(character: Character, question: Question, answerListener: AnswerListener): Answer {
             return question.answers.first()
         }
 
-        override fun invoke(narrator: Narrator, question: Question, answerListener: AnswerListener): Answer {
+        override fun ask(narrator: Narrator, question: Question, answerListener: AnswerListener): Answer {
             return question.answers.first()
         }
     }
@@ -121,7 +121,7 @@ class LayoutTest {
         // Given
         var called = false
         val moveListener = object : MoveListener {
-            override fun invoke(
+            override fun move(
                 character: Character,
                 fromPosition: Position,
                 toPosition: Position,
