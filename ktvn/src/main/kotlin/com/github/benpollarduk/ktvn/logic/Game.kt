@@ -24,9 +24,9 @@ public class Game(
     private val lock = ReentrantLock()
 
     /**
-     * Begin execution of the game.
+     * Begin execution of the game. Return the [Ending] reached.
      */
-    internal fun execute() {
+    internal fun execute() : Ending {
         isExecuting = true
         startTimeInSeconds = System.currentTimeMillis() / MILLISECONDS_PER_SECOND
 
@@ -50,6 +50,7 @@ public class Game(
 
         endTimeInSeconds = System.currentTimeMillis() / MILLISECONDS_PER_SECOND
         isExecuting = false
+        return ending
     }
 
     /**
