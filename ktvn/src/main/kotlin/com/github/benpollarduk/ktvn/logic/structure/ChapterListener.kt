@@ -5,12 +5,12 @@ package com.github.benpollarduk.ktvn.logic.structure
  */
 public interface ChapterListener {
     /**
-     * Enter a [chapter].
+     * Invoke the listener to notify entry of a specified [chapter].
      */
     public fun enter(chapter: Chapter)
 
     /**
-     * Exit a [chapter].
+     * Invoke the listener to notify exit of a specified [chapter].
      */
     public fun exit(chapter: Chapter)
 }

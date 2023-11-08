@@ -5,12 +5,12 @@ package com.github.benpollarduk.ktvn.logic.structure
  */
 public interface SceneListener {
     /**
-     * Enter a [scene].
+     * Invoke the listener to notify entry of a specified [scene].
      */
     public fun enter(scene: Scene)
 
     /**
-     * Exit a [scene].
+     * Invoke the listener to notify exit of a specified [scene].
      */
     public fun exit(scene: Scene)
 }
