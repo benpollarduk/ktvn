@@ -1,9 +1,9 @@
 package com.github.benpollarduk.ktvn.logic.listeners
 
 /**
- * Provides an interface that can handle acknowledgments.
+ * Provides an interface for listeners to acknowledgment requests.
  */
-public interface Acknowledges {
+public interface AcknowledgeListener {
     /**
      * Wait for an acknowledgement.
      */

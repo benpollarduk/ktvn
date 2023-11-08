@@ -4,11 +4,11 @@ import com.github.benpollarduk.ktvn.characters.Character
 import com.github.benpollarduk.ktvn.characters.Emotion
 
 /**
- * Provides an interface for objects that can handle [Emotion] changes.
+ * Provides an interface for listeners to [Character] emote events.
  */
-public interface Emotes {
+public interface EmoteListener {
     /**
      * Invoke the listener with a specified [character], [emotion] and [acknowledgement].
      */
-    public operator fun invoke(character: Character, emotion: Emotion, acknowledgement: Acknowledges)
+    public operator fun invoke(character: Character, emotion: Emotion, acknowledgement: AcknowledgeListener)
 }

@@ -31,21 +31,21 @@ public class ExampleCreator(private val listeners: ListenerProvider) {
     private val morgana: Character = createCharacter("Morgana")
     private val michel: Character = createCharacter("Michel")
     private val narrator = Narrator(
-        listeners.narrates,
-        listeners.asks,
-        listeners.speaksAcknowledgement,
-        listeners.answers
+        listeners.narrateListener,
+        listeners.askListener,
+        listeners.speaksAcknowledgementListener,
+        listeners.answerListener
     )
 
     private fun createCharacter(name: String): Character {
         return Character(
             name,
-            listeners.speaks,
-            listeners.emotes,
-            listeners.asks,
-            listeners.speaksAcknowledgement,
-            listeners.emotesAcknowledgement,
-            listeners.answers
+            listeners.speakListener,
+            listeners.emoteListener,
+            listeners.askListener,
+            listeners.speaksAcknowledgementListener,
+            listeners.emotesAcknowledgementListener,
+            listeners.answerListener
         )
     }
 
@@ -56,7 +56,7 @@ public class ExampleCreator(private val listeners: ListenerProvider) {
             scene background EmptyBackground()
             scene type SceneType.Narrative
             scene layout createLayout {
-                it setMoveAcknowledgments listeners.movesAcknowledgement
+                it setMoveAcknowledgments listeners.movesAcknowledgementListener
             }
             scene steps listOf(
                 next { narrator narrates "Many years have passed since Michel moved in to the mansion." },
@@ -73,8 +73,8 @@ public class ExampleCreator(private val listeners: ListenerProvider) {
             scene layout createLayout { layout ->
                 layout addLeftOf michel
                 layout addRightOf morgana
-                layout setMoves listeners.moves
-                layout setMoveAcknowledgments listeners.movesAcknowledgement
+                layout setMoves listeners.moveListener
+                layout setMoveAcknowledgments listeners.movesAcknowledgementListener
             }
             scene steps listOf(
                 next { scene.layout moveLeft michel },

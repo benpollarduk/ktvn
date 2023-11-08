@@ -4,37 +4,37 @@ import com.github.benpollarduk.ktvn.logic.Answer
 import com.github.benpollarduk.ktvn.logic.Answer.Companion.answer
 import com.github.benpollarduk.ktvn.logic.Question
 import com.github.benpollarduk.ktvn.logic.Question.Companion.question
-import com.github.benpollarduk.ktvn.logic.listeners.Acknowledges
-import com.github.benpollarduk.ktvn.logic.listeners.Answers
-import com.github.benpollarduk.ktvn.logic.listeners.Asks
-import com.github.benpollarduk.ktvn.logic.listeners.Narrates
+import com.github.benpollarduk.ktvn.logic.listeners.AcknowledgeListener
+import com.github.benpollarduk.ktvn.logic.listeners.AnswerListener
+import com.github.benpollarduk.ktvn.logic.listeners.AskListener
+import com.github.benpollarduk.ktvn.logic.listeners.NarrateListener
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
 class NarratorTest {
-    private val narrates = object : Narrates {
-        override fun invoke(line: String, acknowledgement: Acknowledges) {
+    private val narrateListener = object : NarrateListener {
+        override fun invoke(line: String, acknowledgement: AcknowledgeListener) {
             // nothing
         }
     }
 
-    private val asks = object : Asks {
-        override fun invoke(character: Character, question: Question, answers: Answers): Answer {
+    private val askListener = object : AskListener {
+        override fun invoke(character: Character, question: Question, answerListener: AnswerListener): Answer {
             return question.answers.first()
         }
 
-        override fun invoke(narrator: Narrator, question: Question, answers: Answers): Answer {
+        override fun invoke(narrator: Narrator, question: Question, answerListener: AnswerListener): Answer {
             return question.answers.first()
         }
     }
 
-    private val acknowledges = object : Acknowledges {
+    private val acknowledgeListener = object : AcknowledgeListener {
         override fun waitFor() {
             // nothing
         }
     }
 
-    private val answers = object : Answers {
+    private val answerListener = object : AnswerListener {
         override fun waitFor(question: Question): Answer {
             return question.answers.first()
         }
@@ -44,12 +44,12 @@ class NarratorTest {
     fun `given a narrator when narrate then narrates is called`() {
         // Given
         var called = false
-        val narrates = object : Narrates {
-            override fun invoke(line: String, acknowledgement: Acknowledges) {
+        val narrateListener = object : NarrateListener {
+            override fun invoke(line: String, acknowledgement: AcknowledgeListener) {
                 called = true
             }
         }
-        val narrator = Narrator(narrates, asks, acknowledges, answers)
+        val narrator = Narrator(narrateListener, askListener, acknowledgeListener, answerListener)
 
         // When
         narrator.narrates("")
@@ -62,17 +62,17 @@ class NarratorTest {
     fun `given a narrator when ask then asks is called`() {
         // Given
         var called = false
-        val asks = object : Asks {
-            override fun invoke(character: Character, question: Question, answers: Answers): Answer {
+        val askListener = object : AskListener {
+            override fun invoke(character: Character, question: Question, answerListener: AnswerListener): Answer {
                 return answer { }
             }
 
-            override fun invoke(narrator: Narrator, question: Question, answers: Answers): Answer {
+            override fun invoke(narrator: Narrator, question: Question, answerListener: AnswerListener): Answer {
                 called = true
                 return answer { }
             }
         }
-        val narrator = Narrator(narrates, asks, acknowledges, answers)
+        val narrator = Narrator(narrateListener, askListener, acknowledgeListener, answerListener)
 
         // When
         narrator.asks(question { })

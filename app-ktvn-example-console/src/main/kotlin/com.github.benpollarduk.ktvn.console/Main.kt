@@ -6,9 +6,9 @@ import com.github.benpollarduk.ktvn.logic.Game
 import com.github.benpollarduk.ktvn.logic.GameExecutor
 import com.github.benpollarduk.ktvn.logic.listeners.console.ConsoleListenerProvider
 import com.github.benpollarduk.ktvn.logic.structure.Chapter
-import com.github.benpollarduk.ktvn.logic.structure.ChapterListener
+import com.github.benpollarduk.ktvn.logic.listeners.ChapterListener
 import com.github.benpollarduk.ktvn.logic.structure.Scene
-import com.github.benpollarduk.ktvn.logic.structure.SceneListener
+import com.github.benpollarduk.ktvn.logic.listeners.SceneListener
 import org.apache.logging.log4j.kotlin.Logging
 
 object Main : Logging {

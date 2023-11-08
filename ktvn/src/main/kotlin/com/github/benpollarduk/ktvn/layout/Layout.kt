@@ -9,8 +9,8 @@ import com.github.benpollarduk.ktvn.layout.Positions.leftOf
 import com.github.benpollarduk.ktvn.layout.Positions.none
 import com.github.benpollarduk.ktvn.layout.Positions.right
 import com.github.benpollarduk.ktvn.layout.Positions.rightOf
-import com.github.benpollarduk.ktvn.logic.listeners.Acknowledges
-import com.github.benpollarduk.ktvn.logic.listeners.Moves
+import com.github.benpollarduk.ktvn.logic.listeners.AcknowledgeListener
+import com.github.benpollarduk.ktvn.logic.listeners.MoveListener
 
 /**
  * Provides a layout for positioning characters.
@@ -19,18 +19,18 @@ import com.github.benpollarduk.ktvn.logic.listeners.Moves
 public class Layout private constructor(setup: (Layout) -> Unit) {
     private val mutablePositions: MutableList<CharacterPosition> = mutableListOf()
 
-    private var moves: Moves = object : Moves {
+    private var moveListener: MoveListener = object : MoveListener {
         override fun invoke(
             character: Character,
             fromPosition: Position,
             toPosition: Position,
-            acknowledgement: Acknowledges
+            acknowledgement: AcknowledgeListener
         ) {
             // nothing
         }
     }
 
-    private var moveAcknowledgement: Acknowledges = object : Acknowledges {
+    private var moveAcknowledgement: AcknowledgeListener = object : AcknowledgeListener {
         override fun waitFor() {
             // nothing
         }
@@ -62,20 +62,20 @@ public class Layout private constructor(setup: (Layout) -> Unit) {
         val fromPosition = current?.position ?: none
         mutablePositions.removeAll { it.character == character }
         mutablePositions.add(CharacterPosition(character, position))
-        moves(character, fromPosition, position, moveAcknowledgement)
+        moveListener(character, fromPosition, position, moveAcknowledgement)
     }
 
     /**
-     * Specify how moves should be handled.
+     * Specify how moveListener should be handled.
      */
-    public infix fun setMoves(moves: Moves) {
-        this.moves = moves
+    public infix fun setMoves(moveListener: MoveListener) {
+        this.moveListener = moveListener
     }
 
     /**
      * Specify how move acknowledgments should be handled.
      */
-    public infix fun setMoveAcknowledgments(moveAcknowledgement: Acknowledges) {
+    public infix fun setMoveAcknowledgments(moveAcknowledgement: AcknowledgeListener) {
         this.moveAcknowledgement = moveAcknowledgement
     }
 

@@ -7,45 +7,45 @@ import com.github.benpollarduk.ktvn.layout.Positions.left
 import com.github.benpollarduk.ktvn.layout.Positions.right
 import com.github.benpollarduk.ktvn.logic.Answer
 import com.github.benpollarduk.ktvn.logic.Question
-import com.github.benpollarduk.ktvn.logic.listeners.Acknowledges
-import com.github.benpollarduk.ktvn.logic.listeners.Answers
-import com.github.benpollarduk.ktvn.logic.listeners.Asks
-import com.github.benpollarduk.ktvn.logic.listeners.Emotes
-import com.github.benpollarduk.ktvn.logic.listeners.Moves
-import com.github.benpollarduk.ktvn.logic.listeners.Speaks
+import com.github.benpollarduk.ktvn.logic.listeners.AcknowledgeListener
+import com.github.benpollarduk.ktvn.logic.listeners.AnswerListener
+import com.github.benpollarduk.ktvn.logic.listeners.AskListener
+import com.github.benpollarduk.ktvn.logic.listeners.EmoteListener
+import com.github.benpollarduk.ktvn.logic.listeners.MoveListener
+import com.github.benpollarduk.ktvn.logic.listeners.SpeakListener
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
 class LayoutTest {
-    private val speaks = object : Speaks {
-        override fun invoke(character: Character, line: String, acknowledgement: Acknowledges) {
+    private val speakListener = object : SpeakListener {
+        override fun invoke(character: Character, line: String, acknowledgement: AcknowledgeListener) {
             // nothing
         }
     }
 
-    private val emotes = object : Emotes {
-        override fun invoke(character: Character, emotion: Emotion, acknowledgement: Acknowledges) {
+    private val emoteListener = object : EmoteListener {
+        override fun invoke(character: Character, emotion: Emotion, acknowledgement: AcknowledgeListener) {
             // nothing
         }
     }
 
-    private val asks = object : Asks {
-        override fun invoke(character: Character, question: Question, answers: Answers): Answer {
+    private val askListener = object : AskListener {
+        override fun invoke(character: Character, question: Question, answerListener: AnswerListener): Answer {
             return question.answers.first()
         }
 
-        override fun invoke(narrator: Narrator, question: Question, answers: Answers): Answer {
+        override fun invoke(narrator: Narrator, question: Question, answerListener: AnswerListener): Answer {
             return question.answers.first()
         }
     }
 
-    private val acknowledges = object : Acknowledges {
+    private val acknowledgeListener = object : AcknowledgeListener {
         override fun waitFor() {
             // nothing
         }
     }
 
-    private val answers = object : Answers {
+    private val answerListener = object : AnswerListener {
         override fun waitFor(question: Question): Answer {
             return question.answers.first()
         }
@@ -55,7 +55,7 @@ class LayoutTest {
     fun `given layout when add character then one character`() {
         // Given
         val layout = Layout.createLayout { }
-        val character = Character("", speaks, emotes, asks, acknowledges, acknowledges, answers)
+        val character = Character("", speakListener, emoteListener, askListener, acknowledgeListener, acknowledgeListener, answerListener)
 
         // When
         layout.add(character, left)
@@ -68,7 +68,7 @@ class LayoutTest {
     fun `given layout when add left of then one character`() {
         // Given
         val layout = Layout.createLayout { }
-        val character = Character("", speaks, emotes, asks, acknowledges, acknowledges, answers)
+        val character = Character("", speakListener, emoteListener, askListener, acknowledgeListener, acknowledgeListener, answerListener)
 
         // When
         layout.addLeftOf(character)
@@ -81,7 +81,7 @@ class LayoutTest {
     fun `given layout when add right of then one character`() {
         // Given
         val layout = Layout.createLayout { }
-        val character = Character("", speaks, emotes, asks, acknowledges, acknowledges, answers)
+        val character = Character("", speakListener, emoteListener, askListener, acknowledgeListener, acknowledgeListener, answerListener)
 
         // When
         layout.addRightOf(character)
@@ -94,7 +94,7 @@ class LayoutTest {
     fun `given layout when add above then one character`() {
         // Given
         val layout = Layout.createLayout { }
-        val character = Character("", speaks, emotes, asks, acknowledges, acknowledges, answers)
+        val character = Character("", speakListener, emoteListener, askListener, acknowledgeListener, acknowledgeListener, answerListener)
 
         // When
         layout.addAbove(character)
@@ -107,7 +107,7 @@ class LayoutTest {
     fun `given layout when add below then one character`() {
         // Given
         val layout = Layout.createLayout { }
-        val character = Character("", speaks, emotes, asks, acknowledges, acknowledges, answers)
+        val character = Character("", speakListener, emoteListener, askListener, acknowledgeListener, acknowledgeListener, answerListener)
 
         // When
         layout.addBelow(character)
@@ -120,18 +120,18 @@ class LayoutTest {
     fun `given layout when move character then moves is called`() {
         // Given
         var called = false
-        val moves = object : Moves {
+        val moveListener = object : MoveListener {
             override fun invoke(
                 character: Character,
                 fromPosition: Position,
                 toPosition: Position,
-                acknowledgement: Acknowledges
+                acknowledgement: AcknowledgeListener
             ) {
                 called = true
             }
         }
-        val layout = Layout.createLayout { it setMoves moves }
-        val character = Character("", speaks, emotes, asks, acknowledges, acknowledges, answers)
+        val layout = Layout.createLayout { it setMoves moveListener }
+        val character = Character("", speakListener, emoteListener, askListener, acknowledgeListener, acknowledgeListener, answerListener)
         layout.add(character, left)
 
         // When

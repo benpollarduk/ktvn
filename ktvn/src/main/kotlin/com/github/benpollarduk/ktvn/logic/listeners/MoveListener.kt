@@ -4,9 +4,9 @@ import com.github.benpollarduk.ktvn.characters.Character
 import com.github.benpollarduk.ktvn.layout.Position
 
 /**
- * Provides an interface for objects that can handle movements.
+ * Provides an interface for listeners to [Layout] move events.
  */
-public interface Moves {
+public interface MoveListener {
     /**
      * Invoke the listener with a specified [character], [fromPosition], [toPosition] and [acknowledgement].
      */
@@ -14,6 +14,6 @@ public interface Moves {
         character: Character,
         fromPosition: Position,
         toPosition: Position,
-        acknowledgement: Acknowledges
+        acknowledgement: AcknowledgeListener
     )
 }

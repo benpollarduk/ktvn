@@ -6,14 +6,14 @@ import com.github.benpollarduk.ktvn.characters.Narrator
 import com.github.benpollarduk.ktvn.layout.Position
 import com.github.benpollarduk.ktvn.logic.Answer
 import com.github.benpollarduk.ktvn.logic.Question
-import com.github.benpollarduk.ktvn.logic.listeners.Acknowledges
-import com.github.benpollarduk.ktvn.logic.listeners.Answers
-import com.github.benpollarduk.ktvn.logic.listeners.Asks
-import com.github.benpollarduk.ktvn.logic.listeners.Emotes
+import com.github.benpollarduk.ktvn.logic.listeners.AcknowledgeListener
+import com.github.benpollarduk.ktvn.logic.listeners.AnswerListener
+import com.github.benpollarduk.ktvn.logic.listeners.AskListener
+import com.github.benpollarduk.ktvn.logic.listeners.EmoteListener
 import com.github.benpollarduk.ktvn.logic.listeners.ListenerProvider
-import com.github.benpollarduk.ktvn.logic.listeners.Moves
-import com.github.benpollarduk.ktvn.logic.listeners.Narrates
-import com.github.benpollarduk.ktvn.logic.listeners.Speaks
+import com.github.benpollarduk.ktvn.logic.listeners.MoveListener
+import com.github.benpollarduk.ktvn.logic.listeners.NarrateListener
+import com.github.benpollarduk.ktvn.logic.listeners.SpeakListener
 
 /**
  * Provides a default listener provider for a Console.
@@ -26,26 +26,26 @@ public object ConsoleListenerProvider : ListenerProvider {
         print("\u001b[H\u001b[2J")
     }
 
-    override val emotesAcknowledgement: Acknowledges = object : Acknowledges {
+    override val emotesAcknowledgementListener: AcknowledgeListener = object : AcknowledgeListener {
         override fun waitFor() {
             // continue without acknowledgement
         }
     }
 
-    override val movesAcknowledgement: Acknowledges = object : Acknowledges {
+    override val movesAcknowledgementListener: AcknowledgeListener = object : AcknowledgeListener {
         override fun waitFor() {
             // continue without acknowledgement
         }
     }
 
-    override val speaksAcknowledgement: Acknowledges = object : Acknowledges {
+    override val speaksAcknowledgementListener: AcknowledgeListener = object : AcknowledgeListener {
         override fun waitFor() {
             readln()
             clear()
         }
     }
 
-    override val answers: Answers = object : Answers {
+    override val answerListener: AnswerListener = object : AnswerListener {
         override fun waitFor(question: Question): Answer {
             var index = Int.MIN_VALUE
 
@@ -62,58 +62,58 @@ public object ConsoleListenerProvider : ListenerProvider {
         }
     }
 
-    override val speaks: Speaks = object : Speaks {
-        override fun invoke(character: Character, line: String, acknowledgement: Acknowledges) {
+    override val speakListener: SpeakListener = object : SpeakListener {
+        override fun invoke(character: Character, line: String, acknowledgement: AcknowledgeListener) {
             println("${character.name}: $line")
             acknowledgement.waitFor()
         }
     }
 
-    override val emotes: Emotes = object : Emotes {
-        override fun invoke(character: Character, emotion: Emotion, acknowledgement: Acknowledges) {
+    override val emoteListener: EmoteListener = object : EmoteListener {
+        override fun invoke(character: Character, emotion: Emotion, acknowledgement: AcknowledgeListener) {
             println("${character.name} looks $emotion.")
             acknowledgement.waitFor()
         }
     }
 
-    override val narrates: Narrates = object : Narrates {
-        override fun invoke(line: String, acknowledgement: Acknowledges) {
+    override val narrateListener: NarrateListener = object : NarrateListener {
+        override fun invoke(line: String, acknowledgement: AcknowledgeListener) {
             println(line)
             acknowledgement.waitFor()
         }
     }
 
-    override val moves: Moves = object : Moves {
+    override val moveListener: MoveListener = object : MoveListener {
         override fun invoke(
             character: Character,
             fromPosition: Position,
             toPosition: Position,
-            acknowledgement: Acknowledges
+            acknowledgement: AcknowledgeListener
         ) {
-            println("${character.name} moves from '$fromPosition' to '$toPosition'.")
+            println("${character.name} moveListener from '$fromPosition' to '$toPosition'.")
             acknowledgement.waitFor()
         }
     }
 
-    override val asks: Asks = object : Asks {
-        override fun invoke(character: Character, question: Question, answers: Answers): Answer {
+    override val askListener: AskListener = object : AskListener {
+        override fun invoke(character: Character, question: Question, answerListener: AnswerListener): Answer {
             println("${character.name}: ${question.line}")
 
             for (i in question.answers.indices) {
                 println("  ${i + 1}: ${question.answers[i].line}")
             }
 
-            return answers.waitFor(question)
+            return answerListener.waitFor(question)
         }
 
-        override fun invoke(narrator: Narrator, question: Question, answers: Answers): Answer {
+        override fun invoke(narrator: Narrator, question: Question, answerListener: AnswerListener): Answer {
             println(question.line)
 
             for (i in question.answers.indices) {
                 println("  ${i + 1}: ${question.answers[i].line}")
             }
 
-            return answers.waitFor(question)
+            return answerListener.waitFor(question)
         }
     }
 }

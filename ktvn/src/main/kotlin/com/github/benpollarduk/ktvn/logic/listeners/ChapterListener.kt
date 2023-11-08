@@ -1,7 +1,9 @@
-package com.github.benpollarduk.ktvn.logic.structure
+package com.github.benpollarduk.ktvn.logic.listeners
+
+import com.github.benpollarduk.ktvn.logic.structure.Chapter
 
 /**
- * Provides an interface for listening for [Chapter] changes.
+ * Provides an interface for listeners for [Chapter] change events.
  */
 public interface ChapterListener {
     /**

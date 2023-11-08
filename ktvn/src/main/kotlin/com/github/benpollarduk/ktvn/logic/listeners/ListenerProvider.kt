@@ -5,47 +5,47 @@ package com.github.benpollarduk.ktvn.logic.listeners
  */
 public interface ListenerProvider {
     /**
-     * Get the [Acknowledges] listener for emotes.
+     * Get the acknowledgement listener for emote.
      */
-    public val emotesAcknowledgement: Acknowledges
+    public val emotesAcknowledgementListener: AcknowledgeListener
 
     /**
-     * Get the [Acknowledges] listener for speaks.
+     * Get the acknowledgement listener for speak.
      */
-    public val speaksAcknowledgement: Acknowledges
+    public val speaksAcknowledgementListener: AcknowledgeListener
 
     /**
-     * Get the [Acknowledges] listener for moves.
+     * Get the acknowledgement listener for move.
      */
-    public val movesAcknowledgement: Acknowledges
+    public val movesAcknowledgementListener: AcknowledgeListener
 
     /**
-     * Get the [Answers] listener.
+     * Get the answer listener.
      */
-    public val answers: Answers
+    public val answerListener: AnswerListener
 
     /**
-     * Get the [Asks] listener.
+     * Get the ask listener.
      */
-    public val asks: Asks
+    public val askListener: AskListener
 
     /**
-     * Get the [Emotes] listener.
+     * Get the emote listener.
      */
-    public val emotes: Emotes
+    public val emoteListener: EmoteListener
 
     /**
-     * Get the [Narrates] listener.
+     * Get the narrate listener.
      */
-    public val narrates: Narrates
+    public val narrateListener: NarrateListener
 
     /**
-     * Get the [Moves] listener.
+     * Get the move listener.
      */
-    public val moves: Moves
+    public val moveListener: MoveListener
 
     /**
-     * Get the [Speaks] listener.
+     * Get the speak listener.
      */
-    public val speaks: Speaks
+    public val speakListener: SpeakListener
 }

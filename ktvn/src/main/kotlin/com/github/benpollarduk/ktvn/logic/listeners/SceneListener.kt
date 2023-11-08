@@ -1,7 +1,9 @@
-package com.github.benpollarduk.ktvn.logic.structure
+package com.github.benpollarduk.ktvn.logic.listeners
+
+import com.github.benpollarduk.ktvn.logic.structure.Scene
 
 /**
- * Provides an interface for listening to [Scene] changes.
+ * Provides an interface for listeners to [Scene] change events.
  */
 public interface SceneListener {
     /**

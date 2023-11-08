@@ -2,6 +2,8 @@ package com.github.benpollarduk.ktvn.logic.structure
 
 import com.github.benpollarduk.ktvn.logic.Ending
 import com.github.benpollarduk.ktvn.logic.Flags
+import com.github.benpollarduk.ktvn.logic.listeners.ChapterListener
+import com.github.benpollarduk.ktvn.logic.listeners.SceneListener
 import com.github.benpollarduk.ktvn.logic.structure.Chapter.Companion.chapter
 import com.github.benpollarduk.ktvn.logic.structure.Scene.Companion.scene
 import com.github.benpollarduk.ktvn.logic.structure.Story.Companion.story
