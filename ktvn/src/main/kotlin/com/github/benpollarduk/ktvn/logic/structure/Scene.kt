@@ -7,7 +7,7 @@ import com.github.benpollarduk.ktvn.layout.Layout.Companion.createLayout
 import com.github.benpollarduk.ktvn.logic.Flags
 
 /**
- * Provides a scene with a specified [setup].
+ * A scene within a [Chapter].
  */
 public class Scene private constructor(setup: (Scene) -> Unit) {
     private var content: List<Step> = emptyList()

@@ -3,7 +3,7 @@ package com.github.benpollarduk.ktvn.logic.structure
 import com.github.benpollarduk.ktvn.logic.Flags
 
 /**
- * A chapter within a [Story]. A [setup] must be provided.
+ * A chapter within a [Story].
  */
 public class Chapter private constructor(setup: (Chapter) -> Unit) {
     private val scenes: MutableList<Scene> = mutableListOf()

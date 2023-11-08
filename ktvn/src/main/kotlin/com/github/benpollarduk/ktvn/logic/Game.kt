@@ -26,7 +26,7 @@ public class Game(
     /**
      * Begin execution of the game. Return the [Ending] reached.
      */
-    internal fun execute() : Ending {
+    internal fun execute(): Ending {
         isExecuting = true
         startTimeInSeconds = System.currentTimeMillis() / MILLISECONDS_PER_SECOND
 
