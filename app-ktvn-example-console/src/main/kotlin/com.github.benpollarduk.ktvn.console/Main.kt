@@ -4,7 +4,7 @@ import com.github.benpollarduk.ktvn.example.ExampleCreator
 import com.github.benpollarduk.ktvn.io.Save
 import com.github.benpollarduk.ktvn.logic.Game
 import com.github.benpollarduk.ktvn.logic.GameExecutor
-import com.github.benpollarduk.ktvn.logic.listeners.console.ConsoleListenerProvider
+import com.github.benpollarduk.ktvn.logic.configuration.console.ConsoleInteractionConfiguration
 import com.github.benpollarduk.ktvn.logic.structure.Chapter
 import com.github.benpollarduk.ktvn.logic.listeners.ChapterListener
 import com.github.benpollarduk.ktvn.logic.structure.Scene
@@ -24,13 +24,13 @@ object Main : Logging {
             }
 
             override fun clear(scene: Scene) {
-                ConsoleListenerProvider.clearConsole()
+                ConsoleInteractionConfiguration.clearConsole()
             }
         }
 
         val chapterListener = object : ChapterListener {
             override fun enter(chapter: Chapter) {
-                ConsoleListenerProvider.clearConsole()
+                ConsoleInteractionConfiguration.clearConsole()
                 println("Started chapter: ${chapter.name}")
             }
 
@@ -40,7 +40,7 @@ object Main : Logging {
         }
 
         logger.info("Beginning execution of example...")
-        val exampleStory = ExampleCreator(ConsoleListenerProvider).create()
+        val exampleStory = ExampleCreator(ConsoleInteractionConfiguration).create()
         val exampleGame = Game(exampleStory, Save.empty, chapterListener, sceneListener)
         GameExecutor.execute(exampleGame)
         logger.info("Ended execution of example.")

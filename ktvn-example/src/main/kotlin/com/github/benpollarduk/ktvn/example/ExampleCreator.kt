@@ -11,7 +11,7 @@ import com.github.benpollarduk.ktvn.layout.Layout.Companion.createLayout
 import com.github.benpollarduk.ktvn.logic.Answer.Companion.answer
 import com.github.benpollarduk.ktvn.logic.Ending
 import com.github.benpollarduk.ktvn.logic.Question.Companion.question
-import com.github.benpollarduk.ktvn.logic.listeners.ListenerProvider
+import com.github.benpollarduk.ktvn.logic.listeners.InteractionConfiguration
 import com.github.benpollarduk.ktvn.logic.structure.Chapter.Companion.chapter
 import com.github.benpollarduk.ktvn.logic.structure.Scene
 import com.github.benpollarduk.ktvn.logic.structure.Scene.Companion.scene
@@ -25,27 +25,27 @@ import com.github.benpollarduk.ktvn.logic.structure.steps.End.Companion.end
 import com.github.benpollarduk.ktvn.logic.structure.steps.Then.Companion.next
 
 /**
- * Provides a creator for an example story.
+ * Provides a creator for an example story with an [interactionConfiguration].
  */
-public class ExampleCreator(private val listeners: ListenerProvider) {
+public class ExampleCreator(private val interactionConfiguration: InteractionConfiguration) {
     private val morgana: Character = createCharacter("Morgana")
     private val michel: Character = createCharacter("Michel")
     private val narrator = Narrator(
-        listeners.narrateListener,
-        listeners.askListener,
-        listeners.speaksAcknowledgementListener,
-        listeners.answerListener
+        interactionConfiguration.narrateListener,
+        interactionConfiguration.askListener,
+        interactionConfiguration.speaksAcknowledgementListener,
+        interactionConfiguration.answerListener
     )
 
     private fun createCharacter(name: String): Character {
         return Character(
             name,
-            listeners.speakListener,
-            listeners.emoteListener,
-            listeners.askListener,
-            listeners.speaksAcknowledgementListener,
-            listeners.emotesAcknowledgementListener,
-            listeners.answerListener
+            interactionConfiguration.speakListener,
+            interactionConfiguration.emoteListener,
+            interactionConfiguration.askListener,
+            interactionConfiguration.speaksAcknowledgementListener,
+            interactionConfiguration.emotesAcknowledgementListener,
+            interactionConfiguration.answerListener
         )
     }
 
@@ -55,7 +55,7 @@ public class ExampleCreator(private val listeners: ListenerProvider) {
             scene background EmptyBackground()
             scene type SceneType.Narrative
             scene layout createLayout {
-                it setMoveAcknowledgments listeners.movesAcknowledgementListener
+                it setMoveAcknowledgments interactionConfiguration.movesAcknowledgementListener
             }
             scene steps listOf(
                 next { narrator narrates "Many years have passed since Michel moved in to the mansion." },
@@ -72,8 +72,8 @@ public class ExampleCreator(private val listeners: ListenerProvider) {
             scene layout createLayout { layout ->
                 layout addLeftOf michel
                 layout addRightOf morgana
-                layout setMoves listeners.moveListener
-                layout setMoveAcknowledgments listeners.movesAcknowledgementListener
+                layout setMoves interactionConfiguration.moveListener
+                layout setMoveAcknowledgments interactionConfiguration.movesAcknowledgementListener
             }
             scene steps listOf(
                 next { scene.layout moveLeft michel },

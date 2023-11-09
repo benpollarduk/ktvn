@@ -1,9 +1,9 @@
 package com.github.benpollarduk.ktvn.logic.listeners
 
 /**
- * Provides a provider for listeners.
+ * Provides an interaction configuration.
  */
-public interface ListenerProvider {
+public interface InteractionConfiguration {
     /**
      * Get the acknowledgement listener for emote.
      */

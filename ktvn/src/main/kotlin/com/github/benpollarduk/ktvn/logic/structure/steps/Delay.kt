@@ -4,6 +4,7 @@ import com.github.benpollarduk.ktvn.logic.Flags
 import com.github.benpollarduk.ktvn.logic.structure.CancellationToken
 import com.github.benpollarduk.ktvn.logic.structure.Step
 import com.github.benpollarduk.ktvn.logic.structure.StepResult
+import kotlin.math.min
 
 /**
  * A step that acts an end. A [setup] must be specified.
@@ -37,7 +38,11 @@ public class Delay private constructor(private val setup: (Delay) -> Unit) : Ste
             return StepResult.Cancelled
         }
 
-        Thread.sleep(delayInMs)
+        val startTime = System.currentTimeMillis()
+
+        while (System.currentTimeMillis() - startTime < delayInMs && !cancellationToken.wasCancelled) {
+            Thread.sleep(min(delayInMs, RECHECK_TIME_IN_MS))
+        }
 
         return if (cancellationToken.wasCancelled) {
             StepResult.Cancelled
@@ -53,5 +58,7 @@ public class Delay private constructor(private val setup: (Delay) -> Unit) : Ste
         public infix fun delay(setup: (Delay) -> Unit): Delay {
             return Delay(setup)
         }
+
+        private const val RECHECK_TIME_IN_MS: Long = 10
     }
 }

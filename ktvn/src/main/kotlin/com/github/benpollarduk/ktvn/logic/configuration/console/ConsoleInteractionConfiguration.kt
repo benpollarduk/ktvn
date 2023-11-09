@@ -1,4 +1,4 @@
-package com.github.benpollarduk.ktvn.logic.listeners.console
+package com.github.benpollarduk.ktvn.logic.configuration.console
 
 import com.github.benpollarduk.ktvn.characters.Character
 import com.github.benpollarduk.ktvn.characters.Emotion
@@ -10,15 +10,15 @@ import com.github.benpollarduk.ktvn.logic.listeners.AcknowledgeListener
 import com.github.benpollarduk.ktvn.logic.listeners.AnswerListener
 import com.github.benpollarduk.ktvn.logic.listeners.AskListener
 import com.github.benpollarduk.ktvn.logic.listeners.EmoteListener
-import com.github.benpollarduk.ktvn.logic.listeners.ListenerProvider
+import com.github.benpollarduk.ktvn.logic.listeners.InteractionConfiguration
 import com.github.benpollarduk.ktvn.logic.listeners.MoveListener
 import com.github.benpollarduk.ktvn.logic.listeners.NarrateListener
 import com.github.benpollarduk.ktvn.logic.listeners.SpeakListener
 
 /**
- * Provides a default listener provider for a Console.
+ * Provides a default configuration for a Console.
  */
-public object ConsoleListenerProvider : ListenerProvider {
+public object ConsoleInteractionConfiguration : InteractionConfiguration {
     /**
      * Clear the console. This only works on terminals that support ANSI.
      */
