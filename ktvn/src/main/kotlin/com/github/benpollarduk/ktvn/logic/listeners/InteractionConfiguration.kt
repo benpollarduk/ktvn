@@ -48,4 +48,9 @@ public interface InteractionConfiguration {
      * Get the speak listener.
      */
     public val speakListener: SpeakListener
+
+    /**
+     * Get the audio listener.
+     */
+    public val audioListener: AudioListener
 }

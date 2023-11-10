@@ -4,7 +4,7 @@ import com.github.benpollarduk.ktvn.characters.Character
 import com.github.benpollarduk.ktvn.layout.Position
 
 /**
- * Provides an interface for listeners to [Layout] move events.
+ * Provides an interface for listeners to move events.
  */
 public interface MoveListener {
     /**

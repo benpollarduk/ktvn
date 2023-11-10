@@ -4,7 +4,7 @@ import com.github.benpollarduk.ktvn.characters.Character
 import com.github.benpollarduk.ktvn.characters.Emotion
 
 /**
- * Provides an interface for listeners to [Character] emote events.
+ * Provides an interface for listeners to emote events.
  */
 public interface EmoteListener {
     /**

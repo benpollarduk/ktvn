@@ -1,7 +1,7 @@
 package com.github.benpollarduk.ktvn.logic.listeners
 
 /**
- * Provides an interface for listeners to [Narrator] narrate events.
+ * Provides an interface for listeners to narrate events.
  */
 public interface NarrateListener {
     /**

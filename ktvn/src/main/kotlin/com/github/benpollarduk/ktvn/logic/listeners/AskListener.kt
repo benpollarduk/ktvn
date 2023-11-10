@@ -6,7 +6,7 @@ import com.github.benpollarduk.ktvn.logic.Answer
 import com.github.benpollarduk.ktvn.logic.Question
 
 /**
- * Provides an interface for listeners to [Narrator] or [Character] ask events.
+ * Provides an interface for listeners to ask events.
  */
 public interface AskListener {
     /**

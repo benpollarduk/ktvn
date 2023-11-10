@@ -1,5 +1,6 @@
 package com.github.benpollarduk.ktvn.logic.configuration.console
 
+import com.github.benpollarduk.ktvn.audio.AudioType
 import com.github.benpollarduk.ktvn.characters.Character
 import com.github.benpollarduk.ktvn.characters.Emotion
 import com.github.benpollarduk.ktvn.characters.Narrator
@@ -9,6 +10,7 @@ import com.github.benpollarduk.ktvn.logic.Question
 import com.github.benpollarduk.ktvn.logic.listeners.AcknowledgeListener
 import com.github.benpollarduk.ktvn.logic.listeners.AnswerListener
 import com.github.benpollarduk.ktvn.logic.listeners.AskListener
+import com.github.benpollarduk.ktvn.logic.listeners.AudioListener
 import com.github.benpollarduk.ktvn.logic.listeners.EmoteListener
 import com.github.benpollarduk.ktvn.logic.listeners.InteractionConfiguration
 import com.github.benpollarduk.ktvn.logic.listeners.MoveListener
@@ -66,6 +68,20 @@ public object AnsiConsoleInteractionConfiguration : InteractionConfiguration {
         override fun speak(character: Character, line: String, acknowledgement: AcknowledgeListener) {
             println("${character.name}: $line")
             acknowledgement.waitFor()
+        }
+    }
+
+    override val audioListener: AudioListener = object : AudioListener {
+        override fun play(key: String) {
+            println("BGM: $key")
+        }
+
+        override fun sfx(key: String) {
+            println("SFX: $key")
+        }
+
+        override fun stop(type: AudioType) {
+            println("Stop: $type")
         }
     }
 

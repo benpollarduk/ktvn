@@ -1,5 +1,7 @@
 package com.github.benpollarduk.ktvn.example
 
+import com.github.benpollarduk.ktvn.audio.AudioManager
+import com.github.benpollarduk.ktvn.audio.AudioType
 import com.github.benpollarduk.ktvn.backgrounds.EmptyBackground
 import com.github.benpollarduk.ktvn.characters.BaseEmotions.amused
 import com.github.benpollarduk.ktvn.characters.BaseEmotions.angry
@@ -28,6 +30,7 @@ import com.github.benpollarduk.ktvn.logic.structure.steps.Then.Companion.next
  * Provides a creator for an example story with an [interactionConfiguration].
  */
 public class ExampleCreator(private val interactionConfiguration: InteractionConfiguration) {
+    private val audio = AudioManager(interactionConfiguration.audioListener)
     private val morgana: Character = createCharacter("Morgana")
     private val michel: Character = createCharacter("Michel")
     private val narrator = Narrator(
@@ -77,6 +80,7 @@ public class ExampleCreator(private val interactionConfiguration: InteractionCon
             }
             scene steps listOf(
                 next { scene.layout moveLeft michel },
+                next { audio bgm "mansion-theme" },
                 next { michel looks normal },
                 next { michel says "Morgana, are you there?" },
                 next { scene.layout moveRight morgana },
@@ -122,10 +126,12 @@ public class ExampleCreator(private val interactionConfiguration: InteractionCon
                         morgana says "I shall leave you in isolation."
                         scene.layout exitRight morgana
                         narrator narrates "Michel was left in isolation for eternity."
-                    }
+                        audio sfx "scream"
+                    },
                     it returns StepResult.End(Ending("Michel dies alone.", 1))
                 },
                 next { narrator narrates "And that was the end of that!" },
+                next { audio stop AudioType.BGM },
                 end {
                     it ending Ending.default
                 }
