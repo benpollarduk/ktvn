@@ -16,11 +16,11 @@ import com.github.benpollarduk.ktvn.logic.listeners.NarrateListener
 import com.github.benpollarduk.ktvn.logic.listeners.SpeakListener
 
 /**
- * Provides a default configuration for a Console.
+ * Provides a default configuration for an ANSI compatible Console.
  */
-public object ConsoleInteractionConfiguration : InteractionConfiguration {
+public object AnsiConsoleInteractionConfiguration : InteractionConfiguration {
     /**
-     * Clear the console. This only works on terminals that support ANSI.
+     * Clear the console.
      */
     public fun clearConsole() {
         print("\u001b[H\u001b[2J")
