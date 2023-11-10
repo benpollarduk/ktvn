@@ -1,6 +1,7 @@
 package com.github.benpollarduk.ktvn.logic
 
 import com.github.benpollarduk.ktvn.io.Save
+import com.github.benpollarduk.ktvn.logic.configuration.StoryConfiguration
 import com.github.benpollarduk.ktvn.logic.structure.ChapterListener
 import com.github.benpollarduk.ktvn.logic.structure.SceneListener
 import com.github.benpollarduk.ktvn.logic.structure.CancellationToken
@@ -8,13 +9,12 @@ import com.github.benpollarduk.ktvn.logic.structure.Story
 import java.util.concurrent.locks.ReentrantLock
 
 /**
- * An executable game.
+ * An executable game with a specified [story], [storyConfiguration] and optional [save].
  */
 public class Game(
     private val story: Story,
-    private val save: Save = Save.empty,
-    private val chapterListener: ChapterListener,
-    private val sceneListener: SceneListener
+    private val storyConfiguration: StoryConfiguration,
+    private val save: Save = Save.empty
 ) {
     private val cancellationToken = CancellationToken()
     private var isExecuting = false
@@ -33,8 +33,7 @@ public class Game(
         val ending = story.begin(
             Flags.fromMap(save.flags),
             save.position,
-            chapterListener,
-            sceneListener,
+            storyConfiguration,
             cancellationToken
         )
 

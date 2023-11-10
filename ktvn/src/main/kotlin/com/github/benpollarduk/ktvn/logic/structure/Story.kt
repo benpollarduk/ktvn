@@ -2,6 +2,7 @@ package com.github.benpollarduk.ktvn.logic.structure
 
 import com.github.benpollarduk.ktvn.logic.Ending
 import com.github.benpollarduk.ktvn.logic.Flags
+import com.github.benpollarduk.ktvn.logic.configuration.StoryConfiguration
 
 /**
  * A story. A [setup] must be specified.
@@ -48,15 +49,14 @@ public class Story private constructor(setup: (Story) -> Unit) {
     }
 
     /**
-     * Begin the [Story] with specified [flags]. The [storyPosition] can be optionally specified. A [chapterListener]
-     * and [sceneListener] must be provided to receive progression updates. A [cancellationToken] must be provided to
-     * allow for the story to be cancelled. Returns the ending.
+     * Begin the [Story] with specified [flags]. The [storyPosition] can be optionally specified. A [storyConfiguration]
+     * must be provided to receive progression updates. A [cancellationToken] must be provided to allow for the story
+     * to be cancelled. Returns the ending.
      **/
     internal fun begin(
         flags: Flags,
         storyPosition: StoryPosition = StoryPosition.start,
-        chapterListener: ChapterListener,
-        sceneListener: SceneListener,
+        storyConfiguration: StoryConfiguration,
         cancellationToken: CancellationToken
     ): Ending {
         var i = storyPosition.chapter
@@ -71,15 +71,15 @@ public class Story private constructor(setup: (Story) -> Unit) {
                     flags,
                     storyPosition.scene,
                     storyPosition.step,
-                    sceneListener,
-                    chapterListener,
+                    storyConfiguration.sceneListener,
+                    storyConfiguration.chapterListener,
                     cancellationToken
                 )
             } else {
                 chapter.begin(
                     flags,
-                    sceneListener = sceneListener,
-                    chapterListener = chapterListener,
+                    sceneListener = storyConfiguration.sceneListener,
+                    chapterListener = storyConfiguration.chapterListener,
                     cancellationToken = cancellationToken
                 )
             }

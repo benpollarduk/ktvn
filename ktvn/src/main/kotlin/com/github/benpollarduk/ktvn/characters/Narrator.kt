@@ -2,29 +2,23 @@ package com.github.benpollarduk.ktvn.characters
 
 import com.github.benpollarduk.ktvn.logic.Answer
 import com.github.benpollarduk.ktvn.logic.Question
-import com.github.benpollarduk.ktvn.logic.structure.AcknowledgeListener
+import com.github.benpollarduk.ktvn.logic.configuration.NarratorConfiguration
 
 /**
- * Provides a narrator. Listeners for [narrateListener], [askListener], [speakAcknowledgmentListener] and
- * [answerListener] must be specified.
+ * Provides a narrator. A [configuration] must be specified.
  */
-public class Narrator(
-    private val narrateListener: NarrateListener,
-    private val askListener: AskListener,
-    private val speakAcknowledgmentListener: AcknowledgeListener,
-    private val answerListener: AnswerListener
-) {
+public class Narrator(private val configuration: NarratorConfiguration) {
     /**
      * Narrate a [line].
      */
     public infix fun narrates(line: String) {
-        narrateListener.narrate(line, speakAcknowledgmentListener)
+        configuration.narrateListener.narrate(line, configuration.narrateAcknowledgementListener)
     }
 
     /**
      * Ask a [question]. Returns the selected answer.
      */
     public infix fun asks(question: Question): Answer {
-        return askListener.ask(this, question, answerListener)
+        return configuration.askListener.ask(this, question, configuration.answerListener)
     }
 }

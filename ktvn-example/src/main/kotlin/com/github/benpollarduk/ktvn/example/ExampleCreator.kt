@@ -32,28 +32,9 @@ import com.github.benpollarduk.ktvn.logic.structure.steps.Then.Companion.next
  */
 public class ExampleCreator(private val interactionConfiguration: InteractionConfiguration) {
     private val audio = AudioManager(interactionConfiguration.audioListener)
-    private val morgana: Character = createCharacter("Morgana")
-    private val michel: Character = createCharacter("Michel")
-    private val narrator = Narrator(
-        interactionConfiguration.narrateListener,
-        interactionConfiguration.askListener,
-        interactionConfiguration.speaksAcknowledgementListener,
-        interactionConfiguration.answerListener
-    )
-
-    private fun createCharacter(name: String): Character {
-        return Character(
-            name,
-            interactionConfiguration.speakListener,
-            interactionConfiguration.emoteListener,
-            interactionConfiguration.askListener,
-            interactionConfiguration.animateListener,
-            interactionConfiguration.speaksAcknowledgementListener,
-            interactionConfiguration.emotesAcknowledgementListener,
-            interactionConfiguration.answerListener,
-            interactionConfiguration.animateAcknowledgementListener
-        )
-    }
+    private val morgana: Character = Character("Morgana", interactionConfiguration.characterConfiguration)
+    private val michel: Character = Character("Michel", interactionConfiguration.characterConfiguration)
+    private val narrator = Narrator(interactionConfiguration.narratorConfiguration)
 
     private fun introduction(): Scene {
         return scene { scene ->
@@ -61,7 +42,7 @@ public class ExampleCreator(private val interactionConfiguration: InteractionCon
             scene background EmptyBackground()
             scene type SceneType.Narrative
             scene layout createLayout {
-                it setMoveAcknowledgments interactionConfiguration.movesAcknowledgementListener
+                it configure interactionConfiguration.layoutConfiguration
             }
             scene steps listOf(
                 next { narrator narrates "Many years have passed since Michel moved in to the mansion." },
@@ -78,8 +59,7 @@ public class ExampleCreator(private val interactionConfiguration: InteractionCon
             scene layout createLayout { layout ->
                 layout addLeftOf michel
                 layout addRightOf morgana
-                layout setMoves interactionConfiguration.moveListener
-                layout setMoveAcknowledgments interactionConfiguration.movesAcknowledgementListener
+                layout configure interactionConfiguration.layoutConfiguration
             }
             scene steps listOf(
                 next { scene.layout moveLeft michel },

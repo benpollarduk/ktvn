@@ -1,73 +1,30 @@
 package com.github.benpollarduk.ktvn.logic.configuration
 
-import com.github.benpollarduk.ktvn.logic.structure.AcknowledgeListener
-import com.github.benpollarduk.ktvn.characters.AnimateListener
-import com.github.benpollarduk.ktvn.characters.AnswerListener
-import com.github.benpollarduk.ktvn.characters.AskListener
 import com.github.benpollarduk.ktvn.audio.AudioListener
-import com.github.benpollarduk.ktvn.characters.EmoteListener
-import com.github.benpollarduk.ktvn.layout.MoveListener
-import com.github.benpollarduk.ktvn.characters.NarrateListener
-import com.github.benpollarduk.ktvn.characters.SpeakListener
 
 /**
  * Provides an interaction configuration.
  */
 public interface InteractionConfiguration {
     /**
-     * Get the acknowledgement listener for emote.
+     * Get the configuration for characters.
      */
-    public val emotesAcknowledgementListener: AcknowledgeListener
+    public val characterConfiguration: CharacterConfiguration
 
     /**
-     * Get the acknowledgement listener for speak.
+     * Get the configuration for narration.
      */
-    public val speaksAcknowledgementListener: AcknowledgeListener
+    public val narratorConfiguration: NarratorConfiguration
 
     /**
-     * Get the acknowledgement listener for move.
+     * Get the configuration for layout.
      */
-    public val movesAcknowledgementListener: AcknowledgeListener
+    public val layoutConfiguration: LayoutConfiguration
 
     /**
-     * Get the acknowledgement listener for animate.
+     * Get the configuration for story.
      */
-    public val animateAcknowledgementListener: AcknowledgeListener
-
-    /**
-     * Get the answer listener.
-     */
-    public val answerListener: AnswerListener
-
-    /**
-     * Get the ask listener.
-     */
-    public val askListener: AskListener
-
-    /**
-     * Get the emote listener.
-     */
-    public val emoteListener: EmoteListener
-
-    /**
-     * Get the animate listener.
-     */
-    public val animateListener: AnimateListener
-
-    /**
-     * Get the narrate listener.
-     */
-    public val narrateListener: NarrateListener
-
-    /**
-     * Get the move listener.
-     */
-    public val moveListener: MoveListener
-
-    /**
-     * Get the speak listener.
-     */
-    public val speakListener: SpeakListener
+    public val storyConfiguration: StoryConfiguration
 
     /**
      * Get the audio listener.
