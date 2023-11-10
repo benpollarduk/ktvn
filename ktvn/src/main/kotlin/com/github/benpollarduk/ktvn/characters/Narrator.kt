@@ -2,10 +2,7 @@ package com.github.benpollarduk.ktvn.characters
 
 import com.github.benpollarduk.ktvn.logic.Answer
 import com.github.benpollarduk.ktvn.logic.Question
-import com.github.benpollarduk.ktvn.logic.listeners.AcknowledgeListener
-import com.github.benpollarduk.ktvn.logic.listeners.AnswerListener
-import com.github.benpollarduk.ktvn.logic.listeners.AskListener
-import com.github.benpollarduk.ktvn.logic.listeners.NarrateListener
+import com.github.benpollarduk.ktvn.logic.structure.AcknowledgeListener
 
 /**
  * Provides a narrator. Listeners for [narrateListener], [askListener], [speakAcknowledgmentListener] and

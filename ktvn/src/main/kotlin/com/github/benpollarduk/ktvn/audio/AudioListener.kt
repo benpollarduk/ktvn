@@ -1,4 +1,4 @@
-package com.github.benpollarduk.ktvn.logic.listeners
+package com.github.benpollarduk.ktvn.audio
 
 import com.github.benpollarduk.ktvn.audio.AudioType
 

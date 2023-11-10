@@ -1,21 +1,23 @@
 package com.github.benpollarduk.ktvn.logic.configuration.console
 
 import com.github.benpollarduk.ktvn.audio.AudioType
+import com.github.benpollarduk.ktvn.characters.Animation
 import com.github.benpollarduk.ktvn.characters.Character
 import com.github.benpollarduk.ktvn.characters.Emotion
 import com.github.benpollarduk.ktvn.characters.Narrator
 import com.github.benpollarduk.ktvn.layout.Position
 import com.github.benpollarduk.ktvn.logic.Answer
 import com.github.benpollarduk.ktvn.logic.Question
-import com.github.benpollarduk.ktvn.logic.listeners.AcknowledgeListener
-import com.github.benpollarduk.ktvn.logic.listeners.AnswerListener
-import com.github.benpollarduk.ktvn.logic.listeners.AskListener
-import com.github.benpollarduk.ktvn.logic.listeners.AudioListener
-import com.github.benpollarduk.ktvn.logic.listeners.EmoteListener
-import com.github.benpollarduk.ktvn.logic.listeners.InteractionConfiguration
-import com.github.benpollarduk.ktvn.logic.listeners.MoveListener
-import com.github.benpollarduk.ktvn.logic.listeners.NarrateListener
-import com.github.benpollarduk.ktvn.logic.listeners.SpeakListener
+import com.github.benpollarduk.ktvn.logic.structure.AcknowledgeListener
+import com.github.benpollarduk.ktvn.characters.AnimateListener
+import com.github.benpollarduk.ktvn.characters.AnswerListener
+import com.github.benpollarduk.ktvn.characters.AskListener
+import com.github.benpollarduk.ktvn.audio.AudioListener
+import com.github.benpollarduk.ktvn.characters.EmoteListener
+import com.github.benpollarduk.ktvn.logic.configuration.InteractionConfiguration
+import com.github.benpollarduk.ktvn.layout.MoveListener
+import com.github.benpollarduk.ktvn.characters.NarrateListener
+import com.github.benpollarduk.ktvn.characters.SpeakListener
 
 /**
  * Provides a default configuration for an ANSI compatible Console.
@@ -28,17 +30,17 @@ public object AnsiConsoleInteractionConfiguration : InteractionConfiguration {
         print("\u001b[H\u001b[2J")
     }
 
-    override val emotesAcknowledgementListener: AcknowledgeListener = object : AcknowledgeListener {
+    private val passThroughAcknowledgementListener: AcknowledgeListener = object : AcknowledgeListener {
         override fun waitFor() {
             // continue without acknowledgement
         }
     }
 
-    override val movesAcknowledgementListener: AcknowledgeListener = object : AcknowledgeListener {
-        override fun waitFor() {
-            // continue without acknowledgement
-        }
-    }
+    override val emotesAcknowledgementListener: AcknowledgeListener = passThroughAcknowledgementListener
+
+    override val movesAcknowledgementListener: AcknowledgeListener = passThroughAcknowledgementListener
+
+    override val animateAcknowledgementListener: AcknowledgeListener = passThroughAcknowledgementListener
 
     override val speaksAcknowledgementListener: AcknowledgeListener = object : AcknowledgeListener {
         override fun waitFor() {
@@ -88,6 +90,12 @@ public object AnsiConsoleInteractionConfiguration : InteractionConfiguration {
     override val emoteListener: EmoteListener = object : EmoteListener {
         override fun emote(character: Character, emotion: Emotion, acknowledgement: AcknowledgeListener) {
             println("${character.name} looks $emotion.")
+            acknowledgement.waitFor()
+        }
+    }
+    override val animateListener: AnimateListener = object : AnimateListener {
+        override fun animate(character: Character, animation: Animation, acknowledgement: AcknowledgeListener) {
+            println("${character.name} begins $animation.")
             acknowledgement.waitFor()
         }
     }

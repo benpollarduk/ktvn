@@ -1,8 +1,6 @@
 package com.github.benpollarduk.ktvn.logic.structure
 
 import com.github.benpollarduk.ktvn.logic.Flags
-import com.github.benpollarduk.ktvn.logic.listeners.ChapterListener
-import com.github.benpollarduk.ktvn.logic.listeners.SceneListener
 
 /**
  * A chapter within a [Story].

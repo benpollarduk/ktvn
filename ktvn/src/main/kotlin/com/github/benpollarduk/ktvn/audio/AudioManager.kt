@@ -1,7 +1,5 @@
 package com.github.benpollarduk.ktvn.audio
 
-import com.github.benpollarduk.ktvn.logic.listeners.AudioListener
-
 /**
  * Provides a class for managing audio playback and control. A listener for [audioListener] must be specified.
  */

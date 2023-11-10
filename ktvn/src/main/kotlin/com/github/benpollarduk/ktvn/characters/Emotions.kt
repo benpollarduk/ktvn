@@ -1,9 +1,9 @@
 package com.github.benpollarduk.ktvn.characters
 
 /**
- * Provides a collection of base emotions.
+ * Provides a collection of emotions.
  */
-public object BaseEmotions {
+public object Emotions {
     /**
      * Base emotion for normal.
      */

@@ -9,8 +9,7 @@ import com.github.benpollarduk.ktvn.layout.Positions.leftOf
 import com.github.benpollarduk.ktvn.layout.Positions.none
 import com.github.benpollarduk.ktvn.layout.Positions.right
 import com.github.benpollarduk.ktvn.layout.Positions.rightOf
-import com.github.benpollarduk.ktvn.logic.listeners.AcknowledgeListener
-import com.github.benpollarduk.ktvn.logic.listeners.MoveListener
+import com.github.benpollarduk.ktvn.logic.structure.AcknowledgeListener
 
 /**
  * Provides a layout for positioning characters.

@@ -4,10 +4,7 @@ import com.github.benpollarduk.ktvn.logic.Answer
 import com.github.benpollarduk.ktvn.logic.Answer.Companion.answer
 import com.github.benpollarduk.ktvn.logic.Question
 import com.github.benpollarduk.ktvn.logic.Question.Companion.question
-import com.github.benpollarduk.ktvn.logic.listeners.AcknowledgeListener
-import com.github.benpollarduk.ktvn.logic.listeners.AnswerListener
-import com.github.benpollarduk.ktvn.logic.listeners.AskListener
-import com.github.benpollarduk.ktvn.logic.listeners.NarrateListener
+import com.github.benpollarduk.ktvn.logic.structure.AcknowledgeListener
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 

@@ -1,4 +1,14 @@
-package com.github.benpollarduk.ktvn.logic.listeners
+package com.github.benpollarduk.ktvn.logic.configuration
+
+import com.github.benpollarduk.ktvn.logic.structure.AcknowledgeListener
+import com.github.benpollarduk.ktvn.characters.AnimateListener
+import com.github.benpollarduk.ktvn.characters.AnswerListener
+import com.github.benpollarduk.ktvn.characters.AskListener
+import com.github.benpollarduk.ktvn.audio.AudioListener
+import com.github.benpollarduk.ktvn.characters.EmoteListener
+import com.github.benpollarduk.ktvn.layout.MoveListener
+import com.github.benpollarduk.ktvn.characters.NarrateListener
+import com.github.benpollarduk.ktvn.characters.SpeakListener
 
 /**
  * Provides an interaction configuration.
@@ -20,6 +30,11 @@ public interface InteractionConfiguration {
     public val movesAcknowledgementListener: AcknowledgeListener
 
     /**
+     * Get the acknowledgement listener for animate.
+     */
+    public val animateAcknowledgementListener: AcknowledgeListener
+
+    /**
      * Get the answer listener.
      */
     public val answerListener: AnswerListener
@@ -33,6 +48,11 @@ public interface InteractionConfiguration {
      * Get the emote listener.
      */
     public val emoteListener: EmoteListener
+
+    /**
+     * Get the animate listener.
+     */
+    public val animateListener: AnimateListener
 
     /**
      * Get the narrate listener.

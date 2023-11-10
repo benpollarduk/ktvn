@@ -5,7 +5,6 @@ import com.github.benpollarduk.ktvn.backgrounds.EmptyBackground
 import com.github.benpollarduk.ktvn.layout.Layout
 import com.github.benpollarduk.ktvn.layout.Layout.Companion.createLayout
 import com.github.benpollarduk.ktvn.logic.Flags
-import com.github.benpollarduk.ktvn.logic.listeners.SceneListener
 
 /**
  * A scene within a [Chapter].

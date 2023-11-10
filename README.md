@@ -109,6 +109,10 @@ Characters can show emotions:
 ```kotlin
 next { michel looks concerned }
 ```
+Characters can be animated:
+```kotlin
+next { michel begins shaking }
+```
 Or change position on the screen:
 ```kotlin
 next { layout moveRight morgana }

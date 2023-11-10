@@ -3,17 +3,18 @@ package com.github.benpollarduk.ktvn.example
 import com.github.benpollarduk.ktvn.audio.AudioManager
 import com.github.benpollarduk.ktvn.audio.AudioType
 import com.github.benpollarduk.ktvn.backgrounds.EmptyBackground
-import com.github.benpollarduk.ktvn.characters.BaseEmotions.amused
-import com.github.benpollarduk.ktvn.characters.BaseEmotions.angry
-import com.github.benpollarduk.ktvn.characters.BaseEmotions.concerned
-import com.github.benpollarduk.ktvn.characters.BaseEmotions.normal
+import com.github.benpollarduk.ktvn.characters.Animations.shaking
+import com.github.benpollarduk.ktvn.characters.Emotions.amused
+import com.github.benpollarduk.ktvn.characters.Emotions.angry
+import com.github.benpollarduk.ktvn.characters.Emotions.concerned
+import com.github.benpollarduk.ktvn.characters.Emotions.normal
 import com.github.benpollarduk.ktvn.characters.Character
 import com.github.benpollarduk.ktvn.characters.Narrator
 import com.github.benpollarduk.ktvn.layout.Layout.Companion.createLayout
 import com.github.benpollarduk.ktvn.logic.Answer.Companion.answer
 import com.github.benpollarduk.ktvn.logic.Ending
 import com.github.benpollarduk.ktvn.logic.Question.Companion.question
-import com.github.benpollarduk.ktvn.logic.listeners.InteractionConfiguration
+import com.github.benpollarduk.ktvn.logic.configuration.InteractionConfiguration
 import com.github.benpollarduk.ktvn.logic.structure.Chapter.Companion.chapter
 import com.github.benpollarduk.ktvn.logic.structure.Scene
 import com.github.benpollarduk.ktvn.logic.structure.Scene.Companion.scene
@@ -46,9 +47,11 @@ public class ExampleCreator(private val interactionConfiguration: InteractionCon
             interactionConfiguration.speakListener,
             interactionConfiguration.emoteListener,
             interactionConfiguration.askListener,
+            interactionConfiguration.animateListener,
             interactionConfiguration.speaksAcknowledgementListener,
             interactionConfiguration.emotesAcknowledgementListener,
-            interactionConfiguration.answerListener
+            interactionConfiguration.answerListener,
+            interactionConfiguration.animateAcknowledgementListener
         )
     }
 
@@ -127,7 +130,8 @@ public class ExampleCreator(private val interactionConfiguration: InteractionCon
                         scene.layout exitRight morgana
                         narrator narrates "Michel was left in isolation for eternity."
                         audio sfx "scream"
-                    },
+                        michel begins shaking
+                    }
                     it returns StepResult.End(Ending("Michel dies alone.", 1))
                 },
                 next { narrator narrates "And that was the end of that!" },

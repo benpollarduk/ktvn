@@ -2,11 +2,7 @@ package com.github.benpollarduk.ktvn.characters
 
 import com.github.benpollarduk.ktvn.logic.Answer
 import com.github.benpollarduk.ktvn.logic.Question
-import com.github.benpollarduk.ktvn.logic.listeners.AcknowledgeListener
-import com.github.benpollarduk.ktvn.logic.listeners.AnswerListener
-import com.github.benpollarduk.ktvn.logic.listeners.AskListener
-import com.github.benpollarduk.ktvn.logic.listeners.EmoteListener
-import com.github.benpollarduk.ktvn.logic.listeners.SpeakListener
+import com.github.benpollarduk.ktvn.logic.structure.AcknowledgeListener
 
 /**
  * Provides a character with a specified [name]. Listeners for [speakListener], [emoteListener], [askListener],
@@ -18,18 +14,20 @@ public class Character(
     private val speakListener: SpeakListener,
     private val emoteListener: EmoteListener,
     private val askListener: AskListener,
+    private val animateListener: AnimateListener,
     private val speakAcknowledgmentListener: AcknowledgeListener,
     private val emoteAcknowledgmentListener: AcknowledgeListener,
-    private val answerListener: AnswerListener
+    private val answerListener: AnswerListener,
+    private val animateAcknowledgmentListener: AcknowledgeListener
 ) {
     /**
      * Get the characters current [Emotion].
      */
-    public var emotion: Emotion = BaseEmotions.normal
+    public var emotion: Emotion = Emotions.normal
         private set
 
     /**
-     * Set the current [emotion].
+     * Set the characters [emotion].
      */
     public infix fun looks(emotion: Emotion) {
         this.emotion = emotion
@@ -48,5 +46,12 @@ public class Character(
      */
     public infix fun asks(question: Question): Answer {
         return askListener.ask(this, question, answerListener)
+    }
+
+    /**
+     * Begin animating the character with a specified [animation].
+     */
+    public infix fun begins(animation: Animation) {
+        return animateListener.animate(this, animation, animateAcknowledgmentListener)
     }
 }

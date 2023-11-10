@@ -1,7 +1,7 @@
-package com.github.benpollarduk.ktvn.logic.listeners
+package com.github.benpollarduk.ktvn.layout
 
 import com.github.benpollarduk.ktvn.characters.Character
-import com.github.benpollarduk.ktvn.layout.Position
+import com.github.benpollarduk.ktvn.logic.structure.AcknowledgeListener
 
 /**
  * Provides an interface for listeners to move events.

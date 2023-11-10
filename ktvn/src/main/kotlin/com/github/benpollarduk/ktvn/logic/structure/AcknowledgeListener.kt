@@ -1,4 +1,4 @@
-package com.github.benpollarduk.ktvn.logic.listeners
+package com.github.benpollarduk.ktvn.logic.structure
 
 /**
  * Provides an interface for listeners to acknowledgment requests.
