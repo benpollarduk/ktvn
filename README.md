@@ -169,9 +169,9 @@ choice {
 ```
 Each choice can have multiple options. Each option has an optional script specified by the **does** keyword. 
 Notice the use of the **flags** class. A single instance of Flags exists for each game and can be used to pass values 
-between steps. Each flag has a string key and a boolean value. If a flag does not exist when it is read false will be 
-returned. In this 
-case a flag is set to indicate that the user picked an option.
+between steps. Each flag has a string key and a boolean value. If a flag does not exist when it is read then false will be 
+returned as default. In this 
+case a flag is set to register the option that the user picked.
 
 ### decision ###
 decision is very similar to choice, but allows the step to be named. This is useful if the story needs to jump to this step.
