@@ -5,7 +5,7 @@ to other projects. Ktvn provides a quick, natural and flexible syntax that is ea
 while retaining Kotlins powerful and feature rich syntax. 
 
 # Documentation
-Please visit [https://benpollarduk.github.io/ktvn-docs/](https://benpollarduk.github.io/ktvn-docs/) to view the ktvn documentation.
+Please visit [https://benpollarduk.github.io/ktvn-docs/](https://benpollarduk.github.io/ktvn-docs/) to view the Ktvn documentation.
 
 # Getting Started
 * Clone the repo
@@ -81,7 +81,7 @@ val story = story { story ->
 }
 
 // create a game
-val game = Game(story, Save.empty, chapterListener, sceneListener)
+val game = Game(story, AnsiConsoleGameConfiguration, Save.empty)
 
 // execute the game synchronously
 GameExecutor.execute(game)
@@ -123,11 +123,11 @@ next { layout moveRight morgana }
 ```
 Start background music:
 ```kotlin
-next { audio bgm "Intro" }
+next { audio bgm "intro" }
 ```
 Or play a sound effect:
 ```kotlin
-next { audio sfx "Crash" }
+next { audio sfx "crash" }
 ```
 
 ### then ###
