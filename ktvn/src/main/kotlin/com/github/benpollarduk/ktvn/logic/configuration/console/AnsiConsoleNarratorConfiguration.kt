@@ -16,7 +16,7 @@ import com.github.benpollarduk.ktvn.logic.structure.AcknowledgeListener
 internal class AnsiConsoleNarratorConfiguration : NarratorConfiguration {
     override val narrateAcknowledgementListener: AcknowledgeListener = object : AcknowledgeListener {
         override fun waitFor() {
-            // pass through
+            readln()
         }
     }
 
