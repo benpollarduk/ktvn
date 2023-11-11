@@ -1,7 +1,6 @@
 package com.github.benpollarduk.ktvn.example
 
 import com.github.benpollarduk.ktvn.audio.AudioManager
-import com.github.benpollarduk.ktvn.audio.AudioType
 import com.github.benpollarduk.ktvn.backgrounds.EmptyBackground
 import com.github.benpollarduk.ktvn.characters.Animations.shaking
 import com.github.benpollarduk.ktvn.characters.Character
@@ -63,7 +62,7 @@ public class ExampleCreator(private val gameConfiguration: GameConfiguration) {
             }
             scene steps listOf(
                 next { scene.layout moveLeft michel },
-                next { audio bgm "mansion-theme" },
+                next { audio play "mansion-theme" },
                 next { michel looks normal },
                 next { michel says "Morgana, are you there?" },
                 next { scene.layout moveRight morgana },
@@ -81,13 +80,13 @@ public class ExampleCreator(private val gameConfiguration: GameConfiguration) {
                             question option answer { answer ->
                                 answer line "Of course."
                                 answer does {
-                                    it.setFlag("Michel likes Morgana")
+                                    it setTrue "Michel likes Morgana"
                                 }
                             }
                             question option answer { answer ->
                                 answer line "I hate you!"
                                 answer does {
-                                    it.setFlag("Michel hates Morgana")
+                                    it setTrue "Michel hates Morgana"
                                 }
                             }
                         }
@@ -115,7 +114,6 @@ public class ExampleCreator(private val gameConfiguration: GameConfiguration) {
                     it returns StepResult.End(Ending("Michel dies alone.", 1))
                 },
                 next { narrator narrates "And that was the end of that!" },
-                next { audio stop AudioType.BGM },
                 end {
                     it ending Ending.default
                 }
