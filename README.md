@@ -121,9 +121,13 @@ Change position on the screen:
 ```kotlin
 next { layout moveRight morgana }
 ```
-Start background music:
+Start playing music:
 ```kotlin
-next { audio bgm "intro" }
+next { audio play "intro" }
+```
+Stop playing music:
+```kotlin
+next { audio stop "intro" }
 ```
 Or play a sound effect:
 ```kotlin
@@ -151,13 +155,13 @@ choice {
         question option answer { answer ->
             answer line "Of course."
             answer does {
-                it.setFlag("Michel likes Morgana")
+                it setTrue "Michel likes Morgana"
             }
         }
         question option answer { answer ->
             answer line "I hate you!"
             answer does {
-                it.setFlag("Michel hates Morgana")
+                it setTrue "Michel hates Morgana"
             }
         }
     }
@@ -176,20 +180,23 @@ decision { decision ->
             question line "Why we do, don't we dear?"
             question option answer { answer ->
                 answer line "Of course."
-                answer does {
-                    it.setFlag("Michel likes Morgana")
+                answer does { flags ->
+                  flags setTrue "Michel likes Morgana"
                 }
             }
             question option answer { answer ->
                 answer line "I hate you!"
-                answer does {
-                    it.setFlag("Michel hates Morgana")
+                answer does { flags ->
+                  flags setTrue "Michel hates Morgana"
                 }
             }
         }
     }
 }
 ```
+Notice the use of the **flags** class. A single instance of Flags exists for each game and can be used to pass values 
+between steps. Each flag has a string key and a boolean value. If a flag does not exist when it is read false will be 
+returned.
 
 ### conditional ###
 conditional allows a step to only be invoked if a specified condition is met.

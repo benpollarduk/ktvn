@@ -7,7 +7,7 @@ import com.github.benpollarduk.ktvn.logic.configuration.AudioConfiguration
  */
 public class AudioManager(private val audioConfiguration: AudioConfiguration) {
     /**
-     * Play background music, specified by [key].
+     * Play music, specified by [key].
      */
     public infix fun play(key: String) {
         audioConfiguration.audioListener.play(key)
@@ -21,9 +21,9 @@ public class AudioManager(private val audioConfiguration: AudioConfiguration) {
     }
 
     /**
-     * Stop all playback of a specified [type] of audio.
+     * Stop playing music, specified by [key].
      */
-    public infix fun stop(type: AudioType) {
-        audioConfiguration.audioListener.stop(type)
+    public infix fun stop(key: String) {
+        audioConfiguration.audioListener.stop(key)
     }
 }

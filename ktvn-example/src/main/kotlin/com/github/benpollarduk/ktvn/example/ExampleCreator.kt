@@ -1,7 +1,6 @@
 package com.github.benpollarduk.ktvn.example
 
 import com.github.benpollarduk.ktvn.audio.AudioManager
-import com.github.benpollarduk.ktvn.audio.AudioType
 import com.github.benpollarduk.ktvn.backgrounds.EmptyBackground
 import com.github.benpollarduk.ktvn.characters.Animations.shaking
 import com.github.benpollarduk.ktvn.characters.Character
@@ -115,7 +114,6 @@ public class ExampleCreator(private val gameConfiguration: GameConfiguration) {
                     it returns StepResult.End(Ending("Michel dies alone.", 1))
                 },
                 next { narrator narrates "And that was the end of that!" },
-                next { audio stop AudioType.BGM },
                 end {
                     it ending Ending.default
                 }

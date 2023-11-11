@@ -15,7 +15,7 @@ public interface AudioListener {
     public fun sfx(key: String)
 
     /**
-     * Invoke the listener for stop with a specified [type] of audio.
+     * Invoke the listener for stop with a specified [key].
      */
-    public fun stop(type: AudioType)
+    public fun stop(key: String)
 }
