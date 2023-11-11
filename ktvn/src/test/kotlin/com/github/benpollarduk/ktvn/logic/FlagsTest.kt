@@ -22,7 +22,7 @@ class FlagsTest {
         val flags = Flags()
 
         // When
-        flags.setFlag("Test", true)
+        flags setTrue "Test"
         val result = flags["Test"]
 
         // Then
