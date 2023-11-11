@@ -81,7 +81,7 @@ val story = story { story ->
 }
 
 // create a game
-val game = Game(story, Save.empty, chapterListener, sceneListener)
+val game = Game(story, AnsiConsoleGameConfiguration, Save.empty)
 
 // execute the game synchronously
 GameExecutor.execute(game)
