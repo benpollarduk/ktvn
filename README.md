@@ -154,20 +154,23 @@ choice {
         question line "Why we do, don't we dear?"
         question option answer { answer ->
             answer line "Of course."
-            answer does {
-                it setTrue "Michel likes Morgana"
+            answer does { flags ->
+                flags setTrue "Michel likes Morgana"
             }
         }
         question option answer { answer ->
             answer line "I hate you!"
-            answer does {
-                it setTrue "Michel hates Morgana"
+            answer does { flags ->
+                flags setTrue "Michel hates Morgana"
             }
         }
     }
 }
 ```
-Each choice can have multiple options. Each option has an optional script specified by the **does** keyword. In this 
+Each choice can have multiple options. Each option has an optional script specified by the **does** keyword. 
+Notice the use of the **flags** class. A single instance of Flags exists for each game and can be used to pass values 
+between steps. Each flag has a string key and a boolean value. If a flag does not exist when it is read false will be 
+returned. In this 
 case a flag is set to indicate that the user picked an option.
 
 ### decision ###
@@ -194,9 +197,6 @@ decision { decision ->
     }
 }
 ```
-Notice the use of the **flags** class. A single instance of Flags exists for each game and can be used to pass values 
-between steps. Each flag has a string key and a boolean value. If a flag does not exist when it is read false will be 
-returned.
 
 ### conditional ###
 conditional allows a step to only be invoked if a specified condition is met.
