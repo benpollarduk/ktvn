@@ -9,7 +9,7 @@ public class AudioManager(private val audioConfiguration: AudioConfiguration) {
     /**
      * Play background music, specified by [key].
      */
-    public infix fun bgm(key: String) {
+    public infix fun play(key: String) {
         audioConfiguration.audioListener.play(key)
     }
 

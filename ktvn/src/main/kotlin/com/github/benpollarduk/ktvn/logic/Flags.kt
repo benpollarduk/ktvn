@@ -10,27 +10,38 @@ public class Flags {
      * Get a condition with a specified [name].
      */
     public operator fun get(name: String): Boolean {
-        return getFlag(name)
+        return getValue(name)
     }
 
     /**
      * Sets a condition with a specified [name] to a specified [value].
      */
     public operator fun set(name: String, value: Boolean) {
-        setFlag(name, value)
+        if (value) {
+            setTrue(name)
+        } else {
+            setFalse(name)
+        }
     }
 
     /**
-     * Set a [flag] to a [value]. If the [value] is not specified it will default to true.
+     * Set a [flag] true.
      */
-    public fun setFlag(flag: String, value: Boolean = true) {
-        values[flag] = value
+    public infix fun setTrue(flag: String) {
+        values[flag] = true
+    }
+
+    /**
+     * Set a [flag] false.
+     */
+    public infix fun setFalse(flag: String) {
+        values[flag] = false
     }
 
     /**
      * Get the value of [flag].
      */
-    public fun getFlag(flag: String): Boolean {
+    public infix fun getValue(flag: String): Boolean {
         values.putIfAbsent(flag, false)
         return values[flag] ?: false
     }
@@ -53,9 +64,15 @@ public class Flags {
          */
         public fun fromMap(map: Map<String, Boolean>): Flags {
             val flags = Flags()
+
             map.forEach {
-                flags.setFlag(it.key, it.value)
+                if (it.value) {
+                    flags.setTrue(it.key)
+                } else {
+                    flags.setFalse(it.key)
+                }
             }
+
             return flags
         }
     }
