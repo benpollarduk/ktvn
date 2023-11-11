@@ -48,10 +48,10 @@ For example:
       * Step
       * Step       
   
-Simple classes and DSL exist to support characters, narration, choices, flags, emotions and positioning of characters. 
-Emotions and character positions are fully and easily extensible. When a characters emotion  or position changes a 
-listener is invoked, so regardless of the UI system being used to render the visual novel these events can be heard 
-and invoked. Each event requires an acknowledgment before the story continues, so flow control is easy. 
+Simple classes and DSL exist to support characters, narration, choices, flags, emotions and positioning of characters 
+and more. Emotions and character positions are fully and easily extensible. When a characters emotion  or position 
+changes a listener is invoked, so regardless of the UI system being used to render the visual novel these events can be 
+heard and invoked. Each event requires an acknowledgment before the story continues, so flow control is easy. 
 Listeners are provided for:
 * Speak - when a character speaks.
 * Narrate - when the narrator narrates.
@@ -117,9 +117,17 @@ Characters can be animated:
 ```kotlin
 next { michel begins shaking }
 ```
-Or change position on the screen:
+Change position on the screen:
 ```kotlin
 next { layout moveRight morgana }
+```
+Start background music:
+```kotlin
+next { audio bgm "Intro" }
+```
+Or play a sound effect:
+```kotlin
+next { audio sfx "Crash" }
 ```
 
 ### then ###
@@ -226,6 +234,12 @@ end {
 The ending that was reached can be specified with the **ending** keyword.
 
 For further examples please see the ktvn-example directory in the repo.
+
+# Integration #
+Ktvn provides a structure, DSL and flow control for creating visual novels, but it does not provide a framework for 
+creating UIs and managing assets. Many frameworks for this exist. To integrate with a project a **GameConfiguration** is 
+required. Please see **AnsiConsoleGameConfiguration** for a simple example that demonstrates how to create a 
+configuration and integrate with an ANSI compatible console.
 
 # For Open Questions
 Visit https://github.com/benpollarduk/ktvn/issues
