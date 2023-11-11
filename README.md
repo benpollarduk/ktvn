@@ -5,7 +5,7 @@ to other projects. Ktvn provides a quick, natural and flexible syntax that is ea
 while retaining Kotlins powerful and feature rich syntax. 
 
 # Documentation
-Please visit [https://benpollarduk.github.io/ktvn-docs/](https://benpollarduk.github.io/ktvn-docs/) to view the ktvn documentation.
+Please visit [https://benpollarduk.github.io/ktvn-docs/](https://benpollarduk.github.io/ktvn-docs/) to view the Ktvn documentation.
 
 # Getting Started
 * Clone the repo
