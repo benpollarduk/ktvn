@@ -13,7 +13,7 @@ public class Question private constructor(setup: (Question) -> Unit) {
         private set
 
     /**
-     * Get the available answers.
+     * Get the available answerListener.
      */
     public val answers: List<Answer>
         get() = _answers.toList()

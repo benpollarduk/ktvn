@@ -1,20 +1,18 @@
 package com.github.benpollarduk.ktvn.logic
 
 import com.github.benpollarduk.ktvn.io.Save
+import com.github.benpollarduk.ktvn.logic.configuration.GameConfiguration
 import com.github.benpollarduk.ktvn.logic.structure.CancellationToken
-import com.github.benpollarduk.ktvn.logic.structure.ChapterListener
-import com.github.benpollarduk.ktvn.logic.structure.SceneListener
 import com.github.benpollarduk.ktvn.logic.structure.Story
 import java.util.concurrent.locks.ReentrantLock
 
 /**
- * An executable game.
+ * An executable game with a specified [story], [gameConfiguration] and optional [save].
  */
 public class Game(
     private val story: Story,
-    private val save: Save = Save.empty,
-    private val chapterListener: ChapterListener,
-    private val sceneListener: SceneListener
+    private val gameConfiguration: GameConfiguration,
+    private val save: Save = Save.empty
 ) {
     private val cancellationToken = CancellationToken()
     private var isExecuting = false
@@ -24,17 +22,16 @@ public class Game(
     private val lock = ReentrantLock()
 
     /**
-     * Begin execution of the game.
+     * Begin execution of the game. Return the [Ending] reached.
      */
-    internal fun execute() {
+    internal fun execute(): Ending {
         isExecuting = true
         startTimeInSeconds = System.currentTimeMillis() / MILLISECONDS_PER_SECOND
 
         val ending = story.begin(
             Flags.fromMap(save.flags),
             save.position,
-            chapterListener,
-            sceneListener,
+            gameConfiguration.storyConfiguration,
             cancellationToken
         )
 
@@ -50,6 +47,7 @@ public class Game(
 
         endTimeInSeconds = System.currentTimeMillis() / MILLISECONDS_PER_SECOND
         isExecuting = false
+        return ending
     }
 
     /**

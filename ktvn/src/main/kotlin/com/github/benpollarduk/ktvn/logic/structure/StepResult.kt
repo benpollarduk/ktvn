@@ -35,4 +35,9 @@ public sealed interface StepResult {
      * Execution was cancelled.
      */
     public data object Cancelled : StepResult
+
+    /**
+     * Clear the calling [Scene].
+     */
+    public data object Clear : StepResult
 }

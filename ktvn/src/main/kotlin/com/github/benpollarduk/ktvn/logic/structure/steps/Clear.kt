@@ -1,19 +1,15 @@
 package com.github.benpollarduk.ktvn.logic.structure.steps
 
-import com.github.benpollarduk.ktvn.logic.Ending
 import com.github.benpollarduk.ktvn.logic.Flags
 import com.github.benpollarduk.ktvn.logic.structure.CancellationToken
 import com.github.benpollarduk.ktvn.logic.structure.Step
 import com.github.benpollarduk.ktvn.logic.structure.StepResult
 
 /**
- * A step that signifies an end. A [setup] must be specified.
+ * A step that clears a scene. A [setup] must be specified.
  */
-public class End private constructor(private val setup: (End) -> Unit) : Step {
-    private var script: (Flags) -> Unit = { }
-    private var ending: Ending = Ending.default
-
-    override var name: String = "End"
+public class Clear private constructor(private val setup: (Clear) -> Unit) : Step {
+    override var name: String = "Clear"
         private set
 
     init {
@@ -27,31 +23,15 @@ public class End private constructor(private val setup: (End) -> Unit) : Step {
         this.name = name
     }
 
-    /**
-     * Set the script.
-     */
-    public infix fun does(script: (Flags) -> Unit) {
-        this.script = script
-    }
-
-    /**
-     * Set the ending.
-     */
-    public infix fun ending(ending: Ending) {
-        this.ending = ending
-    }
-
     override fun invoke(flags: Flags, cancellationToken: CancellationToken): StepResult {
         if (cancellationToken.wasCancelled) {
             return StepResult.Cancelled
         }
 
-        script(flags)
-
         return if (cancellationToken.wasCancelled) {
             StepResult.Cancelled
         } else {
-            StepResult.End(ending)
+            StepResult.Clear
         }
     }
 
@@ -59,8 +39,8 @@ public class End private constructor(private val setup: (End) -> Unit) : Step {
         /**
          * Create a step with a specified [setup].
          */
-        public infix fun end(setup: (End) -> Unit): End {
-            return End(setup)
+        public infix fun clear(setup: (Clear) -> Unit): Clear {
+            return Clear(setup)
         }
     }
 }

@@ -1,11 +1,11 @@
 package com.github.benpollarduk.ktvn.characters
 
 /**
- * Provides a collection of base emotions.
+ * Provides a collection of emotions.
  */
-public object BaseEmotions {
+public object Emotions {
     /**
-     * Base emotion for normal.
+     * Normal.
      */
     public val normal: Emotion = object : Emotion {
         override fun toString(): String {
@@ -14,7 +14,7 @@ public object BaseEmotions {
     }
 
     /**
-     * Base emotion for happy.
+     * Happy.
      */
     public val happy: Emotion = object : Emotion {
         override fun toString(): String {
@@ -23,7 +23,7 @@ public object BaseEmotions {
     }
 
     /**
-     * Base emotion for sad.
+     * Sad.
      */
     public val sad: Emotion = object : Emotion {
         override fun toString(): String {
@@ -32,7 +32,7 @@ public object BaseEmotions {
     }
 
     /**
-     * Base emotion for excited.
+     * Excited.
      */
     public val excited: Emotion = object : Emotion {
         override fun toString(): String {
@@ -41,7 +41,7 @@ public object BaseEmotions {
     }
 
     /**
-     * Base emotion for angry.
+     * Angry.
      */
     public val angry: Emotion = object : Emotion {
         override fun toString(): String {
@@ -50,7 +50,7 @@ public object BaseEmotions {
     }
 
     /**
-     * Base emotion for confused.
+     * Confused.
      */
     public val confused: Emotion = object : Emotion {
         override fun toString(): String {
@@ -59,7 +59,7 @@ public object BaseEmotions {
     }
 
     /**
-     * Base emotion for concerned.
+     * Concerned.
      */
     public val concerned: Emotion = object : Emotion {
         override fun toString(): String {
@@ -68,7 +68,7 @@ public object BaseEmotions {
     }
 
     /**
-     * Base emotion for amused.
+     * Amused.
      */
     public val amused: Emotion = object : Emotion {
         override fun toString(): String {

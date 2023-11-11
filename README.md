@@ -48,16 +48,20 @@ For example:
       * Step
       * Step       
   
-Simple classes and DSL exist to support characters, narration, choices, flags, emotions and positioning of characters. 
-Emotions and character positions are fully and easily extensible. When a characters emotion  or position changes a 
-listener is invoked, so regardless of the UI system being used to render the visual novel these events can be heard 
-and invoked. Each event requires an acknowledgment before the story continues, so flow control is easy. 
+Simple classes and DSL exist to support characters, narration, choices, flags, emotions and positioning of characters 
+and more. Emotions and character positions are fully and easily extensible. When a characters emotion  or position 
+changes a listener is invoked, so regardless of the UI system being used to render the visual novel these events can be 
+heard and invoked. Each event requires an acknowledgment before the story continues, so flow control is easy. 
 Listeners are provided for:
-* Speaks - when a character speaks.
-* Narrates - when the narrator narrates.
-* Moves - when a characters position changes.
-* Emotes - when a characters emotion changes.
-* Asks - when either the narrator or a character asks a question.
+* Speak - when a character speaks.
+* Narrate - when the narrator narrates.
+* Move - when a characters position changes.
+* Emote - when a characters emotion changes.
+* Animate - when a characters animation changes.
+* Ask - when either the narrator or a character asks a question.
+* Scene - when scenes transition.
+* Chapter - when chapters transition.
+* Audio - when audio is changed.
 
 # Execution #
 Stories can be executed as a **Game**. Games must be executed through the **GameExecutor**, an object dedicated to game 
@@ -109,9 +113,21 @@ Characters can show emotions:
 ```kotlin
 next { michel looks concerned }
 ```
-Or change position on the screen:
+Characters can be animated:
+```kotlin
+next { michel begins shaking }
+```
+Change position on the screen:
 ```kotlin
 next { layout moveRight morgana }
+```
+Start background music:
+```kotlin
+next { audio bgm "Intro" }
+```
+Or play a sound effect:
+```kotlin
+next { audio sfx "Crash" }
 ```
 
 ### then ###
@@ -191,6 +207,23 @@ The **condition** keyword specifies the flag. If that flag is set to true then t
 keyword will be executed. Lastly the **returns** keyword specifies the result of the step so that the story can 
 continue, branch or end as required.
 
+### pause ###
+pause is a step that prevents the story from progressing for the specified time, in milliseconds.
+```kotlin
+pause {
+    it seconds 5
+}
+```
+The **seconds** keyword allows the delay time to be specified, in seconds. Shorter delays can be specified in
+milliseconds using the **milliseconds** keyword.
+
+### clear ###
+clear is a step that signals that the current scene should be cleared. How this is interpreted is up to the calling UI.
+```kotlin
+clear { }
+```
+Suggested use cases are for clearing the text from a narrative scene, or removing all dialog from a dialog scene.
+
 ### end ###
 end is a simple step that signifies that an ending has been reached.
 ```kotlin
@@ -201,6 +234,12 @@ end {
 The ending that was reached can be specified with the **ending** keyword.
 
 For further examples please see the ktvn-example directory in the repo.
+
+# Integration #
+Ktvn provides a structure, DSL and flow control for creating visual novels, but it does not provide a framework for 
+creating UIs and managing assets. Many frameworks for this exist. To integrate with a project a **GameConfiguration** is 
+required. Please see **AnsiConsoleGameConfiguration** for a simple example that demonstrates how to create a 
+configuration and integrate with an ANSI compatible console.
 
 # For Open Questions
 Visit https://github.com/benpollarduk/ktvn/issues

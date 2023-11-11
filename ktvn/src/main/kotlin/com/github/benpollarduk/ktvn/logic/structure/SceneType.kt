@@ -1,9 +1,16 @@
 package com.github.benpollarduk.ktvn.logic.structure
 
 /**
- * Enumeration of types of [Scene].
+ * Provides an interface for different types of [Scene].
  */
-public enum class SceneType {
-    Dialog,
-    Narrative
+public sealed interface SceneType {
+    /**
+     * A conversational scene.
+     */
+    public data object Dialog : SceneType
+
+    /**
+     * A narrative scene.
+     */
+    public data object Narrative : SceneType
 }

@@ -2,6 +2,7 @@ package com.github.benpollarduk.ktvn.logic.structure
 
 import com.github.benpollarduk.ktvn.logic.Ending
 import com.github.benpollarduk.ktvn.logic.Flags
+import com.github.benpollarduk.ktvn.logic.configuration.StoryConfiguration
 
 /**
  * A story. A [setup] must be specified.
@@ -48,42 +49,54 @@ public class Story private constructor(setup: (Story) -> Unit) {
     }
 
     /**
-     * Begin the [Story] with specified [flags]. The [storyPosition] can be optionally specified. A [chapterListener]
-     * and [sceneListener] must be provided to receive progression updates. A [cancellationToken] must be provided to
-     * allow for the story to be cancelled. Returns the ending.
+     * Begin the [Story] with specified [flags]. The [storyPosition] can be optionally specified. A [storyConfiguration]
+     * must be provided to receive progression updates. A [cancellationToken] must be provided to allow for the story
+     * to be cancelled. Returns the ending.
      **/
-    @Suppress("ReturnCount")
     internal fun begin(
         flags: Flags,
         storyPosition: StoryPosition = StoryPosition.start,
-        chapterListener: ChapterListener,
-        sceneListener: SceneListener,
+        storyConfiguration: StoryConfiguration,
         cancellationToken: CancellationToken
     ): Ending {
         var i = storyPosition.chapter
+        var ending: Ending? = null
 
         while (i < chapters.size) {
             indexOfCurrentChapter = i
             val chapter = chapters[i]
-            chapterListener.enter(chapter)
 
             val result = if (i == storyPosition.chapter) {
-                chapter.begin(flags, storyPosition.scene, storyPosition.step, sceneListener, cancellationToken)
+                chapter.begin(
+                    flags,
+                    storyPosition.scene,
+                    storyPosition.step,
+                    storyConfiguration.sceneListener,
+                    storyConfiguration.chapterListener,
+                    cancellationToken
+                )
             } else {
-                chapter.begin(flags, sceneListener = sceneListener, cancellationToken = cancellationToken)
+                chapter.begin(
+                    flags,
+                    sceneListener = storyConfiguration.sceneListener,
+                    chapterListener = storyConfiguration.chapterListener,
+                    cancellationToken = cancellationToken
+                )
             }
-
-            chapterListener.exit(chapter)
 
             when (result) {
                 is ChapterResult.Continue -> { i++ }
                 is ChapterResult.SelectChapter -> { i = chapters.indexOfFirst { it.name.equals(result.name, true) } }
-                is ChapterResult.End -> { return result.ending }
-                is ChapterResult.Cancelled -> { return Ending.noEnding }
+                is ChapterResult.End -> { ending = result.ending }
+                is ChapterResult.Cancelled -> { ending = Ending.noEnding }
+            }
+
+            if (ending != null) {
+                break
             }
         }
 
-        return Ending.default
+        return ending ?: Ending.default
     }
 
     /**

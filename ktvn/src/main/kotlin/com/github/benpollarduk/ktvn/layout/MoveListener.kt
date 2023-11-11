@@ -1,19 +1,19 @@
-package com.github.benpollarduk.ktvn.logic.listeners
+package com.github.benpollarduk.ktvn.layout
 
 import com.github.benpollarduk.ktvn.characters.Character
-import com.github.benpollarduk.ktvn.layout.Position
+import com.github.benpollarduk.ktvn.logic.structure.AcknowledgeListener
 
 /**
- * Provides an interface for objects that can handle movements.
+ * Provides an interface for listeners to move events.
  */
-public interface Moves {
+public interface MoveListener {
     /**
      * Invoke the listener with a specified [character], [fromPosition], [toPosition] and [acknowledgement].
      */
-    public operator fun invoke(
+    public fun move(
         character: Character,
         fromPosition: Position,
         toPosition: Position,
-        acknowledgement: Acknowledges
+        acknowledgement: AcknowledgeListener
     )
 }

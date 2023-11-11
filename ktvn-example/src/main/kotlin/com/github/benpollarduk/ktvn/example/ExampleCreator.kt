@@ -1,17 +1,20 @@
 package com.github.benpollarduk.ktvn.example
 
+import com.github.benpollarduk.ktvn.audio.AudioManager
+import com.github.benpollarduk.ktvn.audio.AudioType
 import com.github.benpollarduk.ktvn.backgrounds.EmptyBackground
-import com.github.benpollarduk.ktvn.characters.BaseEmotions.amused
-import com.github.benpollarduk.ktvn.characters.BaseEmotions.angry
-import com.github.benpollarduk.ktvn.characters.BaseEmotions.concerned
-import com.github.benpollarduk.ktvn.characters.BaseEmotions.normal
+import com.github.benpollarduk.ktvn.characters.Animations.shaking
 import com.github.benpollarduk.ktvn.characters.Character
+import com.github.benpollarduk.ktvn.characters.Emotions.amused
+import com.github.benpollarduk.ktvn.characters.Emotions.angry
+import com.github.benpollarduk.ktvn.characters.Emotions.concerned
+import com.github.benpollarduk.ktvn.characters.Emotions.normal
 import com.github.benpollarduk.ktvn.characters.Narrator
 import com.github.benpollarduk.ktvn.layout.Layout.Companion.createLayout
 import com.github.benpollarduk.ktvn.logic.Answer.Companion.answer
 import com.github.benpollarduk.ktvn.logic.Ending
 import com.github.benpollarduk.ktvn.logic.Question.Companion.question
-import com.github.benpollarduk.ktvn.logic.listeners.ListenerProvider
+import com.github.benpollarduk.ktvn.logic.configuration.GameConfiguration
 import com.github.benpollarduk.ktvn.logic.structure.Chapter.Companion.chapter
 import com.github.benpollarduk.ktvn.logic.structure.Scene
 import com.github.benpollarduk.ktvn.logic.structure.Scene.Companion.scene
@@ -25,38 +28,21 @@ import com.github.benpollarduk.ktvn.logic.structure.steps.End.Companion.end
 import com.github.benpollarduk.ktvn.logic.structure.steps.Then.Companion.next
 
 /**
- * Provides a creator for an example story.
+ * Provides a creator for an example story with an [gameConfiguration].
  */
-public class ExampleCreator(private val listeners: ListenerProvider) {
-    private val morgana: Character = createCharacter("Morgana")
-    private val michel: Character = createCharacter("Michel")
-    private val narrator = Narrator(
-        listeners.narrates,
-        listeners.asks,
-        listeners.speaksAcknowledgement,
-        listeners.answers
-    )
+public class ExampleCreator(private val gameConfiguration: GameConfiguration) {
+    private val audio = AudioManager(gameConfiguration.audioConfiguration)
+    private val narrator = Narrator(gameConfiguration.narratorConfiguration)
+    private val morgana: Character = Character("Morgana", gameConfiguration.characterConfiguration)
+    private val michel: Character = Character("Michel", gameConfiguration.characterConfiguration)
 
-    private fun createCharacter(name: String): Character {
-        return Character(
-            name,
-            listeners.speaks,
-            listeners.emotes,
-            listeners.asks,
-            listeners.speaksAcknowledgement,
-            listeners.emotesAcknowledgement,
-            listeners.answers
-        )
-    }
-
-    @Suppress("LongMethod")
     private fun introduction(): Scene {
         return scene { scene ->
             scene name "Introduction"
             scene background EmptyBackground()
             scene type SceneType.Narrative
             scene layout createLayout {
-                it setMoveAcknowledgments listeners.movesAcknowledgement
+                it configure gameConfiguration.layoutConfiguration
             }
             scene steps listOf(
                 next { narrator narrates "Many years have passed since Michel moved in to the mansion." },
@@ -73,11 +59,11 @@ public class ExampleCreator(private val listeners: ListenerProvider) {
             scene layout createLayout { layout ->
                 layout addLeftOf michel
                 layout addRightOf morgana
-                layout setMoves listeners.moves
-                layout setMoveAcknowledgments listeners.movesAcknowledgement
+                layout configure gameConfiguration.layoutConfiguration
             }
             scene steps listOf(
                 next { scene.layout moveLeft michel },
+                next { audio bgm "mansion-theme" },
                 next { michel looks normal },
                 next { michel says "Morgana, are you there?" },
                 next { scene.layout moveRight morgana },
@@ -123,10 +109,13 @@ public class ExampleCreator(private val listeners: ListenerProvider) {
                         morgana says "I shall leave you in isolation."
                         scene.layout exitRight morgana
                         narrator narrates "Michel was left in isolation for eternity."
+                        audio sfx "scream"
+                        michel begins shaking
                     }
                     it returns StepResult.End(Ending("Michel dies alone.", 1))
                 },
                 next { narrator narrates "And that was the end of that!" },
+                next { audio stop AudioType.BGM },
                 end {
                     it ending Ending.default
                 }

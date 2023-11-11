@@ -2,51 +2,47 @@ package com.github.benpollarduk.ktvn.characters
 
 import com.github.benpollarduk.ktvn.logic.Answer
 import com.github.benpollarduk.ktvn.logic.Question
-import com.github.benpollarduk.ktvn.logic.listeners.Acknowledges
-import com.github.benpollarduk.ktvn.logic.listeners.Answers
-import com.github.benpollarduk.ktvn.logic.listeners.Asks
-import com.github.benpollarduk.ktvn.logic.listeners.Emotes
-import com.github.benpollarduk.ktvn.logic.listeners.Speaks
+import com.github.benpollarduk.ktvn.logic.configuration.CharacterConfiguration
 
 /**
- * Provides a character with a specified [name]. Listeners for [speaks], [emotes], [asks], [speaksAcknowledgment],
- * [emotesAcknowledgment] and [answers] must be specified.
+ * Provides a character with a specified [name]. A [configuration] must be specified.
  */
-@Suppress("LongParameterList")
 public class Character(
     public val name: String,
-    private val speaks: Speaks,
-    private val emotes: Emotes,
-    private val asks: Asks,
-    private val speaksAcknowledgment: Acknowledges,
-    private val emotesAcknowledgment: Acknowledges,
-    private val answers: Answers
+    private val configuration: CharacterConfiguration
 ) {
     /**
      * Get the characters current [Emotion].
      */
-    public var emotion: Emotion = BaseEmotions.normal
+    public var emotion: Emotion = Emotions.normal
         private set
 
     /**
-     * Set the current [emotion].
+     * Set the characters [emotion].
      */
     public infix fun looks(emotion: Emotion) {
         this.emotion = emotion
-        emotes(this, emotion, emotesAcknowledgment)
+        configuration.emoteListener.emote(this, emotion, configuration.emoteAcknowledgementListener)
     }
 
     /**
      * Say a [line].
      */
     public infix fun says(line: String) {
-        speaks(this, line, speaksAcknowledgment)
+        configuration.speakListener.speak(this, line, configuration.speakAcknowledgementListener)
     }
 
     /**
      * Ask a [question]. Returns the selected answer.
      */
     public infix fun asks(question: Question): Answer {
-        return asks(this, question, answers)
+        return configuration.askListener.ask(this, question, configuration.answerListener)
+    }
+
+    /**
+     * Begin animating the character with a specified [animation].
+     */
+    public infix fun begins(animation: Animation) {
+        return configuration.animateListener.animate(this, animation, configuration.animateAcknowledgementListener)
     }
 }

@@ -9,8 +9,7 @@ import com.github.benpollarduk.ktvn.layout.Positions.leftOf
 import com.github.benpollarduk.ktvn.layout.Positions.none
 import com.github.benpollarduk.ktvn.layout.Positions.right
 import com.github.benpollarduk.ktvn.layout.Positions.rightOf
-import com.github.benpollarduk.ktvn.logic.listeners.Acknowledges
-import com.github.benpollarduk.ktvn.logic.listeners.Moves
+import com.github.benpollarduk.ktvn.logic.configuration.LayoutConfiguration
 
 /**
  * Provides a layout for positioning characters.
@@ -18,23 +17,7 @@ import com.github.benpollarduk.ktvn.logic.listeners.Moves
 @Suppress("TooManyFunctions")
 public class Layout private constructor(setup: (Layout) -> Unit) {
     private val mutablePositions: MutableList<CharacterPosition> = mutableListOf()
-
-    private var moves: Moves = object : Moves {
-        override fun invoke(
-            character: Character,
-            fromPosition: Position,
-            toPosition: Position,
-            acknowledgement: Acknowledges
-        ) {
-            // nothing
-        }
-    }
-
-    private var moveAcknowledgement: Acknowledges = object : Acknowledges {
-        override fun waitFor() {
-            // nothing
-        }
-    }
+    private var configuration: LayoutConfiguration? = null
 
     /**
      * Get the number of characters in this layout.
@@ -59,24 +42,23 @@ public class Layout private constructor(setup: (Layout) -> Unit) {
      */
     public fun move(character: Character, position: Position) {
         val current = mutablePositions.firstOrNull { it.character == character }
-        val fromPosition = current?.position ?: none
+        val from = current?.position ?: none
         mutablePositions.removeAll { it.character == character }
         mutablePositions.add(CharacterPosition(character, position))
-        moves(character, fromPosition, position, moveAcknowledgement)
+        val config = configuration ?: return
+        config.moveListener.move(
+            character,
+            from,
+            position,
+            config.moveAcknowledgementListener
+        )
     }
 
     /**
-     * Specify how moves should be handled.
+     * Specify the [configuration].
      */
-    public infix fun setMoves(moves: Moves) {
-        this.moves = moves
-    }
-
-    /**
-     * Specify how move acknowledgments should be handled.
-     */
-    public infix fun setMoveAcknowledgments(moveAcknowledgement: Acknowledges) {
-        this.moveAcknowledgement = moveAcknowledgement
+    public infix fun configure(configuration: LayoutConfiguration) {
+        this.configuration = configuration
     }
 
     /**

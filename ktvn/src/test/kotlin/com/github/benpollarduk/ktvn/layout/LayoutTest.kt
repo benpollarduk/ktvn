@@ -1,61 +1,84 @@
 package com.github.benpollarduk.ktvn.layout
 
+import com.github.benpollarduk.ktvn.characters.AnimateListener
+import com.github.benpollarduk.ktvn.characters.Animation
+import com.github.benpollarduk.ktvn.characters.AnswerListener
+import com.github.benpollarduk.ktvn.characters.AskListener
 import com.github.benpollarduk.ktvn.characters.Character
+import com.github.benpollarduk.ktvn.characters.EmoteListener
 import com.github.benpollarduk.ktvn.characters.Emotion
 import com.github.benpollarduk.ktvn.characters.Narrator
+import com.github.benpollarduk.ktvn.characters.SpeakListener
 import com.github.benpollarduk.ktvn.layout.Positions.left
 import com.github.benpollarduk.ktvn.layout.Positions.right
 import com.github.benpollarduk.ktvn.logic.Answer
 import com.github.benpollarduk.ktvn.logic.Question
-import com.github.benpollarduk.ktvn.logic.listeners.Acknowledges
-import com.github.benpollarduk.ktvn.logic.listeners.Answers
-import com.github.benpollarduk.ktvn.logic.listeners.Asks
-import com.github.benpollarduk.ktvn.logic.listeners.Emotes
-import com.github.benpollarduk.ktvn.logic.listeners.Moves
-import com.github.benpollarduk.ktvn.logic.listeners.Speaks
+import com.github.benpollarduk.ktvn.logic.configuration.CharacterConfiguration
+import com.github.benpollarduk.ktvn.logic.configuration.LayoutConfiguration
+import com.github.benpollarduk.ktvn.logic.structure.AcknowledgeListener
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
 class LayoutTest {
-    private val speaks = object : Speaks {
-        override fun invoke(character: Character, line: String, acknowledgement: Acknowledges) {
+    private val emptySpeakListener = object : SpeakListener {
+        override fun speak(character: Character, line: String, acknowledgement: AcknowledgeListener) {
             // nothing
         }
     }
 
-    private val emotes = object : Emotes {
-        override fun invoke(character: Character, emotion: Emotion, acknowledgement: Acknowledges) {
+    private val emptyEmoteListener = object : EmoteListener {
+        override fun emote(character: Character, emotion: Emotion, acknowledgement: AcknowledgeListener) {
             // nothing
         }
     }
 
-    private val asks = object : Asks {
-        override fun invoke(character: Character, question: Question, answers: Answers): Answer {
+    private val emptyAnimateListener: AnimateListener = object : AnimateListener {
+        override fun animate(character: Character, animation: Animation, acknowledgement: AcknowledgeListener) {
+            // nothing
+        }
+    }
+
+    private val emptyAskListener = object : AskListener {
+        override fun ask(character: Character, question: Question, answerListener: AnswerListener): Answer {
             return question.answers.first()
         }
 
-        override fun invoke(narrator: Narrator, question: Question, answers: Answers): Answer {
+        override fun ask(narrator: Narrator, question: Question, answerListener: AnswerListener): Answer {
             return question.answers.first()
         }
     }
 
-    private val acknowledges = object : Acknowledges {
+    private val acknowledgementListener: AcknowledgeListener = object : AcknowledgeListener {
         override fun waitFor() {
             // nothing
         }
     }
 
-    private val answers = object : Answers {
+    private val emptyAnswerListener = object : AnswerListener {
         override fun waitFor(question: Question): Answer {
             return question.answers.first()
         }
+    }
+
+    private val characterConfiguration: CharacterConfiguration = object : CharacterConfiguration {
+        override val emoteAcknowledgementListener: AcknowledgeListener = acknowledgementListener
+        override val speakAcknowledgementListener: AcknowledgeListener = acknowledgementListener
+        override val animateAcknowledgementListener: AcknowledgeListener = acknowledgementListener
+        override val answerListener: AnswerListener = emptyAnswerListener
+        override val askListener: AskListener = emptyAskListener
+        override val emoteListener: EmoteListener = emptyEmoteListener
+        override val animateListener: AnimateListener = emptyAnimateListener
+        override val speakListener: SpeakListener = emptySpeakListener
     }
 
     @Test
     fun `given layout when add character then one character`() {
         // Given
         val layout = Layout.createLayout { }
-        val character = Character("", speaks, emotes, asks, acknowledges, acknowledges, answers)
+        val character = Character(
+            "",
+            characterConfiguration
+        )
 
         // When
         layout.add(character, left)
@@ -68,7 +91,10 @@ class LayoutTest {
     fun `given layout when add left of then one character`() {
         // Given
         val layout = Layout.createLayout { }
-        val character = Character("", speaks, emotes, asks, acknowledges, acknowledges, answers)
+        val character = Character(
+            "",
+            characterConfiguration
+        )
 
         // When
         layout.addLeftOf(character)
@@ -81,7 +107,10 @@ class LayoutTest {
     fun `given layout when add right of then one character`() {
         // Given
         val layout = Layout.createLayout { }
-        val character = Character("", speaks, emotes, asks, acknowledges, acknowledges, answers)
+        val character = Character(
+            "",
+            characterConfiguration
+        )
 
         // When
         layout.addRightOf(character)
@@ -94,7 +123,10 @@ class LayoutTest {
     fun `given layout when add above then one character`() {
         // Given
         val layout = Layout.createLayout { }
-        val character = Character("", speaks, emotes, asks, acknowledges, acknowledges, answers)
+        val character = Character(
+            "",
+            characterConfiguration
+        )
 
         // When
         layout.addAbove(character)
@@ -107,7 +139,10 @@ class LayoutTest {
     fun `given layout when add below then one character`() {
         // Given
         val layout = Layout.createLayout { }
-        val character = Character("", speaks, emotes, asks, acknowledges, acknowledges, answers)
+        val character = Character(
+            "",
+            characterConfiguration
+        )
 
         // When
         layout.addBelow(character)
@@ -120,18 +155,25 @@ class LayoutTest {
     fun `given layout when move character then moves is called`() {
         // Given
         var called = false
-        val moves = object : Moves {
-            override fun invoke(
+        val moveListener = object : MoveListener {
+            override fun move(
                 character: Character,
                 fromPosition: Position,
                 toPosition: Position,
-                acknowledgement: Acknowledges
+                acknowledgement: AcknowledgeListener
             ) {
                 called = true
             }
         }
-        val layout = Layout.createLayout { it setMoves moves }
-        val character = Character("", speaks, emotes, asks, acknowledges, acknowledges, answers)
+        val configuration: LayoutConfiguration = object : LayoutConfiguration {
+            override val moveAcknowledgementListener: AcknowledgeListener = acknowledgementListener
+            override val moveListener: MoveListener = moveListener
+        }
+        val layout = Layout.createLayout { it configure configuration }
+        val character = Character(
+            "",
+            characterConfiguration
+        )
         layout.add(character, left)
 
         // When
