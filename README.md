@@ -123,11 +123,11 @@ next { layout moveRight morgana }
 ```
 Start background music:
 ```kotlin
-next { audio bgm "Intro" }
+next { audio bgm "intro" }
 ```
 Or play a sound effect:
 ```kotlin
-next { audio sfx "Crash" }
+next { audio sfx "crash" }
 ```
 
 ### then ###
