@@ -7,12 +7,12 @@ import com.github.benpollarduk.ktvn.logic.structure.StepResult
 import kotlin.math.min
 
 /**
- * A step that acts an end. A [setup] must be specified.
+ * A step that provides a pause. A [setup] must be specified.
  */
-public class Delay private constructor(private val setup: (Delay) -> Unit) : Step {
+public class Pause private constructor(private val setup: (Pause) -> Unit) : Step {
     private var delayInMs: Long = 0
 
-    override var name: String = "Delay"
+    override var name: String = "Pause"
         private set
 
     init {
@@ -29,8 +29,15 @@ public class Delay private constructor(private val setup: (Delay) -> Unit) : Ste
     /**
      * Set the delay (in milliseconds).
      */
-    public infix fun time(delayInMs: Long) {
+    public infix fun milliseconds(delayInMs: Long) {
         this.delayInMs = delayInMs
+    }
+
+    /**
+     * Set the delay (in seconds).
+     */
+    public infix fun seconds(delayInS: Long) {
+        this.delayInMs = delayInS * 1000
     }
 
     override fun invoke(flags: Flags, cancellationToken: CancellationToken): StepResult {
@@ -39,9 +46,16 @@ public class Delay private constructor(private val setup: (Delay) -> Unit) : Ste
         }
 
         val startTime = System.currentTimeMillis()
+        var currentTime = startTime
 
-        while (System.currentTimeMillis() - startTime < delayInMs && !cancellationToken.wasCancelled) {
-            Thread.sleep(min(delayInMs, RECHECK_TIME_IN_MS))
+        while (currentTime - startTime < delayInMs && !cancellationToken.wasCancelled) {
+            val remaining = delayInMs - (currentTime - startTime)
+            val delay = min(remaining, DELAY_BETWEEN_CHECKS_IN_MS)
+
+            if (delay > 0) {
+                Thread.sleep(delay)
+                currentTime = System.currentTimeMillis()
+            }
         }
 
         return if (cancellationToken.wasCancelled) {
@@ -55,10 +69,10 @@ public class Delay private constructor(private val setup: (Delay) -> Unit) : Ste
         /**
          * Create a step with a specified [setup].
          */
-        public infix fun delay(setup: (Delay) -> Unit): Delay {
-            return Delay(setup)
+        public infix fun pause(setup: (Pause) -> Unit): Pause {
+            return Pause(setup)
         }
 
-        private const val RECHECK_TIME_IN_MS: Long = 10
+        private const val DELAY_BETWEEN_CHECKS_IN_MS: Long = 10
     }
 }

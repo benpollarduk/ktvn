@@ -7,7 +7,7 @@ import com.github.benpollarduk.ktvn.logic.structure.Step
 import com.github.benpollarduk.ktvn.logic.structure.StepResult
 
 /**
- * A step that acts an end. A [setup] must be specified.
+ * A step that signifies an end. A [setup] must be specified.
  */
 public class End private constructor(private val setup: (End) -> Unit) : Step {
     private var script: (Flags) -> Unit = { }

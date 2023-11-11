@@ -4,11 +4,11 @@ import com.github.benpollarduk.ktvn.audio.AudioManager
 import com.github.benpollarduk.ktvn.audio.AudioType
 import com.github.benpollarduk.ktvn.backgrounds.EmptyBackground
 import com.github.benpollarduk.ktvn.characters.Animations.shaking
+import com.github.benpollarduk.ktvn.characters.Character
 import com.github.benpollarduk.ktvn.characters.Emotions.amused
 import com.github.benpollarduk.ktvn.characters.Emotions.angry
 import com.github.benpollarduk.ktvn.characters.Emotions.concerned
 import com.github.benpollarduk.ktvn.characters.Emotions.normal
-import com.github.benpollarduk.ktvn.characters.Character
 import com.github.benpollarduk.ktvn.characters.Narrator
 import com.github.benpollarduk.ktvn.layout.Layout.Companion.createLayout
 import com.github.benpollarduk.ktvn.logic.Answer.Companion.answer

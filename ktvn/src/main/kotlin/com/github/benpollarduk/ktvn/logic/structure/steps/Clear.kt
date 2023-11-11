@@ -6,10 +6,10 @@ import com.github.benpollarduk.ktvn.logic.structure.Step
 import com.github.benpollarduk.ktvn.logic.structure.StepResult
 
 /**
- * A step that acts an end. A [setup] must be specified.
+ * A step that clears a scene. A [setup] must be specified.
  */
 public class Clear private constructor(private val setup: (Clear) -> Unit) : Step {
-    override var name: String = "Delay"
+    override var name: String = "Clear"
         private set
 
     init {
