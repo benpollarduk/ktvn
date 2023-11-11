@@ -5,9 +5,9 @@ package com.github.benpollarduk.ktvn.logic.structure
  */
 public interface ChapterListener {
     /**
-     * Invoke the listener to notify entry of a specified [chapter].
+     * Invoke the listener to notify entry of a specified [chapter] with a specified [transition].
      */
-    public fun enter(chapter: Chapter)
+    public fun enter(chapter: Chapter, transition: ChapterTransition)
 
     /**
      * Invoke the listener to notify exit of a specified [chapter].

@@ -11,6 +11,8 @@ import com.github.benpollarduk.ktvn.logic.Flags
  */
 public class Scene private constructor(setup: (Scene) -> Unit) {
     private var content: List<Step> = emptyList()
+    private var transitionIn: SceneTransition = SceneTransitions.instant
+    private var transitionOut: SceneTransition = SceneTransitions.instant
 
     /**
      * Get the background for this [Scene].
@@ -88,6 +90,20 @@ public class Scene private constructor(setup: (Scene) -> Unit) {
     }
 
     /**
+     * Set the [transition] in for this scene.
+     */
+    public infix fun transitionIn(transition: SceneTransition) {
+        this.transitionIn = transition
+    }
+
+    /**
+     * Set the [transition] out for this scene.
+     */
+    public infix fun transitionOut(transition: SceneTransition) {
+        this.transitionOut = transition
+    }
+
+    /**
      * Begin the scene with specified [flags] from a specified [startStep]. The [sceneListener] allows events to be
      * invoked for this scene. A [cancellationToken] must be provided to allow for the chapter to be cancelled.
      */
@@ -97,7 +113,7 @@ public class Scene private constructor(setup: (Scene) -> Unit) {
         sceneListener: SceneListener,
         cancellationToken: CancellationToken
     ): SceneResult {
-        sceneListener.enter(this)
+        sceneListener.enter(this, transitionIn)
 
         var indexOfCurrentStep = startStep
         var sceneResult: SceneResult? = null
@@ -133,7 +149,7 @@ public class Scene private constructor(setup: (Scene) -> Unit) {
             }
         }
 
-        sceneListener.exit(this)
+        sceneListener.exit(this, transitionOut)
 
         return sceneResult ?: SceneResult.Continue
     }

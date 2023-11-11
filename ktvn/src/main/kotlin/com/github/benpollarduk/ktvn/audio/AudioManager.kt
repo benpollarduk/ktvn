@@ -1,27 +1,29 @@
 package com.github.benpollarduk.ktvn.audio
 
+import com.github.benpollarduk.ktvn.logic.configuration.AudioConfiguration
+
 /**
- * Provides a class for managing audio playback and control. A listener for [audioListener] must be specified.
+ * Provides a class for managing audio playback and control. An [audioConfiguration] must be specified.
  */
-public class AudioManager(private val audioListener: AudioListener) {
+public class AudioManager(private val audioConfiguration: AudioConfiguration) {
     /**
      * Play background music, specified by [key].
      */
     public infix fun bgm(key: String) {
-        audioListener.play(key)
+        audioConfiguration.audioListener.play(key)
     }
 
     /**
      * Play a sound effect, specified by [key].
      */
     public infix fun sfx(key: String) {
-        audioListener.sfx(key)
+        audioConfiguration.audioListener.sfx(key)
     }
 
     /**
      * Stop all playback of a specified [type] of audio.
      */
     public infix fun stop(type: AudioType) {
-        audioListener.stop(type)
+        audioConfiguration.audioListener.stop(type)
     }
 }

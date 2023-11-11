@@ -31,10 +31,10 @@ import com.github.benpollarduk.ktvn.logic.structure.steps.Then.Companion.next
  * Provides a creator for an example story with an [gameConfiguration].
  */
 public class ExampleCreator(private val gameConfiguration: GameConfiguration) {
-    private val audio = AudioManager(gameConfiguration.audioListener)
+    private val audio = AudioManager(gameConfiguration.audioConfiguration)
+    private val narrator = Narrator(gameConfiguration.narratorConfiguration)
     private val morgana: Character = Character("Morgana", gameConfiguration.characterConfiguration)
     private val michel: Character = Character("Michel", gameConfiguration.characterConfiguration)
-    private val narrator = Narrator(gameConfiguration.narratorConfiguration)
 
     private fun introduction(): Scene {
         return scene { scene ->

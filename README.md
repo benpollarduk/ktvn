@@ -53,11 +53,15 @@ Emotions and character positions are fully and easily extensible. When a charact
 listener is invoked, so regardless of the UI system being used to render the visual novel these events can be heard 
 and invoked. Each event requires an acknowledgment before the story continues, so flow control is easy. 
 Listeners are provided for:
-* Speaks - when a character speaks.
-* Narrates - when the narrator narrates.
-* Moves - when a characters position changes.
-* Emotes - when a characters emotion changes.
-* Asks - when either the narrator or a character asks a question.
+* Speak - when a character speaks.
+* Narrate - when the narrator narrates.
+* Move - when a characters position changes.
+* Emote - when a characters emotion changes.
+* Animate - when a characters animation changes.
+* Ask - when either the narrator or a character asks a question.
+* Scene - when scenes transition.
+* Chapter - when chapters transition.
+* Audio - when audio is changed.
 
 # Execution #
 Stories can be executed as a **Game**. Games must be executed through the **GameExecutor**, an object dedicated to game 

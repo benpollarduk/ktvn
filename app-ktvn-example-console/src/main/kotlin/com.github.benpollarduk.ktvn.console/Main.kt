@@ -10,11 +10,9 @@ import org.apache.logging.log4j.kotlin.Logging
 object Main : Logging {
     @JvmStatic
     fun main(args: Array<String>) {
-
-
         logger.info("Beginning execution of example...")
         val exampleStory = ExampleCreator(AnsiConsoleGameConfiguration).create()
-        val exampleGame = Game(exampleStory, AnsiConsoleGameConfiguration.storyConfiguration, Save.empty)
+        val exampleGame = Game(exampleStory, AnsiConsoleGameConfiguration, Save.empty)
         GameExecutor.execute(exampleGame)
         logger.info("Ended execution of example.")
     }

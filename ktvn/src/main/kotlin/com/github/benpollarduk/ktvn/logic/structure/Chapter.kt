@@ -7,6 +7,7 @@ import com.github.benpollarduk.ktvn.logic.Flags
  */
 public class Chapter private constructor(setup: (Chapter) -> Unit) {
     private val scenes: MutableList<Scene> = mutableListOf()
+    private var transition: ChapterTransition = ChapterTransitions.instant
 
     /**
      * Get the name of this [Chapter].
@@ -50,7 +51,7 @@ public class Chapter private constructor(setup: (Chapter) -> Unit) {
         chapterListener: ChapterListener,
         cancellationToken: CancellationToken
     ): ChapterResult {
-        chapterListener.enter(this)
+        chapterListener.enter(this, transition)
 
         indexOfCurrentScene = scene
         var chapterResult: ChapterResult? = null
@@ -104,6 +105,13 @@ public class Chapter private constructor(setup: (Chapter) -> Unit) {
      */
     public infix fun add(scene: Scene) {
         scenes.add(scene)
+    }
+
+    /**
+     * Set the [transition] for this chapter.
+     */
+    public infix fun transition(transition: ChapterTransition) {
+        this.transition = transition
     }
 
     public companion object {

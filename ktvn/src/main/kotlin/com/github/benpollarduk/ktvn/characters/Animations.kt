@@ -5,7 +5,7 @@ package com.github.benpollarduk.ktvn.characters
  */
 public object Animations {
     /**
-     * Base animation for nothing.
+     * No animation.
      */
     public val nothing: Animation = object : Animation {
         override fun toString(): String {
@@ -14,7 +14,7 @@ public object Animations {
     }
 
     /**
-     * Base animation for shaking.
+     * Shaking.
      */
     public val shaking: Animation = object : Animation {
         override fun toString(): String {
@@ -23,7 +23,7 @@ public object Animations {
     }
 
     /**
-     * Base animation for sweating.
+     * Sweating.
      */
     public val sweating: Animation = object : Animation {
         override fun toString(): String {

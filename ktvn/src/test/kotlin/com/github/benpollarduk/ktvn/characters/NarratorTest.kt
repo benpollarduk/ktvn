@@ -4,18 +4,19 @@ import com.github.benpollarduk.ktvn.logic.Answer
 import com.github.benpollarduk.ktvn.logic.Answer.Companion.answer
 import com.github.benpollarduk.ktvn.logic.Question
 import com.github.benpollarduk.ktvn.logic.Question.Companion.question
+import com.github.benpollarduk.ktvn.logic.configuration.NarratorConfiguration
 import com.github.benpollarduk.ktvn.logic.structure.AcknowledgeListener
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
 class NarratorTest {
-    private val narrateListener = object : NarrateListener {
+    private val emptyNarrateListener = object : NarrateListener {
         override fun narrate(line: String, acknowledgement: AcknowledgeListener) {
             // nothing
         }
     }
 
-    private val askListener = object : AskListener {
+    private val emptyAskListener = object : AskListener {
         override fun ask(character: Character, question: Question, answerListener: AnswerListener): Answer {
             return question.answers.first()
         }
@@ -25,13 +26,13 @@ class NarratorTest {
         }
     }
 
-    private val acknowledgeListener = object : AcknowledgeListener {
+    private val emptyAcknowledgeListener = object : AcknowledgeListener {
         override fun waitFor() {
             // nothing
         }
     }
 
-    private val answerListener = object : AnswerListener {
+    private val emptyAnswerListener = object : AnswerListener {
         override fun waitFor(question: Question): Answer {
             return question.answers.first()
         }
@@ -41,12 +42,17 @@ class NarratorTest {
     fun `given a narrator when narrate then narrates is called`() {
         // Given
         var called = false
-        val narrateListener = object : NarrateListener {
-            override fun narrate(line: String, acknowledgement: AcknowledgeListener) {
-                called = true
+        val configuration: NarratorConfiguration = object : NarratorConfiguration {
+            override val narrateAcknowledgementListener: AcknowledgeListener = emptyAcknowledgeListener
+            override val answerListener: AnswerListener = emptyAnswerListener
+            override val askListener: AskListener = emptyAskListener
+            override val narrateListener: NarrateListener = object : NarrateListener {
+                override fun narrate(line: String, acknowledgement: AcknowledgeListener) {
+                    called = true
+                }
             }
         }
-        val narrator = Narrator(narrateListener, askListener, acknowledgeListener, answerListener)
+        val narrator = Narrator(configuration)
 
         // When
         narrator.narrates("")
@@ -59,17 +65,23 @@ class NarratorTest {
     fun `given a narrator when ask then asks is called`() {
         // Given
         var called = false
-        val askListener = object : AskListener {
-            override fun ask(character: Character, question: Question, answerListener: AnswerListener): Answer {
-                return answer { }
-            }
+        val configuration: NarratorConfiguration = object : NarratorConfiguration {
+            override val narrateAcknowledgementListener: AcknowledgeListener = emptyAcknowledgeListener
+            override val answerListener: AnswerListener = emptyAnswerListener
+            override val narrateListener: NarrateListener = emptyNarrateListener
+            override val askListener: AskListener = object : AskListener {
+                override fun ask(character: Character, question: Question, answerListener: AnswerListener): Answer {
+                    return answer { }
+                }
 
-            override fun ask(narrator: Narrator, question: Question, answerListener: AnswerListener): Answer {
-                called = true
-                return answer { }
+                override fun ask(narrator: Narrator, question: Question, answerListener: AnswerListener): Answer {
+                    called = true
+                    return answer { }
+                }
             }
         }
-        val narrator = Narrator(narrateListener, askListener, acknowledgeListener, answerListener)
+
+        val narrator = Narrator(configuration)
 
         // When
         narrator.asks(question { })

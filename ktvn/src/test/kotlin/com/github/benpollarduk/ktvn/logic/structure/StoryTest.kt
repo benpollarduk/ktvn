@@ -2,6 +2,7 @@ package com.github.benpollarduk.ktvn.logic.structure
 
 import com.github.benpollarduk.ktvn.logic.Ending
 import com.github.benpollarduk.ktvn.logic.Flags
+import com.github.benpollarduk.ktvn.logic.configuration.StoryConfiguration
 import com.github.benpollarduk.ktvn.logic.structure.Chapter.Companion.chapter
 import com.github.benpollarduk.ktvn.logic.structure.Scene.Companion.scene
 import com.github.benpollarduk.ktvn.logic.structure.Story.Companion.story
@@ -13,8 +14,8 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
 class StoryTest {
-    private val chapterListener = object : ChapterListener {
-        override fun enter(chapter: Chapter) {
+    private val emptyChapterListener = object : ChapterListener {
+        override fun enter(chapter: Chapter, transition: ChapterTransition) {
             // nothing
         }
 
@@ -22,18 +23,23 @@ class StoryTest {
             // nothing
         }
     }
-    private val sceneListener = object : SceneListener {
-        override fun enter(scene: Scene) {
+    private val emptySceneListener = object : SceneListener {
+        override fun enter(scene: Scene, transition: SceneTransition) {
             // nothing
         }
 
-        override fun exit(scene: Scene) {
+        override fun exit(scene: Scene, transition: SceneTransition) {
             // nothing
         }
 
         override fun clear(scene: Scene) {
             // nothing
         }
+    }
+
+    private val configuration: StoryConfiguration = object : StoryConfiguration {
+        override val chapterListener: ChapterListener = emptyChapterListener
+        override val sceneListener: SceneListener = emptySceneListener
     }
 
     @Test
@@ -79,7 +85,7 @@ class StoryTest {
         }
 
         // When
-        val result = story.begin(Flags(), StoryPosition.start, chapterListener, sceneListener, CancellationToken())
+        val result = story.begin(Flags(), StoryPosition.start, configuration, CancellationToken())
 
         // Then
         Assertions.assertEquals(0, result.number)
@@ -102,7 +108,7 @@ class StoryTest {
         }
 
         // When
-        val result = story.begin(Flags(), StoryPosition.start, chapterListener, sceneListener, CancellationToken())
+        val result = story.begin(Flags(), StoryPosition.start, configuration, CancellationToken())
 
         // Then
         Assertions.assertEquals(1, result.number)
@@ -123,7 +129,7 @@ class StoryTest {
         var enterCalled = false
         var exitCalled = false
         val chapterListener = object : ChapterListener {
-            override fun enter(chapter: Chapter) {
+            override fun enter(chapter: Chapter, transition: ChapterTransition) {
                 enterCalled = true
             }
 
@@ -131,9 +137,13 @@ class StoryTest {
                 exitCalled = true
             }
         }
+        val configuration: StoryConfiguration = object : StoryConfiguration {
+            override val chapterListener: ChapterListener = chapterListener
+            override val sceneListener: SceneListener = emptySceneListener
+        }
 
         // When
-        story.begin(Flags(), StoryPosition.start, chapterListener, sceneListener, CancellationToken())
+        story.begin(Flags(), StoryPosition.start, configuration, CancellationToken())
 
         // Then
         Assertions.assertTrue(enterCalled)
@@ -155,11 +165,11 @@ class StoryTest {
         var enterCalled = false
         var exitCalled = false
         val sceneListener = object : SceneListener {
-            override fun enter(scene: Scene) {
+            override fun enter(scene: Scene, transition: SceneTransition) {
                 enterCalled = true
             }
 
-            override fun exit(scene: Scene) {
+            override fun exit(scene: Scene, transition: SceneTransition) {
                 exitCalled = true
             }
 
@@ -167,9 +177,13 @@ class StoryTest {
                 // nothing
             }
         }
+        val configuration: StoryConfiguration = object : StoryConfiguration {
+            override val chapterListener: ChapterListener = emptyChapterListener
+            override val sceneListener: SceneListener = sceneListener
+        }
 
         // When
-        story.begin(Flags(), StoryPosition.start, chapterListener, sceneListener, CancellationToken())
+        story.begin(Flags(), StoryPosition.start, configuration, CancellationToken())
 
         // Then
         Assertions.assertTrue(enterCalled)
@@ -190,11 +204,11 @@ class StoryTest {
         }
         var clearCalled = false
         val sceneListener = object : SceneListener {
-            override fun enter(scene: Scene) {
+            override fun enter(scene: Scene, transition: SceneTransition) {
                 // nothing
             }
 
-            override fun exit(scene: Scene) {
+            override fun exit(scene: Scene, transition: SceneTransition) {
                 // nothing
             }
 
@@ -202,9 +216,13 @@ class StoryTest {
                 clearCalled = true
             }
         }
+        val configuration: StoryConfiguration = object : StoryConfiguration {
+            override val chapterListener: ChapterListener = emptyChapterListener
+            override val sceneListener: SceneListener = sceneListener
+        }
 
         // When
-        story.begin(Flags(), StoryPosition.start, chapterListener, sceneListener, CancellationToken())
+        story.begin(Flags(), StoryPosition.start, configuration, CancellationToken())
 
         // Then
         Assertions.assertTrue(clearCalled)

@@ -3,24 +3,31 @@ package com.github.benpollarduk.ktvn.characters
 import com.github.benpollarduk.ktvn.characters.Emotions.happy
 import com.github.benpollarduk.ktvn.logic.Answer
 import com.github.benpollarduk.ktvn.logic.Question
+import com.github.benpollarduk.ktvn.logic.configuration.CharacterConfiguration
 import com.github.benpollarduk.ktvn.logic.structure.AcknowledgeListener
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
 class CharacterTest {
-    private val speakListener = object : SpeakListener {
+    private val emptySpeakListener = object : SpeakListener {
         override fun speak(character: Character, line: String, acknowledgement: AcknowledgeListener) {
             // nothing
         }
     }
 
-    private val emoteListener = object : EmoteListener {
+    private val emptyEmoteListener = object : EmoteListener {
         override fun emote(character: Character, emotion: Emotion, acknowledgement: AcknowledgeListener) {
             // nothing
         }
     }
 
-    private val askListener = object : AskListener {
+    private val emptyAnimateListener: AnimateListener = object : AnimateListener {
+        override fun animate(character: Character, animation: Animation, acknowledgement: AcknowledgeListener) {
+            // nothing
+        }
+    }
+
+    private val emptyAskListener = object : AskListener {
         override fun ask(character: Character, question: Question, answerListener: AnswerListener): Answer {
             return question.answers.first()
         }
@@ -30,16 +37,27 @@ class CharacterTest {
         }
     }
 
-    private val acknowledgeListener = object : AcknowledgeListener {
+    private val acknowledgementListener: AcknowledgeListener = object : AcknowledgeListener {
         override fun waitFor() {
             // nothing
         }
     }
 
-    private val answerListener = object : AnswerListener {
+    private val emptyAnswerListener = object : AnswerListener {
         override fun waitFor(question: Question): Answer {
             return question.answers.first()
         }
+    }
+
+    private val configuration: CharacterConfiguration = object : CharacterConfiguration {
+        override val emoteAcknowledgementListener: AcknowledgeListener = acknowledgementListener
+        override val speakAcknowledgementListener: AcknowledgeListener = acknowledgementListener
+        override val animateAcknowledgementListener: AcknowledgeListener = acknowledgementListener
+        override val answerListener: AnswerListener = emptyAnswerListener
+        override val askListener: AskListener = emptyAskListener
+        override val emoteListener: EmoteListener = emptyEmoteListener
+        override val animateListener: AnimateListener = emptyAnimateListener
+        override val speakListener: SpeakListener = emptySpeakListener
     }
 
     @Test
@@ -47,12 +65,7 @@ class CharacterTest {
         // Given
         val character = Character(
             "Test",
-            speakListener,
-            emoteListener,
-            askListener,
-            acknowledgeListener,
-            acknowledgeListener,
-            answerListener
+            configuration
         )
 
         // Then
@@ -64,12 +77,7 @@ class CharacterTest {
         // Given
         val character = Character(
             "",
-            speakListener,
-            emoteListener,
-            askListener,
-            acknowledgeListener,
-            acknowledgeListener,
-            answerListener
+            configuration
         )
 
         // Conditional
@@ -83,19 +91,25 @@ class CharacterTest {
     fun `given a character when says then speaks is called`() {
         // Given
         var called = false
-        val speakListener = object : SpeakListener {
-            override fun speak(character: Character, line: String, acknowledgement: AcknowledgeListener) {
-                called = true
+
+        val configuration: CharacterConfiguration = object : CharacterConfiguration {
+            override val speakListener = object : SpeakListener {
+                override fun speak(character: Character, line: String, acknowledgement: AcknowledgeListener) {
+                    called = true
+                }
             }
+            override val emoteAcknowledgementListener: AcknowledgeListener = acknowledgementListener
+            override val speakAcknowledgementListener: AcknowledgeListener = acknowledgementListener
+            override val animateAcknowledgementListener: AcknowledgeListener = acknowledgementListener
+            override val answerListener: AnswerListener = emptyAnswerListener
+            override val askListener: AskListener = emptyAskListener
+            override val emoteListener: EmoteListener = emptyEmoteListener
+            override val animateListener: AnimateListener = emptyAnimateListener
         }
+
         val character = Character(
             "",
-            speakListener,
-            emoteListener,
-            askListener,
-            acknowledgeListener,
-            acknowledgeListener,
-            answerListener
+            configuration
         )
 
         // When
@@ -109,24 +123,29 @@ class CharacterTest {
     fun `given a character when ask then asks is called`() {
         // Given
         var called = false
-        val askListener = object : AskListener {
-            override fun ask(character: Character, question: Question, answerListener: AnswerListener): Answer {
-                called = true
-                return Answer.answer { }
-            }
+        val configuration: CharacterConfiguration = object : CharacterConfiguration {
+            override val emoteAcknowledgementListener: AcknowledgeListener = acknowledgementListener
+            override val speakAcknowledgementListener: AcknowledgeListener = acknowledgementListener
+            override val animateAcknowledgementListener: AcknowledgeListener = acknowledgementListener
+            override val answerListener: AnswerListener = emptyAnswerListener
+            override val emoteListener: EmoteListener = emptyEmoteListener
+            override val animateListener: AnimateListener = emptyAnimateListener
+            override val speakListener: SpeakListener = emptySpeakListener
+            override val askListener = object : AskListener {
+                override fun ask(character: Character, question: Question, answerListener: AnswerListener): Answer {
+                    called = true
+                    return Answer.answer { }
+                }
 
-            override fun ask(narrator: Narrator, question: Question, answerListener: AnswerListener): Answer {
-                return Answer.answer { }
+                override fun ask(narrator: Narrator, question: Question, answerListener: AnswerListener): Answer {
+                    return Answer.answer { }
+                }
             }
         }
+
         val character = Character(
             "",
-            speakListener,
-            emoteListener,
-            askListener,
-            acknowledgeListener,
-            acknowledgeListener,
-            answerListener
+            configuration
         )
 
         // When
@@ -140,19 +159,24 @@ class CharacterTest {
     fun `given a character when looks then emotes is called`() {
         // Given
         var called = false
-        val emoteListener = object : EmoteListener {
-            override fun emote(character: Character, emotion: Emotion, acknowledgement: AcknowledgeListener) {
-                called = true
+        val configuration: CharacterConfiguration = object : CharacterConfiguration {
+            override val emoteAcknowledgementListener: AcknowledgeListener = acknowledgementListener
+            override val speakAcknowledgementListener: AcknowledgeListener = acknowledgementListener
+            override val animateAcknowledgementListener: AcknowledgeListener = acknowledgementListener
+            override val answerListener: AnswerListener = emptyAnswerListener
+            override val askListener: AskListener = emptyAskListener
+            override val animateListener: AnimateListener = emptyAnimateListener
+            override val speakListener: SpeakListener = emptySpeakListener
+            override val emoteListener = object : EmoteListener {
+                override fun emote(character: Character, emotion: Emotion, acknowledgement: AcknowledgeListener) {
+                    called = true
+                }
             }
         }
+
         val character = Character(
             "",
-            speakListener,
-            emoteListener,
-            askListener,
-            acknowledgeListener,
-            acknowledgeListener,
-            answerListener
+            configuration
         )
 
         // When
@@ -167,12 +191,7 @@ class CharacterTest {
         // Given
         val character = Character(
             "",
-            speakListener,
-            emoteListener,
-            askListener,
-            acknowledgeListener,
-            acknowledgeListener,
-            answerListener
+            configuration
         )
 
         // When
