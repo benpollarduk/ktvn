@@ -2,8 +2,6 @@ package com.github.benpollarduk.ktvn.logic
 
 import com.github.benpollarduk.ktvn.io.Save
 import com.github.benpollarduk.ktvn.logic.configuration.StoryConfiguration
-import com.github.benpollarduk.ktvn.logic.structure.ChapterListener
-import com.github.benpollarduk.ktvn.logic.structure.SceneListener
 import com.github.benpollarduk.ktvn.logic.structure.CancellationToken
 import com.github.benpollarduk.ktvn.logic.structure.Story
 import java.util.concurrent.locks.ReentrantLock

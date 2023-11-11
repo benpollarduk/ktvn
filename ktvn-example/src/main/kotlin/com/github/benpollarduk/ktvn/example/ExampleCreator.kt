@@ -14,7 +14,7 @@ import com.github.benpollarduk.ktvn.layout.Layout.Companion.createLayout
 import com.github.benpollarduk.ktvn.logic.Answer.Companion.answer
 import com.github.benpollarduk.ktvn.logic.Ending
 import com.github.benpollarduk.ktvn.logic.Question.Companion.question
-import com.github.benpollarduk.ktvn.logic.configuration.InteractionConfiguration
+import com.github.benpollarduk.ktvn.logic.configuration.GameConfiguration
 import com.github.benpollarduk.ktvn.logic.structure.Chapter.Companion.chapter
 import com.github.benpollarduk.ktvn.logic.structure.Scene
 import com.github.benpollarduk.ktvn.logic.structure.Scene.Companion.scene
@@ -28,13 +28,13 @@ import com.github.benpollarduk.ktvn.logic.structure.steps.End.Companion.end
 import com.github.benpollarduk.ktvn.logic.structure.steps.Then.Companion.next
 
 /**
- * Provides a creator for an example story with an [interactionConfiguration].
+ * Provides a creator for an example story with an [gameConfiguration].
  */
-public class ExampleCreator(private val interactionConfiguration: InteractionConfiguration) {
-    private val audio = AudioManager(interactionConfiguration.audioListener)
-    private val morgana: Character = Character("Morgana", interactionConfiguration.characterConfiguration)
-    private val michel: Character = Character("Michel", interactionConfiguration.characterConfiguration)
-    private val narrator = Narrator(interactionConfiguration.narratorConfiguration)
+public class ExampleCreator(private val gameConfiguration: GameConfiguration) {
+    private val audio = AudioManager(gameConfiguration.audioListener)
+    private val morgana: Character = Character("Morgana", gameConfiguration.characterConfiguration)
+    private val michel: Character = Character("Michel", gameConfiguration.characterConfiguration)
+    private val narrator = Narrator(gameConfiguration.narratorConfiguration)
 
     private fun introduction(): Scene {
         return scene { scene ->
@@ -42,7 +42,7 @@ public class ExampleCreator(private val interactionConfiguration: InteractionCon
             scene background EmptyBackground()
             scene type SceneType.Narrative
             scene layout createLayout {
-                it configure interactionConfiguration.layoutConfiguration
+                it configure gameConfiguration.layoutConfiguration
             }
             scene steps listOf(
                 next { narrator narrates "Many years have passed since Michel moved in to the mansion." },
@@ -59,7 +59,7 @@ public class ExampleCreator(private val interactionConfiguration: InteractionCon
             scene layout createLayout { layout ->
                 layout addLeftOf michel
                 layout addRightOf morgana
-                layout configure interactionConfiguration.layoutConfiguration
+                layout configure gameConfiguration.layoutConfiguration
             }
             scene steps listOf(
                 next { scene.layout moveLeft michel },

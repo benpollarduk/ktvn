@@ -37,7 +37,7 @@ public class Pause private constructor(private val setup: (Pause) -> Unit) : Ste
      * Set the delay (in seconds).
      */
     public infix fun seconds(delayInS: Long) {
-        this.delayInMs = delayInS * 1000
+        this.delayInMs = delayInS * MS_PER_SECOND
     }
 
     override fun invoke(flags: Flags, cancellationToken: CancellationToken): StepResult {
@@ -66,13 +66,14 @@ public class Pause private constructor(private val setup: (Pause) -> Unit) : Ste
     }
 
     public companion object {
+        private const val DELAY_BETWEEN_CHECKS_IN_MS: Long = 10
+        private const val MS_PER_SECOND: Long = 1000
+
         /**
          * Create a step with a specified [setup].
          */
         public infix fun pause(setup: (Pause) -> Unit): Pause {
             return Pause(setup)
         }
-
-        private const val DELAY_BETWEEN_CHECKS_IN_MS: Long = 10
     }
 }

@@ -10,7 +10,7 @@ public interface LayoutConfiguration {
     /**
      * Get the acknowledgement listener for move.
      */
-    public val movesAcknowledgementListener: AcknowledgeListener
+    public val moveAcknowledgementListener: AcknowledgeListener
 
     /**
      * Get the move listener.

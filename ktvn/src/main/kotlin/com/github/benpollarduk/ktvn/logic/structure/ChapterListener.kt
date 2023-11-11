@@ -1,7 +1,5 @@
 package com.github.benpollarduk.ktvn.logic.structure
 
-import com.github.benpollarduk.ktvn.logic.structure.Chapter
-
 /**
  * Provides an interface for listeners for [Chapter] change events.
  */

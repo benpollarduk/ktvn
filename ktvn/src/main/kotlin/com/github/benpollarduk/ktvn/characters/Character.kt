@@ -7,7 +7,6 @@ import com.github.benpollarduk.ktvn.logic.configuration.CharacterConfiguration
 /**
  * Provides a character with a specified [name]. A [configuration] must be specified.
  */
-@Suppress("LongParameterList")
 public class Character(
     public val name: String,
     private val configuration: CharacterConfiguration

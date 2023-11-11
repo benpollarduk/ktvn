@@ -1,7 +1,5 @@
 package com.github.benpollarduk.ktvn.audio
 
-import com.github.benpollarduk.ktvn.audio.AudioType
-
 /**
  * Provides an interface for listeners to audio events.
  */

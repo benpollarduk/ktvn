@@ -1,17 +1,17 @@
 package com.github.benpollarduk.ktvn.layout
 
+import com.github.benpollarduk.ktvn.characters.AnswerListener
+import com.github.benpollarduk.ktvn.characters.AskListener
 import com.github.benpollarduk.ktvn.characters.Character
+import com.github.benpollarduk.ktvn.characters.EmoteListener
 import com.github.benpollarduk.ktvn.characters.Emotion
 import com.github.benpollarduk.ktvn.characters.Narrator
+import com.github.benpollarduk.ktvn.characters.SpeakListener
 import com.github.benpollarduk.ktvn.layout.Positions.left
 import com.github.benpollarduk.ktvn.layout.Positions.right
 import com.github.benpollarduk.ktvn.logic.Answer
 import com.github.benpollarduk.ktvn.logic.Question
 import com.github.benpollarduk.ktvn.logic.structure.AcknowledgeListener
-import com.github.benpollarduk.ktvn.characters.AnswerListener
-import com.github.benpollarduk.ktvn.characters.AskListener
-import com.github.benpollarduk.ktvn.characters.EmoteListener
-import com.github.benpollarduk.ktvn.characters.SpeakListener
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 

@@ -1,11 +1,9 @@
 package com.github.benpollarduk.ktvn.logic.configuration
 
-import com.github.benpollarduk.ktvn.audio.AudioListener
-
 /**
- * Provides an interaction configuration.
+ * Provides a configuration for a [Game].
  */
-public interface InteractionConfiguration {
+public interface GameConfiguration {
     /**
      * Get the configuration for characters.
      */
@@ -27,7 +25,7 @@ public interface InteractionConfiguration {
     public val storyConfiguration: StoryConfiguration
 
     /**
-     * Get the audio listener.
+     * Get the configuration for audio.
      */
-    public val audioListener: AudioListener
+    public val audioConfiguration: AudioConfiguration
 }

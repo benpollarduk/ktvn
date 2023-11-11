@@ -1,7 +1,5 @@
 package com.github.benpollarduk.ktvn.logic.structure
 
-import com.github.benpollarduk.ktvn.logic.structure.Scene
-
 /**
  * Provides an interface for listeners to [Scene] change events.
  */
