@@ -1,7 +1,7 @@
 package com.github.benpollarduk.ktvn.logic.structure
 
 import com.github.benpollarduk.ktvn.backgrounds.Background
-import com.github.benpollarduk.ktvn.backgrounds.EmptyBackground
+import com.github.benpollarduk.ktvn.backgrounds.ColorBackground.Companion.emptyBackground
 import com.github.benpollarduk.ktvn.layout.Layout
 import com.github.benpollarduk.ktvn.layout.Layout.Companion.createLayout
 import com.github.benpollarduk.ktvn.logic.Flags
@@ -17,7 +17,7 @@ public class Scene private constructor(setup: (Scene) -> Unit) {
     /**
      * Get the background for this [Scene].
      */
-    public var background: Background = EmptyBackground()
+    public var background: Background = emptyBackground
         private set
 
     /**

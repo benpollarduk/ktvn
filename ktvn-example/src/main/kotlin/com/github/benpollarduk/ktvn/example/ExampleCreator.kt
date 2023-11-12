@@ -1,7 +1,7 @@
 package com.github.benpollarduk.ktvn.example
 
 import com.github.benpollarduk.ktvn.audio.AudioManager
-import com.github.benpollarduk.ktvn.backgrounds.EmptyBackground
+import com.github.benpollarduk.ktvn.backgrounds.ColorBackground.Companion.emptyBackground
 import com.github.benpollarduk.ktvn.characters.Animations.shaking
 import com.github.benpollarduk.ktvn.characters.Character
 import com.github.benpollarduk.ktvn.characters.Emotions.amused
@@ -12,13 +12,15 @@ import com.github.benpollarduk.ktvn.characters.Narrator
 import com.github.benpollarduk.ktvn.layout.Layout.Companion.createLayout
 import com.github.benpollarduk.ktvn.logic.Answer.Companion.answer
 import com.github.benpollarduk.ktvn.logic.Ending
+import com.github.benpollarduk.ktvn.logic.Ending.Companion.default
 import com.github.benpollarduk.ktvn.logic.Question.Companion.question
 import com.github.benpollarduk.ktvn.logic.configuration.GameConfiguration
 import com.github.benpollarduk.ktvn.logic.structure.Chapter.Companion.chapter
 import com.github.benpollarduk.ktvn.logic.structure.Scene
 import com.github.benpollarduk.ktvn.logic.structure.Scene.Companion.scene
-import com.github.benpollarduk.ktvn.logic.structure.SceneType
-import com.github.benpollarduk.ktvn.logic.structure.StepResult
+import com.github.benpollarduk.ktvn.logic.structure.SceneType.Narrative
+import com.github.benpollarduk.ktvn.logic.structure.StepResult.Continue
+import com.github.benpollarduk.ktvn.logic.structure.StepResult.End
 import com.github.benpollarduk.ktvn.logic.structure.Story
 import com.github.benpollarduk.ktvn.logic.structure.Story.Companion.story
 import com.github.benpollarduk.ktvn.logic.structure.steps.Conditional.Companion.conditional
@@ -38,8 +40,8 @@ public class ExampleCreator(private val gameConfiguration: GameConfiguration) {
     private fun introduction(): Scene {
         return scene { scene ->
             scene name "Introduction"
-            scene background EmptyBackground()
-            scene type SceneType.Narrative
+            scene background emptyBackground
+            scene type Narrative
             scene layout createLayout {
                 it configure gameConfiguration.layoutConfiguration
             }
@@ -54,7 +56,7 @@ public class ExampleCreator(private val gameConfiguration: GameConfiguration) {
     private fun insideTheMansion(): Scene {
         return scene { scene ->
             scene name "Inside the mansion"
-            scene background EmptyBackground()
+            scene background emptyBackground
             scene layout createLayout { layout ->
                 layout addLeftOf michel
                 layout addRightOf morgana
@@ -98,7 +100,7 @@ public class ExampleCreator(private val gameConfiguration: GameConfiguration) {
                         morgana looks amused
                         morgana says "Fool, I despise you!"
                     }
-                    it returns StepResult.Continue
+                    it returns Continue
                 },
                 conditional {
                     it condition "Michel hates Morgana"
@@ -111,11 +113,11 @@ public class ExampleCreator(private val gameConfiguration: GameConfiguration) {
                         audio sfx "scream"
                         michel begins shaking
                     }
-                    it returns StepResult.End(Ending("Michel dies alone.", 1))
+                    it returns End(Ending("Michel dies alone.", 1))
                 },
                 next { narrator narrates "And that was the end of that!" },
                 end {
-                    it ending Ending.default
+                    it ending default
                 }
             )
         }

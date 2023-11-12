@@ -207,7 +207,7 @@ conditional {
         morgana looks amused
         morgana says "Fool, I despise you!"
     }
-    it returns StepResult.Continue
+    it returns Continue
 }
 ```
 The **condition** keyword specifies the flag. If that flag is set to true then the script specified by the **does** 
