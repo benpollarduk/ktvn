@@ -73,7 +73,7 @@ val story = story { story ->
         chapter add scene { scene ->
             scene steps listOf(
                 end {
-                    it ending Ending.default
+                    it ending default
                 }
             )
         }
