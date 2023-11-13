@@ -24,7 +24,7 @@ class StandardTextFrameTest {
         // Given
         val text = "Here is some text."
         val font = Font("Arial", Font.PLAIN, 12)
-        val parameters = TextFrameParameters(60, 4, font)
+        val parameters = TextFrameParameters(80, 4, font)
 
         // When
         val frames = StandardTextFrame.create(text, parameters)
