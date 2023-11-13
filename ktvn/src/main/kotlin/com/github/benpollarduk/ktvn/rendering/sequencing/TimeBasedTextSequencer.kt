@@ -1,7 +1,8 @@
-package com.github.benpollarduk.ktvn.rendering.text.sequencing
+package com.github.benpollarduk.ktvn.rendering.sequencing
 
-import com.github.benpollarduk.ktvn.rendering.text.frames.CharacterPosition
-import com.github.benpollarduk.ktvn.rendering.text.frames.TextFrame
+import com.github.benpollarduk.ktvn.logic.structure.CancellationToken
+import com.github.benpollarduk.ktvn.rendering.frames.CharacterPosition
+import com.github.benpollarduk.ktvn.rendering.frames.TextFrame
 
 /**
  * Provides a [TextSequencer] that is time based. The delay between characters can be specified, in milliseconds, with
@@ -11,8 +12,8 @@ public class TimeBasedTextSequencer(
     private var msBetweenCharacters: Long = 100,
     private val listener: (characters: List<CharacterPosition>) -> Unit
 ) : TextSequencer {
-    private var isSequencing : Boolean = false
-    private var forceAll : Boolean = false
+    private var isSequencing: Boolean = false
+    private var forceAll: Boolean = false
 
     override val sequencing: Boolean
         get() = isSequencing
@@ -21,16 +22,16 @@ public class TimeBasedTextSequencer(
         forceAll = true
     }
 
-    override fun sequence(frame: TextFrame) {
+    override fun sequence(frame: TextFrame, cancellationToken: CancellationToken) {
         isSequencing = true
 
         val positions = frame.getCharacterPositions()
         var i = 0
 
         while (i < positions.size) {
-            val charactersThisCycle = if (forceAll){
+            val charactersThisCycle = if (forceAll) {
                 val start = i
-                i = positions.size - 1
+                i = positions.size
                 positions.subList(start, positions.size - 1)
             } else {
                 val start = i
@@ -40,8 +41,17 @@ public class TimeBasedTextSequencer(
 
             listener(charactersThisCycle)
 
-            if (!forceAll && i < positions.size - 1 && msBetweenCharacters > 0) {
+            var invokeDelay = msBetweenCharacters > 0
+            invokeDelay = invokeDelay && !forceAll
+            invokeDelay = invokeDelay && i < positions.size - 1
+            invokeDelay = invokeDelay && !cancellationToken.wasCancelled
+
+            if (invokeDelay) {
                 Thread.sleep(msBetweenCharacters)
+            }
+
+            if (cancellationToken.wasCancelled) {
+                i = positions.size
             }
         }
 

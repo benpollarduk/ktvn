@@ -1,8 +1,8 @@
-package com.github.benpollarduk.ktvn.rendering.text.frames
+package com.github.benpollarduk.ktvn.rendering.frames
 
-import java.awt.Font
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
+import java.awt.Font
 
 class StandardTextFrameTest {
     @Test
@@ -10,7 +10,7 @@ class StandardTextFrameTest {
         // Given
         val text = "Here is some text."
         val font = Font("Arial", Font.PLAIN, 12)
-        val parameters = TextAreaParameters(300, 4, font)
+        val parameters = TextFrameParameters(300, 4, font)
 
         // When
         val result = StandardTextFrame.create(text, parameters)
@@ -24,7 +24,7 @@ class StandardTextFrameTest {
         // Given
         val text = "Here is some text."
         val font = Font("Arial", Font.PLAIN, 12)
-        val parameters = TextAreaParameters(60, 4, font)
+        val parameters = TextFrameParameters(60, 4, font)
 
         // When
         val frames = StandardTextFrame.create(text, parameters)
@@ -41,7 +41,7 @@ class StandardTextFrameTest {
         // Given
         val text = "Here is some text.\nHere is some text."
         val font = Font("Arial", Font.PLAIN, 12)
-        val parameters = TextAreaParameters(300, 4, font)
+        val parameters = TextFrameParameters(300, 4, font)
 
         // When
         val result = StandardTextFrame.create(text, parameters)
@@ -55,7 +55,7 @@ class StandardTextFrameTest {
         // Given
         val text = "ABCDEOPQR\nSTUVWXY89."
         val font = Font("Arial", Font.PLAIN, 12)
-        val parameters = TextAreaParameters(60, 4, font)
+        val parameters = TextFrameParameters(60, 4, font)
 
         // When
         val frames = StandardTextFrame.create(text, parameters)
@@ -72,7 +72,7 @@ class StandardTextFrameTest {
         // Given
         val text = "A big grumpy dog sat on a big grumpy mate, and then it said boo!"
         val font = Font("Arial", Font.PLAIN, 12)
-        val parameters = TextAreaParameters(60, 4, font)
+        val parameters = TextFrameParameters(60, 4, font)
 
         // When
         val frames = StandardTextFrame.create(text, parameters)
@@ -87,7 +87,7 @@ class StandardTextFrameTest {
         // Given
         val text = "ABCDEFGHIJKLMN"
         val font = Font("Arial", Font.PLAIN, 12)
-        val parameters = TextAreaParameters(300, 4, font)
+        val parameters = TextFrameParameters(300, 4, font)
 
         // When
         val fontMetrics = StandardTextFrame.createFontMetrics(parameters.font)
@@ -103,7 +103,7 @@ class StandardTextFrameTest {
         // Given
         val text = "ABCDEFGHIJKLMN"
         val font = Font("Arial", Font.PLAIN, 12)
-        val parameters = TextAreaParameters(60, 4, font)
+        val parameters = TextFrameParameters(60, 4, font)
 
         // When
         val fontMetrics = StandardTextFrame.createFontMetrics(parameters.font)
