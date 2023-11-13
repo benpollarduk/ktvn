@@ -10,9 +10,9 @@ public object GameExecutor {
     private val lock = ReentrantLock()
 
     /**
-     * Execute a [game].
+     * Execute a [game]. Returns a [GameExecutionResult].
      */
-    public fun execute(game: Game) {
+    public fun execute(game: Game): GameExecutionResult {
         try {
             lock.lock()
             executingGames.add(game)
@@ -20,7 +20,7 @@ public object GameExecutor {
             lock.unlock()
         }
 
-        game.execute()
+        val result = game.execute()
 
         try {
             lock.lock()
@@ -28,13 +28,19 @@ public object GameExecutor {
         } finally {
             lock.unlock()
         }
+
+        return result
     }
 
     /**
-     * Execute a [game] asynchronously.
+     * Execute a [game] asynchronously. Optionally a [listener] can be provided to listen for the result of the
+     * execution.
      */
-    public fun executeAysnc(game: Game) {
-        val gameThread = Thread { execute(game) }
+    public fun executeAysnc(game: Game, listener: GameExecutionListener? = null) {
+        val gameThread = Thread {
+            val result = execute(game)
+            listener?.finished(result)
+        }
         gameThread.start()
     }
 

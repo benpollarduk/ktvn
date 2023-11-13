@@ -22,9 +22,9 @@ public class Game(
     private val lock = ReentrantLock()
 
     /**
-     * Begin execution of the game. Return the [Ending] reached.
+     * Begin execution of the game. Returns a [GameExecutionResult].
      */
-    internal fun execute(): Ending {
+    internal fun execute(): GameExecutionResult {
         isExecuting = true
         startTimeInSeconds = System.currentTimeMillis() / MILLISECONDS_PER_SECOND
 
@@ -47,7 +47,12 @@ public class Game(
 
         endTimeInSeconds = System.currentTimeMillis() / MILLISECONDS_PER_SECOND
         isExecuting = false
-        return ending
+
+        return if (cancellationToken.wasCancelled) {
+            GameExecutionResult.cancelled
+        } else {
+            GameExecutionResult(true, ending, getSave("Reached ending ${ending.name}"))
+        }
     }
 
     /**
