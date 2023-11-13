@@ -1,0 +1,23 @@
+package com.github.benpollarduk.ktvn.rendering.text.sequencing
+
+import com.github.benpollarduk.ktvn.rendering.text.frames.TextFrame
+
+/**
+ * Provides an interface for sequencers for displaying [TextFrame].
+ */
+public interface TextSequencer {
+    /**
+     * Get if sequencing is currently running.
+     */
+    public val sequencing: Boolean
+
+    /**
+     * Request all characters now.
+     */
+    public fun requestAll()
+
+    /**
+     * Start sequencing characters for a specified [frame].
+     */
+    public fun sequence(frame: TextFrame)
+}
