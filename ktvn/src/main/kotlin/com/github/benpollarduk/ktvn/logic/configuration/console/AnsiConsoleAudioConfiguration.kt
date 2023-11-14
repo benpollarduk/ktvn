@@ -12,7 +12,7 @@ internal class AnsiConsoleAudioConfiguration(
 ) : AudioConfiguration {
     override val audioListener: AudioListener = object : AudioListener {
         override fun sfx(soundEffect: SoundEffect) {
-            consoleController.println("Sound effect: $soundEffect")
+            consoleController.printlnDirectTemp("Sound effect: $soundEffect")
         }
     }
 }

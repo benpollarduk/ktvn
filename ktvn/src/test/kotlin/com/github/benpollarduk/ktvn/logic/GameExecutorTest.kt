@@ -1,7 +1,7 @@
 package com.github.benpollarduk.ktvn.logic
 
+import com.github.benpollarduk.ktvn.configuration.test.TestGameConfiguration
 import com.github.benpollarduk.ktvn.io.Save
-import com.github.benpollarduk.ktvn.logic.configuration.console.AnsiConsoleGameConfiguration
 import com.github.benpollarduk.ktvn.logic.structure.Chapter.Companion.chapter
 import com.github.benpollarduk.ktvn.logic.structure.Scene.Companion.scene
 import com.github.benpollarduk.ktvn.logic.structure.Story.Companion.story
@@ -26,7 +26,7 @@ class GameExecutorTest {
                     }
                 }
             }
-            val game = Game(story, AnsiConsoleGameConfiguration, Save.empty)
+            val game = Game(story, TestGameConfiguration, Save.empty)
 
             // When
             GameExecutor.execute(game)

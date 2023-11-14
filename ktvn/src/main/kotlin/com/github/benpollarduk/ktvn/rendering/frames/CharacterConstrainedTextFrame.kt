@@ -25,7 +25,7 @@ public class CharacterConstrainedTextFrame private constructor(private val data:
             word: String,
             isLast: Boolean,
             maxWidthInCharacters: Int,
-            measuredWords: MutableMap<String, Int>
+            measuredWords: MutableList<MeasuredString>
         ) {
             val formattedWord = if (isLast) {
                 word
@@ -48,30 +48,29 @@ public class CharacterConstrainedTextFrame private constructor(private val data:
 
                     val workingWidth = working.length
 
-                    if (workingWidth > maxWidthInCharacters) {
-                        measuredWords[working] = workingWidth
+                    if (workingWidth >= maxWidthInCharacters) {
+                        measuredWords.add(MeasuredString(working, workingWidth))
                         wordPart = ""
                     } else if (characterIndex == formattedWord.length - 1) {
-                        measuredWords[working] = workingWidth
+                        measuredWords.add(MeasuredString(working, workingWidth))
                     } else {
                         wordPart = "$wordPart$c"
                     }
                 }
             } else {
-                measuredWords[formattedWord] = formattedWordWidth
+                measuredWords.add(MeasuredString(formattedWord, formattedWordWidth))
             }
         }
 
         /**
-         * Break [text] in to a map where the key is a [String] and the value an [Int] representing the words width, in
-         * characters.
+         * Break [text] in to a list of [MeasuredString] where the width is expressed in characters.
          */
-        public fun getMeasuredWords(
+        internal fun getMeasuredWords(
             text: String,
             maxWidthInPixels: Int
-        ): Map<String, Int> {
+        ): List<MeasuredString> {
             val words = text.split(" ")
-            val measuredWords: MutableMap<String, Int> = mutableMapOf()
+            val measuredWords: MutableList<MeasuredString> = mutableListOf()
 
             // iterate all words and split if they won't fit on a single line
             for (wordIndex in words.indices) {
@@ -100,32 +99,33 @@ public class CharacterConstrainedTextFrame private constructor(private val data:
 
             for (chunk in chunks) {
                 for (measuredWord in getMeasuredWords(chunk, parameters.widthConstraint)) {
-                    val fitsOnCurrentLine = currentLineWidth + measuredWord.value <= parameters.widthConstraint
+                    val fitsOnCurrentLine = currentLineWidth + measuredWord.width <= parameters.widthConstraint
                     val startNextLine = currentRow < parameters.availableLines
 
                     // if the word fits on the current line
                     if (fitsOnCurrentLine) {
-                        currentLineWidth += measuredWord.value
+                        currentLineWidth += measuredWord.width
                     } else if (startNextLine) {
                         // word goes to next line
                         currentRow++
                         currentColumn = 0
-                        currentLineWidth = measuredWord.value
+                        currentLineWidth = measuredWord.width
                     } else {
                         // word goes to start of next frame
                         currentRow = 0
                         currentColumn = 0
-                        currentLineWidth = measuredWord.value
+                        currentLineWidth = measuredWord.width
                         frames.add(CharacterConstrainedTextFrame(currentFrame))
                         currentFrame = mutableMapOf()
                     }
 
-                    measuredWord.key.forEach {
+                    measuredWord.string.forEach {
                         currentFrame[Point(currentColumn, currentRow)] = it
                         currentColumn++
                     }
                 }
 
+                currentRow++
                 currentColumn = 0
                 currentLineWidth = 0
             }

@@ -34,6 +34,22 @@ class CharacterConstrainedTextFrameTest {
     }
 
     @Test
+    fun `given text that is on 3 lines when create then 1 frame with 3 lines returned`() {
+        // Given
+        val text = "Here is a question?\n -1: Answer 1\n -2 Answer 2"
+        val parameters = TextFrameParameters(20, 4)
+
+        // When
+        val frames = CharacterConstrainedTextFrame.create(text, parameters)
+        val positions = frames.first().getCharacterPositions()
+        val result = positions.map { it.row }.distinct().count()
+
+        // Then
+        Assertions.assertEquals(1, frames.size)
+        Assertions.assertEquals(3, result)
+    }
+
+    @Test
     fun `given text that is split over 2 lines when create then 1 frame returned`() {
         // Given
         val text = "Here is some text.\nHere is some text."

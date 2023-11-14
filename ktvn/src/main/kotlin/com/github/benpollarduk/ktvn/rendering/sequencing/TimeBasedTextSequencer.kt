@@ -9,7 +9,7 @@ import com.github.benpollarduk.ktvn.rendering.frames.TextFrame
  * [msBetweenCharacters]. A [listener] must be provided.
  */
 public class TimeBasedTextSequencer(
-    private var msBetweenCharacters: Long = 100,
+    private var msBetweenCharacters: Long = DEFAULT_MS_BETWEEN_CHARACTERS,
     private val listener: (characters: List<CharacterPosition>) -> Unit
 ) : TextSequencer {
     private var isSequencing: Boolean = false
@@ -57,5 +57,12 @@ public class TimeBasedTextSequencer(
 
         forceAll = false
         isSequencing = false
+    }
+
+    public companion object {
+        /**
+         * Get the default milliseconds between characters.
+         */
+        public const val DEFAULT_MS_BETWEEN_CHARACTERS: Long = 50
     }
 }

@@ -12,9 +12,12 @@ import com.github.benpollarduk.ktvn.rendering.sequencing.TimeBasedTextSequencer
 public class AnsiConsoleController(
     private val parameters: TextFrameParameters = TextFrameParameters(DEFAULT_WIDTH, DEFAULT_LINES)
 ) {
-    private val sequencer = TimeBasedTextSequencer(DEFAULT_MS_BETWEEN_CHARACTERS) {
+    private val sequencer = TimeBasedTextSequencer {
         for (position in it) {
-            setCursorPosition(position.column, position.row)
+            if (position.column == 0 && position.row == 0) {
+                clear()
+            }
+            setCursorPosition(position.column + 1, position.row + 1)
             setCursorVisibility(false)
             print(position.character)
         }
@@ -65,15 +68,10 @@ public class AnsiConsoleController(
      * Clear the console.
      */
     public fun clear() {
-        // windows terminal doesn't clear properly with ANSI...
-        if (System.getProperty("os.name").contains("Windows")) {
-            ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor()
-        } else {
-            // ANSI escape code to clear the screen
-            kotlin.io.print("\u001b[H\u001b[2J")
-            // flush output
-            System.out.flush()
-        }
+        // ANSI escape code to clear the screen
+        kotlin.io.print("\u001b[H\u001b[2J")
+        // flush output
+        System.out.flush()
     }
 
     /**
@@ -88,26 +86,27 @@ public class AnsiConsoleController(
     }
 
     /**
-     * Println a [string] to the console.
+     * Display a [string] directly on the console temporarily. The default 1000ms duration can be specified with
+     * [durationInMs], in milliseconds.
      */
-    public fun println(string: String) {
-        print("$string\n")
+    public fun printlnDirectTemp(string: String, durationInMs: Long = 1000) {
+        clear()
+        println(string)
+
+        if (durationInMs > 0) {
+            Thread.sleep(durationInMs)
+        }
     }
 
     public companion object {
         /**
          * Get the default width.
          */
-        public const val DEFAULT_WIDTH: Int = 50
+        public const val DEFAULT_WIDTH: Int = 100
 
         /**
          * Get the default lines.
          */
         public const val DEFAULT_LINES: Int = 10
-
-        /**
-         * Get the default milliseconds between characters.
-         */
-        public const val DEFAULT_MS_BETWEEN_CHARACTERS: Long = 50
     }
 }

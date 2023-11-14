@@ -1,4 +1,4 @@
-package com.github.benpollarduk.ktvn.logic.configuration.console
+package com.github.benpollarduk.ktvn.configuration.test
 
 import com.github.benpollarduk.ktvn.characters.AnimateListener
 import com.github.benpollarduk.ktvn.characters.Animation
@@ -14,12 +14,7 @@ import com.github.benpollarduk.ktvn.logic.Question
 import com.github.benpollarduk.ktvn.logic.configuration.CharacterConfiguration
 import com.github.benpollarduk.ktvn.logic.structure.AcknowledgeListener
 
-/**
- * Provides an [CharacterConfiguration] for an ANSI console.
- */
-internal class AnsiConsoleCharacterConfiguration(
-    private val consoleController: AnsiConsoleController
-) : CharacterConfiguration {
+internal class TestCharacterConfiguration : CharacterConfiguration {
     private val passThroughAcknowledgementListener: AcknowledgeListener = object : AcknowledgeListener {
         override fun waitFor() {
             // continue without acknowledgement
@@ -27,68 +22,40 @@ internal class AnsiConsoleCharacterConfiguration(
     }
 
     override val emoteAcknowledgementListener: AcknowledgeListener = passThroughAcknowledgementListener
-
     override val animateAcknowledgementListener: AcknowledgeListener = passThroughAcknowledgementListener
-
-    override val speakAcknowledgementListener: AcknowledgeListener = object : AcknowledgeListener {
-        override fun waitFor() {
-            consoleController.waitForEnter()
-            consoleController.clear()
-        }
-    }
+    override val speakAcknowledgementListener: AcknowledgeListener = passThroughAcknowledgementListener
 
     override val askListener: AskListener = object : AskListener {
         override fun ask(character: Character, question: Question, answerListener: AnswerListener): Answer {
-            var questionString = "${character.name}: ${question.line}\n"
-
-            for (i in question.answers.indices) {
-                questionString += "  ${i + 1}: ${question.answers[i].line}\n"
-            }
-
-            consoleController.print(questionString)
-            return answerListener.waitFor(question)
+            return question.answers.first()
         }
 
         override fun ask(narrator: Narrator, question: Question, answerListener: AnswerListener): Answer {
-            throw NotImplementedError()
+            return question.answers.first()
         }
     }
 
     override val answerListener: AnswerListener = object : AnswerListener {
         override fun waitFor(question: Question): Answer {
-            var index = Int.MIN_VALUE
-
-            while (index == Int.MIN_VALUE) {
-                index = try {
-                    consoleController.waitForInput().toInt() - 1
-                } catch (e: NumberFormatException) {
-                    Int.MIN_VALUE
-                }
-            }
-
-            consoleController.clear()
-            return question.answers[index]
+            return question.answers.first()
         }
     }
 
     override val speakListener: SpeakListener = object : SpeakListener {
         override fun speak(character: Character, line: String, acknowledgement: AcknowledgeListener) {
-            consoleController.print("${character.name}: $line")
-            acknowledgement.waitFor()
+            // nothing
         }
     }
 
     override val emoteListener: EmoteListener = object : EmoteListener {
         override fun emote(character: Character, emotion: Emotion, acknowledgement: AcknowledgeListener) {
-            consoleController.printlnDirectTemp("${character.name} looks $emotion.")
-            acknowledgement.waitFor()
+            // nothing
         }
     }
 
     override val animateListener: AnimateListener = object : AnimateListener {
         override fun animate(character: Character, animation: Animation, acknowledgement: AcknowledgeListener) {
-            consoleController.printlnDirectTemp("${character.name} begins $animation.")
-            acknowledgement.waitFor()
+            // nothing
         }
     }
 }
