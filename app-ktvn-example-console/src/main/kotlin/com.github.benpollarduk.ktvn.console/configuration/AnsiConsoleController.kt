@@ -21,6 +21,7 @@ internal class AnsiConsoleController(
 
     // the sequencer is responsible for sequencing the characters correctly
     private val sequencer = TimeBasedTextSequencer {
+        // render all the characters in the requested position on the console
         for (position in it) {
             if (position.column == 0 && position.row == 0) {
                 clear()
@@ -34,12 +35,16 @@ internal class AnsiConsoleController(
     private val display = SequencedTextController(sequencer)
 
     init {
-        val listener: SequencedTextDisplayListener = object : SequencedTextDisplayListener {
+        // set up the listener for when the display has to split a text frame and requires acknowledgement to continue
+        display.addListener(object : SequencedTextDisplayListener {
             override fun acknowledgeRequiredChanged(required: Boolean) {
-                display.acknowledge()
+                // if acknowledgment is required wait for enter to be pressed
+                if (required)
+                    waitForEnter()
             }
-        }
-        display.addListener(listener)
+        })
+
+        // hide the cursor
         setCursorVisibility(false)
     }
 
