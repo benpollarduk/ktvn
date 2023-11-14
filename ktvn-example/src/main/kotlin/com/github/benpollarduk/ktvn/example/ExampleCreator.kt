@@ -56,7 +56,8 @@ public class ExampleCreator(private val gameConfiguration: GameConfiguration) {
     private fun insideTheMansion(): Scene {
         return scene { scene ->
             scene name "Inside the mansion"
-            scene background emptyBackground
+            scene background "mansion-interior"
+            scene music "mansion-theme"
             scene layout createLayout { layout ->
                 layout addLeftOf michel
                 layout addRightOf morgana
@@ -64,7 +65,6 @@ public class ExampleCreator(private val gameConfiguration: GameConfiguration) {
             }
             scene steps listOf(
                 next { scene.layout moveLeft michel },
-                next { audio play "mansion-theme" },
                 next { michel looks normal },
                 next { michel says "Morgana, are you there?" },
                 next { scene.layout moveRight morgana },

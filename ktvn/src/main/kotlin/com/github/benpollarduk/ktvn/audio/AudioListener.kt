@@ -5,17 +5,7 @@ package com.github.benpollarduk.ktvn.audio
  */
 public interface AudioListener {
     /**
-     * Invoke the listener for play with a specified [key].
+     * Invoke the listener for sfx with a specified [soundEffect].
      */
-    public fun play(key: String)
-
-    /**
-     * Invoke the listener for sfx with a specified [key].
-     */
-    public fun sfx(key: String)
-
-    /**
-     * Invoke the listener for stop with a specified [key].
-     */
-    public fun stop(key: String)
+    public fun sfx(soundEffect: SoundEffect)
 }
