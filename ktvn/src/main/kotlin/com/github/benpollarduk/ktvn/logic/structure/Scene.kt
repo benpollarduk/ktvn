@@ -1,7 +1,11 @@
 package com.github.benpollarduk.ktvn.logic.structure
 
+import com.github.benpollarduk.ktvn.audio.NoAudio.Companion.silence
+import com.github.benpollarduk.ktvn.audio.ResourceTrack.Companion.trackFromResource
+import com.github.benpollarduk.ktvn.audio.Track
 import com.github.benpollarduk.ktvn.backgrounds.Background
 import com.github.benpollarduk.ktvn.backgrounds.ColorBackground.Companion.emptyBackground
+import com.github.benpollarduk.ktvn.backgrounds.ResourceBackground.Companion.backgroundFromResource
 import com.github.benpollarduk.ktvn.layout.Layout
 import com.github.benpollarduk.ktvn.layout.Layout.Companion.createLayout
 import com.github.benpollarduk.ktvn.logic.Flags
@@ -9,10 +13,17 @@ import com.github.benpollarduk.ktvn.logic.Flags
 /**
  * A scene within a [Chapter].
  */
+@Suppress("TooManyFunctions")
 public class Scene private constructor(setup: (Scene) -> Unit) {
     private var content: List<Step> = emptyList()
     private var transitionIn: SceneTransition = SceneTransitions.instant
     private var transitionOut: SceneTransition = SceneTransitions.instant
+
+    /**
+     * Get the music for this [Scene].
+     */
+    public var music: Track = silence
+        private set
 
     /**
      * Get the background for this [Scene].
@@ -55,10 +66,31 @@ public class Scene private constructor(setup: (Scene) -> Unit) {
     }
 
     /**
+     * Set the [music].
+     */
+    public infix fun music(music: Track) {
+        this.music = music
+    }
+
+    /**
+     * Set the music, specified by [key].
+     */
+    public infix fun music(key: String) {
+        this.music = trackFromResource(key)
+    }
+
+    /**
      * Set the [background].
      */
     public infix fun background(background: Background) {
         this.background = background
+    }
+
+    /**
+     * Set the background, specified by [key].
+     */
+    public infix fun background(key: String) {
+        this.background = backgroundFromResource(key)
     }
 
     /**

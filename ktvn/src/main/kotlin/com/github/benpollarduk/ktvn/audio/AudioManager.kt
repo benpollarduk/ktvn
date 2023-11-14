@@ -1,5 +1,6 @@
 package com.github.benpollarduk.ktvn.audio
 
+import com.github.benpollarduk.ktvn.audio.ResourceSoundEffect.Companion.sfxFromResource
 import com.github.benpollarduk.ktvn.logic.configuration.AudioConfiguration
 
 /**
@@ -7,23 +8,16 @@ import com.github.benpollarduk.ktvn.logic.configuration.AudioConfiguration
  */
 public class AudioManager(private val audioConfiguration: AudioConfiguration) {
     /**
-     * Play music, specified by [key].
+     * Play a specified [soundEffect].
      */
-    public infix fun play(key: String) {
-        audioConfiguration.audioListener.play(key)
+    public infix fun sfx(soundEffect: SoundEffect) {
+        audioConfiguration.audioListener.sfx(soundEffect)
     }
 
     /**
-     * Play a sound effect, specified by [key].
+     * Play a sound effect, specified by key [key].
      */
     public infix fun sfx(key: String) {
-        audioConfiguration.audioListener.sfx(key)
-    }
-
-    /**
-     * Stop playing music, specified by [key].
-     */
-    public infix fun stop(key: String) {
-        audioConfiguration.audioListener.stop(key)
+        audioConfiguration.audioListener.sfx(sfxFromResource(key))
     }
 }

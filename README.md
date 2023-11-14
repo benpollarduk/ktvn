@@ -121,14 +121,6 @@ Change position on the screen:
 ```kotlin
 next { layout moveRight morgana }
 ```
-Start playing music:
-```kotlin
-next { audio play "intro" }
-```
-Stop playing music:
-```kotlin
-next { audio stop "intro" }
-```
 Or play a sound effect:
 ```kotlin
 next { audio sfx "crash" }
