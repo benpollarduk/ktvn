@@ -1,6 +1,6 @@
 package com.github.benpollarduk.ktvn.backgrounds
 
 /**
- * Provides an interface for an in game background.
+ * Provides an interface for a background.
  */
 public interface Background
