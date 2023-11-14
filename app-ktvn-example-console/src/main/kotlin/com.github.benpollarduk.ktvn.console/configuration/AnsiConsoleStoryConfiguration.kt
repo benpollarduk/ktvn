@@ -1,4 +1,4 @@
-package com.github.benpollarduk.ktvn.logic.configuration.console
+package com.github.benpollarduk.ktvn.console.configuration
 
 import com.github.benpollarduk.ktvn.logic.configuration.StoryConfiguration
 import com.github.benpollarduk.ktvn.logic.structure.Chapter

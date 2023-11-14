@@ -1,4 +1,4 @@
-package com.github.benpollarduk.ktvn.logic.configuration.console
+package com.github.benpollarduk.ktvn.console.configuration
 
 import com.github.benpollarduk.ktvn.characters.AnswerListener
 import com.github.benpollarduk.ktvn.characters.AskListener

@@ -36,10 +36,10 @@ public object GameExecutor {
      * Execute a [game] asynchronously. Optionally a [listener] can be provided to listen for the result of the
      * execution.
      */
-    public fun executeAysnc(game: Game, listener: GameExecutionListener? = null) {
+    public fun executeAysnc(game: Game, listener: ((result: GameExecutionResult) -> Unit)?) {
         val gameThread = Thread {
             val result = execute(game)
-            listener?.finished(result)
+            listener?.invoke(result)
         }
         gameThread.start()
     }

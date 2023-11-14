@@ -46,7 +46,7 @@ public class ExampleCreator(private val gameConfiguration: GameConfiguration) {
                 it configure gameConfiguration.layoutConfiguration
             }
             scene steps listOf(
-                next { narrator narrates "Many years have passed since Michel moved in to the mansion." },
+                next { narrator narrates "Many years have passed since Michel moved into the mansion." },
                 next { narrator narrates "Although Michel has remained amicable, the witch, Morgana, has not." }
             )
         }
@@ -115,7 +115,6 @@ public class ExampleCreator(private val gameConfiguration: GameConfiguration) {
                     }
                     it returns End(Ending("Michel dies alone.", 1))
                 },
-                next { narrator narrates "And that was the end of that!" },
                 end {
                     it ending default
                 }

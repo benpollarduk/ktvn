@@ -1,4 +1,4 @@
-package com.github.benpollarduk.ktvn.logic.configuration.console
+package com.github.benpollarduk.ktvn.console.configuration
 
 import com.github.benpollarduk.ktvn.characters.AnimateListener
 import com.github.benpollarduk.ktvn.characters.Animation

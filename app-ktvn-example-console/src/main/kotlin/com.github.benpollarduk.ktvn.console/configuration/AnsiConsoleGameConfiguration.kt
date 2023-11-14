@@ -1,4 +1,4 @@
-package com.github.benpollarduk.ktvn.logic.configuration.console
+package com.github.benpollarduk.ktvn.console.configuration
 
 import com.github.benpollarduk.ktvn.logic.configuration.AudioConfiguration
 import com.github.benpollarduk.ktvn.logic.configuration.CharacterConfiguration
@@ -10,8 +10,8 @@ import com.github.benpollarduk.ktvn.logic.configuration.StoryConfiguration
 /**
  * Provides a default configuration for an ANSI compatible Console.
  */
-public object AnsiConsoleGameConfiguration : GameConfiguration {
-    public val consoleController: AnsiConsoleController = AnsiConsoleController()
+internal object AnsiConsoleGameConfiguration : GameConfiguration {
+    internal val consoleController: AnsiConsoleController = AnsiConsoleController()
     override val characterConfiguration: CharacterConfiguration = AnsiConsoleCharacterConfiguration(consoleController)
     override val narratorConfiguration: NarratorConfiguration = AnsiConsoleNarratorConfiguration(consoleController)
     override val layoutConfiguration: LayoutConfiguration = AnsiConsoleLayoutConfiguration(consoleController)

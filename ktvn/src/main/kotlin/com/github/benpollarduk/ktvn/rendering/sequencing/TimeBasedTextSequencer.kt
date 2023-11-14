@@ -32,7 +32,7 @@ public class TimeBasedTextSequencer(
             val charactersThisCycle = if (forceAll) {
                 val start = i
                 i = positions.size
-                positions.subList(start, positions.size - 1)
+                positions.subList(start, positions.size)
             } else {
                 val start = i
                 i++

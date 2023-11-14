@@ -15,11 +15,16 @@ public class Game(
     private val save: Save = Save.empty
 ) {
     private val cancellationToken = CancellationToken()
-    private var isExecuting = false
     private val endingsReached: MutableList<Ending> = mutableListOf()
     private var startTimeInSeconds: Long = 0
     private var endTimeInSeconds: Long = 0
     private val lock = ReentrantLock()
+
+    /**
+     * Get if this game is executing
+     */
+    public var isExecuting: Boolean = false
+        private set
 
     /**
      * Begin execution of the game. Returns a [GameExecutionResult].
