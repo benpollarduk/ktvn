@@ -1,7 +1,7 @@
 package com.github.benpollarduk.ktvn.rendering
 
 import com.github.benpollarduk.ktvn.logic.structure.CancellationToken
-import com.github.benpollarduk.ktvn.rendering.frames.StandardTextFrame
+import com.github.benpollarduk.ktvn.rendering.frames.SizeConstrainedTextFrame
 import com.github.benpollarduk.ktvn.rendering.frames.TextFrameParameters
 import com.github.benpollarduk.ktvn.rendering.sequencing.TimeBasedTextSequencer
 import org.junit.jupiter.api.Assertions
@@ -16,7 +16,7 @@ class SequencedTextControllerTest {
         val text = "This is just line of text that will hopefully render over a few frames and trigger an acknowledgment."
         val font = Font("Arial", Font.PLAIN, 12)
         val parameters = TextFrameParameters(100, 4, font)
-        val frames = StandardTextFrame.create(text, parameters)
+        val frames = SizeConstrainedTextFrame.create(text, parameters)
         val sequencer = TimeBasedTextSequencer(1) {
             for (position in it) {
                 print(position.c)

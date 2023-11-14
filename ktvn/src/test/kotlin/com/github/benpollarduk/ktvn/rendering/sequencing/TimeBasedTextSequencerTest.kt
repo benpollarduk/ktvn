@@ -1,7 +1,7 @@
 package com.github.benpollarduk.ktvn.rendering.sequencing
 
 import com.github.benpollarduk.ktvn.logic.structure.CancellationToken
-import com.github.benpollarduk.ktvn.rendering.frames.StandardTextFrame
+import com.github.benpollarduk.ktvn.rendering.frames.SizeConstrainedTextFrame
 import com.github.benpollarduk.ktvn.rendering.frames.TextFrame
 import com.github.benpollarduk.ktvn.rendering.frames.TextFrameParameters
 import org.junit.jupiter.api.Assertions
@@ -15,7 +15,7 @@ class TimeBasedTextSequencerTest {
         val text = "12345"
         val font = Font("Arial", Font.PLAIN, 12)
         val parameters = TextFrameParameters(300, 4, font)
-        val frame: TextFrame = StandardTextFrame.create(text, parameters).first()
+        val frame: TextFrame = SizeConstrainedTextFrame.create(text, parameters).first()
         var count = 0
         val sequencer = TimeBasedTextSequencer(1) {
             count++
@@ -34,7 +34,7 @@ class TimeBasedTextSequencerTest {
         val text = "0123456789"
         val font = Font("Arial", Font.PLAIN, 12)
         val parameters = TextFrameParameters(300, 4, font)
-        val frame: TextFrame = StandardTextFrame.create(text, parameters).first()
+        val frame: TextFrame = SizeConstrainedTextFrame.create(text, parameters).first()
         var count = 0
         val sequencer = TimeBasedTextSequencer(1) {
             count++
