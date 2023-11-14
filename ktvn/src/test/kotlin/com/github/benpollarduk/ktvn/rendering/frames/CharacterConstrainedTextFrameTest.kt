@@ -2,7 +2,6 @@ package com.github.benpollarduk.ktvn.rendering.frames
 
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
-import java.awt.Font
 
 class CharacterConstrainedTextFrameTest {
     @Test

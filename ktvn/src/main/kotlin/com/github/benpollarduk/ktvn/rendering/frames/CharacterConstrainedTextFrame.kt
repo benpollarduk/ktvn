@@ -87,8 +87,8 @@ public class CharacterConstrainedTextFrame private constructor(private val data:
         }
 
         /**
-         * Create a list of [CharacterConstrainedTextFrame] from [text] and [parameters]. A collection is required because the
-         * text may spill across multiple frames.
+         * Create a list of [CharacterConstrainedTextFrame] from [text] and [parameters]. A collection is required
+         * because the text may spill across multiple frames.
          */
         public fun create(text: String, parameters: TextFrameParameters): List<CharacterConstrainedTextFrame> {
             val frames: MutableList<CharacterConstrainedTextFrame> = mutableListOf()

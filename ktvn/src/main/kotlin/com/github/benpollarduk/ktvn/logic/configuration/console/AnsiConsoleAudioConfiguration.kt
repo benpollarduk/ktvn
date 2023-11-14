@@ -7,10 +7,12 @@ import com.github.benpollarduk.ktvn.logic.configuration.AudioConfiguration
 /**
  * Provides an [AudioConfiguration] for an ANSI console.
  */
-internal class AnsiConsoleAudioConfiguration : AudioConfiguration {
+internal class AnsiConsoleAudioConfiguration(
+    private val consoleController: AnsiConsoleController
+) : AudioConfiguration {
     override val audioListener: AudioListener = object : AudioListener {
         override fun sfx(soundEffect: SoundEffect) {
-            println("Sound effect: $soundEffect")
+            consoleController.println("Sound effect: $soundEffect")
         }
     }
 }

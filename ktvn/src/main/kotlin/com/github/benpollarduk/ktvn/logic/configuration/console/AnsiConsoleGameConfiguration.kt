@@ -11,16 +11,10 @@ import com.github.benpollarduk.ktvn.logic.configuration.StoryConfiguration
  * Provides a default configuration for an ANSI compatible Console.
  */
 public object AnsiConsoleGameConfiguration : GameConfiguration {
-    /**
-     * Clear the console.
-     */
-    public fun clearConsole() {
-        print("\u001b[H\u001b[2J")
-    }
-
-    override val characterConfiguration: CharacterConfiguration = AnsiConsoleCharacterConfiguration()
-    override val narratorConfiguration: NarratorConfiguration = AnsiConsoleNarratorConfiguration()
-    override val layoutConfiguration: LayoutConfiguration = AnsiConsoleLayoutConfiguration()
-    override val storyConfiguration: StoryConfiguration = AnsiConsoleStoryConfiguration()
-    override val audioConfiguration: AudioConfiguration = AnsiConsoleAudioConfiguration()
+    public val consoleController: AnsiConsoleController = AnsiConsoleController()
+    override val characterConfiguration: CharacterConfiguration = AnsiConsoleCharacterConfiguration(consoleController)
+    override val narratorConfiguration: NarratorConfiguration = AnsiConsoleNarratorConfiguration(consoleController)
+    override val layoutConfiguration: LayoutConfiguration = AnsiConsoleLayoutConfiguration(consoleController)
+    override val storyConfiguration: StoryConfiguration = AnsiConsoleStoryConfiguration(consoleController)
+    override val audioConfiguration: AudioConfiguration = AnsiConsoleAudioConfiguration(consoleController)
 }

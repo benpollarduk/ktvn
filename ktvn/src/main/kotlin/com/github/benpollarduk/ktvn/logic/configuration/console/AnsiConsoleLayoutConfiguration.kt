@@ -9,7 +9,9 @@ import com.github.benpollarduk.ktvn.logic.structure.AcknowledgeListener
 /**
  * Provides an [LayoutConfiguration] for an ANSI console.
  */
-internal class AnsiConsoleLayoutConfiguration : LayoutConfiguration {
+internal class AnsiConsoleLayoutConfiguration(
+    private val consoleController: AnsiConsoleController
+) : LayoutConfiguration {
     override val moveAcknowledgementListener: AcknowledgeListener = object : AcknowledgeListener {
         override fun waitFor() {
             // pass through
@@ -23,7 +25,7 @@ internal class AnsiConsoleLayoutConfiguration : LayoutConfiguration {
             toPosition: Position,
             acknowledgement: AcknowledgeListener
         ) {
-            println("${character.name} moves from '$fromPosition' to '$toPosition'.")
+            consoleController.println("${character.name} moves from '$fromPosition' to '$toPosition'.")
             acknowledgement.waitFor()
         }
     }

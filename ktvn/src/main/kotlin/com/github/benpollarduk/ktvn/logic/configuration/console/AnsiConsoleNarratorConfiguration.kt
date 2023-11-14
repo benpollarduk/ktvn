@@ -13,10 +13,12 @@ import com.github.benpollarduk.ktvn.logic.structure.AcknowledgeListener
 /**
  * Provides an [NarratorConfiguration] for an ANSI console.
  */
-internal class AnsiConsoleNarratorConfiguration : NarratorConfiguration {
+internal class AnsiConsoleNarratorConfiguration(
+    private val consoleController: AnsiConsoleController
+) : NarratorConfiguration {
     override val narrateAcknowledgementListener: AcknowledgeListener = object : AcknowledgeListener {
         override fun waitFor() {
-            readln()
+            consoleController.waitForEnter()
         }
     }
 
@@ -26,10 +28,10 @@ internal class AnsiConsoleNarratorConfiguration : NarratorConfiguration {
         }
 
         override fun ask(narrator: Narrator, question: Question, answerListener: AnswerListener): Answer {
-            println(question.line)
+            consoleController.println(question.line)
 
             for (i in question.answers.indices) {
-                println("  ${i + 1}: ${question.answers[i].line}")
+                consoleController.println("  ${i + 1}: ${question.answers[i].line}")
             }
 
             return answerListener.waitFor(question)
@@ -38,7 +40,7 @@ internal class AnsiConsoleNarratorConfiguration : NarratorConfiguration {
 
     override val narrateListener: NarrateListener = object : NarrateListener {
         override fun narrate(line: String, acknowledgement: AcknowledgeListener) {
-            println(line)
+            consoleController.println(line)
             acknowledgement.waitFor()
         }
     }
@@ -49,13 +51,13 @@ internal class AnsiConsoleNarratorConfiguration : NarratorConfiguration {
 
             while (index == Int.MIN_VALUE) {
                 index = try {
-                    readln().toInt() - 1
+                    consoleController.waitForInput().toInt() - 1
                 } catch (e: NumberFormatException) {
                     Int.MIN_VALUE
                 }
             }
 
-            AnsiConsoleGameConfiguration.clearConsole()
+            consoleController.clear()
             return question.answers[index]
         }
     }

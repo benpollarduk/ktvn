@@ -102,8 +102,8 @@ public class SizeConstrainedTextFrame private constructor(private val data: Map<
         }
 
         /**
-         * Create a list of [SizeConstrainedTextFrame] from [text] and [parameters]. A collection is required because the
-         * text may spill across multiple frames.
+         * Create a list of [SizeConstrainedTextFrame] from [text] and [parameters]. A collection is required because
+         * the text may spill across multiple frames.
          */
         public fun create(text: String, parameters: TextFrameParameters): List<SizeConstrainedTextFrame> {
             val fontMetrics = createFontMetrics(parameters.font)

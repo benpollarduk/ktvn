@@ -19,7 +19,7 @@ class SequencedTextControllerTest {
         val frames = SizeConstrainedTextFrame.create(text, parameters)
         val sequencer = TimeBasedTextSequencer(1) {
             for (position in it) {
-                print(position.c)
+                print(position.character)
             }
         }
         var called = false
