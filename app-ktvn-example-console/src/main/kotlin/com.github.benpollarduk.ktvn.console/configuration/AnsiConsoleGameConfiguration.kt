@@ -8,10 +8,9 @@ import com.github.benpollarduk.ktvn.logic.configuration.NarratorConfiguration
 import com.github.benpollarduk.ktvn.logic.configuration.StoryConfiguration
 
 /**
- * Provides a default configuration for an ANSI compatible Console.
+ * Provides a configuration for an ANSI compatible console that uses a [consoleController].
  */
-internal object AnsiConsoleGameConfiguration : GameConfiguration {
-    internal val consoleController: AnsiConsoleController = AnsiConsoleController()
+internal class AnsiConsoleGameConfiguration(consoleController: AnsiConsoleController) : GameConfiguration {
     override val characterConfiguration: CharacterConfiguration = AnsiConsoleCharacterConfiguration(consoleController)
     override val narratorConfiguration: NarratorConfiguration = AnsiConsoleNarratorConfiguration(consoleController)
     override val layoutConfiguration: LayoutConfiguration = AnsiConsoleLayoutConfiguration(consoleController)
