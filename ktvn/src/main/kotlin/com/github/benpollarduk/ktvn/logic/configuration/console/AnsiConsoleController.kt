@@ -67,7 +67,7 @@ public class AnsiConsoleController(
     public fun clear() {
         // windows terminal doesn't clear properly with ANSI...
         if (System.getProperty("os.name").contains("Windows")) {
-            ProcessBuilder("cmd", "/character", "cls").inheritIO().start().waitFor()
+            ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor()
         } else {
             // ANSI escape code to clear the screen
             kotlin.io.print("\u001b[H\u001b[2J")
