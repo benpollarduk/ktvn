@@ -238,7 +238,7 @@ For further examples please see the ktvn-example directory in the repo.
 # Integration #
 Ktvn provides a structure, DSL and flow control for creating visual novels, but it does not provide a framework for 
 creating UIs and managing assets. Many frameworks for this exist. To integrate with a project a **GameConfiguration** is 
-required. Please see **AnsiConsoleGameConfiguration** in for a simple example that demonstrates how to create a 
+required. Please see **AnsiConsoleGameConfiguration** in **app-ktvn-example-console** for a simple example that demonstrates how to create a 
 configuration and integrate with an ANSI compatible console.
 
 # For Open Questions
