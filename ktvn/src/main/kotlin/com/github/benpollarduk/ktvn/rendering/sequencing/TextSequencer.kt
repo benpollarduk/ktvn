@@ -1,6 +1,5 @@
 package com.github.benpollarduk.ktvn.rendering.sequencing
 
-import com.github.benpollarduk.ktvn.logic.structure.CancellationToken
 import com.github.benpollarduk.ktvn.rendering.frames.TextFrame
 
 /**
@@ -18,8 +17,7 @@ public interface TextSequencer {
     public fun requestAll()
 
     /**
-     * Start sequencing characters for a specified [frame]. A [cancellationToken] must be provided to support
-     * cancellation.
+     * Start sequencing characters for a specified [frame].
      */
-    public fun sequence(frame: TextFrame, cancellationToken: CancellationToken)
+    public fun sequence(frame: TextFrame)
 }

@@ -1,6 +1,5 @@
 package com.github.benpollarduk.ktvn.rendering.sequencing
 
-import com.github.benpollarduk.ktvn.logic.structure.CancellationToken
 import com.github.benpollarduk.ktvn.rendering.frames.CharacterPosition
 import com.github.benpollarduk.ktvn.rendering.frames.TextFrame
 
@@ -22,7 +21,7 @@ public class TimeBasedTextSequencer(
         forceAll = true
     }
 
-    override fun sequence(frame: TextFrame, cancellationToken: CancellationToken) {
+    override fun sequence(frame: TextFrame) {
         isSequencing = true
 
         val positions = frame.getCharacterPositions()
@@ -44,14 +43,9 @@ public class TimeBasedTextSequencer(
             var invokeDelay = msBetweenCharacters > 0
             invokeDelay = invokeDelay && !forceAll
             invokeDelay = invokeDelay && i < positions.size - 1
-            invokeDelay = invokeDelay && !cancellationToken.wasCancelled
 
             if (invokeDelay) {
                 Thread.sleep(msBetweenCharacters)
-            }
-
-            if (cancellationToken.wasCancelled) {
-                i = positions.size
             }
         }
 

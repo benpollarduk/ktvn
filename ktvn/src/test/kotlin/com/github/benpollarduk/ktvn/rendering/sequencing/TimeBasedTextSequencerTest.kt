@@ -1,6 +1,5 @@
 package com.github.benpollarduk.ktvn.rendering.sequencing
 
-import com.github.benpollarduk.ktvn.logic.structure.CancellationToken
 import com.github.benpollarduk.ktvn.rendering.frames.SizeConstrainedTextFrame
 import com.github.benpollarduk.ktvn.rendering.frames.TextFrame
 import com.github.benpollarduk.ktvn.rendering.frames.TextFrameParameters
@@ -22,7 +21,7 @@ class TimeBasedTextSequencerTest {
         }
 
         // When
-        sequencer.sequence(frame, CancellationToken())
+        sequencer.sequence(frame)
 
         // Then
         Assertions.assertEquals(5, count)
@@ -41,7 +40,7 @@ class TimeBasedTextSequencerTest {
         }
 
         // When
-        sequencer.sequence(frame, CancellationToken())
+        sequencer.sequence(frame)
 
         // Then
         Assertions.assertEquals(10, count)
