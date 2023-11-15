@@ -1,6 +1,5 @@
 package com.github.benpollarduk.ktvn.rendering.sequencing
 
-import com.github.benpollarduk.ktvn.logic.structure.CancellationToken
 import com.github.benpollarduk.ktvn.rendering.frames.SizeConstrainedTextFrame
 import com.github.benpollarduk.ktvn.rendering.frames.TextFrame
 import com.github.benpollarduk.ktvn.rendering.frames.TextFrameParameters
@@ -24,20 +23,23 @@ class SequencedTextControllerTest {
         }
         var called = false
         val display = SequencedTextController(sequencer)
-        val listener: SequencedTextDisplayListener = object : SequencedTextDisplayListener {
+        val listener: SequencedTextControllerListener = object : SequencedTextControllerListener {
             override fun startedFrame(frame: TextFrame) {
                 // nothing
             }
 
-            override fun finishedFrame(frame: TextFrame, acknowledgementRequired: Boolean) {
+            override fun finishedFrame(frame: TextFrame) {
                 called = true
-                display.acknowledge()
+            }
+
+            override fun waitFor() {
+                // nothing
             }
         }
         display.addListener(listener)
 
         // When
-        display.render(frames, CancellationToken())
+        display.render(frames)
 
         // Then
         Assertions.assertTrue(called)

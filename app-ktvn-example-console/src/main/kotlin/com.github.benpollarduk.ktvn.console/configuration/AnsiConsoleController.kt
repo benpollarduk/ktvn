@@ -1,7 +1,7 @@
 package com.github.benpollarduk.ktvn.console.configuration
 
 import com.github.benpollarduk.ktvn.rendering.sequencing.SequencedTextController
-import com.github.benpollarduk.ktvn.rendering.sequencing.SequencedTextDisplayListener
+import com.github.benpollarduk.ktvn.rendering.sequencing.SequencedTextControllerListener
 import com.github.benpollarduk.ktvn.rendering.frames.CharacterConstrainedTextFrame
 import com.github.benpollarduk.ktvn.rendering.frames.TextFrame
 import com.github.benpollarduk.ktvn.rendering.frames.TextFrameParameters
@@ -33,16 +33,19 @@ internal class AnsiConsoleController(
     init {
         // set up the listener for when the textController has to split a text frame and requires acknowledgement to
         // continue
-        textController.addListener(object : SequencedTextDisplayListener {
+        textController.addListener(object : SequencedTextControllerListener {
             override fun startedFrame(frame: TextFrame) {
                 // clear the console before rendering the new frame
                 clear()
             }
 
-            override fun finishedFrame(frame: TextFrame, acknowledgementRequired: Boolean) {
-                // if acknowledgment is required wait for enter to be pressed
-                if (acknowledgementRequired)
-                    waitForEnter()
+            override fun finishedFrame(frame: TextFrame) {
+                // no handling
+            }
+
+            override fun waitFor() {
+                // wait for enter to be pressed before continuing
+                waitForEnter()
             }
         })
 
@@ -86,8 +89,12 @@ internal class AnsiConsoleController(
 
         while (isProcessingInput) {
             val input = readln()
-            setInput(input)
-            textController.acknowledge()
+
+            if (textController.sequencing) {
+                textController.skip()
+            } else {
+                setInput(input)
+            }
 
             try {
                 lock.lock()
@@ -109,6 +116,9 @@ internal class AnsiConsoleController(
      * Wait for the enter key to be pressed.
      */
     internal fun waitForEnter() {
+        setCursorPosition(DEFAULT_WIDTH + 1, DEFAULT_LINES + 1)
+        kotlin.io.print("<enter>")
+
         try {
             lock.lock()
             inputReceived = CountDownLatch(1)
@@ -185,11 +195,11 @@ internal class AnsiConsoleController(
         /**
          * Get the default width.
          */
-        internal const val DEFAULT_WIDTH: Int = 100
+        internal const val DEFAULT_WIDTH: Int = 50
 
         /**
          * Get the default lines.
          */
-        internal const val DEFAULT_LINES: Int = 10
+        internal const val DEFAULT_LINES: Int = 4
     }
 }
