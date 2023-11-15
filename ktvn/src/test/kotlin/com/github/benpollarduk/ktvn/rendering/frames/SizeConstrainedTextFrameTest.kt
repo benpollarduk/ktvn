@@ -69,7 +69,7 @@ class SizeConstrainedTextFrameTest {
     @Test
     fun `given text that is split over 2 lines and fits on 4 lines when create then 1 frame with 4 lines returned`() {
         // Given
-        val text = "ABCDEOPQR\nSTUVWXY89."
+        val text = "HELLO TEST\nHELLO TEST"
         val font = Font("Arial", Font.PLAIN, 12)
         val parameters = TextFrameParameters(60, 4, font)
 
