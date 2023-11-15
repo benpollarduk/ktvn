@@ -1,4 +1,4 @@
-package com.github.benpollarduk.ktvn.logic.configuration.console
+package com.github.benpollarduk.ktvn.console.configuration
 
 import com.github.benpollarduk.ktvn.characters.AnimateListener
 import com.github.benpollarduk.ktvn.characters.Animation
@@ -17,32 +17,28 @@ import com.github.benpollarduk.ktvn.logic.structure.AcknowledgeListener
 /**
  * Provides an [CharacterConfiguration] for an ANSI console.
  */
-internal class AnsiConsoleCharacterConfiguration : CharacterConfiguration {
-    private val passThroughAcknowledgementListener: AcknowledgeListener = object : AcknowledgeListener {
-        override fun waitFor() {
-            // continue without acknowledgement
-        }
-    }
-
-    override val emoteAcknowledgementListener: AcknowledgeListener = passThroughAcknowledgementListener
-
-    override val animateAcknowledgementListener: AcknowledgeListener = passThroughAcknowledgementListener
+internal class AnsiConsoleCharacterConfiguration(
+    private val consoleController: AnsiConsoleController
+) : CharacterConfiguration {
+    override val emoteAcknowledgementListener: AcknowledgeListener = PassThroughAcknowledgeListener
+    override val animateAcknowledgementListener: AcknowledgeListener = PassThroughAcknowledgeListener
 
     override val speakAcknowledgementListener: AcknowledgeListener = object : AcknowledgeListener {
         override fun waitFor() {
-            readln()
-            AnsiConsoleGameConfiguration.clearConsole()
+            consoleController.waitForEnter()
+            consoleController.clear()
         }
     }
 
     override val askListener: AskListener = object : AskListener {
         override fun ask(character: Character, question: Question, answerListener: AnswerListener): Answer {
-            println("${character.name}: ${question.line}")
+            var questionString = "${character.name}: ${question.line}\n"
 
             for (i in question.answers.indices) {
-                println("  ${i + 1}: ${question.answers[i].line}")
+                questionString += "  ${i + 1}: ${question.answers[i].line}\n"
             }
 
+            consoleController.print(questionString)
             return answerListener.waitFor(question)
         }
 
@@ -57,34 +53,34 @@ internal class AnsiConsoleCharacterConfiguration : CharacterConfiguration {
 
             while (index == Int.MIN_VALUE) {
                 index = try {
-                    readln().toInt() - 1
+                    consoleController.waitForInput().toInt() - 1
                 } catch (e: NumberFormatException) {
                     Int.MIN_VALUE
                 }
             }
 
-            AnsiConsoleGameConfiguration.clearConsole()
+            consoleController.clear()
             return question.answers[index]
         }
     }
 
     override val speakListener: SpeakListener = object : SpeakListener {
         override fun speak(character: Character, line: String, acknowledgement: AcknowledgeListener) {
-            println("${character.name}: $line")
+            consoleController.print("${character.name}: $line")
             acknowledgement.waitFor()
         }
     }
 
     override val emoteListener: EmoteListener = object : EmoteListener {
         override fun emote(character: Character, emotion: Emotion, acknowledgement: AcknowledgeListener) {
-            println("${character.name} looks $emotion.")
+            consoleController.printlnDirectTemp("${character.name} looks $emotion.")
             acknowledgement.waitFor()
         }
     }
 
     override val animateListener: AnimateListener = object : AnimateListener {
         override fun animate(character: Character, animation: Animation, acknowledgement: AcknowledgeListener) {
-            println("${character.name} begins $animation.")
+            consoleController.printlnDirectTemp("${character.name} begins $animation.")
             acknowledgement.waitFor()
         }
     }

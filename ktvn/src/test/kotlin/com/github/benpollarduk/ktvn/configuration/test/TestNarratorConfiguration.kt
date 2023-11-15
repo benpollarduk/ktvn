@@ -1,4 +1,4 @@
-package com.github.benpollarduk.ktvn.logic.configuration.console
+package com.github.benpollarduk.ktvn.configuration.test
 
 import com.github.benpollarduk.ktvn.characters.AnswerListener
 import com.github.benpollarduk.ktvn.characters.AskListener
@@ -10,53 +10,32 @@ import com.github.benpollarduk.ktvn.logic.Question
 import com.github.benpollarduk.ktvn.logic.configuration.NarratorConfiguration
 import com.github.benpollarduk.ktvn.logic.structure.AcknowledgeListener
 
-/**
- * Provides an [NarratorConfiguration] for an ANSI console.
- */
-internal class AnsiConsoleNarratorConfiguration : NarratorConfiguration {
+internal class TestNarratorConfiguration : NarratorConfiguration {
     override val narrateAcknowledgementListener: AcknowledgeListener = object : AcknowledgeListener {
         override fun waitFor() {
-            readln()
+            // nothing
         }
     }
 
     override val askListener: AskListener = object : AskListener {
         override fun ask(character: Character, question: Question, answerListener: AnswerListener): Answer {
-            throw NotImplementedError()
+            return question.answers.first()
         }
 
         override fun ask(narrator: Narrator, question: Question, answerListener: AnswerListener): Answer {
-            println(question.line)
-
-            for (i in question.answers.indices) {
-                println("  ${i + 1}: ${question.answers[i].line}")
-            }
-
-            return answerListener.waitFor(question)
+            return question.answers.first()
         }
     }
 
     override val narrateListener: NarrateListener = object : NarrateListener {
         override fun narrate(line: String, acknowledgement: AcknowledgeListener) {
-            println(line)
-            acknowledgement.waitFor()
+            // nothing
         }
     }
 
     override val answerListener: AnswerListener = object : AnswerListener {
         override fun waitFor(question: Question): Answer {
-            var index = Int.MIN_VALUE
-
-            while (index == Int.MIN_VALUE) {
-                index = try {
-                    readln().toInt() - 1
-                } catch (e: NumberFormatException) {
-                    Int.MIN_VALUE
-                }
-            }
-
-            AnsiConsoleGameConfiguration.clearConsole()
-            return question.answers[index]
+            return question.answers.first()
         }
     }
 }

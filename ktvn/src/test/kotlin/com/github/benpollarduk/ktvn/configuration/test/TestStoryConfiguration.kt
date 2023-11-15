@@ -1,4 +1,4 @@
-package com.github.benpollarduk.ktvn.logic.configuration.console
+package com.github.benpollarduk.ktvn.configuration.test
 
 import com.github.benpollarduk.ktvn.logic.configuration.StoryConfiguration
 import com.github.benpollarduk.ktvn.logic.structure.Chapter
@@ -8,32 +8,28 @@ import com.github.benpollarduk.ktvn.logic.structure.Scene
 import com.github.benpollarduk.ktvn.logic.structure.SceneListener
 import com.github.benpollarduk.ktvn.logic.structure.SceneTransition
 
-/**
- * Provides an [StoryConfiguration] for an ANSI console.
- */
-internal class AnsiConsoleStoryConfiguration : StoryConfiguration {
+internal class TestStoryConfiguration : StoryConfiguration {
     override val sceneListener: SceneListener = object : SceneListener {
         override fun enter(scene: Scene, transition: SceneTransition) {
-            println("Entered scene ${scene.name} with transition $transition.")
+            // nothing
         }
 
         override fun exit(scene: Scene, transition: SceneTransition) {
-            println("Exited scene ${scene.name} with transition $transition.")
+            // nothing
         }
 
         override fun clear(scene: Scene) {
-            AnsiConsoleGameConfiguration.clearConsole()
+            // nothing
         }
     }
 
     override val chapterListener: ChapterListener = object : ChapterListener {
         override fun enter(chapter: Chapter, transition: ChapterTransition) {
-            AnsiConsoleGameConfiguration.clearConsole()
-            println("Started chapter ${chapter.name} with transition $transition.")
+            // nothing
         }
 
         override fun exit(chapter: Chapter) {
-            println("Ended chapter ${chapter.name}.")
+            // nothing
         }
     }
 }
