@@ -81,11 +81,12 @@ val story = story { story ->
 }
 
 // create a game
-val game = Game(story, AnsiConsoleGameConfiguration, Save.empty)
+val game = Game(story, gameConfiguration, Save.empty)
 
 // execute the game synchronously
 GameExecutor.execute(game)
 ```
+The constructor for Game objects accepts an instance of **GameConfiguration**. This is a cruical object and ties together how the game and the UI interact with one another. Please see the **Integration** section of this readme tor more information.
 
 # Persistence #
 Progress in a game can be persisted as a **Save**. A save can be generated at any point before, during or after a games 
@@ -237,7 +238,7 @@ For further examples please see the ktvn-example directory in the repo.
 # Integration #
 Ktvn provides a structure, DSL and flow control for creating visual novels, but it does not provide a framework for 
 creating UIs and managing assets. Many frameworks for this exist. To integrate with a project a **GameConfiguration** is 
-required. Please see **AnsiConsoleGameConfiguration** for a simple example that demonstrates how to create a 
+required. Please see **AnsiConsoleGameConfiguration** in for a simple example that demonstrates how to create a 
 configuration and integrate with an ANSI compatible console.
 
 # For Open Questions
