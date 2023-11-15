@@ -1,23 +1,16 @@
-package com.github.benpollarduk.ktvn.rendering
+package com.github.benpollarduk.ktvn.rendering.sequencing
 
 import com.github.benpollarduk.ktvn.logic.structure.CancellationToken
 import com.github.benpollarduk.ktvn.rendering.frames.TextFrame
-import com.github.benpollarduk.ktvn.rendering.sequencing.TextSequencer
 
 /**
  * Provides a class for sequenced text control using a [sequencer].
  */
 public class SequencedTextController(private val sequencer: TextSequencer) {
     private var acknowledged: Boolean = false
-    private var _acknowledgementRequired: Boolean = false
+    private var acknowledgementRequired: Boolean = false
     private var finished: Boolean = false
     private val listeners: MutableList<SequencedTextDisplayListener> = mutableListOf()
-
-    /**
-     * Get if an acknowledgment is required.
-     */
-    public val acknowledgementRequired: Boolean
-        get() = _acknowledgementRequired
 
     /**
      * Get if a sequencing is finished.
@@ -26,22 +19,12 @@ public class SequencedTextController(private val sequencer: TextSequencer) {
         get() = finished
 
     private fun waitForAcknowledgeOrCancel(cancellationToken: CancellationToken): Boolean {
-        _acknowledgementRequired = true
-
-        listeners.forEach {
-            it.acknowledgeRequiredChanged(acknowledgementRequired)
-        }
-
         while (!acknowledged && !cancellationToken.wasCancelled) {
             Thread.sleep(WAIT_CHECK_FREQUENCY_IN_MS)
         }
 
         acknowledged = false
-        _acknowledgementRequired = false
-
-        listeners.forEach {
-            it.acknowledgeRequiredChanged(acknowledgementRequired)
-        }
+        acknowledgementRequired = false
 
         return !cancellationToken.wasCancelled
     }
@@ -75,17 +58,18 @@ public class SequencedTextController(private val sequencer: TextSequencer) {
     }
 
     /**
-     * Display a list of [frames]. A [cancellationToken] can be specified if cancellation may be required.
+     * Render a collection of [frames]. A [cancellationToken] can be specified if cancellation may be required.
      */
-    public fun display(frames: List<TextFrame>, cancellationToken: CancellationToken = CancellationToken()) {
+    public fun render(frames: Collection<TextFrame>, cancellationToken: CancellationToken = CancellationToken()) {
         acknowledged = false
 
         for (frame in frames) {
+            listeners.forEach { it.startedFrame(frame) }
             sequencer.sequence(frame, cancellationToken)
+            acknowledgementRequired = !cancellationToken.wasCancelled
+            listeners.forEach { it.finishedFrame(frame, acknowledgementRequired) }
 
-            val acknowledged = waitForAcknowledgeOrCancel(cancellationToken)
-
-            if (!acknowledged) {
+            if (!waitForAcknowledgeOrCancel(cancellationToken)) {
                 return
             }
         }

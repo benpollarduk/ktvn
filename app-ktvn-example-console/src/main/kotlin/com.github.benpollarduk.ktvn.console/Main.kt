@@ -2,9 +2,7 @@ package com.github.benpollarduk.ktvn.console
 
 import com.github.benpollarduk.ktvn.console.configuration.AnsiConsoleController
 import com.github.benpollarduk.ktvn.console.configuration.AnsiConsoleGameConfiguration
-import com.github.benpollarduk.ktvn.example.ExampleCreator
-import com.github.benpollarduk.ktvn.io.Save
-import com.github.benpollarduk.ktvn.logic.Game
+import com.github.benpollarduk.ktvn.example.ExampleGame
 import com.github.benpollarduk.ktvn.logic.GameExecutor
 import org.apache.logging.log4j.kotlin.Logging
 
@@ -13,15 +11,14 @@ object Main : Logging {
     fun main(args: Array<String>) {
         logger.info("Beginning execution of example...")
 
-        // create the conroller responsible for handling all input and output
+        // create the controller responsible for handling all input and output
         val controller = AnsiConsoleController()
 
         // create the console configuration for interacting with the game
         val ansiConsoleGameConfiguration = AnsiConsoleGameConfiguration(controller)
 
-        // create an example story, and then inject in to a game
-        val exampleStory = ExampleCreator(ansiConsoleGameConfiguration).create()
-        val exampleGame = Game(exampleStory, ansiConsoleGameConfiguration, Save.empty)
+        // create an example game
+        val exampleGame = ExampleGame(ansiConsoleGameConfiguration).create()
 
         // execute the game on its own thread
         GameExecutor.executeAysnc(exampleGame) {

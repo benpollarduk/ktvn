@@ -12,12 +12,7 @@ import com.github.benpollarduk.ktvn.logic.structure.AcknowledgeListener
 internal class AnsiConsoleLayoutConfiguration(
     private val consoleController: AnsiConsoleController
 ) : LayoutConfiguration {
-    override val moveAcknowledgementListener: AcknowledgeListener = object : AcknowledgeListener {
-        override fun waitFor() {
-            // pass through
-        }
-    }
-
+    override val moveAcknowledgementListener: AcknowledgeListener = PassThroughAcknowledgeListener
     override val moveListener: MoveListener = object : MoveListener {
         override fun move(
             character: Character,

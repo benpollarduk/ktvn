@@ -1,8 +1,9 @@
 package com.github.benpollarduk.ktvn.console.configuration
 
-import com.github.benpollarduk.ktvn.rendering.SequencedTextController
-import com.github.benpollarduk.ktvn.rendering.SequencedTextDisplayListener
+import com.github.benpollarduk.ktvn.rendering.sequencing.SequencedTextController
+import com.github.benpollarduk.ktvn.rendering.sequencing.SequencedTextDisplayListener
 import com.github.benpollarduk.ktvn.rendering.frames.CharacterConstrainedTextFrame
+import com.github.benpollarduk.ktvn.rendering.frames.TextFrame
 import com.github.benpollarduk.ktvn.rendering.frames.TextFrameParameters
 import com.github.benpollarduk.ktvn.rendering.sequencing.TimeBasedTextSequencer
 import java.util.concurrent.CountDownLatch
@@ -19,27 +20,28 @@ internal class AnsiConsoleController(
     private var inputReceived : CountDownLatch? = null
     private val lock = ReentrantLock()
 
-    // the sequencer is responsible for sequencing the characters correctly
-    private val sequencer = TimeBasedTextSequencer {
+    // the text controller is responsible for sequencing and controlling the dispatch of characters from a collection
+    // of frames. the listener is used to capture the requested characters and render them on the console
+    private val textController = SequencedTextController(TimeBasedTextSequencer {
         // render all the characters in the requested position on the console
         for (position in it) {
-            if (position.column == 0 && position.row == 0) {
-                clear()
-            }
             setCursorPosition(position.column + 1, position.row + 1)
             print(position.character)
         }
-    }
-
-    // the display is responsible for controlling the display of sequenced text
-    private val display = SequencedTextController(sequencer)
+    })
 
     init {
-        // set up the listener for when the display has to split a text frame and requires acknowledgement to continue
-        display.addListener(object : SequencedTextDisplayListener {
-            override fun acknowledgeRequiredChanged(required: Boolean) {
+        // set up the listener for when the textController has to split a text frame and requires acknowledgement to
+        // continue
+        textController.addListener(object : SequencedTextDisplayListener {
+            override fun startedFrame(frame: TextFrame) {
+                // clear the console before rendering the new frame
+                clear()
+            }
+
+            override fun finishedFrame(frame: TextFrame, acknowledgementRequired: Boolean) {
                 // if acknowledgment is required wait for enter to be pressed
-                if (required)
+                if (acknowledgementRequired)
                     waitForEnter()
             }
         })
@@ -85,7 +87,7 @@ internal class AnsiConsoleController(
         while (isProcessingInput) {
             val input = readln()
             setInput(input)
-            display.acknowledge()
+            textController.acknowledge()
 
             try {
                 lock.lock()
@@ -114,6 +116,7 @@ internal class AnsiConsoleController(
             lock.unlock()
         }
 
+        // wait for the input to be received
         inputReceived?.await()
 
         try {
@@ -128,11 +131,13 @@ internal class AnsiConsoleController(
      * Wait for entry followed by the enter key.
      */
     internal fun waitForInput(): String {
+        // reset the input to ensure that legacy input is discarded
         setInput("")
         waitForEnter()
 
         return try {
             lock.lock()
+            // return a clone of the received input
             String(input.toCharArray())
         } finally {
             lock.unlock()
@@ -153,11 +158,14 @@ internal class AnsiConsoleController(
      * Print a [string] to the console.
      */
     internal fun print(string: String) {
+        // create frames from the string that describe how it should be rendered
         val frames = CharacterConstrainedTextFrame.create(
             string,
             parameters
         )
-        display.display(frames)
+
+        // render the frames on the console
+        textController.render(frames)
     }
 
     /**

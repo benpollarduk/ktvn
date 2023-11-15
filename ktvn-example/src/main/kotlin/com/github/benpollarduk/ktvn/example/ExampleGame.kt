@@ -9,10 +9,12 @@ import com.github.benpollarduk.ktvn.characters.Emotions.angry
 import com.github.benpollarduk.ktvn.characters.Emotions.concerned
 import com.github.benpollarduk.ktvn.characters.Emotions.normal
 import com.github.benpollarduk.ktvn.characters.Narrator
+import com.github.benpollarduk.ktvn.io.Save
 import com.github.benpollarduk.ktvn.layout.Layout.Companion.createLayout
 import com.github.benpollarduk.ktvn.logic.Answer.Companion.answer
 import com.github.benpollarduk.ktvn.logic.Ending
 import com.github.benpollarduk.ktvn.logic.Ending.Companion.default
+import com.github.benpollarduk.ktvn.logic.Game
 import com.github.benpollarduk.ktvn.logic.Question.Companion.question
 import com.github.benpollarduk.ktvn.logic.configuration.GameConfiguration
 import com.github.benpollarduk.ktvn.logic.structure.Chapter.Companion.chapter
@@ -21,7 +23,6 @@ import com.github.benpollarduk.ktvn.logic.structure.Scene.Companion.scene
 import com.github.benpollarduk.ktvn.logic.structure.SceneType.Narrative
 import com.github.benpollarduk.ktvn.logic.structure.StepResult.Continue
 import com.github.benpollarduk.ktvn.logic.structure.StepResult.End
-import com.github.benpollarduk.ktvn.logic.structure.Story
 import com.github.benpollarduk.ktvn.logic.structure.Story.Companion.story
 import com.github.benpollarduk.ktvn.logic.structure.steps.Conditional.Companion.conditional
 import com.github.benpollarduk.ktvn.logic.structure.steps.Decision.Companion.decision
@@ -29,9 +30,9 @@ import com.github.benpollarduk.ktvn.logic.structure.steps.End.Companion.end
 import com.github.benpollarduk.ktvn.logic.structure.steps.Then.Companion.next
 
 /**
- * Provides a creator for an example story with an [gameConfiguration].
+ * Provides a creator for an example [Game] with a specified [gameConfiguration].
  */
-public class ExampleCreator(private val gameConfiguration: GameConfiguration) {
+public class ExampleGame(private val gameConfiguration: GameConfiguration) {
     private val audio = AudioManager(gameConfiguration.audioConfiguration)
     private val narrator = Narrator(gameConfiguration.narratorConfiguration)
     private val morgana: Character = Character("Morgana", gameConfiguration.characterConfiguration)
@@ -123,15 +124,17 @@ public class ExampleCreator(private val gameConfiguration: GameConfiguration) {
     }
 
     /**
-     * Create an example story.
+     * Create an instance of the example game.
      */
-    public fun create(): Story {
-        return story { story ->
+    public fun create(): Game {
+        val story = story { story ->
             story add chapter { chapter ->
                 chapter name "Return to the mansion"
                 chapter add introduction()
                 chapter add insideTheMansion()
             }
         }
+
+        return Game(story, gameConfiguration, Save.empty)
     }
 }

@@ -20,15 +20,8 @@ import com.github.benpollarduk.ktvn.logic.structure.AcknowledgeListener
 internal class AnsiConsoleCharacterConfiguration(
     private val consoleController: AnsiConsoleController
 ) : CharacterConfiguration {
-    private val passThroughAcknowledgementListener: AcknowledgeListener = object : AcknowledgeListener {
-        override fun waitFor() {
-            // continue without acknowledgement
-        }
-    }
-
-    override val emoteAcknowledgementListener: AcknowledgeListener = passThroughAcknowledgementListener
-
-    override val animateAcknowledgementListener: AcknowledgeListener = passThroughAcknowledgementListener
+    override val emoteAcknowledgementListener: AcknowledgeListener = PassThroughAcknowledgeListener
+    override val animateAcknowledgementListener: AcknowledgeListener = PassThroughAcknowledgeListener
 
     override val speakAcknowledgementListener: AcknowledgeListener = object : AcknowledgeListener {
         override fun waitFor() {
