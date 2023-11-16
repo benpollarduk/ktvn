@@ -27,6 +27,8 @@ public object SaveSerializer {
      */
     public fun fromFile(path: String): FileLoadResult {
         return try {
+            // if future versions of Save are releases the version will need to be located and the JSON passed to a
+            // suitable parser. as there is only 1 version at present this is not needed
             val json = File(path).readText()
             FileLoadResult(true, "", SaveJsonParser.fromJson(json))
         } catch (e: IOException) {

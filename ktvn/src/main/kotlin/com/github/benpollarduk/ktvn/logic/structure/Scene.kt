@@ -6,6 +6,8 @@ import com.github.benpollarduk.ktvn.audio.Track
 import com.github.benpollarduk.ktvn.backgrounds.Background
 import com.github.benpollarduk.ktvn.backgrounds.ColorBackground.Companion.emptyBackground
 import com.github.benpollarduk.ktvn.backgrounds.ResourceBackground.Companion.backgroundFromResource
+import com.github.benpollarduk.ktvn.io.CharacterRestorePoint
+import com.github.benpollarduk.ktvn.io.SceneRestorePoint
 import com.github.benpollarduk.ktvn.layout.Layout
 import com.github.benpollarduk.ktvn.layout.Layout.Companion.createLayout
 import com.github.benpollarduk.ktvn.logic.Flags
@@ -63,6 +65,17 @@ public class Scene private constructor(setup: (Scene) -> Unit) {
 
     init {
         setup(this)
+    }
+
+    /**
+     * Create a restore point for this [Scene]. The returned [SceneRestorePoint] allows this [Scene] to be restored.
+     */
+    internal fun createRestorePoint(): SceneRestorePoint {
+        val characterRestorePoints: MutableList<CharacterRestorePoint> = mutableListOf()
+        layout.toArrayOfCharacterPosition().forEach {
+            characterRestorePoints.add(CharacterRestorePoint(it.character, it.character.emotion, it.position))
+        }
+        return SceneRestorePoint(characterRestorePoints, indexOfCurrentStep)
     }
 
     /**
@@ -136,19 +149,28 @@ public class Scene private constructor(setup: (Scene) -> Unit) {
     }
 
     /**
-     * Begin the scene with specified [flags] from a specified [startStep]. The [sceneListener] allows events to be
-     * invoked for this scene. A [cancellationToken] must be provided to allow for the chapter to be cancelled.
+     * Begin the scene with specified [flags]. The [sceneRestorePoint] specifies where the scene restores from.
+     * The [sceneListener] allows events to be invoked for this scene. A [cancellationToken] must be provided to allow
+     * for the chapter to be cancelled.
      */
     internal fun begin(
         flags: Flags,
-        startStep: Int = 0,
+        sceneRestorePoint: SceneRestorePoint,
         sceneListener: SceneListener,
         cancellationToken: CancellationToken
     ): SceneResult {
-        sceneListener.enter(this, transitionIn)
-
-        var indexOfCurrentStep = startStep
+        var indexOfCurrentStep = sceneRestorePoint.step
         var sceneResult: SceneResult? = null
+
+        if (sceneRestorePoint != SceneRestorePoint.start) {
+            layout.clear()
+            sceneRestorePoint.characterRestorePoints.forEach {
+                layout.add(it.character, it.position)
+                it.character.looks(it.emotion)
+            }
+        }
+
+        sceneListener.enter(this, transitionIn)
 
         while (indexOfCurrentStep < content.size) {
             when (val result = content[indexOfCurrentStep](flags, cancellationToken)) {

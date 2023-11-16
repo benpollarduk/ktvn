@@ -1,5 +1,7 @@
 package com.github.benpollarduk.ktvn.logic.structure
 
+import com.github.benpollarduk.ktvn.io.ChapterRestorePoint
+import com.github.benpollarduk.ktvn.io.StoryRestorePoint
 import com.github.benpollarduk.ktvn.logic.Ending
 import com.github.benpollarduk.ktvn.logic.Flags
 import com.github.benpollarduk.ktvn.logic.configuration.StoryConfiguration
@@ -17,12 +19,6 @@ public class Story private constructor(setup: (Story) -> Unit) {
         private set
 
     /**
-     * Get the index of the current [Chapter].
-     */
-    public var indexOfCurrentChapter: Int = 0
-        private set
-
-    /**
      * Get the number of the [Chapter] in this [Story].
      */
     public val numberOfChapters: Int
@@ -35,42 +31,50 @@ public class Story private constructor(setup: (Story) -> Unit) {
         private set
 
     /**
-     * Get the current position within this story.
+     * Get the index of the current [Chapter].
      */
-    public val currentPosition: StoryPosition
-        get() {
-            val scene = chapters[indexOfCurrentChapter].currentScene
-            val step = scene.indexOfCurrentStep
-            return StoryPosition(indexOfCurrentChapter, chapters[indexOfCurrentChapter].indexOfCurrentScene, step)
-        }
+    internal var indexOfCurrentChapter: Int = 0
+        private set
+
+    /**
+     * Get the current [Chapter].
+     */
+    internal val currentChapter: Chapter
+        get() = chapters[indexOfCurrentChapter]
 
     init {
         setup(this)
     }
 
     /**
-     * Begin the [Story] with specified [flags]. The [storyPosition] can be optionally specified. A [storyConfiguration]
-     * must be provided to receive progression updates. A [cancellationToken] must be provided to allow for the story
-     * to be cancelled. Returns the ending.
+     * Create a restore point for this [Story]. The returned [StoryRestorePoint] allows this [Story] to be restored.
+     */
+    internal fun createRestorePoint(): StoryRestorePoint {
+        return StoryRestorePoint(currentChapter.createRestorePoint(), indexOfCurrentChapter)
+    }
+
+    /**
+     * Begin the [Story] with specified [flags]. The [storyRestorePoint] can be optionally specified.
+     * A [storyConfiguration] must be provided to receive progression updates. A [cancellationToken] must be provided
+     * to allow for the story to be cancelled. Returns the ending.
      **/
     internal fun begin(
         flags: Flags,
-        storyPosition: StoryPosition = StoryPosition.start,
+        storyRestorePoint: StoryRestorePoint = StoryRestorePoint.start,
         storyConfiguration: StoryConfiguration,
         cancellationToken: CancellationToken
     ): Ending {
-        var i = storyPosition.chapter
+        var i = storyRestorePoint.chapter
         var ending: Ending? = null
 
         while (i < chapters.size) {
             indexOfCurrentChapter = i
             val chapter = chapters[i]
 
-            val result = if (i == storyPosition.chapter) {
+            val result = if (i == storyRestorePoint.chapter) {
                 chapter.begin(
                     flags,
-                    storyPosition.scene,
-                    storyPosition.step,
+                    storyRestorePoint.chapterRestorePoint,
                     storyConfiguration.sceneListener,
                     storyConfiguration.chapterListener,
                     cancellationToken
@@ -78,9 +82,10 @@ public class Story private constructor(setup: (Story) -> Unit) {
             } else {
                 chapter.begin(
                     flags,
-                    sceneListener = storyConfiguration.sceneListener,
-                    chapterListener = storyConfiguration.chapterListener,
-                    cancellationToken = cancellationToken
+                    ChapterRestorePoint.start,
+                    storyConfiguration.sceneListener,
+                    storyConfiguration.chapterListener,
+                    cancellationToken
                 )
             }
 
