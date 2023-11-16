@@ -1,5 +1,6 @@
 package com.github.benpollarduk.ktvn.logic.structure
 
+import com.github.benpollarduk.ktvn.io.ChapterRestorePoint
 import com.github.benpollarduk.ktvn.logic.Flags
 
 /**
@@ -16,21 +17,21 @@ public class Chapter private constructor(setup: (Chapter) -> Unit) {
         private set
 
     /**
-     * Get the index of the current [Scene].
-     */
-    public var indexOfCurrentScene: Int = 0
-        private set
-
-    /**
      * Get the number of the [Scene] in this [Chapter].
      */
     public val numberOfScenes: Int
         get() = scenes.size
 
     /**
+     * Get the index of the current [Scene].
+     */
+    internal var indexOfCurrentScene: Int = 0
+        private set
+
+    /**
      * Get the current [Scene].
      */
-    public val currentScene: Scene
+    internal val currentScene: Scene
         get() = scenes[indexOfCurrentScene]
 
     init {
@@ -38,31 +39,47 @@ public class Chapter private constructor(setup: (Chapter) -> Unit) {
     }
 
     /**
-     * Begin the chapter with specified [flags]. The first [scene] and [step] can be optionally specified.
+     * Create a restore point for this [Chapter]. The returned [ChapterRestorePoint] allows this [Chapter] to be
+     * restored.
+     */
+    internal fun createRestorePoint(): ChapterRestorePoint {
+        return ChapterRestorePoint(currentScene.createRestorePoint(), indexOfCurrentScene)
+    }
+
+    /**
+     * Begin the chapter with specified [flags]. The [chapterRestorePoint] specifies where the chapter restores from.
      * The [chapterListener] allows events to be invoked for this chapter. A [cancellationToken] must be provided to
      * allow for the chapter to be cancelled.
      */
-    @Suppress("LongParameterList")
     internal fun begin(
         flags: Flags,
-        scene: Int = 0,
-        step: Int = 0,
+        chapterRestorePoint: ChapterRestorePoint,
         sceneListener: SceneListener,
         chapterListener: ChapterListener,
         cancellationToken: CancellationToken
     ): ChapterResult {
-        chapterListener.enter(this, transition)
-
-        indexOfCurrentScene = scene
+        indexOfCurrentScene = chapterRestorePoint.scene
         var chapterResult: ChapterResult? = null
+
+        chapterListener.enter(this, transition)
 
         while (indexOfCurrentScene < scenes.size) {
             val currentScene = scenes[indexOfCurrentScene]
 
-            val result = if (indexOfCurrentScene == scene) {
-                currentScene.begin(flags, step, sceneListener, cancellationToken)
+            val result = if (indexOfCurrentScene == chapterRestorePoint.scene) {
+                currentScene.begin(
+                    flags,
+                    chapterRestorePoint.sceneRestorePoint,
+                    sceneListener,
+                    cancellationToken
+                )
             } else {
-                currentScene.begin(flags, sceneListener = sceneListener, cancellationToken = cancellationToken)
+                currentScene.begin(
+                    flags,
+                    ChapterRestorePoint.start.sceneRestorePoint,
+                    sceneListener,
+                    cancellationToken
+                )
             }
 
             when (result) {

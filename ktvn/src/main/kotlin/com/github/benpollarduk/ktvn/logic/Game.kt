@@ -35,7 +35,7 @@ public class Game(
 
         val ending = story.begin(
             Flags.fromMap(save.flags),
-            save.position,
+            save.storyRestorePoint,
             gameConfiguration.storyConfiguration,
             cancellationToken
         )
@@ -89,7 +89,7 @@ public class Game(
         return Save(
             name,
             story.flags.toMap(),
-            story.currentPosition,
+            story.createRestorePoint(),
             save.totalSeconds + additionalTimeInSeconds,
             endings
         )

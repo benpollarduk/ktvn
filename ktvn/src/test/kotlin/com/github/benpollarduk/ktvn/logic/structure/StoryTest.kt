@@ -1,5 +1,6 @@
 package com.github.benpollarduk.ktvn.logic.structure
 
+import com.github.benpollarduk.ktvn.io.StoryRestorePoint
 import com.github.benpollarduk.ktvn.logic.Ending
 import com.github.benpollarduk.ktvn.logic.Flags
 import com.github.benpollarduk.ktvn.logic.configuration.StoryConfiguration
@@ -85,7 +86,7 @@ class StoryTest {
         }
 
         // When
-        val result = story.begin(Flags(), StoryPosition.start, configuration, CancellationToken())
+        val result = story.begin(Flags(), StoryRestorePoint.start, configuration, CancellationToken())
 
         // Then
         Assertions.assertEquals(0, result.number)
@@ -108,7 +109,7 @@ class StoryTest {
         }
 
         // When
-        val result = story.begin(Flags(), StoryPosition.start, configuration, CancellationToken())
+        val result = story.begin(Flags(), StoryRestorePoint.start, configuration, CancellationToken())
 
         // Then
         Assertions.assertEquals(1, result.number)
@@ -143,7 +144,7 @@ class StoryTest {
         }
 
         // When
-        story.begin(Flags(), StoryPosition.start, configuration, CancellationToken())
+        story.begin(Flags(), StoryRestorePoint.start, configuration, CancellationToken())
 
         // Then
         Assertions.assertTrue(enterCalled)
@@ -183,7 +184,7 @@ class StoryTest {
         }
 
         // When
-        story.begin(Flags(), StoryPosition.start, configuration, CancellationToken())
+        story.begin(Flags(), StoryRestorePoint.start, configuration, CancellationToken())
 
         // Then
         Assertions.assertTrue(enterCalled)
@@ -222,7 +223,7 @@ class StoryTest {
         }
 
         // When
-        story.begin(Flags(), StoryPosition.start, configuration, CancellationToken())
+        story.begin(Flags(), StoryRestorePoint.start, configuration, CancellationToken())
 
         // Then
         Assertions.assertTrue(clearCalled)

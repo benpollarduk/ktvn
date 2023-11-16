@@ -30,6 +30,23 @@ public class Layout private constructor(setup: (Layout) -> Unit) {
     }
 
     /**
+     * Clear this layout.
+     */
+    public fun clear() {
+        mutablePositions.forEach {
+            move(it.character, none)
+        }
+        mutablePositions.clear()
+    }
+
+    /**
+     * Get an array of all [CharacterPosition] in this [Layout].
+     */
+    public fun toArrayOfCharacterPosition(): Array<CharacterPosition> {
+        return mutablePositions.toTypedArray()
+    }
+
+    /**
      * Add a [character] to this [Layout] at a [position].
      */
     public fun add(character: Character, position: Position) {
