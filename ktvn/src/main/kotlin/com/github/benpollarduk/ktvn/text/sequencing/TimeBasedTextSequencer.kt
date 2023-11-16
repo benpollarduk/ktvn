@@ -1,7 +1,7 @@
-package com.github.benpollarduk.ktvn.rendering.sequencing
+package com.github.benpollarduk.ktvn.text.sequencing
 
-import com.github.benpollarduk.ktvn.rendering.frames.CharacterPosition
-import com.github.benpollarduk.ktvn.rendering.frames.TextFrame
+import com.github.benpollarduk.ktvn.text.frames.CharacterPosition
+import com.github.benpollarduk.ktvn.text.frames.TextFrame
 
 /**
  * Provides a [TextSequencer] that is time based. The delay between characters can be specified, in milliseconds, with

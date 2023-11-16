@@ -1,4 +1,4 @@
-package com.github.benpollarduk.ktvn.rendering.frames
+package com.github.benpollarduk.ktvn.text.frames
 
 /**
  * Provides a structure for holding a [string] with a measured [width].

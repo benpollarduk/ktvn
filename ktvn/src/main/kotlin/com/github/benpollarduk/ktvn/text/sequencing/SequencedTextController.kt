@@ -1,6 +1,6 @@
-package com.github.benpollarduk.ktvn.rendering.sequencing
+package com.github.benpollarduk.ktvn.text.sequencing
 
-import com.github.benpollarduk.ktvn.rendering.frames.TextFrame
+import com.github.benpollarduk.ktvn.text.frames.TextFrame
 
 /**
  * Provides a class for sequenced text control using a [sequencer].

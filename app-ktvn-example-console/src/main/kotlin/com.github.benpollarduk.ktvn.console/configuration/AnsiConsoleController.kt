@@ -1,11 +1,11 @@
 package com.github.benpollarduk.ktvn.console.configuration
 
-import com.github.benpollarduk.ktvn.rendering.sequencing.SequencedTextController
-import com.github.benpollarduk.ktvn.rendering.sequencing.SequencedTextControllerListener
-import com.github.benpollarduk.ktvn.rendering.frames.CharacterConstrainedTextFrame
-import com.github.benpollarduk.ktvn.rendering.frames.TextFrame
-import com.github.benpollarduk.ktvn.rendering.frames.TextFrameParameters
-import com.github.benpollarduk.ktvn.rendering.sequencing.TimeBasedTextSequencer
+import com.github.benpollarduk.ktvn.text.sequencing.SequencedTextController
+import com.github.benpollarduk.ktvn.text.sequencing.SequencedTextControllerListener
+import com.github.benpollarduk.ktvn.text.frames.CharacterConstrainedTextFrame
+import com.github.benpollarduk.ktvn.text.frames.TextFrame
+import com.github.benpollarduk.ktvn.text.frames.TextFrameParameters
+import com.github.benpollarduk.ktvn.text.sequencing.TimeBasedTextSequencer
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.locks.ReentrantLock
 
