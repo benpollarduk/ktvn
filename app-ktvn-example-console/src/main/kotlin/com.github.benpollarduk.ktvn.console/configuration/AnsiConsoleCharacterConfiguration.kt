@@ -16,7 +16,8 @@ import com.github.benpollarduk.ktvn.logic.structure.AcknowledgeListener
 import com.github.benpollarduk.ktvn.text.log.LogElement
 
 /**
- * Provides an [CharacterConfiguration] for an ANSI console.
+ * Provides an [CharacterConfiguration] for an ANSI console. Optionally a map of [characterColors] can be provided where
+ * the key is a [Character] and the value is an ANSI colour code.
  */
 internal class AnsiConsoleCharacterConfiguration(
     private val consoleController: AnsiConsoleController

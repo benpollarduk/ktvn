@@ -123,7 +123,7 @@ internal class AnsiConsoleController(
      */
     internal fun waitForEnter() {
         setCursorPosition(DEFAULT_WIDTH + 1, DEFAULT_LINES + 1)
-        kotlin.io.print("<enter>")
+        kotlin.io.print("<enter> ")
 
         try {
             lock.lock()
@@ -171,9 +171,13 @@ internal class AnsiConsoleController(
     }
 
     /**
-     * Print a [string] to the console.
+     * Print a [string] to the console. Optionally an ANSI color code can be specified, otherwise 97 (white) will be
+     * used.
      */
-    internal fun print(string: String) {
+    internal fun print(string: String, colorCode: Int = 97) {
+        // set color
+        kotlin.io.print("\u001B[${colorCode}m")
+
         // create frames from the string that describe how it should be rendered
         val frames = CharacterConstrainedTextFrame.create(
             string,
@@ -182,6 +186,9 @@ internal class AnsiConsoleController(
 
         // render the frames on the console
         textController.render(frames)
+
+        // reset color
+        kotlin.io.print("\u001B[0m")
     }
 
     /**
