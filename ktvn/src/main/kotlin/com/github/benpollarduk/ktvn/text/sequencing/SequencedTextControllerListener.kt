@@ -1,7 +1,7 @@
-package com.github.benpollarduk.ktvn.rendering.sequencing
+package com.github.benpollarduk.ktvn.text.sequencing
 
 import com.github.benpollarduk.ktvn.logic.structure.AcknowledgeListener
-import com.github.benpollarduk.ktvn.rendering.frames.TextFrame
+import com.github.benpollarduk.ktvn.text.frames.TextFrame
 
 /**
  * Provides an interface for listeners to [SequencedTextController] events.

@@ -1,11 +1,14 @@
-package com.github.benpollarduk.ktvn.rendering.frames
+package com.github.benpollarduk.ktvn.text.frames
 
+import java.awt.Font
+import java.awt.FontMetrics
 import java.awt.Point
+import java.awt.image.BufferedImage
 
 /**
- * Provides a text frame that is constrained by character limit.
+ * Provides a text frame that is constrained by size, in pixels.
  */
-public class CharacterConstrainedTextFrame private constructor(private val data: Map<Point, Char>) : TextFrame {
+public class SizeConstrainedTextFrame private constructor(private val data: Map<Point, Char>) : TextFrame {
     override fun getCharacterPositions(): List<CharacterPosition> {
         val result: MutableList<CharacterPosition> = mutableListOf()
         val rows = data.keys.map { it.y }.distinct().sorted()
@@ -24,7 +27,8 @@ public class CharacterConstrainedTextFrame private constructor(private val data:
         private fun formatAndAddWordToMapOfMeasuredWords(
             word: String,
             isLast: Boolean,
-            maxWidthInCharacters: Int,
+            maxWidthInPixels: Int,
+            fontMetrics: FontMetrics,
             measuredWords: MutableList<MeasuredString>
         ) {
             val formattedWord = if (isLast) {
@@ -32,9 +36,9 @@ public class CharacterConstrainedTextFrame private constructor(private val data:
             } else {
                 "$word "
             }
-            val formattedWordWidth = formattedWord.length
+            val formattedWordWidth = fontMetrics.stringWidth(formattedWord)
 
-            if (formattedWordWidth > maxWidthInCharacters) {
+            if (formattedWordWidth > maxWidthInPixels) {
                 var wordPart = ""
 
                 for (characterIndex in formattedWord.indices) {
@@ -46,9 +50,9 @@ public class CharacterConstrainedTextFrame private constructor(private val data:
                         "$wordPart$c"
                     }
 
-                    val workingWidth = working.length
+                    val workingWidth = fontMetrics.stringWidth(working)
 
-                    if (workingWidth >= maxWidthInCharacters) {
+                    if (workingWidth >= maxWidthInPixels) {
                         measuredWords.add(MeasuredString(working, workingWidth))
                         wordPart = ""
                     } else if (characterIndex == formattedWord.length - 1) {
@@ -63,11 +67,12 @@ public class CharacterConstrainedTextFrame private constructor(private val data:
         }
 
         /**
-         * Break [text] in to a list of [MeasuredString] where the width is expressed in characters.
+         * Break [text] in to a list of [MeasuredString] where the width is expressed in pixels.
          */
         internal fun getMeasuredWords(
             text: String,
-            maxWidthInPixels: Int
+            maxWidthInPixels: Int,
+            fontMetrics: FontMetrics
         ): List<MeasuredString> {
             val words = text.split(" ")
             val measuredWords: MutableList<MeasuredString> = mutableListOf()
@@ -78,6 +83,7 @@ public class CharacterConstrainedTextFrame private constructor(private val data:
                     words[wordIndex],
                     wordIndex == words.size - 1,
                     maxWidthInPixels,
+                    fontMetrics,
                     measuredWords
                 )
             }
@@ -86,11 +92,21 @@ public class CharacterConstrainedTextFrame private constructor(private val data:
         }
 
         /**
-         * Create a list of [CharacterConstrainedTextFrame] from [text] and [parameters]. A collection is required
-         * because the text may spill across multiple frames.
+         * Create font metrics for a specified [font].
          */
-        public fun create(text: String, parameters: TextFrameParameters): List<CharacterConstrainedTextFrame> {
-            val frames: MutableList<CharacterConstrainedTextFrame> = mutableListOf()
+        public fun createFontMetrics(font: Font): FontMetrics {
+            val bufferedImage = BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB)
+            val graphics = bufferedImage.createGraphics()
+            return graphics.getFontMetrics(font)
+        }
+
+        /**
+         * Create a list of [SizeConstrainedTextFrame] from [text] and [parameters]. A collection is required because
+         * the text may spill across multiple frames.
+         */
+        public fun create(text: String, parameters: TextFrameParameters): List<SizeConstrainedTextFrame> {
+            val fontMetrics = createFontMetrics(parameters.font)
+            val frames: MutableList<SizeConstrainedTextFrame> = mutableListOf()
             var currentFrame: MutableMap<Point, Char> = mutableMapOf()
             var currentLineWidth = 0
             var currentColumn = 0
@@ -98,7 +114,7 @@ public class CharacterConstrainedTextFrame private constructor(private val data:
             val chunks = text.split("\n")
 
             for (chunk in chunks) {
-                for (measuredWord in getMeasuredWords(chunk, parameters.widthConstraint)) {
+                for (measuredWord in getMeasuredWords(chunk, parameters.widthConstraint, fontMetrics)) {
                     val fitsOnCurrentLine = currentLineWidth + measuredWord.width <= parameters.widthConstraint
                     val startNextLine = currentRow < parameters.availableLines
 
@@ -115,7 +131,7 @@ public class CharacterConstrainedTextFrame private constructor(private val data:
                         currentRow = 0
                         currentColumn = 0
                         currentLineWidth = measuredWord.width
-                        frames.add(CharacterConstrainedTextFrame(currentFrame))
+                        frames.add(SizeConstrainedTextFrame(currentFrame))
                         currentFrame = mutableMapOf()
                     }
 
@@ -130,7 +146,7 @@ public class CharacterConstrainedTextFrame private constructor(private val data:
                 currentLineWidth = 0
             }
 
-            frames.add(CharacterConstrainedTextFrame(currentFrame))
+            frames.add(SizeConstrainedTextFrame(currentFrame))
             return frames
         }
     }

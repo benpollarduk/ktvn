@@ -1,4 +1,4 @@
-package com.github.benpollarduk.ktvn.rendering.frames
+package com.github.benpollarduk.ktvn.text.frames
 
 /**
  * Defines an interface for frames of text.

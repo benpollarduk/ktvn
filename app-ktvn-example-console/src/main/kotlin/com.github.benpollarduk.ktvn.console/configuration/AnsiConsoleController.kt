@@ -1,11 +1,11 @@
 package com.github.benpollarduk.ktvn.console.configuration
 
-import com.github.benpollarduk.ktvn.rendering.sequencing.SequencedTextController
-import com.github.benpollarduk.ktvn.rendering.sequencing.SequencedTextControllerListener
-import com.github.benpollarduk.ktvn.rendering.frames.CharacterConstrainedTextFrame
-import com.github.benpollarduk.ktvn.rendering.frames.TextFrame
-import com.github.benpollarduk.ktvn.rendering.frames.TextFrameParameters
-import com.github.benpollarduk.ktvn.rendering.sequencing.TimeBasedTextSequencer
+import com.github.benpollarduk.ktvn.text.sequencing.SequencedTextController
+import com.github.benpollarduk.ktvn.text.sequencing.SequencedTextControllerListener
+import com.github.benpollarduk.ktvn.text.frames.CharacterConstrainedTextFrame
+import com.github.benpollarduk.ktvn.text.frames.TextFrame
+import com.github.benpollarduk.ktvn.text.frames.TextFrameParameters
+import com.github.benpollarduk.ktvn.text.sequencing.TimeBasedTextSequencer
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.locks.ReentrantLock
 
@@ -180,11 +180,13 @@ internal class AnsiConsoleController(
 
     /**
      * Display a [string] directly on the console temporarily. The default 1000ms duration can be specified with
-     * [durationInMs], in milliseconds.
+     * [durationInMs], in milliseconds. Optionally an ANSI color code can be specified, otherwise 90 (bright black)
+     * will be used.
      */
-    internal fun printlnDirectTemp(string: String, durationInMs: Long = 1000) {
+    internal fun printlnDirectTemp(string: String, durationInMs: Long = 1000, colorCode: Int = 90) {
         clear()
-        println(string)
+        // print string wrapped in ANSI color setting to specified colour and then resetting to 0 (reset)
+        println("\u001B[${colorCode}m$string\u001B[0m")
 
         if (durationInMs > 0) {
             Thread.sleep(durationInMs)

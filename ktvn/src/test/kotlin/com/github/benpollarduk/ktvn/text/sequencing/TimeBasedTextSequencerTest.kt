@@ -1,8 +1,8 @@
-package com.github.benpollarduk.ktvn.rendering.sequencing
+package com.github.benpollarduk.ktvn.text.sequencing
 
-import com.github.benpollarduk.ktvn.rendering.frames.SizeConstrainedTextFrame
-import com.github.benpollarduk.ktvn.rendering.frames.TextFrame
-import com.github.benpollarduk.ktvn.rendering.frames.TextFrameParameters
+import com.github.benpollarduk.ktvn.text.frames.SizeConstrainedTextFrame
+import com.github.benpollarduk.ktvn.text.frames.TextFrame
+import com.github.benpollarduk.ktvn.text.frames.TextFrameParameters
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import java.awt.Font
