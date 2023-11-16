@@ -9,6 +9,7 @@ import com.github.benpollarduk.ktvn.logic.Answer
 import com.github.benpollarduk.ktvn.logic.Question
 import com.github.benpollarduk.ktvn.logic.configuration.NarratorConfiguration
 import com.github.benpollarduk.ktvn.logic.structure.AcknowledgeListener
+import com.github.benpollarduk.ktvn.text.log.LogElement
 
 /**
  * Provides an [NarratorConfiguration] for an ANSI console.
@@ -28,6 +29,9 @@ internal class AnsiConsoleNarratorConfiguration(
         }
 
         override fun ask(narrator: Narrator, question: Question, answerListener: AnswerListener): Answer {
+            // add an element in the log
+            consoleController.log.add(LogElement.StringLog(question.line))
+
             var questionString = "${question.line}\n"
 
             for (i in question.answers.indices) {
@@ -41,6 +45,9 @@ internal class AnsiConsoleNarratorConfiguration(
 
     override val narrateListener: NarrateListener = object : NarrateListener {
         override fun narrate(line: String, acknowledgement: AcknowledgeListener) {
+            // add an element in the log
+            consoleController.log.add(LogElement.StringLog(line))
+
             consoleController.print(line)
             acknowledgement.waitFor()
         }

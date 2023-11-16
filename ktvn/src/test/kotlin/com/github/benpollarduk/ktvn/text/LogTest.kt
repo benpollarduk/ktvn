@@ -35,8 +35,10 @@ class LogTest {
     fun `given log with maximum capacity 5 when adding 10 elements then getting count then return 5`() {
         // Given
         val log = Log(5)
-        for (i in 1..10) {
-            log.add(LogElement.StringLog(""))
+        var i = 0
+        while (i < 10) {
+            log.add(LogElement.StringLog(i.toString()))
+            i++
         }
 
         // When
@@ -50,8 +52,10 @@ class LogTest {
     fun `given log with 5 when getting as array then return array with 5 elements`() {
         // Given
         val log = Log()
-        for (i in 1..5) {
-            log.add(LogElement.StringLog(""))
+        var i = 0
+        while (i < 5) {
+            log.add(LogElement.StringLog(i.toString()))
+            i++
         }
 
         // When

@@ -5,6 +5,7 @@ import com.github.benpollarduk.ktvn.text.sequencing.SequencedTextControllerListe
 import com.github.benpollarduk.ktvn.text.frames.CharacterConstrainedTextFrame
 import com.github.benpollarduk.ktvn.text.frames.TextFrame
 import com.github.benpollarduk.ktvn.text.frames.TextFrameParameters
+import com.github.benpollarduk.ktvn.text.log.Log
 import com.github.benpollarduk.ktvn.text.sequencing.TimeBasedTextSequencer
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.locks.ReentrantLock
@@ -19,6 +20,11 @@ internal class AnsiConsoleController(
     private var input = ""
     private var inputReceived : CountDownLatch? = null
     private val lock = ReentrantLock()
+
+    /**
+     * Get the log. All events can be logged here so they can be recalled later if needed.
+     */
+    internal val log: Log = Log()
 
     // the text controller is responsible for sequencing and controlling the dispatch of characters from a collection
     // of frames. the listener is used to capture the requested characters and render them on the console

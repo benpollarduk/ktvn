@@ -28,7 +28,7 @@ public class Log(public val maximumCapacity: Int = DEFAULT_CAPACITY) {
      */
     public fun add(logElement: LogElement) {
         if (maximumCapacity != NO_LIMIT && queue.size == maximumCapacity) {
-           queue.remove()
+            queue.remove()
         }
 
         queue.add(logElement)
@@ -37,7 +37,7 @@ public class Log(public val maximumCapacity: Int = DEFAULT_CAPACITY) {
     /**
      * Get the contents of the log, as and array.
      */
-    public fun toArray() : Array<LogElement> {
+    public fun toArray(): Array<LogElement> {
         return queue.toTypedArray()
     }
 
