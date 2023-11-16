@@ -180,11 +180,12 @@ internal class AnsiConsoleController(
 
     /**
      * Display a [string] directly on the console temporarily. The default 1000ms duration can be specified with
-     * [durationInMs], in milliseconds.
+     * [durationInMs], in milliseconds. Optionally an ANSI color code can be specified, otherwise 90 (bright black)
+     * will be used.
      */
-    internal fun printlnDirectTemp(string: String, durationInMs: Long = 1000) {
+    internal fun printlnDirectTemp(string: String, durationInMs: Long = 1000, colorCode: Int = 90) {
         clear()
-        println(string)
+        println("\u001B[${colorCode}m$string\u001B[$0m")
 
         if (durationInMs > 0) {
             Thread.sleep(durationInMs)
