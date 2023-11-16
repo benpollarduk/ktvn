@@ -13,6 +13,7 @@ import com.github.benpollarduk.ktvn.logic.Answer
 import com.github.benpollarduk.ktvn.logic.Question
 import com.github.benpollarduk.ktvn.logic.configuration.CharacterConfiguration
 import com.github.benpollarduk.ktvn.logic.structure.AcknowledgeListener
+import com.github.benpollarduk.ktvn.text.log.LogElement
 
 /**
  * Provides an [CharacterConfiguration] for an ANSI console.
@@ -32,6 +33,9 @@ internal class AnsiConsoleCharacterConfiguration(
 
     override val askListener: AskListener = object : AskListener {
         override fun ask(character: Character, question: Question, answerListener: AnswerListener): Answer {
+            // add an element in the log
+            consoleController.log.add(LogElement.CharacterLog(character, question.line))
+
             var questionString = "${character.name}: ${question.line}\n"
 
             for (i in question.answers.indices) {
@@ -66,6 +70,9 @@ internal class AnsiConsoleCharacterConfiguration(
 
     override val speakListener: SpeakListener = object : SpeakListener {
         override fun speak(character: Character, line: String, acknowledgement: AcknowledgeListener) {
+            // add an element in the log
+            consoleController.log.add(LogElement.CharacterLog(character, line))
+
             consoleController.print("${character.name}: $line")
             acknowledgement.waitFor()
         }
