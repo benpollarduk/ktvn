@@ -185,7 +185,8 @@ internal class AnsiConsoleController(
      */
     internal fun printlnDirectTemp(string: String, durationInMs: Long = 1000, colorCode: Int = 90) {
         clear()
-        println("\u001B[${colorCode}m$string\u001B[$0m")
+        // print string wrapped in ANSI color setting to specified colour and then resetting to 0 (reset)
+        println("\u001B[${colorCode}m$string\u001B[0m")
 
         if (durationInMs > 0) {
             Thread.sleep(durationInMs)
