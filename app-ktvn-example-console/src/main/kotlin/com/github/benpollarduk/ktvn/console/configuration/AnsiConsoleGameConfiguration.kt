@@ -10,7 +10,7 @@ import com.github.benpollarduk.ktvn.logic.configuration.StoryConfiguration
 /**
  * Provides a configuration for an ANSI compatible console that uses a [consoleController].
  */
-internal class AnsiConsoleGameConfiguration(consoleController: AnsiConsoleController) : GameConfiguration {
+internal class AnsiConsoleGameConfiguration(internal val consoleController: AnsiConsoleController) : GameConfiguration {
     override val characterConfiguration: CharacterConfiguration = AnsiConsoleCharacterConfiguration(consoleController)
     override val narratorConfiguration: NarratorConfiguration = AnsiConsoleNarratorConfiguration(consoleController)
     override val layoutConfiguration: LayoutConfiguration = AnsiConsoleLayoutConfiguration(consoleController)

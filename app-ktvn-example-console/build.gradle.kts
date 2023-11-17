@@ -50,9 +50,6 @@ dependencies {
 
     // Use the ktvn library
     implementation(project(":ktvn"))
-
-    // Use the ktvn example library
-    implementation(project(":ktvn-example"))
 }
 
 application {
