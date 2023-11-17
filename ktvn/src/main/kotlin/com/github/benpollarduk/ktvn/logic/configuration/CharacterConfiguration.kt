@@ -8,7 +8,7 @@ import com.github.benpollarduk.ktvn.characters.SpeakListener
 import com.github.benpollarduk.ktvn.logic.structure.AcknowledgeListener
 
 /**
- * Provides a configuration for a charaters.
+ * Provides a configuration for a characters.
  */
 public interface CharacterConfiguration {
     /**
