@@ -9,6 +9,8 @@ import com.github.benpollarduk.ktvn.characters.EmoteListener
 import com.github.benpollarduk.ktvn.characters.Emotion
 import com.github.benpollarduk.ktvn.characters.Narrator
 import com.github.benpollarduk.ktvn.characters.SpeakListener
+import com.github.benpollarduk.ktvn.console.story.assets.AssetStore.michel
+import com.github.benpollarduk.ktvn.console.story.assets.AssetStore.morgana
 import com.github.benpollarduk.ktvn.logic.Answer
 import com.github.benpollarduk.ktvn.logic.Question
 import com.github.benpollarduk.ktvn.logic.configuration.CharacterConfiguration
@@ -22,6 +24,17 @@ import com.github.benpollarduk.ktvn.text.log.LogElement
 internal class AnsiConsoleCharacterConfiguration(
     private val consoleController: AnsiConsoleController
 ) : CharacterConfiguration {
+    /**
+     * Get an ANSI color for a character.
+     */
+    private fun getCharacterColor(character: Character) : Int {
+        return when (character) {
+            morgana -> 91   // red
+            michel -> 94    // blue
+            else -> 97      // white
+        }
+    }
+
     override val emoteAcknowledgementListener: AcknowledgeListener = PassThroughAcknowledgeListener
     override val animateAcknowledgementListener: AcknowledgeListener = PassThroughAcknowledgeListener
 
@@ -43,7 +56,7 @@ internal class AnsiConsoleCharacterConfiguration(
                 questionString += "  ${i + 1}: ${question.answers[i].line}\n"
             }
 
-            consoleController.print(questionString)
+            consoleController.print(questionString, getCharacterColor(character))
             return answerListener.waitFor(question)
         }
 
@@ -74,7 +87,7 @@ internal class AnsiConsoleCharacterConfiguration(
             // add an element in the log
             consoleController.log.add(LogElement.CharacterLog(character, line))
 
-            consoleController.print("${character.name}: $line")
+            consoleController.print("${character.name}: $line", getCharacterColor(character))
             acknowledgement.waitFor()
         }
     }

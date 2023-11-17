@@ -75,4 +75,31 @@ public object Emotions {
             return "amused"
         }
     }
+
+    /**
+     * Sleepy.
+     */
+    public val sleepy: Emotion = object : Emotion {
+        override fun toString(): String {
+            return "sleepy"
+        }
+    }
+
+    /**
+     * Exhausted.
+     */
+    public val exhausted: Emotion = object : Emotion {
+        override fun toString(): String {
+            return "exhausted"
+        }
+    }
+
+    /**
+     * Disappointed.
+     */
+    public val disappointed: Emotion = object : Emotion {
+        override fun toString(): String {
+            return "disappointed"
+        }
+    }
 }
