@@ -28,7 +28,7 @@ internal class TestNarratorConfiguration : NarratorConfiguration {
     }
 
     override val narrateListener: NarrateListener = object : NarrateListener {
-        override fun narrate(line: String, acknowledgement: AcknowledgeListener) {
+        override fun narrate(narrator: Narrator, line: String, acknowledgement: AcknowledgeListener) {
             // nothing
         }
     }
