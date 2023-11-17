@@ -12,7 +12,7 @@ public class Narrator(private val configuration: NarratorConfiguration) {
      * Narrate a [line].
      */
     public infix fun narrates(line: String) {
-        configuration.narrateListener.narrate(line, configuration.narrateAcknowledgementListener)
+        configuration.narrateListener.narrate(this, line, configuration.narrateAcknowledgementListener)
     }
 
     /**

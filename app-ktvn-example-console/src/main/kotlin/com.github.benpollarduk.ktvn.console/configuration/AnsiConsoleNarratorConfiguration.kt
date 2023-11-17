@@ -44,9 +44,9 @@ internal class AnsiConsoleNarratorConfiguration(
     }
 
     override val narrateListener: NarrateListener = object : NarrateListener {
-        override fun narrate(line: String, acknowledgement: AcknowledgeListener) {
+        override fun narrate(narrator: Narrator, line: String, acknowledgement: AcknowledgeListener) {
             // add an element in the log
-            consoleController.log.add(LogElement.StringLog(line))
+            consoleController.log.add(LogElement.NarratorLog(narrator, line))
 
             consoleController.print(line)
             acknowledgement.waitFor()

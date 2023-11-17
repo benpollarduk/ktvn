@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test
 
 class NarratorTest {
     private val emptyNarrateListener = object : NarrateListener {
-        override fun narrate(line: String, acknowledgement: AcknowledgeListener) {
+        override fun narrate(narrator: Narrator, line: String, acknowledgement: AcknowledgeListener) {
             // nothing
         }
     }
@@ -47,7 +47,7 @@ class NarratorTest {
             override val answerListener: AnswerListener = emptyAnswerListener
             override val askListener: AskListener = emptyAskListener
             override val narrateListener: NarrateListener = object : NarrateListener {
-                override fun narrate(line: String, acknowledgement: AcknowledgeListener) {
+                override fun narrate(narrator: Narrator, line: String, acknowledgement: AcknowledgeListener) {
                     called = true
                 }
             }

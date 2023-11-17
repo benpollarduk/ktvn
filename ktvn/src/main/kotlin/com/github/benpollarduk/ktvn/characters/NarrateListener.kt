@@ -7,7 +7,7 @@ import com.github.benpollarduk.ktvn.logic.structure.AcknowledgeListener
  */
 public interface NarrateListener {
     /**
-     * Invoke the listener with a specified [line] and [acknowledgement].
+     * Invoke the listener with a specified [narrator], [line] and [acknowledgement].
      */
-    public fun narrate(line: String, acknowledgement: AcknowledgeListener)
+    public fun narrate(narrator: Narrator, line: String, acknowledgement: AcknowledgeListener)
 }
