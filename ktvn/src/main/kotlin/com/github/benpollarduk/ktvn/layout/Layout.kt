@@ -107,6 +107,27 @@ public class Layout private constructor(setup: (Layout) -> Unit) {
     }
 
     /**
+     * Add a [character] at the left position.
+     */
+    public infix fun addLeft(character: Character) {
+        move(character, left)
+    }
+
+    /**
+     * Add a [character] at the right position.
+     */
+    public infix fun addRight(character: Character) {
+        move(character, right)
+    }
+
+    /**
+     * Add a [character] at the center position.
+     */
+    public infix fun addCenter(character: Character) {
+        move(character, center)
+    }
+
+    /**
      * Move a [character] to the left position.
      */
     public infix fun moveLeft(character: Character) {

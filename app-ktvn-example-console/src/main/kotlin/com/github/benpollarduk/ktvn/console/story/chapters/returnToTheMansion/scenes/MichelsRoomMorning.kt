@@ -20,12 +20,14 @@ internal fun michelsRoomMorning(): Scene {
         scene background "michels-room-morning"
         scene music "mansion-theme"
         scene layout Layout.createLayout { layout ->
-            layout moveCenter michel
+            layout addCenter michel
             layout configure configuration.layoutConfiguration
         }
         scene steps listOf(
-            next { michel looks normal },
-            next { narrator narrates "Morning came swiftly. Michel was awoken to the sweet sound of birdsong coming through the mansions boarded up windows." },
+            next {
+                michel looks normal
+                narrator narrates "Morning came swiftly. Michel was awoken to the sweet sound of birdsong coming through the mansions boarded up windows."
+            },
             conditional {
                 it condition "Left candle lit"
                 it does {
