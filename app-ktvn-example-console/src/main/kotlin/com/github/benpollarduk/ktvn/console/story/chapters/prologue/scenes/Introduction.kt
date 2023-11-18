@@ -7,6 +7,7 @@ import com.github.benpollarduk.ktvn.layout.Layout
 import com.github.benpollarduk.ktvn.logic.structure.Scene
 import com.github.benpollarduk.ktvn.logic.structure.SceneType
 import com.github.benpollarduk.ktvn.logic.structure.steps.Then
+import com.github.benpollarduk.ktvn.logic.structure.steps.Then.Companion.next
 
 internal fun introduction(): Scene {
     return Scene.scene { scene ->
@@ -17,8 +18,8 @@ internal fun introduction(): Scene {
             it configure configuration.layoutConfiguration
         }
         scene steps listOf(
-            Then.next { narrator narrates "Many years have passed since Michel moved into the mansion." },
-            Then.next { narrator narrates "Although Michel has remained amicable, the witch, Morgana, has not." }
+            next { narrator narrates "Many years have passed since Michel moved into the mansion." },
+            next { narrator narrates "Although Michel has remained amicable, the witch, Morgana, has not." }
         )
     }
 }

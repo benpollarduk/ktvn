@@ -35,16 +35,22 @@ internal fun insideTheMansion(): Scene {
             layout configure configuration.layoutConfiguration
         }
         scene steps listOf(
-            next { scene.layout moveLeft michel },
-            next { michel looks normal },
-            next { michel says "Morgana, are you there?" },
-            next { scene.layout moveRight morgana },
-            next { morgana looks angry },
-            next { morgana says "Michel, my dear, you will never be rid of me." },
-            next { morgana says "The two of us are cursed to spend eternity in this mansion." },
-            next { michel looks concerned },
-            next { michel says "Perhaps then we should at least try and get along?" },
-            next { morgana looks amused },
+            next {
+                scene.layout moveLeft michel
+                michel looks normal
+                michel says "Morgana, are you there?"
+             },
+            next {
+                scene.layout moveRight morgana
+                morgana looks angry
+                morgana says "Michel, my dear, you will never be rid of me."
+                morgana says "The two of us are cursed to spend eternity in this mansion."
+            },
+            next {
+                michel looks concerned
+                michel says "Perhaps then we should at least try and get along?"
+                morgana looks amused
+            },
             decision { decision ->
                 decision name "Michel's feeling towards Morgana"
                 decision does {

@@ -12,6 +12,7 @@ public class Conditional private constructor(setup: (Conditional) -> Unit) : Ste
     private var script: (Flags) -> Unit = { }
     private var flag: String = ""
     private var result: StepResult = StepResult.Continue
+    private var state: Boolean = true
 
     override var name: String = "Conditional"
         private set
@@ -35,6 +36,13 @@ public class Conditional private constructor(setup: (Conditional) -> Unit) : Ste
     }
 
     /**
+     * Set the desired state of the flag that is checked as part of the condition.
+     */
+    public infix fun state(state: Boolean) {
+        this.state = state
+    }
+
+    /**
      * Set the script that is invoked if the condition is true.
      */
     public infix fun does(script: (Flags) -> Unit) {
@@ -53,7 +61,7 @@ public class Conditional private constructor(setup: (Conditional) -> Unit) : Ste
             return StepResult.Cancelled
         }
 
-        return if (flags[flag]) {
+        return if (flags[flag] == state) {
             script(flags)
             result
         } else {

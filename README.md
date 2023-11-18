@@ -38,9 +38,7 @@ For example:
     * Scene
       * Step
       * Step
-      * Step
     * Scene
-      * Step
       * Step
       * Step
   * Chapter
