@@ -1,4 +1,4 @@
-package com.github.benpollarduk.ktvn.io
+package com.github.benpollarduk.ktvn.io.restore
 
 /**
  * Provides a restore point for a [Story] with a specified [chapterRestorePoint] and [chapter].

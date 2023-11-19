@@ -87,11 +87,11 @@ GameExecutor.execute(game)
 The constructor for Game objects accepts an instance of **GameConfiguration**. This is a cruical object and ties together how the game and the UI interact with one another. Please see the **Integration** section of this readme tor more information.
 
 # Persistence #
-Progress in a game can be persisted as a **Save**. A save can be generated at any point before, during or after a games 
+Progress in a game can be persisted as a **Save**. A restorePoint can be generated at any point before, during or after a games 
 execution and persisted to file using the **SaveSerializer**.
 ```kotlin
-val save = game.getSave("File1")
-SaveSerializer.toFile(save, path)
+val restorePoint = game.getRestorePoint("File1")
+SaveSerializer.toFile(restorePoint, path)
 ```
 
 # Core DSL

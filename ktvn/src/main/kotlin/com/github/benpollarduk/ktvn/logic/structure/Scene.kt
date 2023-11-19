@@ -6,8 +6,8 @@ import com.github.benpollarduk.ktvn.audio.Track
 import com.github.benpollarduk.ktvn.backgrounds.Background
 import com.github.benpollarduk.ktvn.backgrounds.ColorBackground.Companion.emptyBackground
 import com.github.benpollarduk.ktvn.backgrounds.ResourceBackground.Companion.backgroundFromResource
-import com.github.benpollarduk.ktvn.io.CharacterRestorePoint
-import com.github.benpollarduk.ktvn.io.SceneRestorePoint
+import com.github.benpollarduk.ktvn.io.restore.CharacterRestorePoint
+import com.github.benpollarduk.ktvn.io.restore.SceneRestorePoint
 import com.github.benpollarduk.ktvn.layout.Layout
 import com.github.benpollarduk.ktvn.layout.Layout.Companion.createLayout
 import com.github.benpollarduk.ktvn.logic.Flags

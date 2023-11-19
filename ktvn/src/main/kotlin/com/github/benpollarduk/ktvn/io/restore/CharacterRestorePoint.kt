@@ -1,4 +1,4 @@
-package com.github.benpollarduk.ktvn.io
+package com.github.benpollarduk.ktvn.io.restore
 
 import com.github.benpollarduk.ktvn.characters.Character
 import com.github.benpollarduk.ktvn.characters.Emotion

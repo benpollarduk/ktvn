@@ -1,6 +1,6 @@
 package com.github.benpollarduk.ktvn.logic.structure
 
-import com.github.benpollarduk.ktvn.io.ChapterRestorePoint
+import com.github.benpollarduk.ktvn.io.restore.ChapterRestorePoint
 import com.github.benpollarduk.ktvn.logic.Flags
 
 /**

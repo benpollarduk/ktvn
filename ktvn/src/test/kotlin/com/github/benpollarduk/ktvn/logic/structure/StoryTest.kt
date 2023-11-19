@@ -1,6 +1,6 @@
 package com.github.benpollarduk.ktvn.logic.structure
 
-import com.github.benpollarduk.ktvn.io.StoryRestorePoint
+import com.github.benpollarduk.ktvn.io.restore.StoryRestorePoint
 import com.github.benpollarduk.ktvn.logic.Ending
 import com.github.benpollarduk.ktvn.logic.Flags
 import com.github.benpollarduk.ktvn.logic.configuration.StoryConfiguration
