@@ -72,8 +72,9 @@ public class Story private constructor(setup: (Story) -> Unit) {
                         parameters.progressionMode,
                         parameters.cancellationToken
                     ),
+                    parameters.storyConfiguration.chapterListener,
                     parameters.storyConfiguration.sceneListener,
-                    parameters.storyConfiguration.chapterListener
+                    parameters.storyConfiguration.stepListener
                 )
             } else {
                 chapter.begin(
@@ -84,8 +85,9 @@ public class Story private constructor(setup: (Story) -> Unit) {
                         parameters.progressionMode,
                         parameters.cancellationToken
                     ),
+                    parameters.storyConfiguration.chapterListener,
                     parameters.storyConfiguration.sceneListener,
-                    parameters.storyConfiguration.chapterListener
+                    parameters.storyConfiguration.stepListener
                 )
             }
 

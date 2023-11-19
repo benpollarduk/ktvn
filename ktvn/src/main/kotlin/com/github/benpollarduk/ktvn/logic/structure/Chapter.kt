@@ -46,14 +46,15 @@ public class Chapter private constructor(setup: (Chapter) -> Unit) {
     }
 
     /**
-     * Begin the chapter with specified [parameters]. The [sceneListener] allows events to be invoked for
-     * scenes within this chapter. The [chapterListener] allows events to be invoked for this chapter.  Returns a
-     * [ChapterResult].
+     * Begin the chapter with specified [parameters]. The [chapterListener] allows events to be invoked for this
+     * chapter. The [sceneListener] allows events to be invoked for scenes within this chapter. The [stepListener]
+     * allows events to be invoked for steps within the scene. Returns a [ChapterResult].
      */
     internal fun begin(
         parameters: ChapterBeginParameters,
+        chapterListener: ChapterListener,
         sceneListener: SceneListener,
-        chapterListener: ChapterListener
+        stepListener: StepListener
     ): ChapterResult {
         indexOfCurrentScene = parameters.chapterRestorePoint.scene
         var chapterResult: ChapterResult? = null
@@ -72,7 +73,8 @@ public class Chapter private constructor(setup: (Chapter) -> Unit) {
                         parameters.progressionMode,
                         parameters.cancellationToken
                     ),
-                    sceneListener
+                    sceneListener,
+                    stepListener
                 )
             } else {
                 currentScene.begin(
@@ -83,7 +85,8 @@ public class Chapter private constructor(setup: (Chapter) -> Unit) {
                         parameters.progressionMode,
                         parameters.cancellationToken
                     ),
-                    sceneListener
+                    sceneListener,
+                    stepListener
                 )
             }
 

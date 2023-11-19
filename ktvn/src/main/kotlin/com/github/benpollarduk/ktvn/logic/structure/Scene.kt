@@ -189,11 +189,12 @@ public class Scene private constructor(setup: (Scene) -> Unit) {
 
     /**
      * Begin the scene with specified [parameters]. The [sceneListener] allows events to be invoked for this
-     * scene. Returns a [SceneResult].
+     * scene. The [stepListener] allows events to be invoked for steps within the scene. Returns a [SceneResult].
      */
     internal fun begin(
         parameters: SceneBeginParameters,
-        sceneListener: SceneListener
+        sceneListener: SceneListener,
+        stepListener: StepListener
     ): SceneResult {
         var indexOfCurrentStep = parameters.sceneRestorePoint.step
         var sceneResult: SceneResult? = null
@@ -202,14 +203,10 @@ public class Scene private constructor(setup: (Scene) -> Unit) {
 
         while (indexOfCurrentStep < content.size) {
             val step = content[indexOfCurrentStep]
+            stepListener.enter(step)
 
-            val result = if (shouldExecuteStep(step, parameters.stepTracker, parameters.progressionMode)) {
-                val resultValue = step(parameters.flags, parameters.cancellationToken)
-                parameters.stepTracker.registerStepSeen(step)
-                resultValue
-            } else {
-                StepResult.Continue
-            }
+            val result = step(parameters.flags, parameters.cancellationToken)
+            parameters.stepTracker.registerStepSeen(step)
 
             when (result) {
                 StepResult.Cancelled -> {
@@ -235,6 +232,8 @@ public class Scene private constructor(setup: (Scene) -> Unit) {
                     sceneListener.clear(this)
                 }
             }
+
+            stepListener.exit(step)
 
             if (sceneResult != null) {
                 break
