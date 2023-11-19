@@ -81,7 +81,7 @@ object Main : Logging {
         }
 
         // allow the console controller to process input from the console.
-        // this will block the thread until consoleController.endProcessingInput is called
+        // this will block the thread until consoleGameController.endProcessingInput is called
         configuration.consoleController.beginProcessingInput()
 
         logger.info("Ended execution of example.")
