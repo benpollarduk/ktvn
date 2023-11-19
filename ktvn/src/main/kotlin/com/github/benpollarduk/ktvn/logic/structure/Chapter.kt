@@ -1,9 +1,7 @@
 package com.github.benpollarduk.ktvn.logic.structure
 
 import com.github.benpollarduk.ktvn.io.restore.ChapterRestorePoint
-import com.github.benpollarduk.ktvn.io.tracking.StepTracker
 import com.github.benpollarduk.ktvn.logic.Flags
-import com.github.benpollarduk.ktvn.logic.ProgressionMode
 
 /**
  * A chapter within a [Story].
@@ -49,46 +47,41 @@ public class Chapter private constructor(setup: (Chapter) -> Unit) {
     }
 
     /**
-     * Begin the chapter with specified [flags]. The [chapterRestorePoint] specifies where the chapter restores from.
-     * The [chapterListener] allows events to be invoked for this chapter. A [stepTracker] must be provided to track
-     * which steps have been seen. A [progressionMode] must be specified to determine how the story progresses.
-     * A [cancellationToken] must be provided to allow for the chapter to be cancelled.
+     * Begin the chapter with specified [flags] and [parameters]. Returns a [ChapterResult].
      */
-    @Suppress("LongParameterList")
     internal fun begin(
         flags: Flags,
-        chapterRestorePoint: ChapterRestorePoint,
-        sceneListener: SceneListener,
-        chapterListener: ChapterListener,
-        stepTracker: StepTracker,
-        progressionMode: ProgressionMode,
-        cancellationToken: CancellationToken
+        parameters: ChapterBeginParameters
     ): ChapterResult {
-        indexOfCurrentScene = chapterRestorePoint.scene
+        indexOfCurrentScene = parameters.chapterRestorePoint.scene
         var chapterResult: ChapterResult? = null
 
-        chapterListener.enter(this, transition)
+        parameters.chapterListener.enter(this, transition)
 
         while (indexOfCurrentScene < scenes.size) {
             val currentScene = scenes[indexOfCurrentScene]
 
-            val result = if (indexOfCurrentScene == chapterRestorePoint.scene) {
+            val result = if (indexOfCurrentScene == parameters.chapterRestorePoint.scene) {
                 currentScene.begin(
                     flags,
-                    chapterRestorePoint.sceneRestorePoint,
-                    sceneListener,
-                    stepTracker,
-                    progressionMode,
-                    cancellationToken
+                    SceneBeginParameters(
+                        parameters.chapterRestorePoint.sceneRestorePoint,
+                        parameters.sceneListener,
+                        parameters.stepTracker,
+                        parameters.progressionMode,
+                        parameters.cancellationToken
+                    )
                 )
             } else {
                 currentScene.begin(
                     flags,
-                    ChapterRestorePoint.start.sceneRestorePoint,
-                    sceneListener,
-                    stepTracker,
-                    progressionMode,
-                    cancellationToken
+                    SceneBeginParameters(
+                        ChapterRestorePoint.start.sceneRestorePoint,
+                        parameters.sceneListener,
+                        parameters.stepTracker,
+                        parameters.progressionMode,
+                        parameters.cancellationToken
+                    )
                 )
             }
 
@@ -115,7 +108,7 @@ public class Chapter private constructor(setup: (Chapter) -> Unit) {
             }
         }
 
-        chapterListener.exit(this)
+        parameters.chapterListener.exit(this)
 
         return chapterResult ?: ChapterResult.Continue
     }

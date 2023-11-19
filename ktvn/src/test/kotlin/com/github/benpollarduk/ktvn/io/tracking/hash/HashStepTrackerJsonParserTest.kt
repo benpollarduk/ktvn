@@ -8,7 +8,7 @@ class HashStepTrackerJsonParserTest {
     fun `given valid hash step tracker when to json then return valid json`() {
         // Given
         val hashStepTracker = HashStepTracker(mutableListOf(1))
-        val expected = """{"hashList":[1],"version":"1.0.0"}"""
+        val expected = """{"hashTable":[1],"version":"1.0.0"}"""
 
         // When
         val result = HashStepTrackerJsonParser.toJson(hashStepTracker)
@@ -20,14 +20,14 @@ class HashStepTrackerJsonParserTest {
     @Test
     fun `given valid json when from json then return valid hash step tracker`() {
         // Given
-        val json = """{"hashList":[1],"version":"1.0.0"}"""
+        val json = """{"hashTable":[1],"version":"1.0.0"}"""
 
         // When
         val result = HashStepTrackerJsonParser.fromJson(json)
 
         // Then
         Assertions.assertEquals(HashStepTracker.VERSION_1_0_0, result.version)
-        Assertions.assertEquals(1, result.hashList.size)
-        Assertions.assertEquals(1, result.hashList.first())
+        Assertions.assertEquals(1, result.hashTable.size)
+        Assertions.assertEquals(1, result.hashTable.first())
     }
 }

@@ -16,7 +16,9 @@ public object RestorePointSerializer {
     public fun toFile(restorePoint: RestorePoint, path: String): SaveResult {
         return try {
             val contents = RestorePointJsonParser.toJson(restorePoint)
-            File(path).writeText(contents)
+            val file = File(path)
+            file.parentFile.mkdirs()
+            file.writeText(contents)
             SaveResult(true, "")
         } catch (e: IOException) {
             SaveResult(false, e.message ?: "Save failed - IOException.")

@@ -189,31 +189,23 @@ public class Scene private constructor(setup: (Scene) -> Unit) {
     }
 
     /**
-     * Begin the scene with specified [flags]. The [sceneRestorePoint] specifies where the scene restores from.
-     * The [sceneListener] allows events to be invoked for this scene. A [stepTracker] must be provided to track
-     * which steps have been seen. A [progressionMode] must be specified to determine how the story progresses.
-     * A [cancellationToken] must be provided to allow for the scene to be cancelled.
+     * Begin the scene with specified [flags] and [parameters]. Returns a [SceneResult].
      */
-    @Suppress("LongParameterList")
     internal fun begin(
         flags: Flags,
-        sceneRestorePoint: SceneRestorePoint,
-        sceneListener: SceneListener,
-        stepTracker: StepTracker,
-        progressionMode: ProgressionMode,
-        cancellationToken: CancellationToken
+        parameters: SceneBeginParameters
     ): SceneResult {
-        var indexOfCurrentStep = sceneRestorePoint.step
+        var indexOfCurrentStep = parameters.sceneRestorePoint.step
         var sceneResult: SceneResult? = null
-        restore(sceneRestorePoint)
-        sceneListener.enter(this, transitionIn)
+        restore(parameters.sceneRestorePoint)
+        parameters.sceneListener.enter(this, transitionIn)
 
         while (indexOfCurrentStep < content.size) {
             val step = content[indexOfCurrentStep]
 
-            val result = if (shouldExecuteStep(step, stepTracker, progressionMode)) {
-                val resultValue = step(flags, cancellationToken)
-                stepTracker.registerStepSeen(step)
+            val result = if (shouldExecuteStep(step, parameters.stepTracker, parameters.progressionMode)) {
+                val resultValue = step(flags, parameters.cancellationToken)
+                parameters.stepTracker.registerStepSeen(step)
                 resultValue
             } else {
                 StepResult.Continue
@@ -240,7 +232,7 @@ public class Scene private constructor(setup: (Scene) -> Unit) {
                 }
                 is StepResult.Clear -> {
                     indexOfCurrentStep++
-                    sceneListener.clear(this)
+                    parameters.sceneListener.clear(this)
                 }
             }
 
@@ -249,7 +241,7 @@ public class Scene private constructor(setup: (Scene) -> Unit) {
             }
         }
 
-        sceneListener.exit(this, transitionOut)
+        parameters.sceneListener.exit(this, transitionOut)
 
         return sceneResult ?: SceneResult.Continue
     }

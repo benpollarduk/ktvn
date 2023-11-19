@@ -1,5 +1,6 @@
 package com.github.benpollarduk.ktvn.console.configuration
 
+import com.github.benpollarduk.ktvn.logic.ProgressionMode
 import com.github.benpollarduk.ktvn.text.sequencing.SequencedTextController
 import com.github.benpollarduk.ktvn.text.sequencing.SequencedTextControllerListener
 import com.github.benpollarduk.ktvn.text.frames.CharacterConstrainedTextFrame
@@ -20,6 +21,11 @@ internal class AnsiConsoleController(
     private var input = ""
     private var inputReceived : CountDownLatch? = null
     private val lock = ReentrantLock()
+
+    /**
+     * Get or set the progression mode.
+     */
+    internal var progressionMode: ProgressionMode = ProgressionMode.WaitForConfirmation
 
     /**
      * Get the log. All events can be logged here so they can be recalled later if needed.
@@ -51,7 +57,7 @@ internal class AnsiConsoleController(
 
             override fun waitFor() {
                 // wait for enter to be pressed before continuing
-                waitForEnter()
+                waitForAcknowledge()
             }
         })
 
@@ -119,9 +125,9 @@ internal class AnsiConsoleController(
     }
 
     /**
-     * Wait for the enter key to be pressed.
+     * Wait for the enter key to be pressed or a signal to auto continue.
      */
-    internal fun waitForEnter() {
+    internal fun waitForAcknowledge() {
         setCursorPosition(DEFAULT_WIDTH + 1, DEFAULT_LINES + 1)
         kotlin.io.print("<enter> ")
 
@@ -130,6 +136,10 @@ internal class AnsiConsoleController(
             inputReceived = CountDownLatch(1)
         } finally {
             lock.unlock()
+        }
+
+        if (progressionMode is ProgressionMode.Auto) {
+            // TODO: wait for signal
         }
 
         // wait for the input to be received
@@ -147,9 +157,12 @@ internal class AnsiConsoleController(
      * Wait for entry followed by the enter key.
      */
     internal fun waitForInput(): String {
+        // put in manual mode
+        progressionMode = ProgressionMode.WaitForConfirmation
+
         // reset the input to ensure that legacy input is discarded
         setInput("")
-        waitForEnter()
+        waitForAcknowledge()
 
         return try {
             lock.lock()

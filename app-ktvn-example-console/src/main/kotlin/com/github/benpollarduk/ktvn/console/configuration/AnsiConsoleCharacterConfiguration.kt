@@ -18,8 +18,7 @@ import com.github.benpollarduk.ktvn.logic.structure.AcknowledgeListener
 import com.github.benpollarduk.ktvn.text.log.LogElement
 
 /**
- * Provides an [CharacterConfiguration] for an ANSI console. Optionally a map of [characterColors] can be provided where
- * the key is a [Character] and the value is an ANSI colour code.
+ * Provides an [CharacterConfiguration] for an ANSI console.
  */
 internal class AnsiConsoleCharacterConfiguration(
     private val consoleController: AnsiConsoleController
@@ -40,7 +39,7 @@ internal class AnsiConsoleCharacterConfiguration(
 
     override val speakAcknowledgementListener: AcknowledgeListener = object : AcknowledgeListener {
         override fun waitFor() {
-            consoleController.waitForEnter()
+            consoleController.waitForAcknowledge()
             consoleController.clear()
         }
     }

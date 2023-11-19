@@ -90,11 +90,13 @@ class StoryTest {
         // When
         val result = story.begin(
             Flags(),
-            StoryRestorePoint.start,
-            configuration,
-            HashStepTracker(),
-            ProgressionMode.WaitForConfirmation,
-            CancellationToken()
+            StoryBeginParameters(
+                StoryRestorePoint.start,
+                configuration,
+                HashStepTracker(),
+                ProgressionMode.WaitForConfirmation,
+                CancellationToken()
+            )
         )
 
         // Then
@@ -120,11 +122,13 @@ class StoryTest {
         // When
         val result = story.begin(
             Flags(),
-            StoryRestorePoint.start,
-            configuration,
-            HashStepTracker(),
-            ProgressionMode.WaitForConfirmation,
-            CancellationToken()
+            StoryBeginParameters(
+                StoryRestorePoint.start,
+                configuration,
+                HashStepTracker(),
+                ProgressionMode.WaitForConfirmation,
+                CancellationToken()
+            )
         )
 
         // Then
@@ -162,11 +166,13 @@ class StoryTest {
         // When
         story.begin(
             Flags(),
-            StoryRestorePoint.start,
-            configuration,
-            HashStepTracker(),
-            ProgressionMode.WaitForConfirmation,
-            CancellationToken()
+            StoryBeginParameters(
+                StoryRestorePoint.start,
+                configuration,
+                HashStepTracker(),
+                ProgressionMode.WaitForConfirmation,
+                CancellationToken()
+            )
         )
 
         // Then
@@ -209,11 +215,13 @@ class StoryTest {
         // When
         story.begin(
             Flags(),
-            StoryRestorePoint.start,
-            configuration,
-            HashStepTracker(),
-            ProgressionMode.WaitForConfirmation,
-            CancellationToken()
+            StoryBeginParameters(
+                StoryRestorePoint.start,
+                configuration,
+                HashStepTracker(),
+                ProgressionMode.WaitForConfirmation,
+                CancellationToken()
+            )
         )
 
         // Then
@@ -255,11 +263,13 @@ class StoryTest {
         // When
         story.begin(
             Flags(),
-            StoryRestorePoint.start,
-            configuration,
-            HashStepTracker(),
-            ProgressionMode.WaitForConfirmation,
-            CancellationToken()
+            StoryBeginParameters(
+                StoryRestorePoint.start,
+                configuration,
+                HashStepTracker(),
+                ProgressionMode.WaitForConfirmation,
+                CancellationToken()
+            )
         )
 
         // Then

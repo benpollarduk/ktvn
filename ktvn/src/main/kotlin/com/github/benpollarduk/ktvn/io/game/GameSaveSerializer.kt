@@ -16,7 +16,9 @@ public object GameSaveSerializer {
     public fun toFile(gameSave: GameSave, path: String): SaveResult {
         return try {
             val contents = GameSaveJsonParser.toJson(gameSave)
-            File(path).writeText(contents)
+            val file = File(path)
+            file.parentFile.mkdirs()
+            file.writeText(contents)
             SaveResult(true, "")
         } catch (e: IOException) {
             SaveResult(false, e.message ?: "Save failed - IOException.")

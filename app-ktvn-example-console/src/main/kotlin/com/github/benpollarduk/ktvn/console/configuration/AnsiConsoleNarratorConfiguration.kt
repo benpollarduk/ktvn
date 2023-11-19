@@ -19,7 +19,7 @@ internal class AnsiConsoleNarratorConfiguration(
 ) : NarratorConfiguration {
     override val narrateAcknowledgementListener: AcknowledgeListener = object : AcknowledgeListener {
         override fun waitFor() {
-            consoleController.waitForEnter()
+            consoleController.waitForAcknowledge()
         }
     }
 

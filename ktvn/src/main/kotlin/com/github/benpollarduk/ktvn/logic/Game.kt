@@ -5,6 +5,7 @@ import com.github.benpollarduk.ktvn.io.restore.RestorePoint
 import com.github.benpollarduk.ktvn.logic.configuration.GameConfiguration
 import com.github.benpollarduk.ktvn.logic.structure.CancellationToken
 import com.github.benpollarduk.ktvn.logic.structure.Story
+import com.github.benpollarduk.ktvn.logic.structure.StoryBeginParameters
 import java.util.concurrent.locks.ReentrantLock
 
 /**
@@ -37,11 +38,13 @@ public class Game(
 
         val ending = story.begin(
             Flags.fromMap(restorePoint.flags),
-            restorePoint.storyRestorePoint,
-            gameConfiguration.storyConfiguration,
-            gameConfiguration.stepTracker,
-            gameConfiguration.progressionMode,
-            cancellationToken
+            StoryBeginParameters(
+                restorePoint.storyRestorePoint,
+                gameConfiguration.storyConfiguration,
+                gameConfiguration.stepTracker,
+                gameConfiguration.progressionMode,
+                cancellationToken
+            )
         )
 
         try {
