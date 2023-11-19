@@ -11,8 +11,6 @@ import com.github.benpollarduk.ktvn.io.restore.SceneRestorePoint
 import com.github.benpollarduk.ktvn.io.tracking.StepTracker
 import com.github.benpollarduk.ktvn.layout.Layout
 import com.github.benpollarduk.ktvn.layout.Layout.Companion.createLayout
-import com.github.benpollarduk.ktvn.logic.ProgressionMode
-import com.github.benpollarduk.ktvn.logic.structure.steps.Clear
 import com.github.benpollarduk.ktvn.logic.structure.steps.Pause
 import com.github.benpollarduk.ktvn.logic.structure.steps.Then
 
@@ -72,24 +70,14 @@ public class Scene private constructor(setup: (Scene) -> Unit) {
     }
 
     /**
-     * Determine if a [step] should be executed. Execution depends on a combination of [progressionMode] and if the
-     * step has already been seen. When [ProgressionMode.Skip] is used seen steps will be skipped, or all steps if
-     * [ProgressionMode.Skip] skipUnseen property is set true. Some steps can't be skipped.
+     * Determine if a [step] Can be skipped. Skipping depends on a combination of the type of step and if it has
+     * already been seen.
      */
-    internal fun shouldExecuteStep(step: Step, stepTracker: StepTracker, progressionMode: ProgressionMode): Boolean {
-        return if (progressionMode is ProgressionMode.Skip) {
-            if (!progressionMode.skipUnseen && !stepTracker.hasBeenSeen(step)) {
-                true
-            } else {
-                when (step) {
-                    is Then -> false
-                    is Clear -> false
-                    is Pause -> false
-                    else -> true
-                }
-            }
-        } else {
-            true
+    internal fun canSkipStep(step: Step, stepTracker: StepTracker): Boolean {
+        return when (step) {
+            is Then -> stepTracker.hasBeenSeen(step)
+            is Pause -> stepTracker.hasBeenSeen(step)
+            else -> false
         }
     }
 
@@ -203,7 +191,7 @@ public class Scene private constructor(setup: (Scene) -> Unit) {
 
         while (indexOfCurrentStep < content.size) {
             val step = content[indexOfCurrentStep]
-            stepListener.enter(step)
+            stepListener.enter(step, canSkipStep(step, parameters.stepTracker), parameters.cancellationToken)
 
             val result = step(parameters.flags, parameters.cancellationToken)
             parameters.stepTracker.registerStepSeen(step)

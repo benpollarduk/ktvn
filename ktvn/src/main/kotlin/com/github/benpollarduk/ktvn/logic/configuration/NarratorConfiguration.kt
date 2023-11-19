@@ -1,8 +1,8 @@
 package com.github.benpollarduk.ktvn.logic.configuration
 
 import com.github.benpollarduk.ktvn.characters.AnswerListener
-import com.github.benpollarduk.ktvn.characters.AskListener
 import com.github.benpollarduk.ktvn.characters.NarrateListener
+import com.github.benpollarduk.ktvn.characters.NarratorAskListener
 import com.github.benpollarduk.ktvn.logic.structure.AcknowledgeListener
 
 /**
@@ -22,7 +22,7 @@ public interface NarratorConfiguration {
     /**
      * Get the ask listener.
      */
-    public val askListener: AskListener
+    public val askListener: NarratorAskListener
 
     /**
      * Get the narrate listener.

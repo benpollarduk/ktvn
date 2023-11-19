@@ -4,7 +4,6 @@ import com.github.benpollarduk.ktvn.io.restore.StoryRestorePoint
 import com.github.benpollarduk.ktvn.io.tracking.hash.HashStepTracker
 import com.github.benpollarduk.ktvn.logic.Ending
 import com.github.benpollarduk.ktvn.logic.Flags
-import com.github.benpollarduk.ktvn.logic.ProgressionMode
 import com.github.benpollarduk.ktvn.logic.configuration.StoryConfiguration
 import com.github.benpollarduk.ktvn.logic.structure.Chapter.Companion.chapter
 import com.github.benpollarduk.ktvn.logic.structure.Scene.Companion.scene
@@ -26,6 +25,7 @@ class StoryTest {
             // nothing
         }
     }
+
     private val emptySceneListener = object : SceneListener {
         override fun enter(scene: Scene, transition: SceneTransition) {
             // nothing
@@ -40,9 +40,20 @@ class StoryTest {
         }
     }
 
+    private val emptyStepListener = object : StepListener {
+        override fun enter(step: Step, canSkip: Boolean, cancellationToken: CancellationToken) {
+            // nothing
+        }
+
+        override fun exit(step: Step) {
+            // nothing
+        }
+    }
+
     private val configuration: StoryConfiguration = object : StoryConfiguration {
         override val chapterListener: ChapterListener = emptyChapterListener
         override val sceneListener: SceneListener = emptySceneListener
+        override val stepListener: StepListener = emptyStepListener
     }
 
     @Test
@@ -94,7 +105,6 @@ class StoryTest {
                 StoryRestorePoint.start,
                 configuration,
                 HashStepTracker(),
-                ProgressionMode.WaitForConfirmation,
                 CancellationToken()
             )
         )
@@ -126,7 +136,6 @@ class StoryTest {
                 StoryRestorePoint.start,
                 configuration,
                 HashStepTracker(),
-                ProgressionMode.WaitForConfirmation,
                 CancellationToken()
             )
         )
@@ -161,6 +170,7 @@ class StoryTest {
         val configuration: StoryConfiguration = object : StoryConfiguration {
             override val chapterListener: ChapterListener = chapterListener
             override val sceneListener: SceneListener = emptySceneListener
+            override val stepListener: StepListener = emptyStepListener
         }
 
         // When
@@ -170,7 +180,6 @@ class StoryTest {
                 StoryRestorePoint.start,
                 configuration,
                 HashStepTracker(),
-                ProgressionMode.WaitForConfirmation,
                 CancellationToken()
             )
         )
@@ -210,6 +219,7 @@ class StoryTest {
         val configuration: StoryConfiguration = object : StoryConfiguration {
             override val chapterListener: ChapterListener = emptyChapterListener
             override val sceneListener: SceneListener = sceneListener
+            override val stepListener: StepListener = emptyStepListener
         }
 
         // When
@@ -219,7 +229,6 @@ class StoryTest {
                 StoryRestorePoint.start,
                 configuration,
                 HashStepTracker(),
-                ProgressionMode.WaitForConfirmation,
                 CancellationToken()
             )
         )
@@ -258,6 +267,7 @@ class StoryTest {
         val configuration: StoryConfiguration = object : StoryConfiguration {
             override val chapterListener: ChapterListener = emptyChapterListener
             override val sceneListener: SceneListener = sceneListener
+            override val stepListener: StepListener = emptyStepListener
         }
 
         // When
@@ -267,7 +277,6 @@ class StoryTest {
                 StoryRestorePoint.start,
                 configuration,
                 HashStepTracker(),
-                ProgressionMode.WaitForConfirmation,
                 CancellationToken()
             )
         )

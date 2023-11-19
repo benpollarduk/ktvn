@@ -3,11 +3,10 @@ package com.github.benpollarduk.ktvn.layout
 import com.github.benpollarduk.ktvn.characters.AnimateListener
 import com.github.benpollarduk.ktvn.characters.Animation
 import com.github.benpollarduk.ktvn.characters.AnswerListener
-import com.github.benpollarduk.ktvn.characters.AskListener
 import com.github.benpollarduk.ktvn.characters.Character
+import com.github.benpollarduk.ktvn.characters.CharacterAskListener
 import com.github.benpollarduk.ktvn.characters.EmoteListener
 import com.github.benpollarduk.ktvn.characters.Emotion
-import com.github.benpollarduk.ktvn.characters.Narrator
 import com.github.benpollarduk.ktvn.characters.SpeakListener
 import com.github.benpollarduk.ktvn.layout.Positions.left
 import com.github.benpollarduk.ktvn.layout.Positions.right
@@ -38,12 +37,8 @@ class LayoutTest {
         }
     }
 
-    private val emptyAskListener = object : AskListener {
+    private val emptyAskListener = object : CharacterAskListener {
         override fun ask(character: Character, question: Question, answerListener: AnswerListener): Answer {
-            return question.answers.first()
-        }
-
-        override fun ask(narrator: Narrator, question: Question, answerListener: AnswerListener): Answer {
             return question.answers.first()
         }
     }
@@ -65,7 +60,7 @@ class LayoutTest {
         override val speakAcknowledgementListener: AcknowledgeListener = acknowledgementListener
         override val animateAcknowledgementListener: AcknowledgeListener = acknowledgementListener
         override val answerListener: AnswerListener = emptyAnswerListener
-        override val askListener: AskListener = emptyAskListener
+        override val askListener: CharacterAskListener = emptyAskListener
         override val emoteListener: EmoteListener = emptyEmoteListener
         override val animateListener: AnimateListener = emptyAnimateListener
         override val speakListener: SpeakListener = emptySpeakListener

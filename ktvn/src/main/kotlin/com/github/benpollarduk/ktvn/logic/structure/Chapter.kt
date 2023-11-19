@@ -70,7 +70,6 @@ public class Chapter private constructor(setup: (Chapter) -> Unit) {
                         parameters.flags,
                         parameters.chapterRestorePoint.sceneRestorePoint,
                         parameters.stepTracker,
-                        parameters.progressionMode,
                         parameters.cancellationToken
                     ),
                     sceneListener,
@@ -82,7 +81,6 @@ public class Chapter private constructor(setup: (Chapter) -> Unit) {
                         parameters.flags,
                         ChapterRestorePoint.start.sceneRestorePoint,
                         parameters.stepTracker,
-                        parameters.progressionMode,
                         parameters.cancellationToken
                     ),
                     sceneListener,

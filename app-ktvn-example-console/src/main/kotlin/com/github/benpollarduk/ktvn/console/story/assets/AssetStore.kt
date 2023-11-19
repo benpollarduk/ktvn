@@ -3,8 +3,8 @@ package com.github.benpollarduk.ktvn.console.story.assets
 import com.github.benpollarduk.ktvn.audio.AudioManager
 import com.github.benpollarduk.ktvn.characters.Character
 import com.github.benpollarduk.ktvn.characters.Narrator
-import com.github.benpollarduk.ktvn.console.configuration.AnsiConsoleController
-import com.github.benpollarduk.ktvn.console.configuration.AnsiConsoleGameConfiguration
+import com.github.benpollarduk.ktvn.console.AnsiConsoleGameController
+import com.github.benpollarduk.ktvn.logic.configuration.DefaultGameConfiguration
 
 /**
  * An object that acts as a store for the games assets.
@@ -13,12 +13,12 @@ internal object AssetStore {
     /**
      * The controller responsible for handling all input and output.
      */
-    private val controller = AnsiConsoleController()
+    internal val controller = AnsiConsoleGameController()
 
     /**
-     *  The console configuration for interacting with the returnToTheMansion.
+     *  The configuration for interacting with the returnToTheMansion.
      */
-    internal val configuration = AnsiConsoleGameConfiguration(controller)
+    internal val configuration = DefaultGameConfiguration(controller)
 
     /**
      * The narrator - responsible for narrating the story.

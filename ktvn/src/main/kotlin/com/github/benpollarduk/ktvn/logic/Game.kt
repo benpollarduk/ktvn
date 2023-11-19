@@ -42,7 +42,6 @@ public class Game(
                 restorePoint.storyRestorePoint,
                 gameConfiguration.storyConfiguration,
                 gameConfiguration.stepTracker,
-                gameConfiguration.progressionMode,
                 cancellationToken
             )
         )

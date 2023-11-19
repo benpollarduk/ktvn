@@ -2,7 +2,6 @@ package com.github.benpollarduk.ktvn.logic.structure
 
 import com.github.benpollarduk.ktvn.io.tracking.hash.HashStepTracker
 import com.github.benpollarduk.ktvn.layout.Layout.Companion.createLayout
-import com.github.benpollarduk.ktvn.logic.ProgressionMode
 import com.github.benpollarduk.ktvn.logic.structure.Scene.Companion.scene
 import com.github.benpollarduk.ktvn.logic.structure.steps.Then.Companion.then
 import org.junit.jupiter.api.Assertions
@@ -68,11 +67,10 @@ class SceneTest {
     }
 
     @Test
-    fun `given unseen then step and waiting for confirmation when checking should execute step then return true`() {
+    fun `given unseen then step when checking can skip step then return false`() {
         // Given
         val step = then { }
         val tracker = HashStepTracker()
-        val mode = ProgressionMode.WaitForConfirmation
         val scene = scene {
             it steps listOf(
                 step
@@ -80,136 +78,18 @@ class SceneTest {
         }
 
         // When
-        val result = scene.shouldExecuteStep(step, tracker, mode)
-
-        // Then
-        Assertions.assertTrue(result)
-    }
-
-    @Test
-    fun `given seen then step and waiting for confirmation when checking should execute step then return true`() {
-        // Given
-        val step = then { }
-        val tracker = HashStepTracker()
-        tracker.registerStepSeen(step)
-        val mode = ProgressionMode.WaitForConfirmation
-        val scene = scene {
-            it steps listOf(
-                step
-            )
-        }
-
-        // When
-        val result = scene.shouldExecuteStep(step, tracker, mode)
-
-        // Then
-        Assertions.assertTrue(result)
-    }
-
-    @Test
-    fun `given unseen then step and auto when checking should execute step then return true`() {
-        // Given
-        val step = then { }
-        val tracker = HashStepTracker()
-        val mode = ProgressionMode.Auto(0)
-        val scene = scene {
-            it steps listOf(
-                step
-            )
-        }
-
-        // When
-        val result = scene.shouldExecuteStep(step, tracker, mode)
-
-        // Then
-        Assertions.assertTrue(result)
-    }
-
-    @Test
-    fun `given seen then step and auto when checking should execute step then return true`() {
-        // Given
-        val step = then { }
-        val tracker = HashStepTracker()
-        tracker.registerStepSeen(step)
-        val mode = ProgressionMode.Auto(0)
-        val scene = scene {
-            it steps listOf(
-                step
-            )
-        }
-
-        // When
-        val result = scene.shouldExecuteStep(step, tracker, mode)
-
-        // Then
-        Assertions.assertTrue(result)
-    }
-
-    @Test
-    fun `given unseen then step and skip when checking should execute step then return true`() {
-        // Given
-        val step = then { }
-        val tracker = HashStepTracker()
-        val mode = ProgressionMode.Skip(false)
-        val scene = scene {
-            it steps listOf(
-                step
-            )
-        }
-
-        // When
-        val result = scene.shouldExecuteStep(step, tracker, mode)
-
-        // Then
-        Assertions.assertTrue(result)
-    }
-
-    @Test
-    fun `given seen then step and skip when checking should execute step then return false`() {
-        // Given
-        val step = then { }
-        val tracker = HashStepTracker()
-        tracker.registerStepSeen(step)
-        val mode = ProgressionMode.Skip(false)
-        val scene = scene {
-            it steps listOf(
-                step
-            )
-        }
-
-        // When
-        val result = scene.shouldExecuteStep(step, tracker, mode)
+        val result = scene.canSkipStep(step, tracker)
 
         // Then
         Assertions.assertFalse(result)
     }
 
     @Test
-    fun `given unseen then step and skip with force when checking should execute step then return false`() {
-        // Given
-        val step = then { }
-        val tracker = HashStepTracker()
-        val mode = ProgressionMode.Skip(true)
-        val scene = scene {
-            it steps listOf(
-                step
-            )
-        }
-
-        // When
-        val result = scene.shouldExecuteStep(step, tracker, mode)
-
-        // Then
-        Assertions.assertFalse(result)
-    }
-
-    @Test
-    fun `given seen then step and skip with force when checking should execute step then return false`() {
+    fun `given seen then step when checking can skip step then return true`() {
         // Given
         val step = then { }
         val tracker = HashStepTracker()
         tracker.registerStepSeen(step)
-        val mode = ProgressionMode.Skip(true)
         val scene = scene {
             it steps listOf(
                 step
@@ -217,9 +97,9 @@ class SceneTest {
         }
 
         // When
-        val result = scene.shouldExecuteStep(step, tracker, mode)
+        val result = scene.canSkipStep(step, tracker)
 
         // Then
-        Assertions.assertFalse(result)
+        Assertions.assertTrue(result)
     }
 }

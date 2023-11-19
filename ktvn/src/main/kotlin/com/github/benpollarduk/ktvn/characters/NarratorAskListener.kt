@@ -4,14 +4,9 @@ import com.github.benpollarduk.ktvn.logic.Answer
 import com.github.benpollarduk.ktvn.logic.Question
 
 /**
- * Provides an interface for listeners to ask events.
+ * Provides an interface for listeners to [Narrator] ask events.
  */
-public interface AskListener {
-    /**
-     * Invoke the listener with a specified [character] and [question]. Returns the selected answer.
-     */
-    public fun ask(character: Character, question: Question, answerListener: AnswerListener): Answer
-
+public interface NarratorAskListener {
     /**
      * Invoke the listener with a specified [narrator] and [question]. Returns the selected answer.
      */
