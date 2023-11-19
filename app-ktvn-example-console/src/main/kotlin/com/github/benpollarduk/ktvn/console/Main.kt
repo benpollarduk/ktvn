@@ -38,7 +38,7 @@ object Main : Logging {
             persistStepData()
         }
 
-        // allow the console controller to process input from the console.
+        // allow the console gameController to process input from the console.
         // this will block the thread until consoleGameController.endProcessingInput is called
         controller.beginProcessingInput()
 

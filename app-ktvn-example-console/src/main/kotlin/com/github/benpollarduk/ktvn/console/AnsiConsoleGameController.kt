@@ -25,19 +25,21 @@ import com.github.benpollarduk.ktvn.text.frames.TextFrameParameters
 import com.github.benpollarduk.ktvn.text.sequencing.SequencedTextController
 import com.github.benpollarduk.ktvn.text.sequencing.SequencedTextControllerListener
 import com.github.benpollarduk.ktvn.text.sequencing.TimeBasedTextSequencer
+import java.util.concurrent.locks.ReentrantLock
 
 /**
- * A class that functions as a controller for a console that is ANSI compatible.
+ * A class that functions as a gameController for a console that is ANSI compatible.
  */
 internal class AnsiConsoleGameController(
     private val parameters: TextFrameParameters = TextFrameParameters(DEFAULT_WIDTH, DEFAULT_LINES)
 ) : GameController() {
+    private val lock: ReentrantLock = ReentrantLock()
     private var isProcessingInput = false
     private var input = ""
     private var canSkipCurrentStep = false
     private var cancellationToken: CancellationToken = CancellationToken()
 
-    // the text controller is responsible for sequencing and controlling the dispatch of characters from a collection
+    // the text gameController is responsible for sequencing and controlling the dispatch of characters from a collection
     // of frames. the listener is used to capture the requested characters and render them on the console
     private val textController = SequencedTextController(TimeBasedTextSequencer {
         // render all the characters in the requested position on the console
@@ -201,12 +203,7 @@ internal class AnsiConsoleGameController(
                 setInput(input)
             }
 
-            try {
-                lock.lock()
-                acknowledgementReceived?.countDown()
-            } finally {
-                lock.unlock()
-            }
+            triggerAcknowledgementLatch()
         }
     }
 

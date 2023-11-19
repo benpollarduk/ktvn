@@ -1,7 +1,6 @@
 package com.github.benpollarduk.ktvn.logic.configuration
 
 import com.github.benpollarduk.ktvn.io.tracking.StepTracker
-import com.github.benpollarduk.ktvn.logic.ProgressionMode
 
 /**
  * Provides a configuration for a [Game].
@@ -11,11 +10,6 @@ public interface GameConfiguration {
      * Get [StepTracker] used to track which [Step] have been seen.
      */
     public val stepTracker: StepTracker
-
-    /**
-     * Get the [ProgressionMode].
-     */
-    public var progressionMode: ProgressionMode
 
     /**
      * Get the configuration for characters.

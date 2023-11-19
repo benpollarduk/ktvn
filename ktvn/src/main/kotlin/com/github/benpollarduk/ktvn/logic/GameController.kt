@@ -17,19 +17,12 @@ import java.util.concurrent.CountDownLatch
 import java.util.concurrent.locks.ReentrantLock
 
 /**
- * A class that functions as a controller for a [Game].
+ * A class that functions as a gameController for a [Game].
  */
 @Suppress("TooManyFunctions")
 public open class GameController {
-    /**
-     * A [CountDownLatch] that can be used to signal that an acknowledgement was received.
-     */
-    protected var acknowledgementReceived: CountDownLatch? = null
-
-    /**
-     * A [ReentrantLock] that can be used to control access to the variables within this class.
-     */
-    protected val lock: ReentrantLock = ReentrantLock()
+    private var acknowledgementReceived: CountDownLatch? = null
+    private val lock: ReentrantLock = ReentrantLock()
 
     /**
      * Get or set the progression mode.
@@ -47,27 +40,58 @@ public open class GameController {
     public val auto: Auto = Auto()
 
     /**
-     * Await an acknowledgment. If [canSkipCurrentStep] is set true the current step is regarded as one that can be
-     * skipped. A [cancellationToken] must be provided to support cancellation.
+     * Trigger the acknowledgement latch.
      */
-    public fun awaitAcknowledgement(canSkipCurrentStep: Boolean, cancellationToken: CancellationToken) {
+    protected fun triggerAcknowledgementLatch() {
+        try {
+            lock.lock()
+            acknowledgementReceived?.countDown()
+        } finally {
+            lock.unlock()
+        }
+    }
+
+    /**
+     * Release the acknowledgement latch.
+     */
+    protected fun releaseAcknowledgementLatch() {
+        try {
+            lock.lock()
+            acknowledgementReceived = null
+        } finally {
+            lock.unlock()
+        }
+    }
+
+    /**
+     * Reset the acknowledgement latch.
+     */
+    protected fun resetAcknowledgementLatch() {
         try {
             lock.lock()
             acknowledgementReceived = CountDownLatch(1)
         } finally {
             lock.unlock()
         }
+    }
+
+    /**
+     * Await an acknowledgment. If [canSkipCurrentStep] is set true the current step is regarded as one that can be
+     * skipped. A [cancellationToken] must be provided to support cancellation.
+     */
+    public fun awaitAcknowledgement(canSkipCurrentStep: Boolean, cancellationToken: CancellationToken) {
+        resetAcknowledgementLatch()
 
         // some progression modes control flow differently
         when (val mode = progressionMode) {
             is ProgressionMode.Auto -> {
                 if (auto.wait(mode.postDelayInMs, cancellationToken)) {
-                    acknowledgementReceived?.countDown()
+                    triggerAcknowledgementLatch()
                 }
             }
             is ProgressionMode.Skip -> {
                 if (canSkipCurrentStep || mode.skipUnseen) {
-                    acknowledgementReceived?.countDown()
+                    triggerAcknowledgementLatch()
                 }
             }
             is ProgressionMode.WaitForConfirmation -> {
@@ -78,12 +102,7 @@ public open class GameController {
         // wait for the acknowledgement to be received
         acknowledgementReceived?.await()
 
-        try {
-            lock.lock()
-            acknowledgementReceived = null
-        } finally {
-            lock.unlock()
-        }
+        releaseAcknowledgementLatch()
     }
 
     /**

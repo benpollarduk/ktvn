@@ -11,12 +11,12 @@ import com.github.benpollarduk.ktvn.logic.configuration.DefaultGameConfiguration
  */
 internal object AssetStore {
     /**
-     * The controller responsible for handling all input and output.
+     * The gameController responsible for handling all input and output.
      */
     internal val controller = AnsiConsoleGameController()
 
     /**
-     *  The configuration for interacting with the returnToTheMansion.
+     *  The configuration for interacting with the game.
      */
     internal val configuration = DefaultGameConfiguration(controller)
 
