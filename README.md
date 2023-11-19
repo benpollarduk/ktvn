@@ -9,9 +9,11 @@ Please visit [https://benpollarduk.github.io/ktvn-docs/](https://benpollarduk.gi
 
 # Getting Started
 * Clone the repo
-* Run the included terminal application
+* Build and run the included terminal application:
 ```bash
-./gradlew :app-ktvn-example-console:run
+./gradlew clean build
+cd app-ktvn-example-console/build/libs
+java -jar app-ktvn-example-console-all.jar
 ```
 
 # Hello World
@@ -84,14 +86,16 @@ val game = Game(story, gameConfiguration, Save.empty)
 // execute the game synchronously
 GameExecutor.execute(game)
 ```
-The constructor for Game objects accepts an instance of **GameConfiguration**. This is a cruical object and ties together how the game and the UI interact with one another. Please see the **Integration** section of this readme tor more information.
+The constructor for Game objects accepts an instance of **GameConfiguration**. This is a critical object and ties 
+together how the game and the UI interact with one another. Please see the **Integration** section of this readme for
+more information.
 
 # Persistence #
-Progress in a game can be persisted as a **Save**. A restorePoint can be generated at any point before, during or after a games 
-execution and persisted to file using the **SaveSerializer**.
+Progress in a game can be persisted as a **RestorePoint**. A restorePoint can be generated at any point before, 
+during or after a games execution and persisted to file using the **RestorePointSerializer**.
 ```kotlin
 val restorePoint = game.getRestorePoint("File1")
-SaveSerializer.toFile(restorePoint, path)
+RestorePointSerializer.toFile(restorePoint, path)
 ```
 
 # Core DSL
