@@ -41,10 +41,10 @@ object Main : Logging {
         logger.info("Beginning execution of example...")
 
         // create the game save path
-        val gameSavePath = "${System.getProperty("user.dir")}data/game.save"
+        val gameSavePath = "${System.getProperty("user.dir")}\\data\\game.save"
 
         // create the step data path
-        val stepDataPath = "${System.getProperty("user.dir")}data/step.save"
+        val stepDataPath = "${System.getProperty("user.dir")}\\data\\step.save"
 
         // restore previous game save
         val gameSave = restoreGameSave(gameSavePath)
@@ -61,7 +61,7 @@ object Main : Logging {
             configuration.consoleController.endProcessingInput()
 
             // persist the game save
-            persistGameSave(gameSave, gameSavePath)
+            persistGameSave(it.gameSave, gameSavePath)
 
             // persist the step data
             configuration.persistStepData(stepDataPath)
