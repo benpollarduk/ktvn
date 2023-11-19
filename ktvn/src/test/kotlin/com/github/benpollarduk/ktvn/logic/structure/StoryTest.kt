@@ -89,8 +89,8 @@ class StoryTest {
 
         // When
         val result = story.begin(
-            Flags(),
             StoryBeginParameters(
+                Flags(),
                 StoryRestorePoint.start,
                 configuration,
                 HashStepTracker(),
@@ -121,8 +121,8 @@ class StoryTest {
 
         // When
         val result = story.begin(
-            Flags(),
             StoryBeginParameters(
+                Flags(),
                 StoryRestorePoint.start,
                 configuration,
                 HashStepTracker(),
@@ -165,8 +165,8 @@ class StoryTest {
 
         // When
         story.begin(
-            Flags(),
             StoryBeginParameters(
+                Flags(),
                 StoryRestorePoint.start,
                 configuration,
                 HashStepTracker(),
@@ -214,8 +214,8 @@ class StoryTest {
 
         // When
         story.begin(
-            Flags(),
             StoryBeginParameters(
+                Flags(),
                 StoryRestorePoint.start,
                 configuration,
                 HashStepTracker(),
@@ -262,8 +262,8 @@ class StoryTest {
 
         // When
         story.begin(
-            Flags(),
             StoryBeginParameters(
+                Flags(),
                 StoryRestorePoint.start,
                 configuration,
                 HashStepTracker(),

@@ -2,6 +2,7 @@ package com.github.benpollarduk.ktvn.logic.structure
 
 import com.github.benpollarduk.ktvn.io.restore.StoryRestorePoint
 import com.github.benpollarduk.ktvn.io.tracking.StepTracker
+import com.github.benpollarduk.ktvn.logic.Flags
 import com.github.benpollarduk.ktvn.logic.ProgressionMode
 import com.github.benpollarduk.ktvn.logic.configuration.StoryConfiguration
 
@@ -12,6 +13,7 @@ import com.github.benpollarduk.ktvn.logic.configuration.StoryConfiguration
  * A [cancellationToken] must be provided to allow for the story to be cancelled.
  */
 internal data class StoryBeginParameters(
+    internal val flags: Flags,
     internal val storyRestorePoint: StoryRestorePoint = StoryRestorePoint.start,
     internal val storyConfiguration: StoryConfiguration,
     internal val stepTracker: StepTracker,

@@ -37,8 +37,8 @@ public class Game(
         startTimeInSeconds = System.currentTimeMillis() / MILLISECONDS_PER_SECOND
 
         val ending = story.begin(
-            Flags.fromMap(restorePoint.flags),
             StoryBeginParameters(
+                Flags.fromMap(restorePoint.flags),
                 restorePoint.storyRestorePoint,
                 gameConfiguration.storyConfiguration,
                 gameConfiguration.stepTracker,

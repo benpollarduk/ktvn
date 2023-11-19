@@ -53,12 +53,9 @@ public class Story private constructor(setup: (Story) -> Unit) {
     }
 
     /**
-     * Begin the [Story] with specified [flags] and [parameters]. Returns an [Ending].
+     * Begin the [Story] with specified [parameters]. Returns an [Ending].
      **/
-    internal fun begin(
-        flags: Flags,
-        parameters: StoryBeginParameters
-    ): Ending {
+    internal fun begin(parameters: StoryBeginParameters): Ending {
         var i = parameters.storyRestorePoint.chapter
         var ending: Ending? = null
 
@@ -68,27 +65,27 @@ public class Story private constructor(setup: (Story) -> Unit) {
 
             val result = if (i == parameters.storyRestorePoint.chapter) {
                 chapter.begin(
-                    flags,
                     ChapterBeginParameters(
+                        flags,
                         parameters.storyRestorePoint.chapterRestorePoint,
-                        parameters.storyConfiguration.sceneListener,
-                        parameters.storyConfiguration.chapterListener,
                         parameters.stepTracker,
                         parameters.progressionMode,
                         parameters.cancellationToken
-                    )
+                    ),
+                    parameters.storyConfiguration.sceneListener,
+                    parameters.storyConfiguration.chapterListener
                 )
             } else {
                 chapter.begin(
-                    flags,
                     ChapterBeginParameters(
+                        flags,
                         ChapterRestorePoint.start,
-                        parameters.storyConfiguration.sceneListener,
-                        parameters.storyConfiguration.chapterListener,
                         parameters.stepTracker,
                         parameters.progressionMode,
                         parameters.cancellationToken
-                    )
+                    ),
+                    parameters.storyConfiguration.sceneListener,
+                    parameters.storyConfiguration.chapterListener
                 )
             }
 

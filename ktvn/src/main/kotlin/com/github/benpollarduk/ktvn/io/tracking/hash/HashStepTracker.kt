@@ -7,7 +7,9 @@ import com.github.benpollarduk.ktvn.logic.structure.Step
 
 /**
  * Provides a simple implementation of a [StepTracker] that uses hash codes to track if a [Step] has been seen.
- * Optionally the [hashTable] can be provided.
+ * Optionally the [hashTable] can be provided. This provides a simple and efficient mechanism for tracking steps and may
+ * not be suitable for games with greater than 100,000 steps as the lookup will become more costly and serialization
+ * less suitable.
  */
 public class HashStepTracker
 @JsonCreator

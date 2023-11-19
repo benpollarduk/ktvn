@@ -11,7 +11,6 @@ import com.github.benpollarduk.ktvn.io.restore.SceneRestorePoint
 import com.github.benpollarduk.ktvn.io.tracking.StepTracker
 import com.github.benpollarduk.ktvn.layout.Layout
 import com.github.benpollarduk.ktvn.layout.Layout.Companion.createLayout
-import com.github.benpollarduk.ktvn.logic.Flags
 import com.github.benpollarduk.ktvn.logic.ProgressionMode
 import com.github.benpollarduk.ktvn.logic.structure.steps.Clear
 import com.github.benpollarduk.ktvn.logic.structure.steps.Pause
@@ -77,7 +76,7 @@ public class Scene private constructor(setup: (Scene) -> Unit) {
      * step has already been seen. When [ProgressionMode.Skip] is used seen steps will be skipped, or all steps if
      * [ProgressionMode.Skip] skipUnseen property is set true. Some steps can't be skipped.
      */
-    private fun shouldExecuteStep(step: Step, stepTracker: StepTracker, progressionMode: ProgressionMode): Boolean {
+    internal fun shouldExecuteStep(step: Step, stepTracker: StepTracker, progressionMode: ProgressionMode): Boolean {
         return if (progressionMode is ProgressionMode.Skip) {
             if (!progressionMode.skipUnseen && !stepTracker.hasBeenSeen(step)) {
                 true
@@ -189,22 +188,23 @@ public class Scene private constructor(setup: (Scene) -> Unit) {
     }
 
     /**
-     * Begin the scene with specified [flags] and [parameters]. Returns a [SceneResult].
+     * Begin the scene with specified [parameters]. The [sceneListener] allows events to be invoked for this
+     * scene. Returns a [SceneResult].
      */
     internal fun begin(
-        flags: Flags,
-        parameters: SceneBeginParameters
+        parameters: SceneBeginParameters,
+        sceneListener: SceneListener
     ): SceneResult {
         var indexOfCurrentStep = parameters.sceneRestorePoint.step
         var sceneResult: SceneResult? = null
         restore(parameters.sceneRestorePoint)
-        parameters.sceneListener.enter(this, transitionIn)
+        sceneListener.enter(this, transitionIn)
 
         while (indexOfCurrentStep < content.size) {
             val step = content[indexOfCurrentStep]
 
             val result = if (shouldExecuteStep(step, parameters.stepTracker, parameters.progressionMode)) {
-                val resultValue = step(flags, parameters.cancellationToken)
+                val resultValue = step(parameters.flags, parameters.cancellationToken)
                 parameters.stepTracker.registerStepSeen(step)
                 resultValue
             } else {
@@ -232,7 +232,7 @@ public class Scene private constructor(setup: (Scene) -> Unit) {
                 }
                 is StepResult.Clear -> {
                     indexOfCurrentStep++
-                    parameters.sceneListener.clear(this)
+                    sceneListener.clear(this)
                 }
             }
 
@@ -241,7 +241,7 @@ public class Scene private constructor(setup: (Scene) -> Unit) {
             }
         }
 
-        parameters.sceneListener.exit(this, transitionOut)
+        sceneListener.exit(this, transitionOut)
 
         return sceneResult ?: SceneResult.Continue
     }
