@@ -16,7 +16,8 @@ import com.github.benpollarduk.ktvn.text.log.Log
 /**
  * A class that functions as a controller for a [Game].
  */
-public class GameController() {
+@Suppress("TooManyFunctions")
+public open class GameController {
     /**
      * Get or set the progression mode.
      */
@@ -26,7 +27,6 @@ public class GameController() {
      * Get the log. All events can be logged here so that they can be recalled later if needed.
      */
     public val log: Log = Log()
-
 
     /**
      * Play a [soundEffect].
@@ -162,9 +162,9 @@ public class GameController() {
     }
 
     /**
-     * Enter a [step].
+     * Enter a [step], when [canSkip] is true the step can be optionally skipped.
      */
-    public open fun enterStep(step: Step) {
+    public open fun enterStep(step: Step, canSkip: Boolean) {
         throw NotImplementedError()
     }
 

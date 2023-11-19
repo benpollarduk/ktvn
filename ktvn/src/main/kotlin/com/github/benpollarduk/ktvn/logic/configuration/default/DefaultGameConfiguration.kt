@@ -1,10 +1,6 @@
 package com.github.benpollarduk.ktvn.logic.configuration.default
 
-import com.github.benpollarduk.ktvn.io.LoadResult
-import com.github.benpollarduk.ktvn.io.SaveResult
 import com.github.benpollarduk.ktvn.io.tracking.StepTracker
-import com.github.benpollarduk.ktvn.io.tracking.hash.HashStepTracker
-import com.github.benpollarduk.ktvn.io.tracking.hash.HashStepTrackerSerializer
 import com.github.benpollarduk.ktvn.logic.GameController
 import com.github.benpollarduk.ktvn.logic.ProgressionMode
 import com.github.benpollarduk.ktvn.logic.configuration.AudioConfiguration

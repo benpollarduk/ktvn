@@ -40,8 +40,8 @@ internal class DefaultStoryConfiguration(private val gameController: GameControl
     }
 
     override val stepListener: StepListener = object : StepListener {
-        override fun enter(step: Step) {
-            gameController.enterStep(step)
+        override fun enter(step: Step, canSkip: Boolean) {
+            gameController.enterStep(step, canSkip)
         }
 
         override fun exit(step: Step) {

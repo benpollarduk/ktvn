@@ -36,7 +36,7 @@ internal class TestStoryConfiguration : StoryConfiguration {
     }
 
     override val stepListener: StepListener = object : StepListener {
-        override fun enter(step: Step) {
+        override fun enter(step: Step, canSkip: Boolean) {
             // nothing
         }
 

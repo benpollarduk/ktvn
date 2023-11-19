@@ -1,5 +1,6 @@
 package com.github.benpollarduk.ktvn.console.configuration
 
+import com.github.benpollarduk.ktvn.logic.ProgressionMode
 import com.github.benpollarduk.ktvn.logic.configuration.StoryConfiguration
 import com.github.benpollarduk.ktvn.logic.structure.Chapter
 import com.github.benpollarduk.ktvn.logic.structure.ChapterListener
@@ -42,7 +43,7 @@ internal class AnsiConsoleStoryConfiguration(
     }
 
     override val stepListener: StepListener = object : StepListener {
-        override fun enter(step: Step) {
+        override fun enter(step: Step, canSkip: Boolean) {
             // nothing
         }
 

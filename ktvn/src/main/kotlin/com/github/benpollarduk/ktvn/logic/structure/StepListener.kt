@@ -5,9 +5,9 @@ package com.github.benpollarduk.ktvn.logic.structure
  */
 public interface StepListener {
     /**
-     * Invoke the listener to notify entry of a specified [step].
+     * Invoke the listener to notify entry of a specified [step] an if it can be skipped.
      */
-    public fun enter(step: Step)
+    public fun enter(step: Step, canSkip: Boolean)
 
     /**
      * Invoke the listener to notify exit of a specified [step].

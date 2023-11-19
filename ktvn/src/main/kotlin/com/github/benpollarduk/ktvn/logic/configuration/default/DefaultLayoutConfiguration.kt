@@ -11,7 +11,7 @@ import com.github.benpollarduk.ktvn.logic.structure.AcknowledgeListener
  * Provides a default [LayoutConfiguration] with a specified [gameController].
  */
 internal class DefaultLayoutConfiguration(private val gameController: GameController) : LayoutConfiguration {
-    override val moveAcknowledgementListener: AcknowledgeListener = object: AcknowledgeListener {
+    override val moveAcknowledgementListener: AcknowledgeListener = object : AcknowledgeListener {
         override fun waitFor() {
             gameController.acknowledgeLayoutMovement()
         }

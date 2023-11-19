@@ -26,6 +26,7 @@ class StoryTest {
             // nothing
         }
     }
+
     private val emptySceneListener = object : SceneListener {
         override fun enter(scene: Scene, transition: SceneTransition) {
             // nothing
@@ -40,9 +41,20 @@ class StoryTest {
         }
     }
 
+    private val emptyStepListener = object : StepListener {
+        override fun enter(step: Step, canSkip: Boolean) {
+            // nothing
+        }
+
+        override fun exit(step: Step) {
+            // nothing
+        }
+    }
+
     private val configuration: StoryConfiguration = object : StoryConfiguration {
         override val chapterListener: ChapterListener = emptyChapterListener
         override val sceneListener: SceneListener = emptySceneListener
+        override val stepListener: StepListener = emptyStepListener
     }
 
     @Test
@@ -161,6 +173,7 @@ class StoryTest {
         val configuration: StoryConfiguration = object : StoryConfiguration {
             override val chapterListener: ChapterListener = chapterListener
             override val sceneListener: SceneListener = emptySceneListener
+            override val stepListener: StepListener = emptyStepListener
         }
 
         // When
@@ -210,6 +223,7 @@ class StoryTest {
         val configuration: StoryConfiguration = object : StoryConfiguration {
             override val chapterListener: ChapterListener = emptyChapterListener
             override val sceneListener: SceneListener = sceneListener
+            override val stepListener: StepListener = emptyStepListener
         }
 
         // When
@@ -258,6 +272,7 @@ class StoryTest {
         val configuration: StoryConfiguration = object : StoryConfiguration {
             override val chapterListener: ChapterListener = emptyChapterListener
             override val sceneListener: SceneListener = sceneListener
+            override val stepListener: StepListener = emptyStepListener
         }
 
         // When

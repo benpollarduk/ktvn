@@ -72,24 +72,23 @@ public class Scene private constructor(setup: (Scene) -> Unit) {
     }
 
     /**
-     * Determine if a [step] should be executed. Execution depends on a combination of [progressionMode] and if the
-     * step has already been seen. When [ProgressionMode.Skip] is used seen steps will be skipped, or all steps if
+     * Determine if a [step] Can be skipped. Skipping depends on a combination of [progressionMode] and if the
+     * step has already been seen. When [ProgressionMode.Skip] is used seen steps can be skipped, or all steps if
      * [ProgressionMode.Skip] skipUnseen property is set true. Some steps can't be skipped.
      */
-    internal fun shouldExecuteStep(step: Step, stepTracker: StepTracker, progressionMode: ProgressionMode): Boolean {
+    internal fun canSkipStep(step: Step, stepTracker: StepTracker, progressionMode: ProgressionMode): Boolean {
         return if (progressionMode is ProgressionMode.Skip) {
             if (!progressionMode.skipUnseen && !stepTracker.hasBeenSeen(step)) {
-                true
+                false
             } else {
                 when (step) {
-                    is Then -> false
-                    is Clear -> false
-                    is Pause -> false
-                    else -> true
+                    is Then -> true
+                    is Pause -> true
+                    else -> false
                 }
             }
         } else {
-            true
+            false
         }
     }
 
@@ -203,7 +202,7 @@ public class Scene private constructor(setup: (Scene) -> Unit) {
 
         while (indexOfCurrentStep < content.size) {
             val step = content[indexOfCurrentStep]
-            stepListener.enter(step)
+            stepListener.enter(step, canSkipStep(step, parameters.stepTracker, parameters.progressionMode))
 
             val result = step(parameters.flags, parameters.cancellationToken)
             parameters.stepTracker.registerStepSeen(step)

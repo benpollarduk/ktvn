@@ -68,7 +68,7 @@ class SceneTest {
     }
 
     @Test
-    fun `given unseen then step and waiting for confirmation when checking should execute step then return true`() {
+    fun `given unseen then step and waiting for confirmation when checking can skip step then return false`() {
         // Given
         val step = then { }
         val tracker = HashStepTracker()
@@ -80,14 +80,14 @@ class SceneTest {
         }
 
         // When
-        val result = scene.shouldExecuteStep(step, tracker, mode)
+        val result = scene.canSkipStep(step, tracker, mode)
 
         // Then
-        Assertions.assertTrue(result)
+        Assertions.assertFalse(result)
     }
 
     @Test
-    fun `given seen then step and waiting for confirmation when checking should execute step then return true`() {
+    fun `given seen then step and waiting for confirmation when checking can skip step then return false`() {
         // Given
         val step = then { }
         val tracker = HashStepTracker()
@@ -100,14 +100,14 @@ class SceneTest {
         }
 
         // When
-        val result = scene.shouldExecuteStep(step, tracker, mode)
+        val result = scene.canSkipStep(step, tracker, mode)
 
         // Then
-        Assertions.assertTrue(result)
+        Assertions.assertFalse(result)
     }
 
     @Test
-    fun `given unseen then step and auto when checking should execute step then return true`() {
+    fun `given unseen then step and auto when checking can skip step then return false`() {
         // Given
         val step = then { }
         val tracker = HashStepTracker()
@@ -119,14 +119,14 @@ class SceneTest {
         }
 
         // When
-        val result = scene.shouldExecuteStep(step, tracker, mode)
+        val result = scene.canSkipStep(step, tracker, mode)
 
         // Then
-        Assertions.assertTrue(result)
+        Assertions.assertFalse(result)
     }
 
     @Test
-    fun `given seen then step and auto when checking should execute step then return true`() {
+    fun `given seen then step and auto when checking can skip step then return false`() {
         // Given
         val step = then { }
         val tracker = HashStepTracker()
@@ -139,14 +139,14 @@ class SceneTest {
         }
 
         // When
-        val result = scene.shouldExecuteStep(step, tracker, mode)
+        val result = scene.canSkipStep(step, tracker, mode)
 
         // Then
-        Assertions.assertTrue(result)
+        Assertions.assertFalse(result)
     }
 
     @Test
-    fun `given unseen then step and skip when checking should execute step then return true`() {
+    fun `given unseen then step and skip when checking can skip step then return false`() {
         // Given
         val step = then { }
         val tracker = HashStepTracker()
@@ -158,14 +158,14 @@ class SceneTest {
         }
 
         // When
-        val result = scene.shouldExecuteStep(step, tracker, mode)
+        val result = scene.canSkipStep(step, tracker, mode)
 
         // Then
-        Assertions.assertTrue(result)
+        Assertions.assertFalse(result)
     }
 
     @Test
-    fun `given seen then step and skip when checking should execute step then return false`() {
+    fun `given seen then step and skip when checking can skip step then return true`() {
         // Given
         val step = then { }
         val tracker = HashStepTracker()
@@ -178,14 +178,14 @@ class SceneTest {
         }
 
         // When
-        val result = scene.shouldExecuteStep(step, tracker, mode)
+        val result = scene.canSkipStep(step, tracker, mode)
 
         // Then
-        Assertions.assertFalse(result)
+        Assertions.assertTrue(result)
     }
 
     @Test
-    fun `given unseen then step and skip with force when checking should execute step then return false`() {
+    fun `given unseen then step and skip with force when checking can skip step then return true`() {
         // Given
         val step = then { }
         val tracker = HashStepTracker()
@@ -197,14 +197,14 @@ class SceneTest {
         }
 
         // When
-        val result = scene.shouldExecuteStep(step, tracker, mode)
+        val result = scene.canSkipStep(step, tracker, mode)
 
         // Then
-        Assertions.assertFalse(result)
+        Assertions.assertTrue(result)
     }
 
     @Test
-    fun `given seen then step and skip with force when checking should execute step then return false`() {
+    fun `given seen then step and skip with force when checking can skip step then return true`() {
         // Given
         val step = then { }
         val tracker = HashStepTracker()
@@ -217,9 +217,9 @@ class SceneTest {
         }
 
         // When
-        val result = scene.shouldExecuteStep(step, tracker, mode)
+        val result = scene.canSkipStep(step, tracker, mode)
 
         // Then
-        Assertions.assertFalse(result)
+        Assertions.assertTrue(result)
     }
 }
