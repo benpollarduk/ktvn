@@ -7,6 +7,8 @@ import com.github.benpollarduk.ktvn.io.game.GameSaveSerializer
 import com.github.benpollarduk.ktvn.io.restore.RestorePoint
 import com.github.benpollarduk.ktvn.logic.Game
 import com.github.benpollarduk.ktvn.logic.GameExecutor
+import java.nio.file.FileSystems
+import kotlin.io.path.absolutePathString
 import org.apache.logging.log4j.kotlin.Logging
 
 object Main : Logging {
@@ -40,11 +42,22 @@ object Main : Logging {
     fun main(args: Array<String>) {
         logger.info("Beginning execution of example...")
 
+        // get file system
+        val fileSystem = FileSystems.getDefault()
+
         // create the game save path
-        val gameSavePath = "${System.getProperty("user.dir")}\\data\\game.save"
+        val gameSavePath = fileSystem.getPath(
+            System.getProperty("user.dir"),
+            "data",
+            "game.save"
+        ).absolutePathString()
 
         // create the step data path
-        val stepDataPath = "${System.getProperty("user.dir")}\\data\\step.save"
+        val stepDataPath = fileSystem.getPath(
+            System.getProperty("user.dir"),
+            "data",
+            "step.save"
+        ).absolutePathString()
 
         // restore previous game save
         val gameSave = restoreGameSave(gameSavePath)
