@@ -1,6 +1,7 @@
 package com.github.benpollarduk.ktvn.configuration.test
 
 import com.github.benpollarduk.ktvn.logic.configuration.StoryConfiguration
+import com.github.benpollarduk.ktvn.logic.structure.CancellationToken
 import com.github.benpollarduk.ktvn.logic.structure.Chapter
 import com.github.benpollarduk.ktvn.logic.structure.ChapterListener
 import com.github.benpollarduk.ktvn.logic.structure.ChapterTransition
@@ -36,7 +37,7 @@ internal class TestStoryConfiguration : StoryConfiguration {
     }
 
     override val stepListener: StepListener = object : StepListener {
-        override fun enter(step: Step, canSkip: Boolean) {
+        override fun enter(step: Step, canSkip: Boolean, cancellationToken: CancellationToken) {
             // nothing
         }
 

@@ -1,15 +1,15 @@
 package com.github.benpollarduk.ktvn.logic.configuration.default
 
 import com.github.benpollarduk.ktvn.characters.AnswerListener
-import com.github.benpollarduk.ktvn.characters.AskListener
-import com.github.benpollarduk.ktvn.characters.Character
 import com.github.benpollarduk.ktvn.characters.NarrateListener
 import com.github.benpollarduk.ktvn.characters.Narrator
+import com.github.benpollarduk.ktvn.characters.NarratorAskListener
 import com.github.benpollarduk.ktvn.logic.Answer
 import com.github.benpollarduk.ktvn.logic.GameController
 import com.github.benpollarduk.ktvn.logic.Question
 import com.github.benpollarduk.ktvn.logic.configuration.NarratorConfiguration
 import com.github.benpollarduk.ktvn.logic.structure.AcknowledgeListener
+import com.github.benpollarduk.ktvn.text.log.LogElement
 
 /**
  * Provides a default [NarratorConfiguration] with a specified [gameController].
@@ -21,12 +21,9 @@ internal class DefaultNarratorConfiguration(private val gameController: GameCont
         }
     }
 
-    override val askListener: AskListener = object : AskListener {
-        override fun ask(character: Character, question: Question, answerListener: AnswerListener): Answer {
-            throw NotImplementedError()
-        }
-
+    override val askListener: NarratorAskListener = object : NarratorAskListener {
         override fun ask(narrator: Narrator, question: Question, answerListener: AnswerListener): Answer {
+            gameController.log.add(LogElement.NarratorLog(narrator, question.line))
             gameController.narratorAskedQuestion(narrator, question)
             return answerListener.waitFor(question)
         }
@@ -34,6 +31,7 @@ internal class DefaultNarratorConfiguration(private val gameController: GameCont
 
     override val narrateListener: NarrateListener = object : NarrateListener {
         override fun narrate(narrator: Narrator, line: String, acknowledgement: AcknowledgeListener) {
+            gameController.log.add(LogElement.NarratorLog(narrator, line))
             gameController.narratorNarrates(narrator, line)
             acknowledgement.waitFor()
         }

@@ -1,69 +1,27 @@
 package com.github.benpollarduk.ktvn.console
 
+import com.github.benpollarduk.ktvn.console.Persistence.persistGameSave
+import com.github.benpollarduk.ktvn.console.Persistence.persistStepData
+import com.github.benpollarduk.ktvn.console.Persistence.restoreGameSave
+import com.github.benpollarduk.ktvn.console.Persistence.restoreStepData
 import com.github.benpollarduk.ktvn.console.story.assets.AssetStore.configuration
+import com.github.benpollarduk.ktvn.console.story.assets.AssetStore.controller
 import com.github.benpollarduk.ktvn.console.story.theFateOfMorgana
-import com.github.benpollarduk.ktvn.io.game.GameSave
-import com.github.benpollarduk.ktvn.io.game.GameSaveSerializer
 import com.github.benpollarduk.ktvn.io.restore.RestorePoint
 import com.github.benpollarduk.ktvn.logic.Game
 import com.github.benpollarduk.ktvn.logic.GameExecutor
-import java.nio.file.FileSystems
-import kotlin.io.path.absolutePathString
 import org.apache.logging.log4j.kotlin.Logging
 
 object Main : Logging {
-    /**
-     * Restore a [GameSave] from a specified [path].
-     */
-    private fun restoreGameSave(path: String) : GameSave {
-        val result = GameSaveSerializer.fromFile(path)
-        return if (result.result) {
-            logger.info("Got game save from $path")
-            result.loadedObject
-        } else {
-            logger.debug("Couldn't get game save from $path because ${result.message}")
-            GameSave.empty
-        }
-    }
-
-    /**
-     * Persist a [gameSave] to a specified [path].
-     */
-    private fun persistGameSave(gameSave: GameSave, path: String) {
-        val result = GameSaveSerializer.toFile(gameSave, path)
-        return if (result.result) {
-            logger.info("Saved game save to $path")
-        } else {
-            logger.debug("Couldn't save game save to $path because ${result.message}")
-        }
-    }
-
     @JvmStatic
     fun main(args: Array<String>) {
         logger.info("Beginning execution of example...")
 
-        // get file system
-        val fileSystem = FileSystems.getDefault()
-
-        // create the game save path
-        val gameSavePath = fileSystem.getPath(
-            System.getProperty("user.dir"),
-            "data",
-            "game.save"
-        ).absolutePathString()
-
-        // create the step data path
-        val stepDataPath = fileSystem.getPath(
-            System.getProperty("user.dir"),
-            "data",
-            "step.save"
-        ).absolutePathString()
-
         // restore previous game save
-        val gameSave = restoreGameSave(gameSavePath)
+        val gameSave = restoreGameSave()
 
         // restore previous step data
-        configuration.restoreStepData(stepDataPath)
+        restoreStepData()
 
         // create an example game
         val exampleGame = Game(theFateOfMorgana(), configuration, gameSave, RestorePoint.empty)
@@ -71,18 +29,18 @@ object Main : Logging {
         // execute the game on its own thread
         GameExecutor.executeAysnc(exampleGame) {
             // the game has finished so input no long needs to be processed
-            configuration.consoleController.endProcessingInput()
+            controller.endProcessingInput()
 
             // persist the game save
-            persistGameSave(it.gameSave, gameSavePath)
+            persistGameSave(it.gameSave)
 
             // persist the step data
-            configuration.persistStepData(stepDataPath)
+            persistStepData()
         }
 
         // allow the console controller to process input from the console.
         // this will block the thread until consoleGameController.endProcessingInput is called
-        configuration.consoleController.beginProcessingInput()
+        controller.beginProcessingInput()
 
         logger.info("Ended execution of example.")
     }

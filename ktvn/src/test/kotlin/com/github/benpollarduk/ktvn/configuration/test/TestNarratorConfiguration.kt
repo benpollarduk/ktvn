@@ -1,10 +1,9 @@
 package com.github.benpollarduk.ktvn.configuration.test
 
 import com.github.benpollarduk.ktvn.characters.AnswerListener
-import com.github.benpollarduk.ktvn.characters.AskListener
-import com.github.benpollarduk.ktvn.characters.Character
 import com.github.benpollarduk.ktvn.characters.NarrateListener
 import com.github.benpollarduk.ktvn.characters.Narrator
+import com.github.benpollarduk.ktvn.characters.NarratorAskListener
 import com.github.benpollarduk.ktvn.logic.Answer
 import com.github.benpollarduk.ktvn.logic.Question
 import com.github.benpollarduk.ktvn.logic.configuration.NarratorConfiguration
@@ -17,11 +16,7 @@ internal class TestNarratorConfiguration : NarratorConfiguration {
         }
     }
 
-    override val askListener: AskListener = object : AskListener {
-        override fun ask(character: Character, question: Question, answerListener: AnswerListener): Answer {
-            return question.answers.first()
-        }
-
+    override val askListener: NarratorAskListener = object : NarratorAskListener {
         override fun ask(narrator: Narrator, question: Question, answerListener: AnswerListener): Answer {
             return question.answers.first()
         }

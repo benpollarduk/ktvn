@@ -6,18 +6,31 @@ import com.github.benpollarduk.ktvn.characters.Character
 import com.github.benpollarduk.ktvn.characters.Emotion
 import com.github.benpollarduk.ktvn.characters.Narrator
 import com.github.benpollarduk.ktvn.layout.Position
+import com.github.benpollarduk.ktvn.logic.structure.CancellationToken
 import com.github.benpollarduk.ktvn.logic.structure.Chapter
 import com.github.benpollarduk.ktvn.logic.structure.ChapterTransition
 import com.github.benpollarduk.ktvn.logic.structure.Scene
 import com.github.benpollarduk.ktvn.logic.structure.SceneTransition
 import com.github.benpollarduk.ktvn.logic.structure.Step
 import com.github.benpollarduk.ktvn.text.log.Log
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.locks.ReentrantLock
 
 /**
  * A class that functions as a controller for a [Game].
  */
 @Suppress("TooManyFunctions")
 public open class GameController {
+    /**
+     * A [CountDownLatch] that can be used to signal that an acknowledgement was received.
+     */
+    protected var acknowledgementReceived: CountDownLatch? = null
+
+    /**
+     * A [ReentrantLock] that can be used to control access to the variables within this class.
+     */
+    protected val lock: ReentrantLock = ReentrantLock()
+
     /**
      * Get or set the progression mode.
      */
@@ -29,9 +42,54 @@ public open class GameController {
     public val log: Log = Log()
 
     /**
+     * Get the auto. This controls all auto-acknowledgements.
+     */
+    public val auto: Auto = Auto()
+
+    /**
+     * Await an acknowledgment. If [canSkipCurrentStep] is set true the current step is regarded as one that can be
+     * skipped. A [cancellationToken] must be provided to support cancellation.
+     */
+    public fun awaitAcknowledgement(canSkipCurrentStep: Boolean, cancellationToken: CancellationToken) {
+        try {
+            lock.lock()
+            acknowledgementReceived = CountDownLatch(1)
+        } finally {
+            lock.unlock()
+        }
+
+        // some progression modes control flow differently
+        when (val mode = progressionMode) {
+            is ProgressionMode.Auto -> {
+                if (auto.wait(mode.postDelayInMs, cancellationToken)) {
+                    acknowledgementReceived?.countDown()
+                }
+            }
+            is ProgressionMode.Skip -> {
+                if (canSkipCurrentStep || mode.skipUnseen) {
+                    acknowledgementReceived?.countDown()
+                }
+            }
+            is ProgressionMode.WaitForConfirmation -> {
+                // no handling
+            }
+        }
+
+        // wait for the acknowledgement to be received
+        acknowledgementReceived?.await()
+
+        try {
+            lock.lock()
+            acknowledgementReceived = null
+        } finally {
+            lock.unlock()
+        }
+    }
+
+    /**
      * Play a [soundEffect].
      */
-    public open fun sfx(soundEffect: SoundEffect) {
+    public open fun playSoundEffect(soundEffect: SoundEffect) {
         throw NotImplementedError()
     }
 
@@ -162,9 +220,10 @@ public open class GameController {
     }
 
     /**
-     * Enter a [step], when [canSkip] is true the step can be optionally skipped.
+     * Enter a [step]. When the step can be skipped [canSkip] will be true. A [cancellationToken] must be provided to
+     * support cancellation.
      */
-    public open fun enterStep(step: Step, canSkip: Boolean) {
+    public open fun enterStep(step: Step, canSkip: Boolean, cancellationToken: CancellationToken) {
         throw NotImplementedError()
     }
 

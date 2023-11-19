@@ -6,7 +6,6 @@ import com.github.benpollarduk.ktvn.console.story.assets.AssetStore.narrator
 import com.github.benpollarduk.ktvn.layout.Layout
 import com.github.benpollarduk.ktvn.logic.structure.Scene
 import com.github.benpollarduk.ktvn.logic.structure.SceneType
-import com.github.benpollarduk.ktvn.logic.structure.steps.Then
 import com.github.benpollarduk.ktvn.logic.structure.steps.Then.Companion.next
 
 internal fun introduction(): Scene {

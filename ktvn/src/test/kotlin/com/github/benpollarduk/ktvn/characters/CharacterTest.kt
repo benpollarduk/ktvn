@@ -27,12 +27,8 @@ class CharacterTest {
         }
     }
 
-    private val emptyAskListener = object : AskListener {
+    private val emptyAskListener = object : CharacterAskListener {
         override fun ask(character: Character, question: Question, answerListener: AnswerListener): Answer {
-            return question.answers.first()
-        }
-
-        override fun ask(narrator: Narrator, question: Question, answerListener: AnswerListener): Answer {
             return question.answers.first()
         }
     }
@@ -54,7 +50,7 @@ class CharacterTest {
         override val speakAcknowledgementListener: AcknowledgeListener = acknowledgementListener
         override val animateAcknowledgementListener: AcknowledgeListener = acknowledgementListener
         override val answerListener: AnswerListener = emptyAnswerListener
-        override val askListener: AskListener = emptyAskListener
+        override val askListener: CharacterAskListener = emptyAskListener
         override val emoteListener: EmoteListener = emptyEmoteListener
         override val animateListener: AnimateListener = emptyAnimateListener
         override val speakListener: SpeakListener = emptySpeakListener
@@ -102,7 +98,7 @@ class CharacterTest {
             override val speakAcknowledgementListener: AcknowledgeListener = acknowledgementListener
             override val animateAcknowledgementListener: AcknowledgeListener = acknowledgementListener
             override val answerListener: AnswerListener = emptyAnswerListener
-            override val askListener: AskListener = emptyAskListener
+            override val askListener: CharacterAskListener = emptyAskListener
             override val emoteListener: EmoteListener = emptyEmoteListener
             override val animateListener: AnimateListener = emptyAnimateListener
         }
@@ -131,13 +127,9 @@ class CharacterTest {
             override val emoteListener: EmoteListener = emptyEmoteListener
             override val animateListener: AnimateListener = emptyAnimateListener
             override val speakListener: SpeakListener = emptySpeakListener
-            override val askListener = object : AskListener {
+            override val askListener = object : CharacterAskListener {
                 override fun ask(character: Character, question: Question, answerListener: AnswerListener): Answer {
                     called = true
-                    return Answer.answer { }
-                }
-
-                override fun ask(narrator: Narrator, question: Question, answerListener: AnswerListener): Answer {
                     return Answer.answer { }
                 }
             }
@@ -164,7 +156,7 @@ class CharacterTest {
             override val speakAcknowledgementListener: AcknowledgeListener = acknowledgementListener
             override val animateAcknowledgementListener: AcknowledgeListener = acknowledgementListener
             override val answerListener: AnswerListener = emptyAnswerListener
-            override val askListener: AskListener = emptyAskListener
+            override val askListener: CharacterAskListener = emptyAskListener
             override val animateListener: AnimateListener = emptyAnimateListener
             override val speakListener: SpeakListener = emptySpeakListener
             override val emoteListener = object : EmoteListener {

@@ -16,11 +16,7 @@ class NarratorTest {
         }
     }
 
-    private val emptyAskListener = object : AskListener {
-        override fun ask(character: Character, question: Question, answerListener: AnswerListener): Answer {
-            return question.answers.first()
-        }
-
+    private val emptyAskListener = object : NarratorAskListener {
         override fun ask(narrator: Narrator, question: Question, answerListener: AnswerListener): Answer {
             return question.answers.first()
         }
@@ -45,7 +41,7 @@ class NarratorTest {
         val configuration: NarratorConfiguration = object : NarratorConfiguration {
             override val narrateAcknowledgementListener: AcknowledgeListener = emptyAcknowledgeListener
             override val answerListener: AnswerListener = emptyAnswerListener
-            override val askListener: AskListener = emptyAskListener
+            override val askListener: NarratorAskListener = emptyAskListener
             override val narrateListener: NarrateListener = object : NarrateListener {
                 override fun narrate(narrator: Narrator, line: String, acknowledgement: AcknowledgeListener) {
                     called = true
@@ -69,11 +65,7 @@ class NarratorTest {
             override val narrateAcknowledgementListener: AcknowledgeListener = emptyAcknowledgeListener
             override val answerListener: AnswerListener = emptyAnswerListener
             override val narrateListener: NarrateListener = emptyNarrateListener
-            override val askListener: AskListener = object : AskListener {
-                override fun ask(character: Character, question: Question, answerListener: AnswerListener): Answer {
-                    return answer { }
-                }
-
+            override val askListener: NarratorAskListener = object : NarratorAskListener {
                 override fun ask(narrator: Narrator, question: Question, answerListener: AnswerListener): Answer {
                     called = true
                     return answer { }

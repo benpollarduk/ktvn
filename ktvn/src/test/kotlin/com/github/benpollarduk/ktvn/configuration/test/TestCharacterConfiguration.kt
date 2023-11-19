@@ -3,11 +3,10 @@ package com.github.benpollarduk.ktvn.configuration.test
 import com.github.benpollarduk.ktvn.characters.AnimateListener
 import com.github.benpollarduk.ktvn.characters.Animation
 import com.github.benpollarduk.ktvn.characters.AnswerListener
-import com.github.benpollarduk.ktvn.characters.AskListener
 import com.github.benpollarduk.ktvn.characters.Character
+import com.github.benpollarduk.ktvn.characters.CharacterAskListener
 import com.github.benpollarduk.ktvn.characters.EmoteListener
 import com.github.benpollarduk.ktvn.characters.Emotion
-import com.github.benpollarduk.ktvn.characters.Narrator
 import com.github.benpollarduk.ktvn.characters.SpeakListener
 import com.github.benpollarduk.ktvn.logic.Answer
 import com.github.benpollarduk.ktvn.logic.Question
@@ -25,12 +24,8 @@ internal class TestCharacterConfiguration : CharacterConfiguration {
     override val animateAcknowledgementListener: AcknowledgeListener = passThroughAcknowledgementListener
     override val speakAcknowledgementListener: AcknowledgeListener = passThroughAcknowledgementListener
 
-    override val askListener: AskListener = object : AskListener {
+    override val askListener: CharacterAskListener = object : CharacterAskListener {
         override fun ask(character: Character, question: Question, answerListener: AnswerListener): Answer {
-            return question.answers.first()
-        }
-
-        override fun ask(narrator: Narrator, question: Question, answerListener: AnswerListener): Answer {
             return question.answers.first()
         }
     }

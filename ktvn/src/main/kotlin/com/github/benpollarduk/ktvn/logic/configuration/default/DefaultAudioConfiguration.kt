@@ -11,7 +11,7 @@ import com.github.benpollarduk.ktvn.logic.configuration.AudioConfiguration
 internal class DefaultAudioConfiguration(private val gameController: GameController) : AudioConfiguration {
     override val audioListener: AudioListener = object : AudioListener {
         override fun sfx(soundEffect: SoundEffect) {
-            gameController.sfx(soundEffect)
+            gameController.playSoundEffect(soundEffect)
         }
     }
 }

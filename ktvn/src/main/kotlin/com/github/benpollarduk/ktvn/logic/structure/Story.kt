@@ -69,7 +69,6 @@ public class Story private constructor(setup: (Story) -> Unit) {
                         flags,
                         parameters.storyRestorePoint.chapterRestorePoint,
                         parameters.stepTracker,
-                        parameters.progressionMode,
                         parameters.cancellationToken
                     ),
                     parameters.storyConfiguration.chapterListener,
@@ -82,7 +81,6 @@ public class Story private constructor(setup: (Story) -> Unit) {
                         flags,
                         ChapterRestorePoint.start,
                         parameters.stepTracker,
-                        parameters.progressionMode,
                         parameters.cancellationToken
                     ),
                     parameters.storyConfiguration.chapterListener,

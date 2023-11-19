@@ -3,17 +3,17 @@ package com.github.benpollarduk.ktvn.logic.configuration.default
 import com.github.benpollarduk.ktvn.characters.AnimateListener
 import com.github.benpollarduk.ktvn.characters.Animation
 import com.github.benpollarduk.ktvn.characters.AnswerListener
-import com.github.benpollarduk.ktvn.characters.AskListener
 import com.github.benpollarduk.ktvn.characters.Character
+import com.github.benpollarduk.ktvn.characters.CharacterAskListener
 import com.github.benpollarduk.ktvn.characters.EmoteListener
 import com.github.benpollarduk.ktvn.characters.Emotion
-import com.github.benpollarduk.ktvn.characters.Narrator
 import com.github.benpollarduk.ktvn.characters.SpeakListener
 import com.github.benpollarduk.ktvn.logic.Answer
 import com.github.benpollarduk.ktvn.logic.GameController
 import com.github.benpollarduk.ktvn.logic.Question
 import com.github.benpollarduk.ktvn.logic.configuration.CharacterConfiguration
 import com.github.benpollarduk.ktvn.logic.structure.AcknowledgeListener
+import com.github.benpollarduk.ktvn.text.log.LogElement
 
 /**
  * Provides a default [CharacterConfiguration] with a specified [gameController].
@@ -37,14 +37,11 @@ internal class DefaultCharacterConfiguration(private val gameController: GameCon
         }
     }
 
-    override val askListener: AskListener = object : AskListener {
+    override val askListener: CharacterAskListener = object : CharacterAskListener {
         override fun ask(character: Character, question: Question, answerListener: AnswerListener): Answer {
+            gameController.log.add(LogElement.CharacterLog(character, question.line))
             gameController.characterAskedQuestion(character, question)
             return answerListener.waitFor(question)
-        }
-
-        override fun ask(narrator: Narrator, question: Question, answerListener: AnswerListener): Answer {
-            throw NotImplementedError()
         }
     }
 
@@ -56,6 +53,7 @@ internal class DefaultCharacterConfiguration(private val gameController: GameCon
 
     override val speakListener: SpeakListener = object : SpeakListener {
         override fun speak(character: Character, line: String, acknowledgement: AcknowledgeListener) {
+            gameController.log.add(LogElement.CharacterLog(character, line))
             gameController.characterSpeaks(character, line)
             acknowledgement.waitFor()
         }

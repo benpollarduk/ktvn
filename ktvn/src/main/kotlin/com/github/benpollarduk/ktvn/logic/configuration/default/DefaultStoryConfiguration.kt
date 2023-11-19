@@ -2,6 +2,7 @@ package com.github.benpollarduk.ktvn.logic.configuration.default
 
 import com.github.benpollarduk.ktvn.logic.GameController
 import com.github.benpollarduk.ktvn.logic.configuration.StoryConfiguration
+import com.github.benpollarduk.ktvn.logic.structure.CancellationToken
 import com.github.benpollarduk.ktvn.logic.structure.Chapter
 import com.github.benpollarduk.ktvn.logic.structure.ChapterListener
 import com.github.benpollarduk.ktvn.logic.structure.ChapterTransition
@@ -40,8 +41,8 @@ internal class DefaultStoryConfiguration(private val gameController: GameControl
     }
 
     override val stepListener: StepListener = object : StepListener {
-        override fun enter(step: Step, canSkip: Boolean) {
-            gameController.enterStep(step, canSkip)
+        override fun enter(step: Step, canSkip: Boolean, cancellationToken: CancellationToken) {
+            gameController.enterStep(step, canSkip, cancellationToken)
         }
 
         override fun exit(step: Step) {
