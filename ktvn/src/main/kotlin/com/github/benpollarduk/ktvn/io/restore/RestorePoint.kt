@@ -9,7 +9,7 @@ public data class RestorePoint(
     public val storyRestorePoint: StoryRestorePoint
 ) {
     /**
-     * Get the version of this restorePoint.
+     * Get the version of this [RestorePoint].
      */
     public val version: String = VERSION_1_0_0
 

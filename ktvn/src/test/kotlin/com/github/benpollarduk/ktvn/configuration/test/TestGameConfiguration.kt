@@ -1,5 +1,8 @@
 package com.github.benpollarduk.ktvn.configuration.test
 
+import com.github.benpollarduk.ktvn.io.tracking.StepTracker
+import com.github.benpollarduk.ktvn.io.tracking.hash.HashStepTracker
+import com.github.benpollarduk.ktvn.logic.ProgressionMode
 import com.github.benpollarduk.ktvn.logic.configuration.AudioConfiguration
 import com.github.benpollarduk.ktvn.logic.configuration.CharacterConfiguration
 import com.github.benpollarduk.ktvn.logic.configuration.GameConfiguration
@@ -7,7 +10,9 @@ import com.github.benpollarduk.ktvn.logic.configuration.LayoutConfiguration
 import com.github.benpollarduk.ktvn.logic.configuration.NarratorConfiguration
 import com.github.benpollarduk.ktvn.logic.configuration.StoryConfiguration
 
-public object TestGameConfiguration : GameConfiguration {
+internal object TestGameConfiguration : GameConfiguration {
+    override val stepTracker: StepTracker = HashStepTracker()
+    override var progressionMode: ProgressionMode = ProgressionMode.WaitForConfirmation
     override val characterConfiguration: CharacterConfiguration = TestCharacterConfiguration()
     override val narratorConfiguration: NarratorConfiguration = TestNarratorConfiguration()
     override val layoutConfiguration: LayoutConfiguration = TestLayoutConfiguration()

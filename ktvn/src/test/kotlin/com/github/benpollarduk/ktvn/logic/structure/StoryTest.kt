@@ -1,8 +1,10 @@
 package com.github.benpollarduk.ktvn.logic.structure
 
 import com.github.benpollarduk.ktvn.io.restore.StoryRestorePoint
+import com.github.benpollarduk.ktvn.io.tracking.hash.HashStepTracker
 import com.github.benpollarduk.ktvn.logic.Ending
 import com.github.benpollarduk.ktvn.logic.Flags
+import com.github.benpollarduk.ktvn.logic.ProgressionMode
 import com.github.benpollarduk.ktvn.logic.configuration.StoryConfiguration
 import com.github.benpollarduk.ktvn.logic.structure.Chapter.Companion.chapter
 import com.github.benpollarduk.ktvn.logic.structure.Scene.Companion.scene
@@ -86,7 +88,14 @@ class StoryTest {
         }
 
         // When
-        val result = story.begin(Flags(), StoryRestorePoint.start, configuration, CancellationToken())
+        val result = story.begin(
+            Flags(),
+            StoryRestorePoint.start,
+            configuration,
+            HashStepTracker(),
+            ProgressionMode.WaitForConfirmation,
+            CancellationToken()
+        )
 
         // Then
         Assertions.assertEquals(0, result.number)
@@ -109,7 +118,14 @@ class StoryTest {
         }
 
         // When
-        val result = story.begin(Flags(), StoryRestorePoint.start, configuration, CancellationToken())
+        val result = story.begin(
+            Flags(),
+            StoryRestorePoint.start,
+            configuration,
+            HashStepTracker(),
+            ProgressionMode.WaitForConfirmation,
+            CancellationToken()
+        )
 
         // Then
         Assertions.assertEquals(1, result.number)
@@ -144,7 +160,14 @@ class StoryTest {
         }
 
         // When
-        story.begin(Flags(), StoryRestorePoint.start, configuration, CancellationToken())
+        story.begin(
+            Flags(),
+            StoryRestorePoint.start,
+            configuration,
+            HashStepTracker(),
+            ProgressionMode.WaitForConfirmation,
+            CancellationToken()
+        )
 
         // Then
         Assertions.assertTrue(enterCalled)
@@ -184,7 +207,14 @@ class StoryTest {
         }
 
         // When
-        story.begin(Flags(), StoryRestorePoint.start, configuration, CancellationToken())
+        story.begin(
+            Flags(),
+            StoryRestorePoint.start,
+            configuration,
+            HashStepTracker(),
+            ProgressionMode.WaitForConfirmation,
+            CancellationToken()
+        )
 
         // Then
         Assertions.assertTrue(enterCalled)
@@ -223,7 +253,14 @@ class StoryTest {
         }
 
         // When
-        story.begin(Flags(), StoryRestorePoint.start, configuration, CancellationToken())
+        story.begin(
+            Flags(),
+            StoryRestorePoint.start,
+            configuration,
+            HashStepTracker(),
+            ProgressionMode.WaitForConfirmation,
+            CancellationToken()
+        )
 
         // Then
         Assertions.assertTrue(clearCalled)

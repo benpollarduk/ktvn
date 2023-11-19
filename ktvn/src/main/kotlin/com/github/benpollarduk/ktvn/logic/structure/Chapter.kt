@@ -1,7 +1,9 @@
 package com.github.benpollarduk.ktvn.logic.structure
 
 import com.github.benpollarduk.ktvn.io.restore.ChapterRestorePoint
+import com.github.benpollarduk.ktvn.io.tracking.StepTracker
 import com.github.benpollarduk.ktvn.logic.Flags
+import com.github.benpollarduk.ktvn.logic.ProgressionMode
 
 /**
  * A chapter within a [Story].
@@ -48,14 +50,18 @@ public class Chapter private constructor(setup: (Chapter) -> Unit) {
 
     /**
      * Begin the chapter with specified [flags]. The [chapterRestorePoint] specifies where the chapter restores from.
-     * The [chapterListener] allows events to be invoked for this chapter. A [cancellationToken] must be provided to
-     * allow for the chapter to be cancelled.
+     * The [chapterListener] allows events to be invoked for this chapter. A [stepTracker] must be provided to track
+     * which steps have been seen. A [progressionMode] must be specified to determine how the story progresses.
+     * A [cancellationToken] must be provided to allow for the chapter to be cancelled.
      */
+    @Suppress("LongParameterList")
     internal fun begin(
         flags: Flags,
         chapterRestorePoint: ChapterRestorePoint,
         sceneListener: SceneListener,
         chapterListener: ChapterListener,
+        stepTracker: StepTracker,
+        progressionMode: ProgressionMode,
         cancellationToken: CancellationToken
     ): ChapterResult {
         indexOfCurrentScene = chapterRestorePoint.scene
@@ -71,6 +77,8 @@ public class Chapter private constructor(setup: (Chapter) -> Unit) {
                     flags,
                     chapterRestorePoint.sceneRestorePoint,
                     sceneListener,
+                    stepTracker,
+                    progressionMode,
                     cancellationToken
                 )
             } else {
@@ -78,6 +86,8 @@ public class Chapter private constructor(setup: (Chapter) -> Unit) {
                     flags,
                     ChapterRestorePoint.start.sceneRestorePoint,
                     sceneListener,
+                    stepTracker,
+                    progressionMode,
                     cancellationToken
                 )
             }

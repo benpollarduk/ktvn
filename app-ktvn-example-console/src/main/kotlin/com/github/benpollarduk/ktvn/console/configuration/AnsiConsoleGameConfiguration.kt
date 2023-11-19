@@ -1,5 +1,8 @@
 package com.github.benpollarduk.ktvn.console.configuration
 
+import com.github.benpollarduk.ktvn.io.tracking.StepTracker
+import com.github.benpollarduk.ktvn.io.tracking.hash.HashStepTracker
+import com.github.benpollarduk.ktvn.logic.ProgressionMode
 import com.github.benpollarduk.ktvn.logic.configuration.AudioConfiguration
 import com.github.benpollarduk.ktvn.logic.configuration.CharacterConfiguration
 import com.github.benpollarduk.ktvn.logic.configuration.GameConfiguration
@@ -11,6 +14,8 @@ import com.github.benpollarduk.ktvn.logic.configuration.StoryConfiguration
  * Provides a configuration for an ANSI compatible console that uses a [consoleController].
  */
 internal class AnsiConsoleGameConfiguration(internal val consoleController: AnsiConsoleController) : GameConfiguration {
+    override val stepTracker: StepTracker = HashStepTracker()
+    override var progressionMode: ProgressionMode = ProgressionMode.WaitForConfirmation
     override val characterConfiguration: CharacterConfiguration = AnsiConsoleCharacterConfiguration(consoleController)
     override val narratorConfiguration: NarratorConfiguration = AnsiConsoleNarratorConfiguration(consoleController)
     override val layoutConfiguration: LayoutConfiguration = AnsiConsoleLayoutConfiguration(consoleController)

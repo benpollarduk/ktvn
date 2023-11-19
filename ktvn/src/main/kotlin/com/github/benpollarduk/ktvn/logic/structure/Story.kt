@@ -2,8 +2,10 @@ package com.github.benpollarduk.ktvn.logic.structure
 
 import com.github.benpollarduk.ktvn.io.restore.ChapterRestorePoint
 import com.github.benpollarduk.ktvn.io.restore.StoryRestorePoint
+import com.github.benpollarduk.ktvn.io.tracking.StepTracker
 import com.github.benpollarduk.ktvn.logic.Ending
 import com.github.benpollarduk.ktvn.logic.Flags
+import com.github.benpollarduk.ktvn.logic.ProgressionMode
 import com.github.benpollarduk.ktvn.logic.configuration.StoryConfiguration
 
 /**
@@ -55,13 +57,18 @@ public class Story private constructor(setup: (Story) -> Unit) {
 
     /**
      * Begin the [Story] with specified [flags]. The [storyRestorePoint] can be optionally specified.
-     * A [storyConfiguration] must be provided to receive progression updates. A [cancellationToken] must be provided
-     * to allow for the story to be cancelled. Returns the ending.
+     * A [storyConfiguration] must be provided to receive progression updates. A [stepTracker] must be provided to track
+     * which steps have been seen. A [progressionMode] must be specified to determine how the story progresses.
+     * A [cancellationToken] must be provided to allow for the story to be cancelled.
+     * Returns the ending.
      **/
+    @Suppress("LongParameterList")
     internal fun begin(
         flags: Flags,
         storyRestorePoint: StoryRestorePoint = StoryRestorePoint.start,
         storyConfiguration: StoryConfiguration,
+        stepTracker: StepTracker,
+        progressionMode: ProgressionMode,
         cancellationToken: CancellationToken
     ): Ending {
         var i = storyRestorePoint.chapter
@@ -77,6 +84,8 @@ public class Story private constructor(setup: (Story) -> Unit) {
                     storyRestorePoint.chapterRestorePoint,
                     storyConfiguration.sceneListener,
                     storyConfiguration.chapterListener,
+                    stepTracker,
+                    progressionMode,
                     cancellationToken
                 )
             } else {
@@ -85,6 +94,8 @@ public class Story private constructor(setup: (Story) -> Unit) {
                     ChapterRestorePoint.start,
                     storyConfiguration.sceneListener,
                     storyConfiguration.chapterListener,
+                    stepTracker,
+                    progressionMode,
                     cancellationToken
                 )
             }

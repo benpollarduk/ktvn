@@ -8,9 +8,14 @@ import com.github.benpollarduk.ktvn.backgrounds.ColorBackground.Companion.emptyB
 import com.github.benpollarduk.ktvn.backgrounds.ResourceBackground.Companion.backgroundFromResource
 import com.github.benpollarduk.ktvn.io.restore.CharacterRestorePoint
 import com.github.benpollarduk.ktvn.io.restore.SceneRestorePoint
+import com.github.benpollarduk.ktvn.io.tracking.StepTracker
 import com.github.benpollarduk.ktvn.layout.Layout
 import com.github.benpollarduk.ktvn.layout.Layout.Companion.createLayout
 import com.github.benpollarduk.ktvn.logic.Flags
+import com.github.benpollarduk.ktvn.logic.ProgressionMode
+import com.github.benpollarduk.ktvn.logic.structure.steps.Clear
+import com.github.benpollarduk.ktvn.logic.structure.steps.Pause
+import com.github.benpollarduk.ktvn.logic.structure.steps.Then
 
 /**
  * A scene within a [Chapter].
@@ -65,6 +70,41 @@ public class Scene private constructor(setup: (Scene) -> Unit) {
 
     init {
         setup(this)
+    }
+
+    /**
+     * Determine if a [step] should be executed. Execution depends on a combination of [progressionMode] and if the
+     * step has already been seen. When [ProgressionMode.Skip] is used seen steps will be skipped, or all steps if
+     * [ProgressionMode.Skip] skipUnseen property is set true. Some steps can't be skipped.
+     */
+    private fun shouldExecuteStep(step: Step, stepTracker: StepTracker, progressionMode: ProgressionMode): Boolean {
+        return if (progressionMode is ProgressionMode.Skip) {
+            if (!progressionMode.skipUnseen && !stepTracker.hasBeenSeen(step)) {
+                true
+            } else {
+                when (step) {
+                    is Then -> false
+                    is Clear -> false
+                    is Pause -> false
+                    else -> true
+                }
+            }
+        } else {
+            true
+        }
+    }
+
+    /**
+     * Restore this [Scene] from a [sceneRestorePoint].
+     */
+    private fun restore(sceneRestorePoint: SceneRestorePoint) {
+        if (sceneRestorePoint != SceneRestorePoint.start) {
+            layout.clear()
+            sceneRestorePoint.characterRestorePoints.forEach {
+                layout.add(it.character, it.position)
+                it.character.looks(it.emotion)
+            }
+        }
     }
 
     /**
@@ -150,30 +190,36 @@ public class Scene private constructor(setup: (Scene) -> Unit) {
 
     /**
      * Begin the scene with specified [flags]. The [sceneRestorePoint] specifies where the scene restores from.
-     * The [sceneListener] allows events to be invoked for this scene. A [cancellationToken] must be provided to allow
-     * for the chapter to be cancelled.
+     * The [sceneListener] allows events to be invoked for this scene. A [stepTracker] must be provided to track
+     * which steps have been seen. A [progressionMode] must be specified to determine how the story progresses.
+     * A [cancellationToken] must be provided to allow for the scene to be cancelled.
      */
+    @Suppress("LongParameterList")
     internal fun begin(
         flags: Flags,
         sceneRestorePoint: SceneRestorePoint,
         sceneListener: SceneListener,
+        stepTracker: StepTracker,
+        progressionMode: ProgressionMode,
         cancellationToken: CancellationToken
     ): SceneResult {
         var indexOfCurrentStep = sceneRestorePoint.step
         var sceneResult: SceneResult? = null
-
-        if (sceneRestorePoint != SceneRestorePoint.start) {
-            layout.clear()
-            sceneRestorePoint.characterRestorePoints.forEach {
-                layout.add(it.character, it.position)
-                it.character.looks(it.emotion)
-            }
-        }
-
+        restore(sceneRestorePoint)
         sceneListener.enter(this, transitionIn)
 
         while (indexOfCurrentStep < content.size) {
-            when (val result = content[indexOfCurrentStep](flags, cancellationToken)) {
+            val step = content[indexOfCurrentStep]
+
+            val result = if (shouldExecuteStep(step, stepTracker, progressionMode)) {
+                val resultValue = step(flags, cancellationToken)
+                stepTracker.registerStepSeen(step)
+                resultValue
+            } else {
+                StepResult.Continue
+            }
+
+            when (result) {
                 StepResult.Cancelled -> {
                     sceneResult = SceneResult.Cancelled
                 }

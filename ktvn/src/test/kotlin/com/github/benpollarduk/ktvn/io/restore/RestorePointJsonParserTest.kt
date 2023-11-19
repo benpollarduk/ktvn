@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test
 @Suppress("MaxLineLength")
 class RestorePointJsonParserTest {
     @Test
-    fun `given empty save when to json then return valid json`() {
+    fun `given valid restore point when to json then return valid json`() {
         // Given
         val flags = Flags()
         flags["Test"] = true
@@ -22,7 +22,7 @@ class RestorePointJsonParserTest {
     }
 
     @Test
-    fun `given valid json when from json then return valid save`() {
+    fun `given valid json when from json then return valid restore point`() {
         // Given
         val json = """{"name":"Test","flags":{"Test":true},"storyRestorePoint":{"chapterRestorePoint":{"sceneRestorePoint":{"characterRestorePoints":[],"step":1},"scene":2},"chapter":3},"version":"1.0.0"}"""
 

@@ -1,7 +1,6 @@
 package com.github.benpollarduk.ktvn.logic
 
 import com.github.benpollarduk.ktvn.io.game.GameSave
-import com.github.benpollarduk.ktvn.io.restore.RestorePoint
 
 /**
  * Provides a result of the execution of a [Game].

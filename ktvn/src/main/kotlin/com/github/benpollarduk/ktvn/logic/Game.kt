@@ -39,6 +39,8 @@ public class Game(
             Flags.fromMap(restorePoint.flags),
             restorePoint.storyRestorePoint,
             gameConfiguration.storyConfiguration,
+            gameConfiguration.stepTracker,
+            gameConfiguration.progressionMode,
             cancellationToken
         )
 
