@@ -38,6 +38,13 @@ public class Chapter private constructor(setup: (Chapter) -> Unit) {
     }
 
     /**
+     * Get all scenes in this chapter.
+     */
+    internal fun getAllScenes(): List<Scene> {
+        return scenes.toList()
+    }
+
+    /**
      * Create a restore point for this [Chapter]. The returned [ChapterRestorePoint] allows this [Chapter] to be
      * restored.
      */

@@ -61,6 +61,15 @@ internal class AnsiConsoleGameEngine(
             override fun startedFrame(frame: TextFrame) {
                 // clear the console before rendering the new frame
                 clear()
+
+                // get the mode - if the mode is set to skip and the current step can be skipped, or skip unseen is on
+                // then skip sequencing the frame
+                val mode = progressionController.progressionMode
+                if (mode is ProgressionMode.Skip) {
+                    if (canSkipCurrentStep || mode.skipUnseen) {
+                        textController.skip()
+                    }
+                }
             }
 
             override fun finishedFrame(frame: TextFrame) {

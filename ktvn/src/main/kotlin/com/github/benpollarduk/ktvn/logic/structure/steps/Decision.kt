@@ -5,6 +5,7 @@ import com.github.benpollarduk.ktvn.logic.Answer.Companion.answer
 import com.github.benpollarduk.ktvn.logic.Flags
 import com.github.benpollarduk.ktvn.logic.structure.CancellationToken
 import com.github.benpollarduk.ktvn.logic.structure.Step
+import com.github.benpollarduk.ktvn.logic.structure.StepIdentifier
 import com.github.benpollarduk.ktvn.logic.structure.StepResult
 
 /**
@@ -15,6 +16,8 @@ public class Decision private constructor(private val setup: (Decision) -> Unit)
 
     override var name: String = "Decision"
         private set
+
+    override var identifier: StepIdentifier = StepIdentifier(0, 0, 0)
 
     init {
         setup(this)

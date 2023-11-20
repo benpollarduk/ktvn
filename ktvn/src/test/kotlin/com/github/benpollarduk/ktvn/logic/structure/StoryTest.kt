@@ -1,7 +1,7 @@
 package com.github.benpollarduk.ktvn.logic.structure
 
 import com.github.benpollarduk.ktvn.io.restore.StoryRestorePoint
-import com.github.benpollarduk.ktvn.io.tracking.hash.HashStepTracker
+import com.github.benpollarduk.ktvn.io.tracking.identifier.StepIdentifierTracker
 import com.github.benpollarduk.ktvn.logic.Ending
 import com.github.benpollarduk.ktvn.logic.Flags
 import com.github.benpollarduk.ktvn.logic.adapters.StoryAdapter
@@ -104,7 +104,7 @@ class StoryTest {
                 Flags(),
                 StoryRestorePoint.start,
                 configuration,
-                HashStepTracker(),
+                StepIdentifierTracker(),
                 CancellationToken()
             )
         )
@@ -135,7 +135,7 @@ class StoryTest {
                 Flags(),
                 StoryRestorePoint.start,
                 configuration,
-                HashStepTracker(),
+                StepIdentifierTracker(),
                 CancellationToken()
             )
         )
@@ -179,7 +179,7 @@ class StoryTest {
                 Flags(),
                 StoryRestorePoint.start,
                 configuration,
-                HashStepTracker(),
+                StepIdentifierTracker(),
                 CancellationToken()
             )
         )
@@ -228,7 +228,7 @@ class StoryTest {
                 Flags(),
                 StoryRestorePoint.start,
                 configuration,
-                HashStepTracker(),
+                StepIdentifierTracker(),
                 CancellationToken()
             )
         )
@@ -276,7 +276,7 @@ class StoryTest {
                 Flags(),
                 StoryRestorePoint.start,
                 configuration,
-                HashStepTracker(),
+                StepIdentifierTracker(),
                 CancellationToken()
             )
         )

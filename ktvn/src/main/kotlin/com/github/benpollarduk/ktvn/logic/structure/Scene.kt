@@ -70,6 +70,13 @@ public class Scene private constructor(setup: (Scene) -> Unit) {
     }
 
     /**
+     * Get all steps in this scene.
+     */
+    internal fun getAllSteps(): List<Step> {
+        return content.toList()
+    }
+
+    /**
      * Determine if a [step] Can be skipped. Skipping depends on a combination of the type of step and if it has
      * already been seen.
      */

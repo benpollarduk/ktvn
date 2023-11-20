@@ -3,6 +3,7 @@ package com.github.benpollarduk.ktvn.logic.structure.steps
 import com.github.benpollarduk.ktvn.logic.Flags
 import com.github.benpollarduk.ktvn.logic.structure.CancellationToken
 import com.github.benpollarduk.ktvn.logic.structure.Step
+import com.github.benpollarduk.ktvn.logic.structure.StepIdentifier
 import com.github.benpollarduk.ktvn.logic.structure.StepResult
 
 /**
@@ -13,6 +14,8 @@ public class Then private constructor(private val setup: (Then) -> Unit) : Step 
 
     override var name: String = "Then"
         private set
+
+    override var identifier: StepIdentifier = StepIdentifier(0, 0, 0)
 
     init {
         setup(this)

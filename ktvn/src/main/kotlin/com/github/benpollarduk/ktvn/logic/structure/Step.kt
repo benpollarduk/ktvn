@@ -12,6 +12,11 @@ public interface Step {
     public val name: String
 
     /**
+     * Get an identifier for this [Step].
+     */
+    public var identifier: StepIdentifier
+
+    /**
      * Invoke the step with the specified flags to return a [StepResult]. A [cancellationToken] must be provided to
      * allow for the story to be cancelled.
      */

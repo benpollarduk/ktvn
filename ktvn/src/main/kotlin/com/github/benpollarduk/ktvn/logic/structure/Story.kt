@@ -10,6 +10,7 @@ import com.github.benpollarduk.ktvn.logic.Flags
  */
 public class Story private constructor(setup: (Story) -> Unit) {
     private val chapters: MutableList<Chapter> = mutableListOf()
+    private val idGenerator = StepIdentifierGenerator()
 
     /**
      * Get the name of this [Chapter].
@@ -46,6 +47,17 @@ public class Story private constructor(setup: (Story) -> Unit) {
     }
 
     /**
+     * Assign step ids for the [chapter].
+     */
+    private fun assignStepIds(chapter: Chapter) {
+        chapter.getAllScenes().forEach { scene ->
+            scene.getAllSteps().forEach { step ->
+                step.identifier = idGenerator.next(chapter, scene)
+            }
+        }
+    }
+
+    /**
      * Create a restore point for this [Story]. The returned [StoryRestorePoint] allows this [Story] to be restored.
      */
     internal fun createRestorePoint(): StoryRestorePoint {
@@ -59,9 +71,13 @@ public class Story private constructor(setup: (Story) -> Unit) {
         var i = parameters.storyRestorePoint.chapter
         var ending: Ending? = null
 
+        idGenerator.reset()
+
         while (i < chapters.size) {
             indexOfCurrentChapter = i
             val chapter = chapters[i]
+
+            assignStepIds(chapter)
 
             val result = if (i == parameters.storyRestorePoint.chapter) {
                 chapter.begin(

@@ -14,7 +14,7 @@ public class ProgressionController {
     /**
      * Get or set the progression mode.
      */
-    public var progressionMode: ProgressionMode = ProgressionMode.Skip(false)
+    public var progressionMode: ProgressionMode = ProgressionMode.WaitForConfirmation
 
     /**
      * Get the auto time controller. This controls auto acknowledgements.
