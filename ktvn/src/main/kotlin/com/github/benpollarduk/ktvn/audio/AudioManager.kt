@@ -4,20 +4,20 @@ import com.github.benpollarduk.ktvn.audio.ResourceSoundEffect.Companion.sfxFromR
 import com.github.benpollarduk.ktvn.logic.adapters.AudioAdapter
 
 /**
- * Provides a class for managing audio playback and control. An [audioAdapter] must be specified.
+ * Provides a class for managing audio playback and control. An [adapter] must be specified.
  */
-public class AudioManager(private val audioAdapter: AudioAdapter) {
+public class AudioManager(private val adapter: AudioAdapter) {
     /**
      * Play a specified [soundEffect].
      */
     public infix fun sfx(soundEffect: SoundEffect) {
-        audioAdapter.audioListener.sfx(soundEffect)
+        adapter.audioListener.sfx(soundEffect)
     }
 
     /**
      * Play a sound effect, specified by key [key].
      */
     public infix fun sfx(key: String) {
-        audioAdapter.audioListener.sfx(sfxFromResource(key))
+        adapter.audioListener.sfx(sfxFromResource(key))
     }
 }

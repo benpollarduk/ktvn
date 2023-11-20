@@ -5,11 +5,11 @@ import com.github.benpollarduk.ktvn.logic.Question
 import com.github.benpollarduk.ktvn.logic.adapters.CharacterAdapter
 
 /**
- * Provides a character with a specified [name]. A [configuration] must be specified.
+ * Provides a character with a specified [name]. An [adapter] must be specified.
  */
 public class Character(
     public val name: String,
-    private val configuration: CharacterAdapter
+    private val adapter: CharacterAdapter
 ) {
     /**
      * Get the characters current [Emotion].
@@ -22,27 +22,27 @@ public class Character(
      */
     public infix fun looks(emotion: Emotion) {
         this.emotion = emotion
-        configuration.emoteListener.emote(this, emotion, configuration.emoteAcknowledgementListener)
+        adapter.emoteListener.emote(this, emotion, adapter.emoteAcknowledgementListener)
     }
 
     /**
      * Say a [line].
      */
     public infix fun says(line: String) {
-        configuration.speakListener.speak(this, line, configuration.speakAcknowledgementListener)
+        adapter.speakListener.speak(this, line, adapter.speakAcknowledgementListener)
     }
 
     /**
      * Ask a [question]. Returns the selected answer.
      */
     public infix fun asks(question: Question): Answer {
-        return configuration.askListener.ask(this, question, configuration.answerListener)
+        return adapter.askListener.ask(this, question, adapter.answerListener)
     }
 
     /**
      * Begin animating the character with a specified [animation].
      */
     public infix fun begins(animation: Animation) {
-        return configuration.animateListener.animate(this, animation, configuration.animateAcknowledgementListener)
+        return adapter.animateListener.animate(this, animation, adapter.animateAcknowledgementListener)
     }
 }

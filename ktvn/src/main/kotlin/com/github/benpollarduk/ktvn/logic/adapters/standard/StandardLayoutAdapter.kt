@@ -24,7 +24,7 @@ internal class StandardLayoutAdapter(private val gameEngine: GameEngine) : Layou
             toPosition: Position,
             acknowledgement: AcknowledgeListener
         ) {
-            gameEngine.moveCharacter(character, fromPosition, toPosition)
+            gameEngine.characterMoves(character, fromPosition, toPosition)
             acknowledgement.waitFor()
         }
     }

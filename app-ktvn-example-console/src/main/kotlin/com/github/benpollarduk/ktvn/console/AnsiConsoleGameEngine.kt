@@ -254,7 +254,7 @@ internal class AnsiConsoleGameEngine(
         print("${character.name}: $line", getCharacterColor(character))
     }
 
-    override fun characterEmotion(character: Character, emotion: Emotion) {
+    override fun characterShowsEmotion(character: Character, emotion: Emotion) {
         printlnDirectTemp("${character.name} looks $emotion.")
     }
 
@@ -262,7 +262,7 @@ internal class AnsiConsoleGameEngine(
         printlnDirectTemp("${character.name} begins $animation.")
     }
 
-    override fun characterAskedQuestion(character: Character, question: Question) {
+    override fun characterAsksQuestion(character: Character, question: Question) {
         var questionString = "${character.name}: ${question.line}\n"
 
         for (i in question.answers.indices) {
@@ -272,7 +272,7 @@ internal class AnsiConsoleGameEngine(
         print(questionString, getCharacterColor(character))
     }
 
-    override fun narratorAskedQuestion(narrator: Narrator, question: Question) {
+    override fun narratorAsksQuestion(narrator: Narrator, question: Question) {
         var questionString = "${question.line}\n"
 
         for (i in question.answers.indices) {
@@ -282,7 +282,7 @@ internal class AnsiConsoleGameEngine(
         print(questionString)
     }
 
-    override fun getAnswerToQuestion(question: Question): Answer {
+    override fun answerQuestion(question: Question): Answer {
         var index = Int.MIN_VALUE
 
         while (index == Int.MIN_VALUE) {
@@ -308,7 +308,7 @@ internal class AnsiConsoleGameEngine(
         }
     }
 
-    override fun moveCharacter(character: Character, from: Position, to: Position) {
+    override fun characterMoves(character: Character, from: Position, to: Position) {
         printlnDirectTemp("${character.name} moves from '$from' to '$to'.")
     }
 

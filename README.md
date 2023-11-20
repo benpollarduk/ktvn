@@ -91,11 +91,30 @@ together how the game and the UI interact with one another. Please see the **Int
 more information.
 
 # Persistence #
-Progress in a game can be persisted as a **RestorePoint**. A restorePoint can be generated at any point before, 
-during or after a games execution and persisted to file using the **RestorePointSerializer**.
+Persistence is handled in 3 parts, **GameSave**, **RestorePoint** and **StepTracker** .
+
+### GameSave ###
+The users settings, endings reached and total seconds played are saved in a **GameSave**.
+```kotlin
+val gameSave = game.getGameSave()
+GameSaveSerializer.toFile(gameSave, path)
+```
+
+### RestorePoint ###
+Progress in a game can be persisted as a **RestorePoint**. A restore point can be generated at any point before, 
+during or after a games execution and persisted to file using the **RestorePointSerializer**. This stores the users 
+current position in the game, flags and has a name, a creation date and time and a thumbnail.
 ```kotlin
 val restorePoint = game.getRestorePoint("File1")
 RestorePointSerializer.toFile(restorePoint, path)
+```
+
+### StepTracker ###
+The **StepTracker** tracks which steps have been viewed by the player. This is important as it allows the skip feature 
+to skip viewed steps on a subsequent play through. As default a **StepIdentifierTracker** is provided and records steps 
+with a deterministic identifier.
+```kotlin
+StepIdentifierTrackerSerializer.toFile(gameEngine.stepTracker, path)
 ```
 
 # Core DSL
@@ -277,8 +296,15 @@ following progression modes are supported:
 Ktvn provides a structure, DSL and flow control for creating visual novels, but it does not provide a framework for 
 creating UIs and managing assets. Many frameworks for this exist. To integrate with a story a **GameConfiguration** is 
 required. The easiest way of achieving this is by using **StandardGameConfiguration** with a **GameEngine**. 
-Please see **AnsiConsoleGameEngine** in **app-ktvn-example-console** for a simple example that demonstrates how to 
+Please see **AnsiConsoleGameEngine** in app-ktvn-example-console for a simple example that demonstrates how to 
 create a game engine that integrates with an ANSI compatible console.
+
+The UI and the GameEngine will be unique for each project. In app-ktvn-example-console the UI is provided by the 
+terminal and **AnsiConsoleGameEngine** interacts directly with this.
+![ktvn-sequencing-overview-components.png](docs%2Fktvn-sequencing-overview-components.png)
+
+The following sequence diagram shows the sequence of starting a game and a character speaking then asking a question:
+![ktvn-sequencing-overview.png](docs%2Fktvn-sequencing-overview.png)
 
 # For Open Questions
 Visit https://github.com/benpollarduk/ktvn/issues

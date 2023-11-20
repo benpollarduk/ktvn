@@ -24,7 +24,7 @@ internal class StandardNarratorAdapter(private val gameEngine: GameEngine) : Nar
     override val askListener: NarratorAskListener = object : NarratorAskListener {
         override fun ask(narrator: Narrator, question: Question, answerListener: AnswerListener): Answer {
             gameEngine.log.add(LogElement.NarratorLog(narrator, question.line))
-            gameEngine.narratorAskedQuestion(narrator, question)
+            gameEngine.narratorAsksQuestion(narrator, question)
             return answerListener.waitFor(question)
         }
     }
@@ -39,7 +39,7 @@ internal class StandardNarratorAdapter(private val gameEngine: GameEngine) : Nar
 
     override val answerListener: AnswerListener = object : AnswerListener {
         override fun waitFor(question: Question): Answer {
-            return gameEngine.getAnswerToQuestion(question)
+            return gameEngine.answerQuestion(question)
         }
     }
 }

@@ -62,17 +62,17 @@ public interface GameEngine {
     /**
      * Handle a [character] asking a [question].
      */
-    public fun characterAskedQuestion(character: Character, question: Question)
+    public fun characterAsksQuestion(character: Character, question: Question)
 
     /**
      * Handle a [narrator] asking a [question].
      */
-    public fun narratorAskedQuestion(narrator: Narrator, question: Question)
+    public fun narratorAsksQuestion(narrator: Narrator, question: Question)
 
     /**
      * Get an [Answer] to a [question].
      */
-    public fun getAnswerToQuestion(question: Question): Answer
+    public fun answerQuestion(question: Question): Answer
 
     /**
      * Handle a [character] speaking a [line].
@@ -82,7 +82,7 @@ public interface GameEngine {
     /**
      * Show a [character] [emotion].
      */
-    public fun characterEmotion(character: Character, emotion: Emotion)
+    public fun characterShowsEmotion(character: Character, emotion: Emotion)
 
     /**
      * Play a [character] [animation].
@@ -92,7 +92,7 @@ public interface GameEngine {
     /**
      * Move a [character] [from] a position [to] another position.
      */
-    public fun moveCharacter(character: Character, from: Position, to: Position)
+    public fun characterMoves(character: Character, from: Position, to: Position)
 
     /**
      * Handle a [narrator] narrating a [line].

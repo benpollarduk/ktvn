@@ -40,14 +40,14 @@ internal class StandardCharacterAdapter(private val gameEngine: GameEngine) : Ch
     override val askListener: CharacterAskListener = object : CharacterAskListener {
         override fun ask(character: Character, question: Question, answerListener: AnswerListener): Answer {
             gameEngine.log.add(LogElement.CharacterLog(character, question.line))
-            gameEngine.characterAskedQuestion(character, question)
+            gameEngine.characterAsksQuestion(character, question)
             return answerListener.waitFor(question)
         }
     }
 
     override val answerListener: AnswerListener = object : AnswerListener {
         override fun waitFor(question: Question): Answer {
-            return gameEngine.getAnswerToQuestion(question)
+            return gameEngine.answerQuestion(question)
         }
     }
 
@@ -61,7 +61,7 @@ internal class StandardCharacterAdapter(private val gameEngine: GameEngine) : Ch
 
     override val emoteListener: EmoteListener = object : EmoteListener {
         override fun emote(character: Character, emotion: Emotion, acknowledgement: AcknowledgeListener) {
-            gameEngine.characterEmotion(character, emotion)
+            gameEngine.characterShowsEmotion(character, emotion)
             acknowledgement.waitFor()
         }
     }
