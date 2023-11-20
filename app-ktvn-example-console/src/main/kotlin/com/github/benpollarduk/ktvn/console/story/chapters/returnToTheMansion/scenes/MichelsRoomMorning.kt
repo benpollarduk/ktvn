@@ -21,7 +21,7 @@ internal fun michelsRoomMorning(): Scene {
         scene music "mansion-theme"
         scene layout Layout.createLayout { layout ->
             layout addCenter michel
-            layout configure configuration.layoutConfiguration
+            layout configure configuration.gameAdapter.layoutAdapter
         }
         scene steps listOf(
             next {

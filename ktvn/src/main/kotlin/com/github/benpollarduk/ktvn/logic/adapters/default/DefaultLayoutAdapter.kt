@@ -1,19 +1,19 @@
-package com.github.benpollarduk.ktvn.logic.configuration.default
+package com.github.benpollarduk.ktvn.logic.adapters.default
 
 import com.github.benpollarduk.ktvn.characters.Character
 import com.github.benpollarduk.ktvn.layout.MoveListener
 import com.github.benpollarduk.ktvn.layout.Position
-import com.github.benpollarduk.ktvn.logic.GameController
-import com.github.benpollarduk.ktvn.logic.configuration.LayoutConfiguration
+import com.github.benpollarduk.ktvn.logic.GameEngine
+import com.github.benpollarduk.ktvn.logic.adapters.LayoutAdapter
 import com.github.benpollarduk.ktvn.logic.structure.AcknowledgeListener
 
 /**
- * Provides a default [LayoutConfiguration] with a specified [gameController].
+ * Provides a default [LayoutAdapter] with a specified [gameEngine].
  */
-internal class DefaultLayoutConfiguration(private val gameController: GameController) : LayoutConfiguration {
+internal class DefaultLayoutAdapter(private val gameEngine: GameEngine) : LayoutAdapter {
     override val moveAcknowledgementListener: AcknowledgeListener = object : AcknowledgeListener {
         override fun waitFor() {
-            gameController.acknowledgeLayoutMovement()
+            gameEngine.acknowledgeLayoutMovement()
         }
     }
 
@@ -24,7 +24,7 @@ internal class DefaultLayoutConfiguration(private val gameController: GameContro
             toPosition: Position,
             acknowledgement: AcknowledgeListener
         ) {
-            gameController.moveCharacter(character, fromPosition, toPosition)
+            gameEngine.moveCharacter(character, fromPosition, toPosition)
             acknowledgement.waitFor()
         }
     }

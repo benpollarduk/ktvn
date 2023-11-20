@@ -5,11 +5,11 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import kotlin.concurrent.thread
 
-class GameControllerTest {
+class ProgressionControllerTest {
     @Test
     fun `given force skip when await acknowledgement then completes`() {
         // Given
-        val controller = GameController()
+        val controller = ProgressionController()
         val cancellationToken = CancellationToken()
         val canSkipStep = false
         var running = true
@@ -35,7 +35,7 @@ class GameControllerTest {
     @Test
     fun `given skip with skippable step when await acknowledgement then completes`() {
         // Given
-        val controller = GameController()
+        val controller = ProgressionController()
         val cancellationToken = CancellationToken()
         val canSkipStep = true
         var running = true
@@ -61,7 +61,7 @@ class GameControllerTest {
     @Test
     fun `given skip with non-skippable step when await acknowledgement then does not complete`() {
         // Given
-        val controller = GameController()
+        val controller = ProgressionController()
         val cancellationToken = CancellationToken()
         val canSkipStep = false
         var running = true
@@ -87,7 +87,7 @@ class GameControllerTest {
     @Test
     fun `given wait for confirmation with non-skippable step when await acknowledgement then does not complete`() {
         // Given
-        val controller = GameController()
+        val controller = ProgressionController()
         val cancellationToken = CancellationToken()
         val canSkipStep = false
         var running = true
@@ -113,7 +113,7 @@ class GameControllerTest {
     @Test
     fun `given auto with non-skippable step when await acknowledgement then completes`() {
         // Given
-        val controller = GameController()
+        val controller = ProgressionController()
         val cancellationToken = CancellationToken()
         val canSkipStep = false
         var running = true

@@ -40,7 +40,7 @@ public class Game(
             StoryBeginParameters(
                 Flags.fromMap(restorePoint.flags),
                 restorePoint.storyRestorePoint,
-                gameConfiguration.storyConfiguration,
+                gameConfiguration.gameAdapter.storyAdapter,
                 gameConfiguration.stepTracker,
                 cancellationToken
             )

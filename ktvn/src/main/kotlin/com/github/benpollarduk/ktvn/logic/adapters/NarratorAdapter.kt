@@ -1,4 +1,4 @@
-package com.github.benpollarduk.ktvn.logic.configuration
+package com.github.benpollarduk.ktvn.logic.adapters
 
 import com.github.benpollarduk.ktvn.characters.AnswerListener
 import com.github.benpollarduk.ktvn.characters.NarrateListener
@@ -6,9 +6,9 @@ import com.github.benpollarduk.ktvn.characters.NarratorAskListener
 import com.github.benpollarduk.ktvn.logic.structure.AcknowledgeListener
 
 /**
- * Provides a configuration for narration.
+ * Provides an adapter for narration. The adapter allows for narrator events to be passed to a receiving class.
  */
-public interface NarratorConfiguration {
+public interface NarratorAdapter {
     /**
      * Get the acknowledgement listener for narrate.
      */

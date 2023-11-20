@@ -2,12 +2,12 @@ package com.github.benpollarduk.ktvn.characters
 
 import com.github.benpollarduk.ktvn.logic.Answer
 import com.github.benpollarduk.ktvn.logic.Question
-import com.github.benpollarduk.ktvn.logic.configuration.NarratorConfiguration
+import com.github.benpollarduk.ktvn.logic.adapters.NarratorAdapter
 
 /**
  * Provides a narrator. A [configuration] must be specified.
  */
-public class Narrator(private val configuration: NarratorConfiguration) {
+public class Narrator(private val configuration: NarratorAdapter) {
     /**
      * Narrate a [line].
      */

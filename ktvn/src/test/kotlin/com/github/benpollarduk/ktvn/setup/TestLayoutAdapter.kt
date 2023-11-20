@@ -1,12 +1,12 @@
-package com.github.benpollarduk.ktvn.configuration.test
+package com.github.benpollarduk.ktvn.setup
 
 import com.github.benpollarduk.ktvn.characters.Character
 import com.github.benpollarduk.ktvn.layout.MoveListener
 import com.github.benpollarduk.ktvn.layout.Position
-import com.github.benpollarduk.ktvn.logic.configuration.LayoutConfiguration
+import com.github.benpollarduk.ktvn.logic.adapters.LayoutAdapter
 import com.github.benpollarduk.ktvn.logic.structure.AcknowledgeListener
 
-internal class TestLayoutConfiguration : LayoutConfiguration {
+internal class TestLayoutAdapter : LayoutAdapter {
     override val moveAcknowledgementListener: AcknowledgeListener = object : AcknowledgeListener {
         override fun waitFor() {
             // pass through

@@ -1,6 +1,5 @@
 package com.github.benpollarduk.ktvn.logic
 
-import com.github.benpollarduk.ktvn.configuration.test.TestGameConfiguration
 import com.github.benpollarduk.ktvn.io.game.GameSave
 import com.github.benpollarduk.ktvn.io.restore.RestorePoint
 import com.github.benpollarduk.ktvn.logic.structure.Chapter.Companion.chapter
@@ -9,6 +8,7 @@ import com.github.benpollarduk.ktvn.logic.structure.Story.Companion.story
 import com.github.benpollarduk.ktvn.logic.structure.steps.End.Companion.end
 import com.github.benpollarduk.ktvn.logic.structure.steps.Then.Companion.next
 import com.github.benpollarduk.ktvn.logic.structure.steps.Then.Companion.then
+import com.github.benpollarduk.ktvn.setup.TestGameConfiguration
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 

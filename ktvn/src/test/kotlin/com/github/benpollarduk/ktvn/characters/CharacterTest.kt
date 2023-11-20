@@ -3,7 +3,7 @@ package com.github.benpollarduk.ktvn.characters
 import com.github.benpollarduk.ktvn.characters.Emotions.happy
 import com.github.benpollarduk.ktvn.logic.Answer
 import com.github.benpollarduk.ktvn.logic.Question
-import com.github.benpollarduk.ktvn.logic.configuration.CharacterConfiguration
+import com.github.benpollarduk.ktvn.logic.adapters.CharacterAdapter
 import com.github.benpollarduk.ktvn.logic.structure.AcknowledgeListener
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
@@ -45,7 +45,7 @@ class CharacterTest {
         }
     }
 
-    private val configuration: CharacterConfiguration = object : CharacterConfiguration {
+    private val configuration: CharacterAdapter = object : CharacterAdapter {
         override val emoteAcknowledgementListener: AcknowledgeListener = acknowledgementListener
         override val speakAcknowledgementListener: AcknowledgeListener = acknowledgementListener
         override val animateAcknowledgementListener: AcknowledgeListener = acknowledgementListener
@@ -88,7 +88,7 @@ class CharacterTest {
         // Given
         var called = false
 
-        val configuration: CharacterConfiguration = object : CharacterConfiguration {
+        val configuration: CharacterAdapter = object : CharacterAdapter {
             override val speakListener = object : SpeakListener {
                 override fun speak(character: Character, line: String, acknowledgement: AcknowledgeListener) {
                     called = true
@@ -119,7 +119,7 @@ class CharacterTest {
     fun `given a character when ask then asks is called`() {
         // Given
         var called = false
-        val configuration: CharacterConfiguration = object : CharacterConfiguration {
+        val configuration: CharacterAdapter = object : CharacterAdapter {
             override val emoteAcknowledgementListener: AcknowledgeListener = acknowledgementListener
             override val speakAcknowledgementListener: AcknowledgeListener = acknowledgementListener
             override val animateAcknowledgementListener: AcknowledgeListener = acknowledgementListener
@@ -151,7 +151,7 @@ class CharacterTest {
     fun `given a character when looks then emotes is called`() {
         // Given
         var called = false
-        val configuration: CharacterConfiguration = object : CharacterConfiguration {
+        val configuration: CharacterAdapter = object : CharacterAdapter {
             override val emoteAcknowledgementListener: AcknowledgeListener = acknowledgementListener
             override val speakAcknowledgementListener: AcknowledgeListener = acknowledgementListener
             override val animateAcknowledgementListener: AcknowledgeListener = acknowledgementListener

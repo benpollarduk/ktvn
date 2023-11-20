@@ -3,7 +3,7 @@ package com.github.benpollarduk.ktvn.console.story.assets
 import com.github.benpollarduk.ktvn.audio.AudioManager
 import com.github.benpollarduk.ktvn.characters.Character
 import com.github.benpollarduk.ktvn.characters.Narrator
-import com.github.benpollarduk.ktvn.console.AnsiConsoleGameController
+import com.github.benpollarduk.ktvn.console.AnsiConsoleGameEngine
 import com.github.benpollarduk.ktvn.logic.configuration.DefaultGameConfiguration
 
 /**
@@ -11,32 +11,32 @@ import com.github.benpollarduk.ktvn.logic.configuration.DefaultGameConfiguration
  */
 internal object AssetStore {
     /**
-     * The gameController responsible for handling all input and output.
+     * The engine responsible for handling all input and output.
      */
-    internal val controller = AnsiConsoleGameController()
+    internal val engine = AnsiConsoleGameEngine()
 
     /**
      *  The configuration for interacting with the game.
      */
-    internal val configuration = DefaultGameConfiguration(controller)
+    internal val configuration = DefaultGameConfiguration(engine)
 
     /**
      * The narrator - responsible for narrating the story.
      */
-    internal val narrator = Narrator(configuration.narratorConfiguration)
+    internal val narrator = Narrator(configuration.gameAdapter.narratorAdapter)
 
     /**
      * The audio manager, responsible for all audio.
      */
-    internal val audio = AudioManager(configuration.audioConfiguration)
+    internal val audio = AudioManager(configuration.gameAdapter.audioAdapter)
 
     /**
      * Morgana, a witch. The antagonist of the story.
      */
-    internal val morgana = Character("Morgana", configuration.characterConfiguration)
+    internal val morgana = Character("Morgana", configuration.gameAdapter.characterAdapter)
 
     /**
      * Michel, a man. The protagonist of the story.
      */
-    internal val michel = Character("Michel", configuration.characterConfiguration)
+    internal val michel = Character("Michel", configuration.gameAdapter.characterAdapter)
 }

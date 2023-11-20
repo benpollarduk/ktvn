@@ -5,7 +5,7 @@ import com.github.benpollarduk.ktvn.console.Persistence.persistStepData
 import com.github.benpollarduk.ktvn.console.Persistence.restoreGameSave
 import com.github.benpollarduk.ktvn.console.Persistence.restoreStepData
 import com.github.benpollarduk.ktvn.console.story.assets.AssetStore.configuration
-import com.github.benpollarduk.ktvn.console.story.assets.AssetStore.controller
+import com.github.benpollarduk.ktvn.console.story.assets.AssetStore.engine
 import com.github.benpollarduk.ktvn.console.story.theFateOfMorgana
 import com.github.benpollarduk.ktvn.io.restore.RestorePoint
 import com.github.benpollarduk.ktvn.logic.Game
@@ -29,7 +29,7 @@ object Main : Logging {
         // execute the game on its own thread
         GameExecutor.executeAysnc(exampleGame) {
             // the game has finished so input no long needs to be processed
-            controller.endProcessingInput()
+            engine.endProcessingInput()
 
             // persist the game save
             persistGameSave(it.gameSave)
@@ -38,9 +38,9 @@ object Main : Logging {
             persistStepData()
         }
 
-        // allow the console gameController to process input from the console.
+        // allow the console engine to process input from the console.
         // this will block the thread until consoleGameController.endProcessingInput is called
-        controller.beginProcessingInput()
+        engine.beginProcessingInput()
 
         logger.info("Ended execution of example.")
     }

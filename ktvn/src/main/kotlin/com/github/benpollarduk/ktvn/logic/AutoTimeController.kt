@@ -4,9 +4,9 @@ import com.github.benpollarduk.ktvn.logic.structure.CancellationToken
 import kotlin.math.min
 
 /**
- * Provides a class for controlling 'auto' functionality. Auto will auto-acknowledge after a specified time.
+ * Provides a class for controlling 'auto' functionality.
  */
-public class Auto {
+public class AutoTimeController {
     /**
      * Wait for a specified [timeInMs]. A [cancellationToken] must be provided to support cancellation. Returns true
      * if the wait completed without being cancelled, else false.
@@ -29,6 +29,6 @@ public class Auto {
     }
 
     public companion object {
-        private const val DELAY_BETWEEN_CHECKS_IN_MS: Long = 10
+        private const val DELAY_BETWEEN_CHECKS_IN_MS: Long = 5
     }
 }

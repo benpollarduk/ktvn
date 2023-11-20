@@ -10,7 +10,8 @@ import com.github.benpollarduk.ktvn.console.story.assets.AssetStore.michel
 import com.github.benpollarduk.ktvn.console.story.assets.AssetStore.morgana
 import com.github.benpollarduk.ktvn.layout.Position
 import com.github.benpollarduk.ktvn.logic.Answer
-import com.github.benpollarduk.ktvn.logic.GameController
+import com.github.benpollarduk.ktvn.logic.GameEngine
+import com.github.benpollarduk.ktvn.logic.ProgressionController
 import com.github.benpollarduk.ktvn.logic.ProgressionMode
 import com.github.benpollarduk.ktvn.logic.Question
 import com.github.benpollarduk.ktvn.logic.structure.CancellationToken
@@ -22,24 +23,25 @@ import com.github.benpollarduk.ktvn.logic.structure.Step
 import com.github.benpollarduk.ktvn.text.frames.CharacterConstrainedTextFrame
 import com.github.benpollarduk.ktvn.text.frames.TextFrame
 import com.github.benpollarduk.ktvn.text.frames.TextFrameParameters
+import com.github.benpollarduk.ktvn.text.log.Log
 import com.github.benpollarduk.ktvn.text.sequencing.SequencedTextController
 import com.github.benpollarduk.ktvn.text.sequencing.SequencedTextControllerListener
 import com.github.benpollarduk.ktvn.text.sequencing.TimeBasedTextSequencer
 import java.util.concurrent.locks.ReentrantLock
 
 /**
- * A class that functions as a gameController for a console that is ANSI compatible.
+ * A class that functions as an engine for an ANSI compatible console.
  */
-internal class AnsiConsoleGameController(
+internal class AnsiConsoleGameEngine(
     private val parameters: TextFrameParameters = TextFrameParameters(DEFAULT_WIDTH, DEFAULT_LINES)
-) : GameController() {
+) : GameEngine {
     private val lock: ReentrantLock = ReentrantLock()
     private var isProcessingInput = false
     private var input = ""
     private var canSkipCurrentStep = false
     private var cancellationToken: CancellationToken = CancellationToken()
 
-    // the text gameController is responsible for sequencing and controlling the dispatch of characters from a collection
+    // the text engine is responsible for sequencing and controlling the dispatch of characters from a collection
     // of frames. the listener is used to capture the requested characters and render them on the console
     private val textController = SequencedTextController(TimeBasedTextSequencer {
         // render all the characters in the requested position on the console
@@ -48,6 +50,9 @@ internal class AnsiConsoleGameController(
             print(position.character)
         }
     })
+
+    override val log: Log = Log()
+    override val progressionController: ProgressionController = ProgressionController()
 
     init {
         // set up the listener for when the textController has to split a text frame and requires acknowledgement to
@@ -101,13 +106,13 @@ internal class AnsiConsoleGameController(
     }
 
     /**
-     * Wait for the enter key to be pressed or a signal to auto continue. A cancellation token must be provided to
-     * support cancellation.
+     * Wait for the enter key to be pressed or a signal to the auto time controller to begin. A cancellation token
+     * must be provided to support cancellation.
      */
     private fun waitForAcknowledge(cancellationToken: CancellationToken) {
         setCursorPosition(DEFAULT_WIDTH + 1, DEFAULT_LINES + 1)
         kotlin.io.print("<enter> ")
-        awaitAcknowledgement(canSkipCurrentStep, cancellationToken)
+        progressionController.awaitAcknowledgement(canSkipCurrentStep, cancellationToken)
     }
 
     /**
@@ -116,7 +121,7 @@ internal class AnsiConsoleGameController(
      */
     private fun waitForInput(cancellationToken: CancellationToken): String {
         // put in manual mode
-        progressionMode = ProgressionMode.WaitForConfirmation
+        progressionController.progressionMode = ProgressionMode.WaitForConfirmation
 
         // reset the input to ensure that legacy input is discarded
         setInput("")
@@ -203,7 +208,7 @@ internal class AnsiConsoleGameController(
                 setInput(input)
             }
 
-            triggerAcknowledgementLatch()
+            progressionController.triggerAcknowledgementLatch()
         }
     }
 

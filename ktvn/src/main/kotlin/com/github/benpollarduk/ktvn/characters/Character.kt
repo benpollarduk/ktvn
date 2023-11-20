@@ -2,14 +2,14 @@ package com.github.benpollarduk.ktvn.characters
 
 import com.github.benpollarduk.ktvn.logic.Answer
 import com.github.benpollarduk.ktvn.logic.Question
-import com.github.benpollarduk.ktvn.logic.configuration.CharacterConfiguration
+import com.github.benpollarduk.ktvn.logic.adapters.CharacterAdapter
 
 /**
  * Provides a character with a specified [name]. A [configuration] must be specified.
  */
 public class Character(
     public val name: String,
-    private val configuration: CharacterConfiguration
+    private val configuration: CharacterAdapter
 ) {
     /**
      * Get the characters current [Emotion].

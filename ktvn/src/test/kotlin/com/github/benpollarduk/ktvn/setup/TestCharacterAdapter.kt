@@ -1,4 +1,4 @@
-package com.github.benpollarduk.ktvn.configuration.test
+package com.github.benpollarduk.ktvn.setup
 
 import com.github.benpollarduk.ktvn.characters.AnimateListener
 import com.github.benpollarduk.ktvn.characters.Animation
@@ -10,10 +10,10 @@ import com.github.benpollarduk.ktvn.characters.Emotion
 import com.github.benpollarduk.ktvn.characters.SpeakListener
 import com.github.benpollarduk.ktvn.logic.Answer
 import com.github.benpollarduk.ktvn.logic.Question
-import com.github.benpollarduk.ktvn.logic.configuration.CharacterConfiguration
+import com.github.benpollarduk.ktvn.logic.adapters.CharacterAdapter
 import com.github.benpollarduk.ktvn.logic.structure.AcknowledgeListener
 
-internal class TestCharacterConfiguration : CharacterConfiguration {
+internal class TestCharacterAdapter : CharacterAdapter {
     private val passThroughAcknowledgementListener: AcknowledgeListener = object : AcknowledgeListener {
         override fun waitFor() {
             // continue without acknowledgement

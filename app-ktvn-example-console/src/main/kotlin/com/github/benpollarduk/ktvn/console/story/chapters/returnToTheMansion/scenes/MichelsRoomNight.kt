@@ -26,7 +26,7 @@ internal fun michelsRoomNight(): Scene {
         scene layout Layout.createLayout { layout ->
             layout addCenter michel
             layout addRightOf morgana
-            layout configure configuration.layoutConfiguration
+            layout configure configuration.gameAdapter.layoutAdapter
         }
         scene steps listOf(
             next {

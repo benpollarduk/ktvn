@@ -1,4 +1,4 @@
-package com.github.benpollarduk.ktvn.logic.configuration
+package com.github.benpollarduk.ktvn.logic.adapters
 
 import com.github.benpollarduk.ktvn.characters.AnimateListener
 import com.github.benpollarduk.ktvn.characters.AnswerListener
@@ -8,9 +8,9 @@ import com.github.benpollarduk.ktvn.characters.SpeakListener
 import com.github.benpollarduk.ktvn.logic.structure.AcknowledgeListener
 
 /**
- * Provides a configuration for a characters.
+ * Provides an adapter for a characters. The adapter allows for character events to be passed to a receiving class.
  */
-public interface CharacterConfiguration {
+public interface CharacterAdapter {
     /**
      * Get the acknowledgement listener for emote.
      */
