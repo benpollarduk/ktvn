@@ -1,4 +1,4 @@
-package com.github.benpollarduk.ktvn.logic.adapters.default
+package com.github.benpollarduk.ktvn.logic.adapters.standard
 
 import com.github.benpollarduk.ktvn.characters.AnswerListener
 import com.github.benpollarduk.ktvn.characters.NarrateListener
@@ -12,9 +12,9 @@ import com.github.benpollarduk.ktvn.logic.structure.AcknowledgeListener
 import com.github.benpollarduk.ktvn.text.log.LogElement
 
 /**
- * Provides a default [NarratorAdapter] with a specified [gameEngine].
+ * Provides a standard [NarratorAdapter] with a specified [gameEngine].
  */
-internal class DefaultNarratorAdapter(private val gameEngine: GameEngine) : NarratorAdapter {
+internal class StandardNarratorAdapter(private val gameEngine: GameEngine) : NarratorAdapter {
     override val narrateAcknowledgementListener: AcknowledgeListener = object : AcknowledgeListener {
         override fun waitFor() {
             gameEngine.acknowledgeNarratorNarrate()

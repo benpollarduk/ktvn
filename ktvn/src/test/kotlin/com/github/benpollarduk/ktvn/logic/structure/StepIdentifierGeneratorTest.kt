@@ -1,11 +1,8 @@
 package com.github.benpollarduk.ktvn.logic.structure
 
-import com.github.benpollarduk.ktvn.io.tracking.identifier.StepIdentifierTracker
-import com.github.benpollarduk.ktvn.layout.Layout.Companion.createLayout
 import com.github.benpollarduk.ktvn.logic.structure.Chapter.Companion.chapter
 import com.github.benpollarduk.ktvn.logic.structure.Scene.Companion.scene
 import com.github.benpollarduk.ktvn.logic.structure.steps.Then.Companion.next
-import com.github.benpollarduk.ktvn.logic.structure.steps.Then.Companion.then
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 

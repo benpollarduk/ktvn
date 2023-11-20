@@ -1,4 +1,4 @@
-package com.github.benpollarduk.ktvn.logic.adapters.default
+package com.github.benpollarduk.ktvn.logic.adapters.standard
 
 import com.github.benpollarduk.ktvn.characters.AnimateListener
 import com.github.benpollarduk.ktvn.characters.Animation
@@ -16,9 +16,9 @@ import com.github.benpollarduk.ktvn.logic.structure.AcknowledgeListener
 import com.github.benpollarduk.ktvn.text.log.LogElement
 
 /**
- * Provides a default [CharacterAdapter] with a specified [gameEngine].
+ * Provides a standard [CharacterAdapter] with a specified [gameEngine].
  */
-internal class DefaultCharacterAdapter(private val gameEngine: GameEngine) : CharacterAdapter {
+internal class StandardCharacterAdapter(private val gameEngine: GameEngine) : CharacterAdapter {
     override val emoteAcknowledgementListener: AcknowledgeListener = object : AcknowledgeListener {
         override fun waitFor() {
             gameEngine.acknowledgeCharacterEmotionChanged()

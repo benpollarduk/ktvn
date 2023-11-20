@@ -4,7 +4,7 @@ import com.github.benpollarduk.ktvn.audio.AudioManager
 import com.github.benpollarduk.ktvn.characters.Character
 import com.github.benpollarduk.ktvn.characters.Narrator
 import com.github.benpollarduk.ktvn.console.AnsiConsoleGameEngine
-import com.github.benpollarduk.ktvn.logic.configuration.DefaultGameConfiguration
+import com.github.benpollarduk.ktvn.logic.configuration.StandardGameConfiguration
 
 /**
  * An object that acts as a store for the games assets.
@@ -18,7 +18,7 @@ internal object AssetStore {
     /**
      *  The configuration for interacting with the game.
      */
-    internal val configuration = DefaultGameConfiguration(engine)
+    internal val configuration = StandardGameConfiguration(engine)
 
     /**
      * The narrator - responsible for narrating the story.
