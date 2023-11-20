@@ -9,6 +9,6 @@ public data class StepIdentifier(
     public val step: Int
 ) {
     override fun toString(): String {
-        return "$chapter.$scene.$step"
+        return "$chapter-$scene-$step"
     }
 }

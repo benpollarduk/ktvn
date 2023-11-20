@@ -4,32 +4,30 @@ package com.github.benpollarduk.ktvn.logic.structure
  * Provides a class that can generate instances of [StepIdentifier].
  */
 internal class StepIdentifierGenerator {
-    private val chapters: MutableList<Chapter> = mutableListOf()
-    private val scenes: MutableMap<Scene, Int> = mutableMapOf()
+    private val data: MutableMap<Chapter, MutableMap<Scene, Int>> = mutableMapOf()
 
     /**
      * Reset generation.
      */
     internal fun reset() {
-        chapters.clear()
-        scenes.clear()
+        data.clear()
     }
 
     /**
      * Get the next identifier.
      */
     internal fun next(chapter: Chapter, scene: Scene): StepIdentifier {
-        if (!chapters.contains(chapter)) {
-            chapters.add(chapter)
+        if (!data.contains(chapter)) {
+            data[chapter] = mutableMapOf()
         }
 
-        val current = scenes[scene]
-        if (current == null) {
-            scenes[scene] = 0
-        } else {
-            scenes[scene] = current + 1
-        }
+        val chapterIndex = data.keys.indexOf(chapter)
+        val sceneMap = data[chapter] ?: mutableMapOf()
+        val sceneIndex = if (sceneMap.keys.contains(scene)) sceneMap.keys.indexOf(scene) else sceneMap.keys.count()
+        var step = sceneMap[scene] ?: 0
+        step++
+        sceneMap[scene] = step
 
-        return StepIdentifier(chapters.indexOf(chapter), scenes.keys.indexOf(scene), scenes[scene] ?: 0)
+        return StepIdentifier(chapterIndex + 1, sceneIndex + 1, step)
     }
 }
