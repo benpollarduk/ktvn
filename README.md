@@ -301,9 +301,11 @@ create a game engine that integrates with an ANSI compatible console.
 
 The UI and the GameEngine will be unique for each project. In app-ktvn-example-console the UI is provided by the 
 terminal and **AnsiConsoleGameEngine** interacts directly with this.
+
 ![ktvn-sequencing-overview-components.png](docs%2Fktvn-sequencing-overview-components.png)
 
 The following sequence diagram shows the sequence of starting a game and a character speaking then asking a question:
+
 ![ktvn-sequencing-overview.png](docs%2Fktvn-sequencing-overview.png)
 
 # For Open Questions
