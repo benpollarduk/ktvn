@@ -125,8 +125,7 @@ internal class AnsiConsoleGameEngine(
     }
 
     /**
-     * Wait for entry followed by the enter key. A cancellation token must be provided to
-     *      * support cancellation.
+     * Wait for entry followed by the enter key. A cancellation token must be provided to support cancellation.
      */
     private fun waitForInput(cancellationToken: CancellationToken): String {
         // put in manual mode
