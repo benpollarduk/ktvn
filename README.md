@@ -266,10 +266,17 @@ The ending that was reached can be specified with the **ending** keyword.
 
 For further examples please see the ktvn-example directory in the repo.
 
+# Progression #
+Progression through a story is controlled by the **ProgressionController**, which is part of the **GameEngine**. The 
+following progression modes are supported:
+* Wait for acknowledgement - the user must acknowledge each step.
+* Skip - previously viewed steps will be skipped.
+* Auto - the step will be acknowledged after a specified time.
+
 # Integration #
 Ktvn provides a structure, DSL and flow control for creating visual novels, but it does not provide a framework for 
 creating UIs and managing assets. Many frameworks for this exist. To integrate with a story a **GameConfiguration** is 
-required. The easiest way of achiveing this is by using **StandardGameConfiguration** with a **GameEngine**. 
+required. The easiest way of achieving this is by using **StandardGameConfiguration** with a **GameEngine**. 
 Please see **AnsiConsoleGameEngine** in **app-ktvn-example-console** for a simple example that demonstrates how to 
 create a game engine that integrates with an ANSI compatible console.
 
