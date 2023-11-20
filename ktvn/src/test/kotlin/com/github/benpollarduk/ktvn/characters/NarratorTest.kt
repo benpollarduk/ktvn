@@ -4,7 +4,7 @@ import com.github.benpollarduk.ktvn.logic.Answer
 import com.github.benpollarduk.ktvn.logic.Answer.Companion.answer
 import com.github.benpollarduk.ktvn.logic.Question
 import com.github.benpollarduk.ktvn.logic.Question.Companion.question
-import com.github.benpollarduk.ktvn.logic.configuration.NarratorConfiguration
+import com.github.benpollarduk.ktvn.logic.adapters.NarratorAdapter
 import com.github.benpollarduk.ktvn.logic.structure.AcknowledgeListener
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
@@ -38,7 +38,7 @@ class NarratorTest {
     fun `given a narrator when narrate then narrates is called`() {
         // Given
         var called = false
-        val configuration: NarratorConfiguration = object : NarratorConfiguration {
+        val configuration: NarratorAdapter = object : NarratorAdapter {
             override val narrateAcknowledgementListener: AcknowledgeListener = emptyAcknowledgeListener
             override val answerListener: AnswerListener = emptyAnswerListener
             override val askListener: NarratorAskListener = emptyAskListener
@@ -61,7 +61,7 @@ class NarratorTest {
     fun `given a narrator when ask then asks is called`() {
         // Given
         var called = false
-        val configuration: NarratorConfiguration = object : NarratorConfiguration {
+        val configuration: NarratorAdapter = object : NarratorAdapter {
             override val narrateAcknowledgementListener: AcknowledgeListener = emptyAcknowledgeListener
             override val answerListener: AnswerListener = emptyAnswerListener
             override val narrateListener: NarrateListener = emptyNarrateListener

@@ -1,0 +1,36 @@
+package com.github.benpollarduk.ktvn.setup
+
+import com.github.benpollarduk.ktvn.characters.AnswerListener
+import com.github.benpollarduk.ktvn.characters.NarrateListener
+import com.github.benpollarduk.ktvn.characters.Narrator
+import com.github.benpollarduk.ktvn.characters.NarratorAskListener
+import com.github.benpollarduk.ktvn.logic.Answer
+import com.github.benpollarduk.ktvn.logic.Question
+import com.github.benpollarduk.ktvn.logic.adapters.NarratorAdapter
+import com.github.benpollarduk.ktvn.logic.structure.AcknowledgeListener
+
+internal class TestNarratorAdapter : NarratorAdapter {
+    override val narrateAcknowledgementListener: AcknowledgeListener = object : AcknowledgeListener {
+        override fun waitFor() {
+            // nothing
+        }
+    }
+
+    override val askListener: NarratorAskListener = object : NarratorAskListener {
+        override fun ask(narrator: Narrator, question: Question, answerListener: AnswerListener): Answer {
+            return question.answers.first()
+        }
+    }
+
+    override val narrateListener: NarrateListener = object : NarrateListener {
+        override fun narrate(narrator: Narrator, line: String, acknowledgement: AcknowledgeListener) {
+            // nothing
+        }
+    }
+
+    override val answerListener: AnswerListener = object : AnswerListener {
+        override fun waitFor(question: Question): Answer {
+            return question.answers.first()
+        }
+    }
+}

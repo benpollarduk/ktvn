@@ -14,7 +14,7 @@ internal fun introduction(): Scene {
         scene background ColorBackground.emptyBackground
         scene type SceneType.Narrative
         scene layout Layout.createLayout {
-            it configure configuration.layoutConfiguration
+            it configure configuration.gameAdapter.layoutAdapter
         }
         scene steps listOf(
             next { narrator narrates "Many years have passed since Michel moved into the mansion." },

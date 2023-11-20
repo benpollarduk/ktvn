@@ -9,7 +9,7 @@ import com.github.benpollarduk.ktvn.layout.Positions.leftOf
 import com.github.benpollarduk.ktvn.layout.Positions.none
 import com.github.benpollarduk.ktvn.layout.Positions.right
 import com.github.benpollarduk.ktvn.layout.Positions.rightOf
-import com.github.benpollarduk.ktvn.logic.configuration.LayoutConfiguration
+import com.github.benpollarduk.ktvn.logic.adapters.LayoutAdapter
 
 /**
  * Provides a layout for positioning characters.
@@ -17,7 +17,7 @@ import com.github.benpollarduk.ktvn.logic.configuration.LayoutConfiguration
 @Suppress("TooManyFunctions")
 public class Layout private constructor(setup: (Layout) -> Unit) {
     private val mutablePositions: MutableList<CharacterPosition> = mutableListOf()
-    private var configuration: LayoutConfiguration? = null
+    private var configuration: LayoutAdapter? = null
 
     /**
      * Get the number of characters in this layout.
@@ -74,7 +74,7 @@ public class Layout private constructor(setup: (Layout) -> Unit) {
     /**
      * Specify the [configuration].
      */
-    public infix fun configure(configuration: LayoutConfiguration) {
+    public infix fun configure(configuration: LayoutAdapter) {
         this.configuration = configuration
     }
 

@@ -29,12 +29,10 @@ public class SequencedTextController(private val sequencer: TextSequencer) {
     }
 
     /**
-     * Skip any running sequencing.
+     * Skip any running or pending sequencing.
      */
     public fun skip() {
-        if (sequencer.sequencing) {
-            sequencer.requestAll()
-        }
+        sequencer.requestAll()
     }
 
     /**

@@ -1,10 +1,10 @@
 package com.github.benpollarduk.ktvn.logic.structure
 
 import com.github.benpollarduk.ktvn.io.restore.StoryRestorePoint
-import com.github.benpollarduk.ktvn.io.tracking.hash.HashStepTracker
+import com.github.benpollarduk.ktvn.io.tracking.identifier.StepIdentifierTracker
 import com.github.benpollarduk.ktvn.logic.Ending
 import com.github.benpollarduk.ktvn.logic.Flags
-import com.github.benpollarduk.ktvn.logic.configuration.StoryConfiguration
+import com.github.benpollarduk.ktvn.logic.adapters.StoryAdapter
 import com.github.benpollarduk.ktvn.logic.structure.Chapter.Companion.chapter
 import com.github.benpollarduk.ktvn.logic.structure.Scene.Companion.scene
 import com.github.benpollarduk.ktvn.logic.structure.Story.Companion.story
@@ -50,7 +50,7 @@ class StoryTest {
         }
     }
 
-    private val configuration: StoryConfiguration = object : StoryConfiguration {
+    private val configuration: StoryAdapter = object : StoryAdapter {
         override val chapterListener: ChapterListener = emptyChapterListener
         override val sceneListener: SceneListener = emptySceneListener
         override val stepListener: StepListener = emptyStepListener
@@ -104,7 +104,7 @@ class StoryTest {
                 Flags(),
                 StoryRestorePoint.start,
                 configuration,
-                HashStepTracker(),
+                StepIdentifierTracker(),
                 CancellationToken()
             )
         )
@@ -135,7 +135,7 @@ class StoryTest {
                 Flags(),
                 StoryRestorePoint.start,
                 configuration,
-                HashStepTracker(),
+                StepIdentifierTracker(),
                 CancellationToken()
             )
         )
@@ -167,7 +167,7 @@ class StoryTest {
                 exitCalled = true
             }
         }
-        val configuration: StoryConfiguration = object : StoryConfiguration {
+        val configuration: StoryAdapter = object : StoryAdapter {
             override val chapterListener: ChapterListener = chapterListener
             override val sceneListener: SceneListener = emptySceneListener
             override val stepListener: StepListener = emptyStepListener
@@ -179,7 +179,7 @@ class StoryTest {
                 Flags(),
                 StoryRestorePoint.start,
                 configuration,
-                HashStepTracker(),
+                StepIdentifierTracker(),
                 CancellationToken()
             )
         )
@@ -216,7 +216,7 @@ class StoryTest {
                 // nothing
             }
         }
-        val configuration: StoryConfiguration = object : StoryConfiguration {
+        val configuration: StoryAdapter = object : StoryAdapter {
             override val chapterListener: ChapterListener = emptyChapterListener
             override val sceneListener: SceneListener = sceneListener
             override val stepListener: StepListener = emptyStepListener
@@ -228,7 +228,7 @@ class StoryTest {
                 Flags(),
                 StoryRestorePoint.start,
                 configuration,
-                HashStepTracker(),
+                StepIdentifierTracker(),
                 CancellationToken()
             )
         )
@@ -264,7 +264,7 @@ class StoryTest {
                 clearCalled = true
             }
         }
-        val configuration: StoryConfiguration = object : StoryConfiguration {
+        val configuration: StoryAdapter = object : StoryAdapter {
             override val chapterListener: ChapterListener = emptyChapterListener
             override val sceneListener: SceneListener = sceneListener
             override val stepListener: StepListener = emptyStepListener
@@ -276,7 +276,7 @@ class StoryTest {
                 Flags(),
                 StoryRestorePoint.start,
                 configuration,
-                HashStepTracker(),
+                StepIdentifierTracker(),
                 CancellationToken()
             )
         )

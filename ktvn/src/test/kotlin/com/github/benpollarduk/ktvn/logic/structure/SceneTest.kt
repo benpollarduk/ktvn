@@ -1,6 +1,6 @@
 package com.github.benpollarduk.ktvn.logic.structure
 
-import com.github.benpollarduk.ktvn.io.tracking.hash.HashStepTracker
+import com.github.benpollarduk.ktvn.io.tracking.identifier.StepIdentifierTracker
 import com.github.benpollarduk.ktvn.layout.Layout.Companion.createLayout
 import com.github.benpollarduk.ktvn.logic.structure.Scene.Companion.scene
 import com.github.benpollarduk.ktvn.logic.structure.steps.Then.Companion.then
@@ -70,7 +70,7 @@ class SceneTest {
     fun `given unseen then step when checking can skip step then return false`() {
         // Given
         val step = then { }
-        val tracker = HashStepTracker()
+        val tracker = StepIdentifierTracker()
         val scene = scene {
             it steps listOf(
                 step
@@ -88,7 +88,7 @@ class SceneTest {
     fun `given seen then step when checking can skip step then return true`() {
         // Given
         val step = then { }
-        val tracker = HashStepTracker()
+        val tracker = StepIdentifierTracker()
         tracker.registerStepSeen(step)
         val scene = scene {
             it steps listOf(

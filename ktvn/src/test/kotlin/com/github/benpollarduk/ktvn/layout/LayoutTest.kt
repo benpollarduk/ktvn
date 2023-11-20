@@ -12,8 +12,8 @@ import com.github.benpollarduk.ktvn.layout.Positions.left
 import com.github.benpollarduk.ktvn.layout.Positions.right
 import com.github.benpollarduk.ktvn.logic.Answer
 import com.github.benpollarduk.ktvn.logic.Question
-import com.github.benpollarduk.ktvn.logic.configuration.CharacterConfiguration
-import com.github.benpollarduk.ktvn.logic.configuration.LayoutConfiguration
+import com.github.benpollarduk.ktvn.logic.adapters.CharacterAdapter
+import com.github.benpollarduk.ktvn.logic.adapters.LayoutAdapter
 import com.github.benpollarduk.ktvn.logic.structure.AcknowledgeListener
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
@@ -55,7 +55,7 @@ class LayoutTest {
         }
     }
 
-    private val characterConfiguration: CharacterConfiguration = object : CharacterConfiguration {
+    private val characterAdapter: CharacterAdapter = object : CharacterAdapter {
         override val emoteAcknowledgementListener: AcknowledgeListener = acknowledgementListener
         override val speakAcknowledgementListener: AcknowledgeListener = acknowledgementListener
         override val animateAcknowledgementListener: AcknowledgeListener = acknowledgementListener
@@ -72,7 +72,7 @@ class LayoutTest {
         val layout = Layout.createLayout { }
         val character = Character(
             "",
-            characterConfiguration
+            characterAdapter
         )
 
         // When
@@ -88,7 +88,7 @@ class LayoutTest {
         val layout = Layout.createLayout { }
         val character = Character(
             "",
-            characterConfiguration
+            characterAdapter
         )
 
         // When
@@ -104,7 +104,7 @@ class LayoutTest {
         val layout = Layout.createLayout { }
         val character = Character(
             "",
-            characterConfiguration
+            characterAdapter
         )
 
         // When
@@ -120,7 +120,7 @@ class LayoutTest {
         val layout = Layout.createLayout { }
         val character = Character(
             "",
-            characterConfiguration
+            characterAdapter
         )
 
         // When
@@ -136,7 +136,7 @@ class LayoutTest {
         val layout = Layout.createLayout { }
         val character = Character(
             "",
-            characterConfiguration
+            characterAdapter
         )
 
         // When
@@ -160,14 +160,14 @@ class LayoutTest {
                 called = true
             }
         }
-        val configuration: LayoutConfiguration = object : LayoutConfiguration {
+        val configuration: LayoutAdapter = object : LayoutAdapter {
             override val moveAcknowledgementListener: AcknowledgeListener = acknowledgementListener
             override val moveListener: MoveListener = moveListener
         }
         val layout = Layout.createLayout { it configure configuration }
         val character = Character(
             "",
-            characterConfiguration
+            characterAdapter
         )
         layout.add(character, left)
 
