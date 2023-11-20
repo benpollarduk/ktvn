@@ -5,7 +5,7 @@ package com.github.benpollarduk.ktvn.audio
  */
 public interface AudioListener {
     /**
-     * Invoke the listener for sfx with a specified [soundEffect].
+     * Invoke the listener for playSoundEffect with a specified [soundEffect].
      */
     public fun sfx(soundEffect: SoundEffect)
 }

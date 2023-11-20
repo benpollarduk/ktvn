@@ -1,18 +1,21 @@
 package com.github.benpollarduk.ktvn.logic
 
-import com.github.benpollarduk.ktvn.io.Save
+import com.github.benpollarduk.ktvn.io.game.GameSave
+import com.github.benpollarduk.ktvn.io.restore.RestorePoint
 import com.github.benpollarduk.ktvn.logic.configuration.GameConfiguration
 import com.github.benpollarduk.ktvn.logic.structure.CancellationToken
 import com.github.benpollarduk.ktvn.logic.structure.Story
+import com.github.benpollarduk.ktvn.logic.structure.StoryBeginParameters
 import java.util.concurrent.locks.ReentrantLock
 
 /**
- * An executable game with a specified [story], [gameConfiguration] and optional [save].
+ * An executable game with a specified [story], [gameConfiguration] and optional [gameSave] and [restorePoint].
  */
 public class Game(
     private val story: Story,
     private val gameConfiguration: GameConfiguration,
-    private val save: Save = Save.empty
+    private val gameSave: GameSave,
+    private val restorePoint: RestorePoint = RestorePoint.empty
 ) {
     private val cancellationToken = CancellationToken()
     private val endingsReached: MutableList<Ending> = mutableListOf()
@@ -34,10 +37,13 @@ public class Game(
         startTimeInSeconds = System.currentTimeMillis() / MILLISECONDS_PER_SECOND
 
         val ending = story.begin(
-            Flags.fromMap(save.flags),
-            save.storyRestorePoint,
-            gameConfiguration.storyConfiguration,
-            cancellationToken
+            StoryBeginParameters(
+                Flags.fromMap(restorePoint.flags),
+                restorePoint.storyRestorePoint,
+                gameConfiguration.gameAdapter.storyAdapter,
+                gameConfiguration.stepTracker,
+                cancellationToken
+            )
         )
 
         try {
@@ -56,7 +62,7 @@ public class Game(
         return if (cancellationToken.wasCancelled) {
             GameExecutionResult.cancelled
         } else {
-            GameExecutionResult(true, ending, getSave("Reached ending ${ending.name}"))
+            GameExecutionResult(true, ending, getGameSave())
         }
     }
 
@@ -68,9 +74,20 @@ public class Game(
     }
 
     /**
-     * Get a [Save] for the game with a specified [name].
+     * Get a [RestorePoint] for the game with a specified [name].
      */
-    public fun getSave(name: String): Save {
+    public fun getRestorePoint(name: String): RestorePoint {
+        return RestorePoint(
+            name,
+            story.flags.toMap(),
+            story.createRestorePoint()
+        )
+    }
+
+    /**
+     * Get a [GameSave] for the game.
+     */
+    public fun getGameSave(): GameSave {
         val additionalTimeInSeconds = if (isExecuting) {
             (System.currentTimeMillis() / MILLISECONDS_PER_SECOND) - startTimeInSeconds
         } else {
@@ -86,11 +103,8 @@ public class Game(
             lock.unlock()
         }
 
-        return Save(
-            name,
-            story.flags.toMap(),
-            story.createRestorePoint(),
-            save.totalSeconds + additionalTimeInSeconds,
+        return GameSave(
+            gameSave.totalSeconds + additionalTimeInSeconds,
             endings
         )
     }

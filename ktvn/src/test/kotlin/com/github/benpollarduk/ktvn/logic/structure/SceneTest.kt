@@ -1,5 +1,6 @@
 package com.github.benpollarduk.ktvn.logic.structure
 
+import com.github.benpollarduk.ktvn.io.tracking.identifier.StepIdentifierTracker
 import com.github.benpollarduk.ktvn.layout.Layout.Companion.createLayout
 import com.github.benpollarduk.ktvn.logic.structure.Scene.Companion.scene
 import com.github.benpollarduk.ktvn.logic.structure.steps.Then.Companion.then
@@ -63,5 +64,42 @@ class SceneTest {
 
         // Then
         Assertions.assertEquals(1, result)
+    }
+
+    @Test
+    fun `given unseen then step when checking can skip step then return false`() {
+        // Given
+        val step = then { }
+        val tracker = StepIdentifierTracker()
+        val scene = scene {
+            it steps listOf(
+                step
+            )
+        }
+
+        // When
+        val result = scene.canSkipStep(step, tracker)
+
+        // Then
+        Assertions.assertFalse(result)
+    }
+
+    @Test
+    fun `given seen then step when checking can skip step then return true`() {
+        // Given
+        val step = then { }
+        val tracker = StepIdentifierTracker()
+        tracker.registerStepSeen(step)
+        val scene = scene {
+            it steps listOf(
+                step
+            )
+        }
+
+        // When
+        val result = scene.canSkipStep(step, tracker)
+
+        // Then
+        Assertions.assertTrue(result)
     }
 }

@@ -6,11 +6,13 @@ import com.github.benpollarduk.ktvn.audio.Track
 import com.github.benpollarduk.ktvn.backgrounds.Background
 import com.github.benpollarduk.ktvn.backgrounds.ColorBackground.Companion.emptyBackground
 import com.github.benpollarduk.ktvn.backgrounds.ResourceBackground.Companion.backgroundFromResource
-import com.github.benpollarduk.ktvn.io.CharacterRestorePoint
-import com.github.benpollarduk.ktvn.io.SceneRestorePoint
+import com.github.benpollarduk.ktvn.io.restore.CharacterRestorePoint
+import com.github.benpollarduk.ktvn.io.restore.SceneRestorePoint
+import com.github.benpollarduk.ktvn.io.tracking.StepTracker
 import com.github.benpollarduk.ktvn.layout.Layout
 import com.github.benpollarduk.ktvn.layout.Layout.Companion.createLayout
-import com.github.benpollarduk.ktvn.logic.Flags
+import com.github.benpollarduk.ktvn.logic.structure.steps.Pause
+import com.github.benpollarduk.ktvn.logic.structure.steps.Then
 
 /**
  * A scene within a [Chapter].
@@ -65,6 +67,38 @@ public class Scene private constructor(setup: (Scene) -> Unit) {
 
     init {
         setup(this)
+    }
+
+    /**
+     * Get all steps in this scene.
+     */
+    internal fun getAllSteps(): List<Step> {
+        return content.toList()
+    }
+
+    /**
+     * Determine if a [step] Can be skipped. Skipping depends on a combination of the type of step and if it has
+     * already been seen.
+     */
+    internal fun canSkipStep(step: Step, stepTracker: StepTracker): Boolean {
+        return when (step) {
+            is Then -> stepTracker.hasBeenSeen(step)
+            is Pause -> stepTracker.hasBeenSeen(step)
+            else -> false
+        }
+    }
+
+    /**
+     * Restore this [Scene] from a [sceneRestorePoint].
+     */
+    private fun restore(sceneRestorePoint: SceneRestorePoint) {
+        if (sceneRestorePoint != SceneRestorePoint.start) {
+            layout.clear()
+            sceneRestorePoint.characterRestorePoints.forEach {
+                layout.add(it.character, it.position)
+                it.character.looks(it.emotion)
+            }
+        }
     }
 
     /**
@@ -149,31 +183,27 @@ public class Scene private constructor(setup: (Scene) -> Unit) {
     }
 
     /**
-     * Begin the scene with specified [flags]. The [sceneRestorePoint] specifies where the scene restores from.
-     * The [sceneListener] allows events to be invoked for this scene. A [cancellationToken] must be provided to allow
-     * for the chapter to be cancelled.
+     * Begin the scene with specified [parameters]. The [sceneListener] allows events to be invoked for this
+     * scene. The [stepListener] allows events to be invoked for steps within the scene. Returns a [SceneResult].
      */
     internal fun begin(
-        flags: Flags,
-        sceneRestorePoint: SceneRestorePoint,
+        parameters: SceneBeginParameters,
         sceneListener: SceneListener,
-        cancellationToken: CancellationToken
+        stepListener: StepListener
     ): SceneResult {
-        var indexOfCurrentStep = sceneRestorePoint.step
+        var indexOfCurrentStep = parameters.sceneRestorePoint.step
         var sceneResult: SceneResult? = null
-
-        if (sceneRestorePoint != SceneRestorePoint.start) {
-            layout.clear()
-            sceneRestorePoint.characterRestorePoints.forEach {
-                layout.add(it.character, it.position)
-                it.character.looks(it.emotion)
-            }
-        }
-
+        restore(parameters.sceneRestorePoint)
         sceneListener.enter(this, transitionIn)
 
         while (indexOfCurrentStep < content.size) {
-            when (val result = content[indexOfCurrentStep](flags, cancellationToken)) {
+            val step = content[indexOfCurrentStep]
+            stepListener.enter(step, canSkipStep(step, parameters.stepTracker), parameters.cancellationToken)
+
+            val result = step(parameters.flags, parameters.cancellationToken)
+            parameters.stepTracker.registerStepSeen(step)
+
+            when (result) {
                 StepResult.Cancelled -> {
                     sceneResult = SceneResult.Cancelled
                 }
@@ -197,6 +227,8 @@ public class Scene private constructor(setup: (Scene) -> Unit) {
                     sceneListener.clear(this)
                 }
             }
+
+            stepListener.exit(step)
 
             if (sceneResult != null) {
                 break

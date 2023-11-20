@@ -1,31 +1,19 @@
 package com.github.benpollarduk.ktvn.logic.configuration
 
+import com.github.benpollarduk.ktvn.io.tracking.StepTracker
+import com.github.benpollarduk.ktvn.logic.adapters.GameAdapter
+
 /**
  * Provides a configuration for a [Game].
  */
 public interface GameConfiguration {
     /**
-     * Get the configuration for characters.
+     * Get [StepTracker] used to track which [Step] have been seen.
      */
-    public val characterConfiguration: CharacterConfiguration
+    public val stepTracker: StepTracker
 
     /**
-     * Get the configuration for narration.
+     * Get the adapter for the [Game].
      */
-    public val narratorConfiguration: NarratorConfiguration
-
-    /**
-     * Get the configuration for layout.
-     */
-    public val layoutConfiguration: LayoutConfiguration
-
-    /**
-     * Get the configuration for story.
-     */
-    public val storyConfiguration: StoryConfiguration
-
-    /**
-     * Get the configuration for audio.
-     */
-    public val audioConfiguration: AudioConfiguration
+    public val gameAdapter: GameAdapter
 }

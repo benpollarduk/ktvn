@@ -4,7 +4,7 @@ import com.github.benpollarduk.ktvn.logic.Answer
 import com.github.benpollarduk.ktvn.logic.Answer.Companion.answer
 import com.github.benpollarduk.ktvn.logic.Question
 import com.github.benpollarduk.ktvn.logic.Question.Companion.question
-import com.github.benpollarduk.ktvn.logic.configuration.NarratorConfiguration
+import com.github.benpollarduk.ktvn.logic.adapters.NarratorAdapter
 import com.github.benpollarduk.ktvn.logic.structure.AcknowledgeListener
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
@@ -16,11 +16,7 @@ class NarratorTest {
         }
     }
 
-    private val emptyAskListener = object : AskListener {
-        override fun ask(character: Character, question: Question, answerListener: AnswerListener): Answer {
-            return question.answers.first()
-        }
-
+    private val emptyAskListener = object : NarratorAskListener {
         override fun ask(narrator: Narrator, question: Question, answerListener: AnswerListener): Answer {
             return question.answers.first()
         }
@@ -42,10 +38,10 @@ class NarratorTest {
     fun `given a narrator when narrate then narrates is called`() {
         // Given
         var called = false
-        val configuration: NarratorConfiguration = object : NarratorConfiguration {
+        val configuration: NarratorAdapter = object : NarratorAdapter {
             override val narrateAcknowledgementListener: AcknowledgeListener = emptyAcknowledgeListener
             override val answerListener: AnswerListener = emptyAnswerListener
-            override val askListener: AskListener = emptyAskListener
+            override val askListener: NarratorAskListener = emptyAskListener
             override val narrateListener: NarrateListener = object : NarrateListener {
                 override fun narrate(narrator: Narrator, line: String, acknowledgement: AcknowledgeListener) {
                     called = true
@@ -65,15 +61,11 @@ class NarratorTest {
     fun `given a narrator when ask then asks is called`() {
         // Given
         var called = false
-        val configuration: NarratorConfiguration = object : NarratorConfiguration {
+        val configuration: NarratorAdapter = object : NarratorAdapter {
             override val narrateAcknowledgementListener: AcknowledgeListener = emptyAcknowledgeListener
             override val answerListener: AnswerListener = emptyAnswerListener
             override val narrateListener: NarrateListener = emptyNarrateListener
-            override val askListener: AskListener = object : AskListener {
-                override fun ask(character: Character, question: Question, answerListener: AnswerListener): Answer {
-                    return answer { }
-                }
-
+            override val askListener: NarratorAskListener = object : NarratorAskListener {
                 override fun ask(narrator: Narrator, question: Question, answerListener: AnswerListener): Answer {
                     called = true
                     return answer { }

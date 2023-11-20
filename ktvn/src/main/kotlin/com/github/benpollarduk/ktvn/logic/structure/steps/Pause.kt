@@ -3,6 +3,7 @@ package com.github.benpollarduk.ktvn.logic.structure.steps
 import com.github.benpollarduk.ktvn.logic.Flags
 import com.github.benpollarduk.ktvn.logic.structure.CancellationToken
 import com.github.benpollarduk.ktvn.logic.structure.Step
+import com.github.benpollarduk.ktvn.logic.structure.StepIdentifier
 import com.github.benpollarduk.ktvn.logic.structure.StepResult
 import kotlin.math.min
 
@@ -14,6 +15,8 @@ public class Pause private constructor(private val setup: (Pause) -> Unit) : Ste
 
     override var name: String = "Pause"
         private set
+
+    override var identifier: StepIdentifier = StepIdentifier(0, 0, 0)
 
     init {
         setup(this)

@@ -3,6 +3,7 @@ package com.github.benpollarduk.ktvn.logic.structure.steps
 import com.github.benpollarduk.ktvn.logic.Flags
 import com.github.benpollarduk.ktvn.logic.structure.CancellationToken
 import com.github.benpollarduk.ktvn.logic.structure.Step
+import com.github.benpollarduk.ktvn.logic.structure.StepIdentifier
 import com.github.benpollarduk.ktvn.logic.structure.StepResult
 
 /**
@@ -11,6 +12,8 @@ import com.github.benpollarduk.ktvn.logic.structure.StepResult
 public class Clear private constructor(private val setup: (Clear) -> Unit) : Step {
     override var name: String = "Clear"
         private set
+
+    override var identifier: StepIdentifier = StepIdentifier(0, 0, 0)
 
     init {
         setup(this)

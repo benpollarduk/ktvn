@@ -1,9 +1,10 @@
 package com.github.benpollarduk.ktvn.logic.structure
 
-import com.github.benpollarduk.ktvn.io.StoryRestorePoint
+import com.github.benpollarduk.ktvn.io.restore.StoryRestorePoint
+import com.github.benpollarduk.ktvn.io.tracking.identifier.StepIdentifierTracker
 import com.github.benpollarduk.ktvn.logic.Ending
 import com.github.benpollarduk.ktvn.logic.Flags
-import com.github.benpollarduk.ktvn.logic.configuration.StoryConfiguration
+import com.github.benpollarduk.ktvn.logic.adapters.StoryAdapter
 import com.github.benpollarduk.ktvn.logic.structure.Chapter.Companion.chapter
 import com.github.benpollarduk.ktvn.logic.structure.Scene.Companion.scene
 import com.github.benpollarduk.ktvn.logic.structure.Story.Companion.story
@@ -24,6 +25,7 @@ class StoryTest {
             // nothing
         }
     }
+
     private val emptySceneListener = object : SceneListener {
         override fun enter(scene: Scene, transition: SceneTransition) {
             // nothing
@@ -38,9 +40,20 @@ class StoryTest {
         }
     }
 
-    private val configuration: StoryConfiguration = object : StoryConfiguration {
+    private val emptyStepListener = object : StepListener {
+        override fun enter(step: Step, canSkip: Boolean, cancellationToken: CancellationToken) {
+            // nothing
+        }
+
+        override fun exit(step: Step) {
+            // nothing
+        }
+    }
+
+    private val configuration: StoryAdapter = object : StoryAdapter {
         override val chapterListener: ChapterListener = emptyChapterListener
         override val sceneListener: SceneListener = emptySceneListener
+        override val stepListener: StepListener = emptyStepListener
     }
 
     @Test
@@ -86,7 +99,15 @@ class StoryTest {
         }
 
         // When
-        val result = story.begin(Flags(), StoryRestorePoint.start, configuration, CancellationToken())
+        val result = story.begin(
+            StoryBeginParameters(
+                Flags(),
+                StoryRestorePoint.start,
+                configuration,
+                StepIdentifierTracker(),
+                CancellationToken()
+            )
+        )
 
         // Then
         Assertions.assertEquals(0, result.number)
@@ -109,7 +130,15 @@ class StoryTest {
         }
 
         // When
-        val result = story.begin(Flags(), StoryRestorePoint.start, configuration, CancellationToken())
+        val result = story.begin(
+            StoryBeginParameters(
+                Flags(),
+                StoryRestorePoint.start,
+                configuration,
+                StepIdentifierTracker(),
+                CancellationToken()
+            )
+        )
 
         // Then
         Assertions.assertEquals(1, result.number)
@@ -138,13 +167,22 @@ class StoryTest {
                 exitCalled = true
             }
         }
-        val configuration: StoryConfiguration = object : StoryConfiguration {
+        val configuration: StoryAdapter = object : StoryAdapter {
             override val chapterListener: ChapterListener = chapterListener
             override val sceneListener: SceneListener = emptySceneListener
+            override val stepListener: StepListener = emptyStepListener
         }
 
         // When
-        story.begin(Flags(), StoryRestorePoint.start, configuration, CancellationToken())
+        story.begin(
+            StoryBeginParameters(
+                Flags(),
+                StoryRestorePoint.start,
+                configuration,
+                StepIdentifierTracker(),
+                CancellationToken()
+            )
+        )
 
         // Then
         Assertions.assertTrue(enterCalled)
@@ -178,13 +216,22 @@ class StoryTest {
                 // nothing
             }
         }
-        val configuration: StoryConfiguration = object : StoryConfiguration {
+        val configuration: StoryAdapter = object : StoryAdapter {
             override val chapterListener: ChapterListener = emptyChapterListener
             override val sceneListener: SceneListener = sceneListener
+            override val stepListener: StepListener = emptyStepListener
         }
 
         // When
-        story.begin(Flags(), StoryRestorePoint.start, configuration, CancellationToken())
+        story.begin(
+            StoryBeginParameters(
+                Flags(),
+                StoryRestorePoint.start,
+                configuration,
+                StepIdentifierTracker(),
+                CancellationToken()
+            )
+        )
 
         // Then
         Assertions.assertTrue(enterCalled)
@@ -217,13 +264,22 @@ class StoryTest {
                 clearCalled = true
             }
         }
-        val configuration: StoryConfiguration = object : StoryConfiguration {
+        val configuration: StoryAdapter = object : StoryAdapter {
             override val chapterListener: ChapterListener = emptyChapterListener
             override val sceneListener: SceneListener = sceneListener
+            override val stepListener: StepListener = emptyStepListener
         }
 
         // When
-        story.begin(Flags(), StoryRestorePoint.start, configuration, CancellationToken())
+        story.begin(
+            StoryBeginParameters(
+                Flags(),
+                StoryRestorePoint.start,
+                configuration,
+                StepIdentifierTracker(),
+                CancellationToken()
+            )
+        )
 
         // Then
         Assertions.assertTrue(clearCalled)

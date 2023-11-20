@@ -1,0 +1,45 @@
+participant UI
+participant GameExecutor
+participant Game
+participant Story
+participant Chapter
+participant Scene
+participant Step
+participant Character
+participant CharacterAdapter
+participant GameEngine
+participant ProgressionController
+
+note over Step: Then
+
+UI->GameExecutor: execute
+GameExecutor->Game: execute
+Game->Story: begin
+Story->Chapter: begin
+Chapter->Scene: begin
+Scene->Step: invoke
+Step->Character: speak
+Character->CharacterAdapter: speak
+CharacterAdapter->GameEngine: characterSpeaks
+GameEngine->UI: display
+GameEngine->ProgressionController: awaitAcknowledgement
+UI->ProgressionController: ack
+ProgressionController->GameEngine: ack
+GameEngine->CharacterAdapter: ack
+CharacterAdapter->Character: ack
+Character->Step: ack
+Step->Scene: result
+Scene->Step: invoke
+Step->Character: ask
+Character->CharacterAdapter: ask
+CharacterAdapter->GameEngine: characterAsksQuestion
+GameEngine->UI: display
+UI->GameEngine: answer
+GameEngine->CharacterAdapter: answer
+CharacterAdapter->Character: answer
+Character->Step: answer
+Step->Scene: result
+Scene->Chapter: result
+Chapter->Story: result
+Story->Game: ending
+Game->GameExecutor: result

@@ -13,14 +13,12 @@ import com.github.benpollarduk.ktvn.console.story.assets.AssetStore.narrator
 import com.github.benpollarduk.ktvn.layout.Layout
 import com.github.benpollarduk.ktvn.logic.Answer.Companion.answer
 import com.github.benpollarduk.ktvn.logic.Ending
-import com.github.benpollarduk.ktvn.logic.Ending.Companion.default
 import com.github.benpollarduk.ktvn.logic.Question.Companion.question
 import com.github.benpollarduk.ktvn.logic.structure.Scene
 import com.github.benpollarduk.ktvn.logic.structure.StepResult
 import com.github.benpollarduk.ktvn.logic.structure.StepResult.Continue
 import com.github.benpollarduk.ktvn.logic.structure.steps.Conditional.Companion.conditional
 import com.github.benpollarduk.ktvn.logic.structure.steps.Decision.Companion.decision
-import com.github.benpollarduk.ktvn.logic.structure.steps.End.Companion.end
 import com.github.benpollarduk.ktvn.logic.structure.steps.Then.Companion.next
 
 @Suppress("LongMethod")
@@ -32,7 +30,7 @@ internal fun insideTheMansion(): Scene {
         scene layout Layout.createLayout { layout ->
             layout addLeftOf michel
             layout addRightOf morgana
-            layout configure configuration.layoutConfiguration
+            layout configure configuration.gameAdapter.layoutAdapter
         }
         scene steps listOf(
             next {
