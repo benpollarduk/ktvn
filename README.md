@@ -9,9 +9,12 @@ Please visit [https://benpollarduk.github.io/ktvn-docs/](https://benpollarduk.gi
 
 # Getting Started
 * Clone the repo
-* Build and run the included terminal application:
+* Build the example
 ```bash
-./gradlew clean build
+./gradlew :app-ktvn-example-console:build
+```
+* Run the example
+```bash
 cd app-ktvn-example-console/build/libs
 java -jar app-ktvn-example-console-all.jar
 ```
