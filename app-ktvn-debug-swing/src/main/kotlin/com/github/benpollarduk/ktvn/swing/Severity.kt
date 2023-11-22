@@ -5,17 +5,17 @@ package com.github.benpollarduk.ktvn.swing
  */
 public enum class Severity {
     /**
-     * Info.
+     * INFO.
      */
-    Info,
+    INFO,
 
     /**
-     * Debug
+     * DEBUG
      */
-    Debug,
+    DEBUG,
 
     /**
-     * Error.
+     * ERROR.
      */
-    Error
+    ERROR
 }

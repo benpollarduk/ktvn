@@ -28,8 +28,10 @@ public class JTextAreaSequencedTextArea : JTextArea(), SequencedTextArea {
 
     override val areaWidth: Int
         get() = width
+
     override val areaHeight: Int
         get() = height
+    
     override val areaFont: Font
         get() = font
 

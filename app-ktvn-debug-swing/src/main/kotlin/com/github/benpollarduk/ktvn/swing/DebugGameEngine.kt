@@ -31,7 +31,6 @@ import com.github.benpollarduk.ktvn.text.sequencing.TimeBasedTextSequencer
 import java.awt.Color
 import java.awt.image.BufferedImage
 import java.io.File
-import java.io.IOException
 import javax.imageio.ImageIO
 
 /**
@@ -64,28 +63,33 @@ public class DebugGameEngine(
         textController.render(frames)
     }
 
-    private fun getBackgroundFromFile(path: String): BufferedImage {
+    private fun getBackgroundFromFile(path: String): BufferedImage? {
         val imageFile = File(path)
 
-        if (!imageFile.exists()) {
-            throw IOException("Image file not found: $path")
+        return if (imageFile.exists()) {
+            ImageIO.read(imageFile)
+        } else {
+            eventTerminal.println(Severity.ERROR, "Image file not found: $path")
+            null
         }
-
-        return ImageIO.read(imageFile)
     }
 
-    private fun getBackgroundFromResource(key: String): BufferedImage {
-        val inputStream = javaClass.getResourceAsStream(key) ?: throw IOException("Resource not found: $key")
-        return ImageIO.read(inputStream)
+    private fun getBackgroundFromResource(key: String): BufferedImage? {
+        val inputStream = javaClass.getResourceAsStream(key)
+        return if (inputStream != null) {
+            ImageIO.read(inputStream)
+        } else {
+            eventTerminal.println(Severity.ERROR, "Image resource not found: $key")
+            null
+        }
     }
 
     private fun getBackgroundFromColor(color: Color): BufferedImage {
-        val image = BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB)
+        val image = BufferedImage(background.resolutionWidth, background.resolutionHeight, BufferedImage.TYPE_INT_RGB)
         val g = image.createGraphics()
         g.color = color
-        g.fillRect(0, 0, 100, 100)
+        g.fillRect(0, 0, background.resolutionWidth, background.resolutionHeight)
         g.dispose()
-
         return image
     }
 
@@ -146,34 +150,35 @@ public class DebugGameEngine(
     }
 
     override fun enterStory(story: Story) {
-        eventTerminal.println(Severity.Info, "Started story '${story.name}'.")
+        eventTerminal.println(Severity.INFO, "Started story '${story.name}'.")
     }
 
     override fun exitStory(story: Story) {
-        eventTerminal.println(Severity.Info, "Ended story '${story.name}'.")
+        eventTerminal.println(Severity.INFO, "Ended story '${story.name}'.")
     }
 
     override fun enterChapter(chapter: Chapter, transition: ChapterTransition) {
-        eventTerminal.println(Severity.Info, "Started chapter '${chapter.name}' with transition $transition.")
+        eventTerminal.println(Severity.INFO, "Started chapter '${chapter.name}' with transition $transition.")
     }
 
     override fun exitChapter(chapter: Chapter) {
-        eventTerminal.println(Severity.Info, "Finished chapter '${chapter.name}'.")
+        eventTerminal.println(Severity.INFO, "Finished chapter '${chapter.name}'.")
     }
 
     override fun enterScene(scene: Scene, transition: SceneTransition) {
-        when (val bk = scene.background) {
-            is ResourceBackground -> background.set(getBackgroundFromResource(bk.key))
-            is ColorBackground -> background.set(getBackgroundFromColor(bk.color))
-            is FileBackground -> background.set(getBackgroundFromFile(bk.path))
-            else -> background.set(getBackgroundFromColor(Color.white))
-        }
+        val backgroundImage = when (val bk = scene.background) {
+            is ResourceBackground -> getBackgroundFromResource(bk.key)
+            is ColorBackground -> getBackgroundFromColor(bk.color)
+            is FileBackground -> getBackgroundFromFile(bk.path)
+            else -> null
+        } ?: getBackgroundFromColor(Color.GRAY)
 
-        eventTerminal.println(Severity.Info, "Started scene '${scene.name}' with transition $transition.")
+        background.setImage(backgroundImage)
+        eventTerminal.println(Severity.INFO, "Started scene '${scene.name}' with transition $transition.")
     }
 
     override fun exitScene(scene: Scene, transition: SceneTransition) {
-        eventTerminal.println(Severity.Info, "Finished scene '${scene.name}' with transition $transition.")
+        eventTerminal.println(Severity.INFO, "Finished scene '${scene.name}' with transition $transition.")
     }
 
     override fun clearScene(scene: Scene) {
@@ -181,10 +186,10 @@ public class DebugGameEngine(
     }
 
     override fun enterStep(step: Step, canSkip: Boolean, cancellationToken: CancellationToken) {
-        eventTerminal.println(Severity.Info, "Started step '${step.name}' (${step.identifier}).")
+        eventTerminal.println(Severity.INFO, "Started step '${step.name}' (${step.identifier}).")
     }
 
     override fun exitStep(step: Step) {
-        eventTerminal.println(Severity.Info, "Finished step '${step.name}' (${step.identifier}).")
+        eventTerminal.println(Severity.INFO, "Finished step '${step.name}' (${step.identifier}).")
     }
 }

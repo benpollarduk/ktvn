@@ -7,7 +7,15 @@ import java.awt.image.BufferedImage
  */
 public interface Background {
     /**
+     * Get the resolution width.
+     */
+    public val resolutionWidth: Int
+    /**
+     * Get the resolution height.
+     */
+    public val resolutionHeight: Int
+    /**
      * Set the [image].
      */
-    fun set(image: BufferedImage)
+    public fun setImage(image: BufferedImage)
 }

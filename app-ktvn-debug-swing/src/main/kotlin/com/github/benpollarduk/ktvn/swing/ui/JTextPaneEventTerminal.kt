@@ -65,9 +65,9 @@ public class JTextPaneEventTerminal(
          * Get the default colors to use for different [Severity].
          */
         public val defaultColors: Map<Severity, Color> = mapOf(
-            Severity.Info to Color.GRAY,
-            Severity.Debug to Color.WHITE,
-            Severity.Error to Color.RED
+            Severity.INFO to Color.GRAY,
+            Severity.DEBUG to Color.WHITE,
+            Severity.ERROR to Color.RED
         )
     }
 }
