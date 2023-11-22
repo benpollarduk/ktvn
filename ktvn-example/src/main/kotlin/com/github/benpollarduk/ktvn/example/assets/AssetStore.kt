@@ -3,14 +3,16 @@ package com.github.benpollarduk.ktvn.example.assets
 import com.github.benpollarduk.ktvn.audio.AudioManager
 import com.github.benpollarduk.ktvn.characters.Character
 import com.github.benpollarduk.ktvn.characters.Narrator
-import com.github.benpollarduk.ktvn.logic.configuration.GameConfiguration
-import com.github.benpollarduk.ktvn.logic.configuration.StandardGameConfiguration
+import com.github.benpollarduk.ktvn.logic.configuration.LateGameConfiguration
 
 /**
  * An object that acts as a store for the games assets.
  */
 public object AssetStore {
-    internal val configuration: GameConfiguration = StandardGameConfiguration()
+    /**
+     * Get the game configuration.
+     */
+    internal val configuration: LateGameConfiguration = LateGameConfiguration()
 
     /**
      * The narrator - responsible for narrating the story.

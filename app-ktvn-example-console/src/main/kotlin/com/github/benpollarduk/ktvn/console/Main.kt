@@ -1,14 +1,13 @@
 package com.github.benpollarduk.ktvn.console
 
-import com.github.benpollarduk.ktvn.example.TheFateOfMorgana
 import com.github.benpollarduk.ktvn.console.Persistence.persistGameSave
 import com.github.benpollarduk.ktvn.console.Persistence.persistStepData
 import com.github.benpollarduk.ktvn.console.Persistence.restoreGameSave
 import com.github.benpollarduk.ktvn.console.Persistence.restoreStepData
+import com.github.benpollarduk.ktvn.example.TheFateOfMorgana
 import com.github.benpollarduk.ktvn.io.restore.RestorePoint
 import com.github.benpollarduk.ktvn.logic.Game
 import com.github.benpollarduk.ktvn.logic.GameExecutor
-import com.github.benpollarduk.ktvn.logic.configuration.StandardGameConfiguration
 import org.apache.logging.log4j.kotlin.Logging
 
 object Main : Logging {
@@ -18,9 +17,14 @@ object Main : Logging {
     internal val engine = AnsiConsoleGameEngine()
 
     /**
-     *  The configuration for interacting with the game.
+     * The story.
      */
-    internal val configuration = StandardGameConfiguration(engine)
+    internal val story = TheFateOfMorgana()
+
+    /**
+     *  The configuration for interacting with the game, with the engine applied.
+     */
+    internal val configuration = story.configuration.also { it.gameEngine = engine }
 
     @JvmStatic
     fun main(args: Array<String>) {
@@ -33,7 +37,7 @@ object Main : Logging {
         restoreStepData()
 
         // create an example game
-        val exampleGame = Game(TheFateOfMorgana().instantiate(), configuration, gameSave, RestorePoint.empty)
+        val exampleGame = Game(story.instantiate(), configuration, gameSave, RestorePoint.empty)
 
         // execute the game on its own thread
         GameExecutor.executeAysnc(exampleGame) {

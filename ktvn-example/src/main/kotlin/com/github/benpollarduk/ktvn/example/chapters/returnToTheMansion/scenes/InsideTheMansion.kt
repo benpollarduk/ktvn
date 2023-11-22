@@ -37,7 +37,7 @@ internal fun insideTheMansion(): Scene {
                 scene.layout moveLeft michel
                 michel looks normal
                 michel says "Morgana, are you there?"
-             },
+            },
             next {
                 scene.layout moveRight morgana
                 morgana looks angry

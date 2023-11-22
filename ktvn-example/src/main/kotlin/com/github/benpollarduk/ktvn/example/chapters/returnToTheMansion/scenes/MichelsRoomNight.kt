@@ -17,7 +17,7 @@ import com.github.benpollarduk.ktvn.logic.structure.steps.Conditional.Companion.
 import com.github.benpollarduk.ktvn.logic.structure.steps.Decision.Companion.decision
 import com.github.benpollarduk.ktvn.logic.structure.steps.Then.Companion.next
 
-@Suppress("LongMethod")
+@Suppress("LongMethod", "MaxLineLength")
 internal fun michelsRoomNight(): Scene {
     return Scene.scene { scene ->
         scene name "Michel's Room (Night)"
@@ -32,7 +32,7 @@ internal fun michelsRoomNight(): Scene {
             next {
                 michel looks normal
                 narrator narrates "Michel returned to his chambers. As night came down he thought about the witch."
-             },
+            },
             next { narrator narrates "How did she become so vile? Surely her backstory must be a loathsome tale filled with pain and hatred?" },
             next { narrator narrates "It was approaching midnight and Michel felt weary." },
             decision { decision ->
@@ -70,13 +70,13 @@ internal fun michelsRoomNight(): Scene {
                 morgana looks normal
                 morgana says "Can't sleep dear? Why, do you suffer from insomnia? I would have thought the long days in this mansion would have bored you in to a state of constant slumber!"
                 morgana looks amused
-             },
+            },
             next {
                 michel looks disappointed
                 michel says "Morgana, must you always be so disagreeable?"
-             },
+            },
             next { morgana says "That is an opinion. I find myself agreeable to a tee." },
-            next { narrator narrates "Without saying another word Michel blew out the candle and quickly fell in to a deep sleep." },
+            next { narrator narrates "Without saying another word Michel blew out the candle and quickly fell in to a deep sleep." }
         )
     }
 }

@@ -13,7 +13,7 @@ import com.github.benpollarduk.ktvn.logic.structure.steps.Conditional.Companion.
 import com.github.benpollarduk.ktvn.logic.structure.steps.End.Companion.end
 import com.github.benpollarduk.ktvn.logic.structure.steps.Then.Companion.next
 
-@Suppress("LongMethod")
+@Suppress("LongMethod", "MaxLineLength")
 internal fun michelsRoomMorning(): Scene {
     return Scene.scene { scene ->
         scene name "Michel's Room (Morning)"

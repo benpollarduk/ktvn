@@ -6,12 +6,11 @@ import com.github.benpollarduk.ktvn.io.restore.RestorePoint
 import com.github.benpollarduk.ktvn.logic.Game
 import com.github.benpollarduk.ktvn.logic.GameEngine
 import com.github.benpollarduk.ktvn.logic.GameExecutor
-import com.github.benpollarduk.ktvn.logic.configuration.GameConfiguration
-import com.github.benpollarduk.ktvn.logic.configuration.StandardGameConfiguration
 import com.github.benpollarduk.ktvn.logic.structure.Story
 import com.github.benpollarduk.ktvn.swing.ui.JLabelBackground
 import com.github.benpollarduk.ktvn.swing.ui.JTextAreaSequencedTextArea
 import com.github.benpollarduk.ktvn.swing.ui.JTextPaneEventTerminal
+import org.apache.logging.log4j.kotlin.Logging
 import java.awt.BorderLayout
 import java.awt.Dimension
 import javax.swing.JFileChooser
@@ -22,7 +21,6 @@ import javax.swing.JMenuItem
 import javax.swing.JSplitPane
 import javax.swing.SwingUtilities
 import javax.swing.filechooser.FileNameExtensionFilter
-import org.apache.logging.log4j.kotlin.Logging
 
 @Suppress("MagicNumber")
 class App : JFrame("Ktvn Debugger"), Logging {
@@ -32,8 +30,11 @@ class App : JFrame("Ktvn Debugger"), Logging {
         it.preferredSize = Dimension(0, 80)
         it.minimumSize = it.preferredSize
     }
+    private val story = TheFateOfMorgana()
     private val engine: GameEngine = DebugGameEngine(eventTerminal, background, sequencedTextArea)
-    private val configuration: GameConfiguration = StandardGameConfiguration(engine)
+    private val configuration = story.configuration.also {
+        it.gameEngine = engine
+    }
 
     init {
         // set up main frame

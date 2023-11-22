@@ -27,6 +27,6 @@ class StoryCatalogResolverTest {
 
         // Then
         Assertions.assertEquals(1, result.get().size)
-        Assertions.assertEquals("ktvn demo", result.get().first().name)
+        Assertions.assertEquals("Test", result.get().first().name)
     }
 }

@@ -43,11 +43,13 @@ public class DebugGameEngine(
     private val background: Background,
     private val sequencedTextArea: SequencedTextArea
 ) : GameEngine {
-    private val textController = SequencedTextController(TimeBasedTextSequencer {
-        for (position in it) {
-            sequencedTextArea.print(position.character, position.column, position.row)
+    private val textController = SequencedTextController(
+        TimeBasedTextSequencer {
+            for (position in it) {
+                sequencedTextArea.print(position.character, position.column, position.row)
+            }
         }
-    })
+    )
 
     override val log: Log = Log()
     override val progressionController: ProgressionController = ProgressionController()
@@ -62,7 +64,7 @@ public class DebugGameEngine(
         textController.render(frames)
     }
 
-    private fun getBackgroundFromFile(path: String) : BufferedImage {
+    private fun getBackgroundFromFile(path: String): BufferedImage {
         val imageFile = File(path)
 
         if (!imageFile.exists()) {
@@ -72,12 +74,12 @@ public class DebugGameEngine(
         return ImageIO.read(imageFile)
     }
 
-    private fun getBackgroundFromResource(key: String) : BufferedImage {
+    private fun getBackgroundFromResource(key: String): BufferedImage {
         val inputStream = javaClass.getResourceAsStream(key) ?: throw IOException("Resource not found: $key")
         return ImageIO.read(inputStream)
     }
 
-    private fun getBackgroundFromColor(color: Color) : BufferedImage {
+    private fun getBackgroundFromColor(color: Color): BufferedImage {
         val image = BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB)
         val g = image.createGraphics()
         g.color = color
