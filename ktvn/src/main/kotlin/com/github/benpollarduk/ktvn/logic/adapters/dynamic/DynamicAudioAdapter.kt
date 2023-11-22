@@ -1,4 +1,4 @@
-package com.github.benpollarduk.ktvn.logic.adapters.late
+package com.github.benpollarduk.ktvn.logic.adapters.dynamic
 
 import com.github.benpollarduk.ktvn.audio.AudioListener
 import com.github.benpollarduk.ktvn.audio.SoundEffect
@@ -8,7 +8,7 @@ import com.github.benpollarduk.ktvn.logic.adapters.AudioAdapter
 /**
  * Provides an [AudioAdapter] with a [gameEngine] that can be specified after initialization.
  */
-internal class LateAudioAdapter(internal var gameEngine: GameEngine? = null) : AudioAdapter {
+internal class DynamicAudioAdapter(internal var gameEngine: GameEngine? = null) : AudioAdapter {
     override val audioListener: AudioListener = object : AudioListener {
         override fun sfx(soundEffect: SoundEffect) {
             gameEngine?.playSoundEffect(soundEffect)

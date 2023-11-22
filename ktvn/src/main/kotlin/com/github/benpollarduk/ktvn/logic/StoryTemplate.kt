@@ -1,6 +1,6 @@
 package com.github.benpollarduk.ktvn.logic
 
-import com.github.benpollarduk.ktvn.logic.configuration.LateGameConfiguration
+import com.github.benpollarduk.ktvn.logic.configuration.DynamicGameConfiguration
 import com.github.benpollarduk.ktvn.logic.structure.Story
 
 /**
@@ -10,7 +10,7 @@ public open class StoryTemplate {
     /**.
      * Get the game configuration.
      */
-    public open val configuration: LateGameConfiguration? = null
+    public open val configuration: DynamicGameConfiguration? = null
 
     /**
      * Instantiate a new instance of the templated [Story].

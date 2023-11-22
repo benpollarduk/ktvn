@@ -1,4 +1,4 @@
-package com.github.benpollarduk.ktvn.logic.adapters.standard
+package com.github.benpollarduk.ktvn.logic.adapters.static
 
 import com.github.benpollarduk.ktvn.characters.Character
 import com.github.benpollarduk.ktvn.layout.MoveListener
@@ -8,9 +8,9 @@ import com.github.benpollarduk.ktvn.logic.adapters.LayoutAdapter
 import com.github.benpollarduk.ktvn.logic.structure.AcknowledgeListener
 
 /**
- * Provides a standard [LayoutAdapter] with a specified [gameEngine].
+ * Provides a [LayoutAdapter] with a specified [gameEngine].
  */
-internal class StandardLayoutAdapter(private val gameEngine: GameEngine) : LayoutAdapter {
+internal class StaticLayoutAdapter(private val gameEngine: GameEngine) : LayoutAdapter {
     override val moveAcknowledgementListener: AcknowledgeListener = object : AcknowledgeListener {
         override fun waitFor() {
             gameEngine.acknowledgeLayoutMovement()

@@ -1,4 +1,4 @@
-package com.github.benpollarduk.ktvn.logic.adapters.late
+package com.github.benpollarduk.ktvn.logic.adapters.static
 
 import com.github.benpollarduk.ktvn.logic.GameEngine
 import com.github.benpollarduk.ktvn.logic.adapters.StoryAdapter
@@ -15,50 +15,50 @@ import com.github.benpollarduk.ktvn.logic.structure.Story
 import com.github.benpollarduk.ktvn.logic.structure.StoryListener
 
 /**
- * Provides a [StoryAdapter] with a [gameEngine] that can be specified after initialization.
+ * Provides a [StoryAdapter] with a specified [gameEngine].
  */
-internal class LateStoryAdapter(private var gameEngine: GameEngine? = null) : StoryAdapter {
+internal class StaticStoryAdapter(private val gameEngine: GameEngine) : StoryAdapter {
     override val storyListener: StoryListener = object : StoryListener {
         override fun enter(story: Story) {
-            gameEngine?.enterStory(story)
+            gameEngine.enterStory(story)
         }
 
         override fun exit(story: Story) {
-            gameEngine?.exitStory(story)
+            gameEngine.exitStory(story)
         }
     }
 
     override val chapterListener: ChapterListener = object : ChapterListener {
         override fun enter(chapter: Chapter, transition: ChapterTransition) {
-            gameEngine?.enterChapter(chapter, transition)
+            gameEngine.enterChapter(chapter, transition)
         }
 
         override fun exit(chapter: Chapter) {
-            gameEngine?.exitChapter(chapter)
+            gameEngine.exitChapter(chapter)
         }
     }
 
     override val sceneListener: SceneListener = object : SceneListener {
         override fun enter(scene: Scene, transition: SceneTransition) {
-            gameEngine?.enterScene(scene, transition)
+            gameEngine.enterScene(scene, transition)
         }
 
         override fun exit(scene: Scene, transition: SceneTransition) {
-            gameEngine?.exitScene(scene, transition)
+            gameEngine.exitScene(scene, transition)
         }
 
         override fun clear(scene: Scene) {
-            gameEngine?.clearScene(scene)
+            gameEngine.clearScene(scene)
         }
     }
 
     override val stepListener: StepListener = object : StepListener {
         override fun enter(step: Step, canSkip: Boolean, cancellationToken: CancellationToken) {
-            gameEngine?.enterStep(step, canSkip, cancellationToken)
+            gameEngine.enterStep(step, canSkip, cancellationToken)
         }
 
         override fun exit(step: Step) {
-            gameEngine?.exitStep(step)
+            gameEngine.exitStep(step)
         }
     }
 }

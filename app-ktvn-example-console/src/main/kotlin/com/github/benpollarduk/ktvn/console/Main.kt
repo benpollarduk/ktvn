@@ -53,7 +53,7 @@ object Main : Logging {
 
         // allow the console engine to process input from the console.
         // this will block the thread until consoleGameController.endProcessingInput is called
-        engine.beginProcessingInput()
+        // engine.beginProcessingInput()
 
         logger.info("Ended execution of example.")
     }

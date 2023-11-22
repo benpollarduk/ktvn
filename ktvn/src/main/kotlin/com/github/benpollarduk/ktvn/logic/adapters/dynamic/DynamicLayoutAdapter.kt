@@ -1,4 +1,4 @@
-package com.github.benpollarduk.ktvn.logic.adapters.late
+package com.github.benpollarduk.ktvn.logic.adapters.dynamic
 
 import com.github.benpollarduk.ktvn.characters.Character
 import com.github.benpollarduk.ktvn.layout.MoveListener
@@ -10,7 +10,7 @@ import com.github.benpollarduk.ktvn.logic.structure.AcknowledgeListener
 /**
  * Provides a [LayoutAdapter] with a [gameEngine] that can be specified after initialization.
  */
-internal class LateLayoutAdapter(private var gameEngine: GameEngine? = null) : LayoutAdapter {
+internal class DynamicLayoutAdapter(internal var gameEngine: GameEngine? = null) : LayoutAdapter {
     override val moveAcknowledgementListener: AcknowledgeListener = object : AcknowledgeListener {
         override fun waitFor() {
             gameEngine?.acknowledgeLayoutMovement()
