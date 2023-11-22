@@ -1,10 +1,6 @@
 package com.github.benpollarduk.ktvn.example.chapters.prologue
 
-import com.github.benpollarduk.ktvn.introduction
-
--example.story.chapters.prologue
-
-import com.github.benpollarduk.ktvn.console.story.chapters.prologue.scenes.introduction
+import com.github.benpollarduk.ktvn.example.chapters.prologue.scenes.introduction
 import com.github.benpollarduk.ktvn.logic.structure.Chapter
 import com.github.benpollarduk.ktvn.logic.structure.Chapter.Companion.chapter
 

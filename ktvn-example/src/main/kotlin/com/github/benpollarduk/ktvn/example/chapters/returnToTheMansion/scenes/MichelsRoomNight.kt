@@ -1,15 +1,13 @@
 package com.github.benpollarduk.ktvn.example.chapters.returnToTheMansion.scenes
 
--example.story.chapters.returnToTheMansion.scenes
-
 import com.github.benpollarduk.ktvn.characters.Emotions.amused
 import com.github.benpollarduk.ktvn.characters.Emotions.disappointed
 import com.github.benpollarduk.ktvn.characters.Emotions.normal
 import com.github.benpollarduk.ktvn.characters.Emotions.sleepy
-import com.github.benpollarduk.ktvn.console.story.assets.AssetStore.configuration
-import com.github.benpollarduk.ktvn.console.story.assets.AssetStore.michel
-import com.github.benpollarduk.ktvn.console.story.assets.AssetStore.morgana
-import com.github.benpollarduk.ktvn.console.story.assets.AssetStore.narrator
+import com.github.benpollarduk.ktvn.example.assets.AssetStore.configuration
+import com.github.benpollarduk.ktvn.example.assets.AssetStore.michel
+import com.github.benpollarduk.ktvn.example.assets.AssetStore.morgana
+import com.github.benpollarduk.ktvn.example.assets.AssetStore.narrator
 import com.github.benpollarduk.ktvn.layout.Layout
 import com.github.benpollarduk.ktvn.logic.Answer.Companion.answer
 import com.github.benpollarduk.ktvn.logic.Question.Companion.question

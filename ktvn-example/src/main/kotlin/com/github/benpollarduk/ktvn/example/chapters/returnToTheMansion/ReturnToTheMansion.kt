@@ -3,12 +3,6 @@ package com.github.benpollarduk.ktvn.example.chapters.returnToTheMansion
 import com.github.benpollarduk.ktvn.example.chapters.returnToTheMansion.scenes.insideTheMansion
 import com.github.benpollarduk.ktvn.example.chapters.returnToTheMansion.scenes.michelsRoomMorning
 import com.github.benpollarduk.ktvn.example.chapters.returnToTheMansion.scenes.michelsRoomNight
-
--example.story.chapters.returnToTheMansion
-
-import com.github.benpollarduk.ktvn.console.story.chapters.returnToTheMansion.scenes.insideTheMansion
-import com.github.benpollarduk.ktvn.console.story.chapters.returnToTheMansion.scenes.michelsRoomMorning
-import com.github.benpollarduk.ktvn.console.story.chapters.returnToTheMansion.scenes.michelsRoomNight
 import com.github.benpollarduk.ktvn.logic.structure.Chapter
 import com.github.benpollarduk.ktvn.logic.structure.Chapter.Companion.chapter
 

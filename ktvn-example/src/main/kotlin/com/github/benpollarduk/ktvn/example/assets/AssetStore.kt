@@ -4,12 +4,13 @@ import com.github.benpollarduk.ktvn.audio.AudioManager
 import com.github.benpollarduk.ktvn.characters.Character
 import com.github.benpollarduk.ktvn.characters.Narrator
 import com.github.benpollarduk.ktvn.logic.configuration.GameConfiguration
+import com.github.benpollarduk.ktvn.logic.configuration.StandardGameConfiguration
 
 /**
  * An object that acts as a store for the games assets.
  */
 public object AssetStore {
-    private val configuration: GameConfiguration
+    internal val configuration: GameConfiguration = StandardGameConfiguration()
 
     /**
      * The narrator - responsible for narrating the story.

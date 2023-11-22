@@ -1,8 +1,8 @@
-package com.github.benpollarduk.ktvn-example.story.chapters.prologue.scenes
+package com.github.benpollarduk.ktvn.example.chapters.prologue.scenes
 
 import com.github.benpollarduk.ktvn.backgrounds.ColorBackground
-import com.github.benpollarduk.ktvn.console.story.assets.AssetStore.configuration
-import com.github.benpollarduk.ktvn.console.story.assets.AssetStore.narrator
+import com.github.benpollarduk.ktvn.example.assets.AssetStore.configuration
+import com.github.benpollarduk.ktvn.example.assets.AssetStore.narrator
 import com.github.benpollarduk.ktvn.layout.Layout
 import com.github.benpollarduk.ktvn.logic.structure.Scene
 import com.github.benpollarduk.ktvn.logic.structure.SceneType
