@@ -20,6 +20,7 @@ import com.github.benpollarduk.ktvn.logic.structure.ChapterTransition
 import com.github.benpollarduk.ktvn.logic.structure.Scene
 import com.github.benpollarduk.ktvn.logic.structure.SceneTransition
 import com.github.benpollarduk.ktvn.logic.structure.Step
+import com.github.benpollarduk.ktvn.logic.structure.Story
 import com.github.benpollarduk.ktvn.text.frames.CharacterConstrainedTextFrame
 import com.github.benpollarduk.ktvn.text.frames.TextFrame
 import com.github.benpollarduk.ktvn.text.frames.TextFrameParameters
@@ -319,8 +320,16 @@ internal class AnsiConsoleGameEngine(
         clear()
     }
 
-    override fun enterChapter(chapter: Chapter, transition: ChapterTransition) {
+    override fun enterStory(story: Story) {
         clear()
+        printlnDirectTemp("Started story '${story.name}'.")
+    }
+
+    override fun exitStory(story: Story) {
+        printlnDirectTemp("Ended story '${story.name}'.")
+    }
+
+    override fun enterChapter(chapter: Chapter, transition: ChapterTransition) {
         printlnDirectTemp("Started chapter '${chapter.name}' with transition $transition.")
     }
 

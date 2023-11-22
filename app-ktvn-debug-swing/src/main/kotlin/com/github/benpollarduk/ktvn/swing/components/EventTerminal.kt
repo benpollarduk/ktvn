@@ -3,7 +3,7 @@ package com.github.benpollarduk.ktvn.swing.components
 import com.github.benpollarduk.ktvn.swing.Severity
 
 /**
- * Provides an interface to an event terminal.
+ * Provides an interface for an event terminal.
  */
 public interface EventTerminal {
     /**

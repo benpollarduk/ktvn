@@ -12,6 +12,7 @@ import com.github.benpollarduk.ktvn.logic.structure.ChapterTransition
 import com.github.benpollarduk.ktvn.logic.structure.Scene
 import com.github.benpollarduk.ktvn.logic.structure.SceneTransition
 import com.github.benpollarduk.ktvn.logic.structure.Step
+import com.github.benpollarduk.ktvn.logic.structure.Story
 import com.github.benpollarduk.ktvn.text.log.Log
 
 /**
@@ -98,6 +99,16 @@ public interface GameEngine {
      * Handle a [narrator] narrating a [line].
      */
     public fun narratorNarrates(narrator: Narrator, line: String)
+
+    /**
+     * Enter a [story].
+     */
+    public fun enterStory(story: Story)
+
+    /**
+     * Exit a [story] .
+     */
+    public fun exitStory(story: Story)
 
     /**
      * Enter a [chapter] with a [transition].

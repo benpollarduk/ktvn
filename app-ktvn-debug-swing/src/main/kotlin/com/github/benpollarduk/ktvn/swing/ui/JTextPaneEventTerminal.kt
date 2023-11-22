@@ -14,8 +14,11 @@ import javax.swing.text.SimpleAttributeSet
 import javax.swing.text.StyleConstants
 import javax.swing.text.StyledDocument
 
+/**
+ * Provides a UI terminal based on a JTextPane.
+ */
 @Suppress("MagicNumber")
-public class EventTerminalJTextArea(
+public class JTextPaneEventTerminal(
     private val colors: Map<Severity, Color> = defaultColors
 ) : JScrollPane(), EventTerminal {
     private val popupMenu = JPopupMenu().also {
@@ -40,14 +43,12 @@ public class EventTerminalJTextArea(
     }
 
     private fun println(color: Color, value: String) {
-        val prefix = if (textPane.text.any()) "\n" else ""
-        val time = LocalTime.now()
-
         val doc: StyledDocument = textPane.styledDocument
         val attr = SimpleAttributeSet()
         StyleConstants.setForeground(attr, color)
-
-        doc.insertString(doc.length, " $prefix${time.format(timeFormatter)}: $value", attr)
+        val prefix = if (textPane.text.any()) "\n" else ""
+        val time = LocalTime.now()
+        doc.insertString(doc.length, "$prefix${time.format(timeFormatter)}: $value", attr)
         textPane.caretPosition = doc.length
     }
 

@@ -11,11 +11,23 @@ import com.github.benpollarduk.ktvn.logic.structure.SceneListener
 import com.github.benpollarduk.ktvn.logic.structure.SceneTransition
 import com.github.benpollarduk.ktvn.logic.structure.Step
 import com.github.benpollarduk.ktvn.logic.structure.StepListener
+import com.github.benpollarduk.ktvn.logic.structure.Story
+import com.github.benpollarduk.ktvn.logic.structure.StoryListener
 
 /**
  * Provides a standard [StoryAdapter] with a specified [gameEngine].
  */
 internal class StandardStoryAdapter(private val gameEngine: GameEngine) : StoryAdapter {
+    override val storyListener: StoryListener = object : StoryListener {
+        override fun enter(story: Story) {
+            gameEngine.enterStory(story)
+        }
+
+        override fun exit(story: Story) {
+            gameEngine.exitStory(story)
+        }
+    }
+
     override val chapterListener: ChapterListener = object : ChapterListener {
         override fun enter(chapter: Chapter, transition: ChapterTransition) {
             gameEngine.enterChapter(chapter, transition)

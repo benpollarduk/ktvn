@@ -1,46 +1,57 @@
 package com.github.benpollarduk.ktvn.swing
 
-import com.github.benpollarduk.ktvn.swing.ui.EventTerminalJTextArea
-import org.apache.logging.log4j.kotlin.Logging
+import com.github.benpollarduk.ktvn.io.game.GameSave
+import com.github.benpollarduk.ktvn.io.restore.RestorePoint
+import com.github.benpollarduk.ktvn.logic.Game
+import com.github.benpollarduk.ktvn.logic.GameEngine
+import com.github.benpollarduk.ktvn.logic.GameExecutor
+import com.github.benpollarduk.ktvn.logic.configuration.GameConfiguration
+import com.github.benpollarduk.ktvn.logic.configuration.StandardGameConfiguration
+import com.github.benpollarduk.ktvn.logic.structure.Story
+import com.github.benpollarduk.ktvn.swing.example.example
+import com.github.benpollarduk.ktvn.swing.ui.JLabelBackground
+import com.github.benpollarduk.ktvn.swing.ui.JTextAreaSequencedTextArea
+import com.github.benpollarduk.ktvn.swing.ui.JTextPaneEventTerminal
 import java.awt.BorderLayout
-import java.awt.Color
 import java.awt.Dimension
 import javax.swing.JFileChooser
 import javax.swing.JFrame
-import javax.swing.JLabel
 import javax.swing.JMenu
 import javax.swing.JMenuBar
 import javax.swing.JMenuItem
 import javax.swing.JSplitPane
-import javax.swing.JTextArea
 import javax.swing.SwingUtilities
 import javax.swing.filechooser.FileNameExtensionFilter
+import org.apache.logging.log4j.kotlin.Logging
 
 @Suppress("MagicNumber")
 class App : JFrame("Ktvn Debugger"), Logging {
+    private val sequencedTextArea = JTextAreaSequencedTextArea()
+    private val background = JLabelBackground()
+    private val eventTerminal = JTextPaneEventTerminal().also {
+        it.preferredSize = Dimension(0, 80)
+        it.minimumSize = it.preferredSize
+    }
+    private val engine: GameEngine = DebugGameEngine(eventTerminal, background, sequencedTextArea)
+    private val configuration: GameConfiguration = StandardGameConfiguration(engine)
+
     init {
         // set up main frame
         this.defaultCloseOperation = EXIT_ON_CLOSE
         this.setSize(1024, 768)
 
-        val textArea = JTextArea()
-        val background = JLabel().also {
-            it.background = Color.BLACK
-        }
-
-        val imageAndStorySplitPane = JSplitPane(JSplitPane.HORIZONTAL_SPLIT, background, textArea).also {
+        val imageAndStorySplitPane = JSplitPane(
+            JSplitPane.HORIZONTAL_SPLIT,
+            background,
+            sequencedTextArea
+        ).also {
             it.resizeWeight = 0.5
-        }
-
-        val eventTerminalJTextArea = EventTerminalJTextArea().also {
-            it.preferredSize = Dimension(0, 80)
-            it.minimumSize = it.preferredSize
         }
 
         val centralSplitPane = JSplitPane(
             JSplitPane.VERTICAL_SPLIT,
             imageAndStorySplitPane,
-            eventTerminalJTextArea
+            eventTerminal
         ).also {
             it.resizeWeight = 0.8
         }
@@ -50,6 +61,9 @@ class App : JFrame("Ktvn Debugger"), Logging {
         // add panels to this frame
         this.add(createMenu(), BorderLayout.NORTH)
         this.add(centralSplitPane, BorderLayout.CENTER)
+
+        val example = example(configuration.gameAdapter)
+        beginStory(example)
 
         this.isVisible = true
     }
@@ -82,6 +96,15 @@ class App : JFrame("Ktvn Debugger"), Logging {
         gameMenuItem.add(importJarMenuItem)
         menu.add(gameMenuItem)
         return menu
+    }
+
+    private fun beginStory(story: Story) {
+        GameExecutor.cancel()
+
+        val game = Game(story, configuration, GameSave.empty, RestorePoint.empty)
+        GameExecutor.executeAysnc(game) {
+            // any post run
+        }
     }
 
     companion object {
