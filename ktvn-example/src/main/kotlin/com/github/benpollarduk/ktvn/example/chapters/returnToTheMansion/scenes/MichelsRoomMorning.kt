@@ -1,4 +1,6 @@
-package com.github.benpollarduk.ktvn.console.story.chapters.returnToTheMansion.scenes
+package com.github.benpollarduk.ktvn.example.chapters.returnToTheMansion.scenes
+
+-example.story.chapters.returnToTheMansion.scenes
 
 import com.github.benpollarduk.ktvn.characters.Emotions.concerned
 import com.github.benpollarduk.ktvn.characters.Emotions.normal

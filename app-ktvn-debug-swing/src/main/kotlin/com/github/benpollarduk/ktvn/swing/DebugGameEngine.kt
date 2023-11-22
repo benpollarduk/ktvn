@@ -37,7 +37,7 @@ import javax.imageio.ImageIO
 /**
  * A class that functions as an engine for the debugger.
  */
-@Suppress("TooManyFunctions")
+@Suppress("TooManyFunctions", "MagicNumber")
 public class DebugGameEngine(
     private val eventTerminal: EventTerminal,
     private val background: Background,

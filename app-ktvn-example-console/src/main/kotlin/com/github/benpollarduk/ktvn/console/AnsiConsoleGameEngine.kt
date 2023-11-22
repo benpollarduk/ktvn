@@ -6,8 +6,8 @@ import com.github.benpollarduk.ktvn.characters.Animation
 import com.github.benpollarduk.ktvn.characters.Character
 import com.github.benpollarduk.ktvn.characters.Emotion
 import com.github.benpollarduk.ktvn.characters.Narrator
-import com.github.benpollarduk.ktvn.console.story.assets.AssetStore.michel
-import com.github.benpollarduk.ktvn.console.story.assets.AssetStore.morgana
+import com.github.benpollarduk.ktvn.example.assets.AssetStore.michel
+import com.github.benpollarduk.ktvn.example.assets.AssetStore.morgana
 import com.github.benpollarduk.ktvn.layout.Position
 import com.github.benpollarduk.ktvn.logic.Answer
 import com.github.benpollarduk.ktvn.logic.GameEngine

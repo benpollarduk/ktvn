@@ -1,5 +1,6 @@
 package com.github.benpollarduk.ktvn.swing
 
+import com.github.benpollarduk.ktvn.example.TheFateOfMorgana
 import com.github.benpollarduk.ktvn.io.game.GameSave
 import com.github.benpollarduk.ktvn.io.restore.RestorePoint
 import com.github.benpollarduk.ktvn.logic.Game
@@ -8,7 +9,6 @@ import com.github.benpollarduk.ktvn.logic.GameExecutor
 import com.github.benpollarduk.ktvn.logic.configuration.GameConfiguration
 import com.github.benpollarduk.ktvn.logic.configuration.StandardGameConfiguration
 import com.github.benpollarduk.ktvn.logic.structure.Story
-import com.github.benpollarduk.ktvn.swing.example.example
 import com.github.benpollarduk.ktvn.swing.ui.JLabelBackground
 import com.github.benpollarduk.ktvn.swing.ui.JTextAreaSequencedTextArea
 import com.github.benpollarduk.ktvn.swing.ui.JTextPaneEventTerminal
@@ -62,8 +62,8 @@ class App : JFrame("Ktvn Debugger"), Logging {
         this.add(createMenu(), BorderLayout.NORTH)
         this.add(centralSplitPane, BorderLayout.CENTER)
 
-        val example = example(configuration.gameAdapter)
-        beginStory(example)
+        val story = TheFateOfMorgana().instantiate()
+        beginStory(story)
 
         this.isVisible = true
     }

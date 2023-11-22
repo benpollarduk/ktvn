@@ -62,6 +62,9 @@ dependencies {
 
     // Use the ktaf library
     implementation(project(":ktvn"))
+
+    // Use the ktaf example
+    implementation(project(":ktvn-example"))
 }
 
 application {

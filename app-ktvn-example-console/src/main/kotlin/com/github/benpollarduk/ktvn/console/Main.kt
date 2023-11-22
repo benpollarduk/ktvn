@@ -1,18 +1,27 @@
 package com.github.benpollarduk.ktvn.console
 
+import com.github.benpollarduk.ktvn.example.TheFateOfMorgana
 import com.github.benpollarduk.ktvn.console.Persistence.persistGameSave
 import com.github.benpollarduk.ktvn.console.Persistence.persistStepData
 import com.github.benpollarduk.ktvn.console.Persistence.restoreGameSave
 import com.github.benpollarduk.ktvn.console.Persistence.restoreStepData
-import com.github.benpollarduk.ktvn.console.story.TheFateOfMorgana
-import com.github.benpollarduk.ktvn.console.story.assets.AssetStore.configuration
-import com.github.benpollarduk.ktvn.console.story.assets.AssetStore.engine
 import com.github.benpollarduk.ktvn.io.restore.RestorePoint
 import com.github.benpollarduk.ktvn.logic.Game
 import com.github.benpollarduk.ktvn.logic.GameExecutor
+import com.github.benpollarduk.ktvn.logic.configuration.StandardGameConfiguration
 import org.apache.logging.log4j.kotlin.Logging
 
 object Main : Logging {
+    /**
+     * The engine responsible for handling all input and output.
+     */
+    internal val engine = AnsiConsoleGameEngine()
+
+    /**
+     *  The configuration for interacting with the game.
+     */
+    internal val configuration = StandardGameConfiguration(engine)
+
     @JvmStatic
     fun main(args: Array<String>) {
         logger.info("Beginning execution of example...")

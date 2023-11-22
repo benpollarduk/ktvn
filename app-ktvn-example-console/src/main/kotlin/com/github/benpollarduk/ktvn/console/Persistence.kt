@@ -1,6 +1,6 @@
 package com.github.benpollarduk.ktvn.console
 
-import com.github.benpollarduk.ktvn.console.story.assets.AssetStore.configuration
+import com.github.benpollarduk.ktvn.console.Main.configuration
 import com.github.benpollarduk.ktvn.io.LoadResult
 import com.github.benpollarduk.ktvn.io.SaveResult
 import com.github.benpollarduk.ktvn.io.game.GameSave

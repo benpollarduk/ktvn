@@ -1,4 +1,4 @@
-package com.github.benpollarduk.ktvn.console.story.chapters.prologue.scenes
+package com.github.benpollarduk.ktvn-example.story.chapters.prologue.scenes
 
 import com.github.benpollarduk.ktvn.backgrounds.ColorBackground
 import com.github.benpollarduk.ktvn.console.story.assets.AssetStore.configuration

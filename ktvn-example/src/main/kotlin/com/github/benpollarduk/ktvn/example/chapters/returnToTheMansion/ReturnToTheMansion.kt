@@ -1,4 +1,10 @@
-package com.github.benpollarduk.ktvn.console.story.chapters.returnToTheMansion
+package com.github.benpollarduk.ktvn.example.chapters.returnToTheMansion
+
+import com.github.benpollarduk.ktvn.example.chapters.returnToTheMansion.scenes.insideTheMansion
+import com.github.benpollarduk.ktvn.example.chapters.returnToTheMansion.scenes.michelsRoomMorning
+import com.github.benpollarduk.ktvn.example.chapters.returnToTheMansion.scenes.michelsRoomNight
+
+-example.story.chapters.returnToTheMansion
 
 import com.github.benpollarduk.ktvn.console.story.chapters.returnToTheMansion.scenes.insideTheMansion
 import com.github.benpollarduk.ktvn.console.story.chapters.returnToTheMansion.scenes.michelsRoomMorning
