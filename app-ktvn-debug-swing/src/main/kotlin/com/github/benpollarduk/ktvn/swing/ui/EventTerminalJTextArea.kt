@@ -3,7 +3,6 @@ package com.github.benpollarduk.ktvn.swing.ui
 import com.github.benpollarduk.ktvn.swing.Severity
 import com.github.benpollarduk.ktvn.swing.components.EventTerminal
 import java.awt.Color
-import java.awt.Dimension
 import java.awt.Font
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
@@ -35,7 +34,6 @@ public class EventTerminalJTextArea(
     private val timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss.SSS")
 
     init {
-        preferredSize = Dimension(0, 80)
         horizontalScrollBarPolicy = HORIZONTAL_SCROLLBAR_AS_NEEDED
         verticalScrollBarPolicy = VERTICAL_SCROLLBAR_ALWAYS
         setViewportView(textPane)
