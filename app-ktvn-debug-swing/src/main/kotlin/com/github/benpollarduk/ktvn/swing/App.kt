@@ -1,6 +1,7 @@
 package com.github.benpollarduk.ktvn.swing
 
 import com.github.benpollarduk.ktvn.swing.ui.EventTerminalJTextArea
+import org.apache.logging.log4j.kotlin.Logging
 import java.awt.BorderLayout
 import javax.swing.JFileChooser
 import javax.swing.JFrame
@@ -9,8 +10,8 @@ import javax.swing.JMenuBar
 import javax.swing.JMenuItem
 import javax.swing.SwingUtilities
 import javax.swing.filechooser.FileNameExtensionFilter
-import org.apache.logging.log4j.kotlin.Logging
 
+@Suppress("MagicNumber")
 class App : JFrame("Ktvn Debugger"), Logging {
     init {
         // set up main frame

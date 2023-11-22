@@ -13,6 +13,15 @@ plugins {
     // https://plugins.gradle.org/plugin/com.github.johnrengelman.shadow
     id("com.github.johnrengelman.shadow") version "8.1.1"
 
+    // https://plugins.grajlleitschuh.gradle.ktlintdle.org/plugin/org.
+    id("org.jlleitschuh.gradle.ktlint") version "11.5.1"
+
+    // https://plugins.gradle.org/plugin/org.sonarqube
+    id("org.sonarqube") version "4.3.1.3277"
+
+    // https://plugins.gradle.org/plugin/io.gitlab.arturbosch.detekt
+    id("io.gitlab.arturbosch.detekt") version "1.23.1"
+
     // Apply the application plugin to add support for building a CLI application in Java.
     application
 
@@ -42,6 +51,9 @@ dependencies {
     implementation("org.apache.logging.log4j:log4j-api:2.20.0")
     implementation("org.apache.logging.log4j:log4j-core:2.20.0")
 
+    // https://mvnrepository.com/artifact/io.gitlab.arturbosch.detekt/detekt-gradle-plugin
+    implementation("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.23.1")
+
     // Use the Kotlin test library.
     testImplementation("org.jetbrains.kotlin:kotlin-test")
 
@@ -60,7 +72,7 @@ application {
 tasks.jar {
     manifest {
         attributes(
-            "Main-Class" to "com.github.benpollarduk.ktvn.swing.App",
+            "Main-Class" to "com.github.benpollarduk.ktvn.swing.App"
         )
     }
 }
