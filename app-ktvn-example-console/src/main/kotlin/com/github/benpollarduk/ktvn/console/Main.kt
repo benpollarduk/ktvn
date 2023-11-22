@@ -4,9 +4,9 @@ import com.github.benpollarduk.ktvn.console.Persistence.persistGameSave
 import com.github.benpollarduk.ktvn.console.Persistence.persistStepData
 import com.github.benpollarduk.ktvn.console.Persistence.restoreGameSave
 import com.github.benpollarduk.ktvn.console.Persistence.restoreStepData
+import com.github.benpollarduk.ktvn.console.story.TheFateOfMorgana
 import com.github.benpollarduk.ktvn.console.story.assets.AssetStore.configuration
 import com.github.benpollarduk.ktvn.console.story.assets.AssetStore.engine
-import com.github.benpollarduk.ktvn.console.story.theFateOfMorgana
 import com.github.benpollarduk.ktvn.io.restore.RestorePoint
 import com.github.benpollarduk.ktvn.logic.Game
 import com.github.benpollarduk.ktvn.logic.GameExecutor
@@ -24,7 +24,7 @@ object Main : Logging {
         restoreStepData()
 
         // create an example game
-        val exampleGame = Game(theFateOfMorgana(), configuration, gameSave, RestorePoint.empty)
+        val exampleGame = Game(TheFateOfMorgana().instantiate(), configuration, gameSave, RestorePoint.empty)
 
         // execute the game on its own thread
         GameExecutor.executeAysnc(exampleGame) {
