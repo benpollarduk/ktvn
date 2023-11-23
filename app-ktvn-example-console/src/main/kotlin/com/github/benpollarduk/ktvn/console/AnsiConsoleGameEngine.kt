@@ -6,8 +6,8 @@ import com.github.benpollarduk.ktvn.characters.Animation
 import com.github.benpollarduk.ktvn.characters.Character
 import com.github.benpollarduk.ktvn.characters.Emotion
 import com.github.benpollarduk.ktvn.characters.Narrator
-import com.github.benpollarduk.ktvn.console.story.assets.AssetStore.michel
-import com.github.benpollarduk.ktvn.console.story.assets.AssetStore.morgana
+import com.github.benpollarduk.ktvn.example.assets.AssetStore.michel
+import com.github.benpollarduk.ktvn.example.assets.AssetStore.morgana
 import com.github.benpollarduk.ktvn.layout.Position
 import com.github.benpollarduk.ktvn.logic.Answer
 import com.github.benpollarduk.ktvn.logic.GameEngine
@@ -20,6 +20,7 @@ import com.github.benpollarduk.ktvn.logic.structure.ChapterTransition
 import com.github.benpollarduk.ktvn.logic.structure.Scene
 import com.github.benpollarduk.ktvn.logic.structure.SceneTransition
 import com.github.benpollarduk.ktvn.logic.structure.Step
+import com.github.benpollarduk.ktvn.logic.structure.Story
 import com.github.benpollarduk.ktvn.text.frames.CharacterConstrainedTextFrame
 import com.github.benpollarduk.ktvn.text.frames.TextFrame
 import com.github.benpollarduk.ktvn.text.frames.TextFrameParameters
@@ -65,10 +66,8 @@ internal class AnsiConsoleGameEngine(
                 // get the mode - if the mode is set to skip and the current step can be skipped, or skip unseen is on
                 // then skip sequencing the frame
                 val mode = progressionController.progressionMode
-                if (mode is ProgressionMode.Skip) {
-                    if (canSkipCurrentStep || mode.skipUnseen) {
-                        textController.skip()
-                    }
+                if (mode is ProgressionMode.Skip && (canSkipCurrentStep || mode.skipUnseen)) {
+                    textController.skip()
                 }
             }
 
@@ -227,28 +226,6 @@ internal class AnsiConsoleGameEngine(
         isProcessingInput = false
     }
 
-    override fun acknowledgeCharacterAnimationChanged() {
-        // nothing
-    }
-
-    override fun acknowledgeCharacterEmotionChanged() {
-        // nothing
-    }
-
-    override fun acknowledgeLayoutMovement() {
-        // nothing
-    }
-
-    override fun acknowledgeCharacterSpeak() {
-        waitForAcknowledge(cancellationToken)
-        clear()
-    }
-
-    override fun acknowledgeNarratorNarrate() {
-        waitForAcknowledge(cancellationToken)
-        clear()
-    }
-
     override fun characterSpeaks(character: Character, line: String) {
         print("${character.name}: $line", getCharacterColor(character))
     }
@@ -307,6 +284,28 @@ internal class AnsiConsoleGameEngine(
         }
     }
 
+    override fun waitForCharacterEmotionAcknowledgement() {
+        // nothing
+    }
+
+    override fun waitForCharacterAnimationAcknowledgement() {
+        // nothing
+    }
+
+    override fun waitForCharacterSpeakAcknowledgement() {
+        waitForAcknowledge(cancellationToken)
+        clear()
+    }
+
+    override fun waitForNarratorNarrateAcknowledgement() {
+        waitForAcknowledge(cancellationToken)
+        clear()
+    }
+
+    override fun waitForLayoutMovementAcknowledgement() {
+        // nothing
+    }
+
     override fun characterMoves(character: Character, from: Position, to: Position) {
         printlnDirectTemp("${character.name} moves from '$from' to '$to'.")
     }
@@ -319,8 +318,16 @@ internal class AnsiConsoleGameEngine(
         clear()
     }
 
-    override fun enterChapter(chapter: Chapter, transition: ChapterTransition) {
+    override fun enterStory(story: Story) {
         clear()
+        printlnDirectTemp("Started story '${story.name}'.")
+    }
+
+    override fun exitStory(story: Story) {
+        printlnDirectTemp("Ended story '${story.name}'.")
+    }
+
+    override fun enterChapter(chapter: Chapter, transition: ChapterTransition) {
         printlnDirectTemp("Started chapter '${chapter.name}' with transition $transition.")
     }
 

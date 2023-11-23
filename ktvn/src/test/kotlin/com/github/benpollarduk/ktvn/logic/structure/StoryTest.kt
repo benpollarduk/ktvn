@@ -16,6 +16,16 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
 class StoryTest {
+    private val emptyStoryListener = object : StoryListener {
+        override fun enter(story: Story) {
+            // nothing
+        }
+
+        override fun exit(story: Story) {
+            // nothing
+        }
+    }
+
     private val emptyChapterListener = object : ChapterListener {
         override fun enter(chapter: Chapter, transition: ChapterTransition) {
             // nothing
@@ -51,6 +61,7 @@ class StoryTest {
     }
 
     private val configuration: StoryAdapter = object : StoryAdapter {
+        override val storyListener: StoryListener = emptyStoryListener
         override val chapterListener: ChapterListener = emptyChapterListener
         override val sceneListener: SceneListener = emptySceneListener
         override val stepListener: StepListener = emptyStepListener
@@ -168,6 +179,7 @@ class StoryTest {
             }
         }
         val configuration: StoryAdapter = object : StoryAdapter {
+            override val storyListener: StoryListener = emptyStoryListener
             override val chapterListener: ChapterListener = chapterListener
             override val sceneListener: SceneListener = emptySceneListener
             override val stepListener: StepListener = emptyStepListener
@@ -217,6 +229,7 @@ class StoryTest {
             }
         }
         val configuration: StoryAdapter = object : StoryAdapter {
+            override val storyListener: StoryListener = emptyStoryListener
             override val chapterListener: ChapterListener = emptyChapterListener
             override val sceneListener: SceneListener = sceneListener
             override val stepListener: StepListener = emptyStepListener
@@ -265,6 +278,7 @@ class StoryTest {
             }
         }
         val configuration: StoryAdapter = object : StoryAdapter {
+            override val storyListener: StoryListener = emptyStoryListener
             override val chapterListener: ChapterListener = emptyChapterListener
             override val sceneListener: SceneListener = sceneListener
             override val stepListener: StepListener = emptyStepListener

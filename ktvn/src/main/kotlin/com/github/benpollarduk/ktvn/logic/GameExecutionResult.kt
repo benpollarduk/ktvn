@@ -19,5 +19,15 @@ public data class GameExecutionResult(
             Ending.noEnding,
             GameSave.empty
         )
+
+        /**
+         * Provides a default result for when a [Game] is executed from a [StoryTemplate] with either no
+         * [GameConfiguration] or no [Story].
+         */
+        public val invaidTemplate: GameExecutionResult = GameExecutionResult(
+            false,
+            Ending.noEnding,
+            GameSave.empty
+        )
     }
 }

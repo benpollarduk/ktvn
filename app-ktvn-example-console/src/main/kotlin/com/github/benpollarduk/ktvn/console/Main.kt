@@ -1,18 +1,26 @@
 package com.github.benpollarduk.ktvn.console
 
 import com.github.benpollarduk.ktvn.console.Persistence.persistGameSave
-import com.github.benpollarduk.ktvn.console.Persistence.persistStepData
 import com.github.benpollarduk.ktvn.console.Persistence.restoreGameSave
-import com.github.benpollarduk.ktvn.console.Persistence.restoreStepData
-import com.github.benpollarduk.ktvn.console.story.assets.AssetStore.configuration
-import com.github.benpollarduk.ktvn.console.story.assets.AssetStore.engine
-import com.github.benpollarduk.ktvn.console.story.theFateOfMorgana
+import com.github.benpollarduk.ktvn.example.TheFateOfMorgana
 import com.github.benpollarduk.ktvn.io.restore.RestorePoint
 import com.github.benpollarduk.ktvn.logic.Game
 import com.github.benpollarduk.ktvn.logic.GameExecutor
 import org.apache.logging.log4j.kotlin.Logging
 
 object Main : Logging {
+    /**
+     * The engine responsible for handling all input and output.
+     */
+    private val engine = AnsiConsoleGameEngine()
+
+    /**
+     * The story template.
+     */
+    private val storyTemplate = TheFateOfMorgana().also {
+        it.configuration.engine = engine
+    }
+
     @JvmStatic
     fun main(args: Array<String>) {
         logger.info("Beginning execution of example...")
@@ -20,11 +28,11 @@ object Main : Logging {
         // restore previous game save
         val gameSave = restoreGameSave()
 
-        // restore previous step data
-        restoreStepData()
+        // restore step tracking data
+        Persistence.restoreStepData(storyTemplate.configuration.stepTracker)
 
         // create an example game
-        val exampleGame = Game(theFateOfMorgana(), configuration, gameSave, RestorePoint.empty)
+        val exampleGame = Game(storyTemplate, gameSave, RestorePoint.empty)
 
         // execute the game on its own thread
         GameExecutor.executeAysnc(exampleGame) {
@@ -35,7 +43,7 @@ object Main : Logging {
             persistGameSave(it.gameSave)
 
             // persist the step data
-            persistStepData()
+            Persistence.persistStepData(storyTemplate.configuration.stepTracker)
         }
 
         // allow the console engine to process input from the console.

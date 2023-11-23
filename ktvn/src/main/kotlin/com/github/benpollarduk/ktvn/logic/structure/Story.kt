@@ -73,6 +73,8 @@ public class Story private constructor(setup: (Story) -> Unit) {
 
         idGenerator.reset()
 
+        parameters.storyAdapter.storyListener.enter(this)
+
         while (i < chapters.size) {
             indexOfCurrentChapter = i
             val chapter = chapters[i]
@@ -116,6 +118,8 @@ public class Story private constructor(setup: (Story) -> Unit) {
                 break
             }
         }
+
+        parameters.storyAdapter.storyListener.exit(this)
 
         return ending ?: Ending.default
     }

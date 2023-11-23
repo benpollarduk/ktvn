@@ -2,6 +2,8 @@ package com.github.benpollarduk.ktvn.io.tracking.identifier
 
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.github.benpollarduk.ktvn.io.LoadResult
+import com.github.benpollarduk.ktvn.io.SaveResult
 import com.github.benpollarduk.ktvn.io.tracking.StepTracker
 import com.github.benpollarduk.ktvn.logic.structure.Step
 import com.github.benpollarduk.ktvn.logic.structure.StepIdentifier
@@ -43,6 +45,18 @@ constructor(
         if (!hasBeenSeen(identifier)) {
             initialTable.add(identifier)
         }
+    }
+
+    override fun restore(path: String): LoadResult<StepTracker> {
+        val result = StepIdentifierTrackerSerializer.fromFile(path)
+        if (result.result) {
+            this.initialTable = result.loadedObject.initialTable
+        }
+        return LoadResult(result.result, result.message, result.loadedObject as StepTracker)
+    }
+
+    override fun persist(path: String): SaveResult {
+        return StepIdentifierTrackerSerializer.toFile(this, path)
     }
 
     public companion object {

@@ -1,12 +1,8 @@
 package com.github.benpollarduk.ktvn.console
 
-import com.github.benpollarduk.ktvn.console.story.assets.AssetStore.configuration
-import com.github.benpollarduk.ktvn.io.LoadResult
-import com.github.benpollarduk.ktvn.io.SaveResult
 import com.github.benpollarduk.ktvn.io.game.GameSave
 import com.github.benpollarduk.ktvn.io.game.GameSaveSerializer
-import com.github.benpollarduk.ktvn.io.tracking.identifier.StepIdentifierTracker
-import com.github.benpollarduk.ktvn.io.tracking.identifier.StepIdentifierTrackerSerializer
+import com.github.benpollarduk.ktvn.io.tracking.StepTracker
 import java.nio.file.FileSystems
 import kotlin.io.path.absolutePathString
 import org.apache.logging.log4j.kotlin.Logging
@@ -32,7 +28,7 @@ internal object Persistence : Logging {
     /**
      * Get the step path.
      */
-    private val stepDataPath = fileSystem.getPath(
+    internal val stepDataPath = fileSystem.getPath(
         System.getProperty("user.dir"),
         "data",
         "step.save"
@@ -47,7 +43,7 @@ internal object Persistence : Logging {
             logger.info("Restored game save from $path")
             result.loadedObject
         } else {
-            logger.debug("Couldn't restore game save from $path because ${result.message}")
+            logger.error("Couldn't restore game save from $path because ${result.message}")
             GameSave.empty
         }
     }
@@ -57,28 +53,34 @@ internal object Persistence : Logging {
      */
     internal fun persistGameSave(gameSave: GameSave, path: String = gameSavePath) {
         val result = GameSaveSerializer.toFile(gameSave, path)
-        return if (result.result) {
+        if (result.result) {
             logger.info("Persisted game save to $path")
         } else {
-            logger.debug("Couldn't persist game save to $path because ${result.message}")
+            logger.error("Couldn't persist game save to $path because ${result.message}")
         }
     }
 
     /**
-     * Persist step data to the specified [path].
+     * Restore previously saved step data from a [path].
      */
-    internal fun persistStepData(path: String = stepDataPath) : SaveResult {
-        return StepIdentifierTrackerSerializer.toFile(configuration.stepTracker as StepIdentifierTracker, path)
-    }
-
-    /**
-     * Restore step data from the specified [path].
-     */
-    internal fun restoreStepData(path: String = stepDataPath) : LoadResult<StepIdentifierTracker> {
-        val result = StepIdentifierTrackerSerializer.fromFile(path)
+    internal fun restoreStepData(stepTracker: StepTracker, path: String = stepDataPath) {
+        val result = stepTracker.restore(path)
         if (result.result) {
-            configuration.stepTracker = result.loadedObject
+            logger.info("Restored step data from $path")
+        } else {
+            logger.error("Couldn't restore step data from $path because ${result.message}")
         }
-        return result
+    }
+
+    /**
+     * Persist step data to a specified [path].
+     */
+    internal fun persistStepData(stepTracker: StepTracker, path: String = stepDataPath) {
+        val result = stepTracker.persist(path)
+        if (result.result) {
+            logger.info("Persisted step data to $path")
+        } else {
+            logger.debug("Couldn't persist step data to $path because ${result.message}")
+        }
     }
 }

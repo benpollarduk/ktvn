@@ -21,6 +21,8 @@
 
 # include gradle wrapper
 !gradle/wrapper/gradle-wrapper.jar
+# include test resource jar as it is required by unit tests
+!ktvn/src/test/resources/test.jar
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*

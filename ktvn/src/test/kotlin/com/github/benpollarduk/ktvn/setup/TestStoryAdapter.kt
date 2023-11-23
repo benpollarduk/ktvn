@@ -10,8 +10,20 @@ import com.github.benpollarduk.ktvn.logic.structure.SceneListener
 import com.github.benpollarduk.ktvn.logic.structure.SceneTransition
 import com.github.benpollarduk.ktvn.logic.structure.Step
 import com.github.benpollarduk.ktvn.logic.structure.StepListener
+import com.github.benpollarduk.ktvn.logic.structure.Story
+import com.github.benpollarduk.ktvn.logic.structure.StoryListener
 
 internal class TestStoryAdapter : StoryAdapter {
+    override val storyListener: StoryListener = object : StoryListener {
+        override fun enter(story: Story) {
+            // nothing
+        }
+
+        override fun exit(story: Story) {
+            // nothing
+        }
+    }
+
     override val chapterListener: ChapterListener = object : ChapterListener {
         override fun enter(chapter: Chapter, transition: ChapterTransition) {
             // nothing

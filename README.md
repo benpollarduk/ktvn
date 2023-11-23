@@ -83,15 +83,19 @@ val story = story { story ->
     }
 }
 
-// create a game
-val game = Game(story, gameConfiguration, Save.empty)
+// create template for the story and the game configuration
+val storyTemplate = StoryTemplate.create(story, DynamicGameConfiguration())
+
+// create a game based on the template
+val game = Game(storyTemplate)
 
 // execute the game synchronously
 GameExecutor.execute(game)
 ```
-The constructor for Game objects accepts an instance of **GameConfiguration**. This is a critical object and ties 
-together how the game and the UI interact with one another. Please see the **Integration** section of this readme for
-more information.
+The constructor for Game objects accepts an instance of **StoryTemplate**. The StoryTemplate is a critical component of 
+Ktvn, it essentially wraps a Story and a **GameConfiguration** into a single discoverable file. The GameConfiguration 
+ties together how the story and the UI interact with one another. Please see the **Integration** section of this readme 
+for more information.
 
 # Persistence #
 Persistence is handled in 3 parts, **GameSave**, **RestorePoint** and **StepTracker** .
@@ -117,7 +121,7 @@ The **StepTracker** tracks which steps have been viewed by the player. This is i
 to skip viewed steps on a subsequent play through. As default a **StepIdentifierTracker** is provided and records steps 
 with a deterministic identifier.
 ```kotlin
-StepIdentifierTrackerSerializer.toFile(gameEngine.stepTracker, path)
+gameEngine.stepTracker.persist(path)
 ```
 
 # Core DSL
@@ -298,7 +302,7 @@ following progression modes are supported:
 # Integration #
 Ktvn provides a structure, DSL and flow control for creating visual novels, but it does not provide a framework for 
 creating UIs and managing assets. Many frameworks for this exist. To integrate with a story a **GameConfiguration** is 
-required. The easiest way of achieving this is by using **StandardGameConfiguration** with a **GameEngine**. 
+required. The easiest way of achieving this is by using **DynamicGameConfiguration** with a **GameEngine**. 
 Please see **AnsiConsoleGameEngine** in app-ktvn-example-console for a simple example that demonstrates how to 
 create a game engine that integrates with an ANSI compatible console.
 
