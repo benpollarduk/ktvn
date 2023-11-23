@@ -11,6 +11,5 @@ rootProject.name = "ktvn"
 include(
     ":ktvn",
     ":ktvn-example",
-    ":app-ktvn-example-console",
-    "app-ktvn-debug-swing"
+    ":app-ktvn-example-console"
 )
