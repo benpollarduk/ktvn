@@ -2,6 +2,7 @@ package com.github.benpollarduk.ktvn.swing.ui
 
 import com.github.benpollarduk.ktvn.swing.Severity
 import com.github.benpollarduk.ktvn.swing.components.EventTerminal
+import org.apache.logging.log4j.kotlin.Logging
 import java.awt.Color
 import java.awt.Font
 import java.time.LocalTime
@@ -20,7 +21,7 @@ import javax.swing.text.StyledDocument
 @Suppress("MagicNumber")
 public class JTextPaneEventTerminal(
     private val colors: Map<Severity, Color> = defaultColors
-) : JScrollPane(), EventTerminal {
+) : JScrollPane(), Logging, EventTerminal {
     private val popupMenu = JPopupMenu().also {
         val clearMenuItem = JMenuItem("Clear")
         clearMenuItem.addActionListener { clear() }
@@ -58,6 +59,12 @@ public class JTextPaneEventTerminal(
 
     override fun println(severity: Severity, value: String) {
         println(colors[severity] ?: Color.WHITE, value)
+
+        when (severity) {
+            Severity.INFO -> logger.info(value)
+            Severity.DEBUG -> logger.debug(value)
+            Severity.ERROR -> logger.error(value)
+        }
     }
 
     public companion object {

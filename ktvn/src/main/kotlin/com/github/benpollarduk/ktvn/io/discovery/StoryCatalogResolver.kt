@@ -74,8 +74,10 @@ public object StoryCatalogResolver {
                     constructor.newInstance() as StoryTemplate
                 }
                 // add new catalog entry for the story
-                val story = storyTemplate.instantiate()
-                catalog.add(CatalogEntry(story.name, className, storyTemplate))
+                val story = storyTemplate.story
+                if (story != null) {
+                    catalog.add(CatalogEntry(story.name, className, storyTemplate))
+                }
             }
         }
 

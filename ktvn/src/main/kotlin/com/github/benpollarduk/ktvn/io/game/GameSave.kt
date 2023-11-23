@@ -6,7 +6,7 @@ import com.github.benpollarduk.ktvn.logic.Ending
  * Provides a game save with [totalSeconds] and list of [endingsReached]. Optionally [settings] can be provided. If no
  * value is specified [GameSettings.default] will be used.
  */
-public data class GameSave(
+public class GameSave(
     public val totalSeconds: Long,
     public val endingsReached: List<Ending>,
     public val settings: GameSettings = GameSettings.default

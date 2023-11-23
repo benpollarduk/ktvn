@@ -16,7 +16,7 @@ public class DynamicGameConfiguration(
     /**
      * Get or set the [GameEngine].
      */
-    public var gameEngine: GameEngine?
+    public override var engine: GameEngine?
         get() {
             return if (gameAdapter is DynamicGameAdapter) {
                 gameAdapter.gameEngine
@@ -29,5 +29,5 @@ public class DynamicGameConfiguration(
             adapter.gameEngine = value
         }
 
-    override val gameAdapter: GameAdapter = DynamicGameAdapter(gameEngine)
+    override val gameAdapter: GameAdapter = DynamicGameAdapter(engine)
 }

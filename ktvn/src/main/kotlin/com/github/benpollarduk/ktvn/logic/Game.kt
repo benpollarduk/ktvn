@@ -2,19 +2,16 @@ package com.github.benpollarduk.ktvn.logic
 
 import com.github.benpollarduk.ktvn.io.game.GameSave
 import com.github.benpollarduk.ktvn.io.restore.RestorePoint
-import com.github.benpollarduk.ktvn.logic.configuration.GameConfiguration
 import com.github.benpollarduk.ktvn.logic.structure.CancellationToken
-import com.github.benpollarduk.ktvn.logic.structure.Story
 import com.github.benpollarduk.ktvn.logic.structure.StoryBeginParameters
 import java.util.concurrent.locks.ReentrantLock
 
 /**
- * An executable game with a specified [story], [gameConfiguration] and optional [gameSave] and [restorePoint].
+ * An executable game with a specified [storyTemplate] and optional [gameSave] and [restorePoint].
  */
 public class Game(
-    private val story: Story,
-    private val gameConfiguration: GameConfiguration,
-    private val gameSave: GameSave,
+    private val storyTemplate: StoryTemplate,
+    private val gameSave: GameSave = GameSave.empty,
     private val restorePoint: RestorePoint = RestorePoint.empty
 ) {
     private val cancellationToken = CancellationToken()
@@ -33,36 +30,42 @@ public class Game(
      * Begin execution of the game. Returns a [GameExecutionResult].
      */
     internal fun execute(): GameExecutionResult {
-        isExecuting = true
-        startTimeInSeconds = System.currentTimeMillis() / MILLISECONDS_PER_SECOND
-
-        val ending = story.begin(
-            StoryBeginParameters(
-                Flags.fromMap(restorePoint.flags),
-                restorePoint.storyRestorePoint,
-                gameConfiguration.gameAdapter.storyAdapter,
-                gameConfiguration.stepTracker,
-                cancellationToken
-            )
-        )
-
-        try {
-            lock.lock()
-
-            if (ending != Ending.noEnding && !endingsReached.contains(ending)) {
-                endingsReached.add(ending)
-            }
-        } finally {
-            lock.unlock()
-        }
-
-        endTimeInSeconds = System.currentTimeMillis() / MILLISECONDS_PER_SECOND
-        isExecuting = false
-
-        return if (cancellationToken.wasCancelled) {
-            GameExecutionResult.cancelled
+        val configuration = storyTemplate.configuration
+        val story = storyTemplate.story
+        return if (configuration == null || story == null) {
+            GameExecutionResult.invaidTemplate
         } else {
-            GameExecutionResult(true, ending, getGameSave())
+            isExecuting = true
+            startTimeInSeconds = System.currentTimeMillis() / MILLISECONDS_PER_SECOND
+
+            val ending = story.begin(
+                StoryBeginParameters(
+                    Flags.fromMap(restorePoint.flags),
+                    restorePoint.storyRestorePoint,
+                    configuration.gameAdapter.storyAdapter,
+                    configuration.stepTracker,
+                    cancellationToken
+                )
+            )
+
+            try {
+                lock.lock()
+
+                if (ending != Ending.noEnding && !endingsReached.contains(ending)) {
+                    endingsReached.add(ending)
+                }
+            } finally {
+                lock.unlock()
+            }
+
+            endTimeInSeconds = System.currentTimeMillis() / MILLISECONDS_PER_SECOND
+            isExecuting = false
+
+            if (cancellationToken.wasCancelled) {
+                GameExecutionResult.cancelled
+            } else {
+                GameExecutionResult(true, ending, getGameSave())
+            }
         }
     }
 
@@ -77,10 +80,12 @@ public class Game(
      * Get a [RestorePoint] for the game with a specified [name].
      */
     public fun getRestorePoint(name: String): RestorePoint {
+        val s = storyTemplate.story ?: return RestorePoint.empty
+
         return RestorePoint(
             name,
-            story.flags.toMap(),
-            story.createRestorePoint()
+            s.flags.toMap(),
+            s.createRestorePoint()
         )
     }
 
@@ -94,7 +99,7 @@ public class Game(
             endTimeInSeconds - startTimeInSeconds
         }
 
-        var endings: List<Ending>
+        val endings: List<Ending>
 
         try {
             lock.lock()

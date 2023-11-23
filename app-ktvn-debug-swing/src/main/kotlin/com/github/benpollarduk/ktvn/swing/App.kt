@@ -12,7 +12,6 @@ import com.github.benpollarduk.ktvn.swing.ui.JLabelBackground
 import com.github.benpollarduk.ktvn.swing.ui.JPanelProgressionControl
 import com.github.benpollarduk.ktvn.swing.ui.JTextAreaSequencedTextArea
 import com.github.benpollarduk.ktvn.swing.ui.JTextPaneEventTerminal
-import org.apache.logging.log4j.kotlin.Logging
 import java.awt.BorderLayout
 import java.awt.Dimension
 import java.awt.FlowLayout
@@ -32,7 +31,7 @@ import javax.swing.SwingUtilities
 import javax.swing.filechooser.FileNameExtensionFilter
 
 @Suppress("MagicNumber")
-class App : JFrame("Ktvn Debugger"), Logging {
+class App : JFrame("Ktvn Debugger") {
     private val settings: ApplicationSettings = ApplicationSettings()
     private val sequencedTextArea = JTextAreaSequencedTextArea()
     private val background = JLabelBackground(settings.resolutionWidth, settings.resolutionHeight).also {
@@ -81,8 +80,8 @@ class App : JFrame("Ktvn Debugger"), Logging {
 
     private fun createMenu(): JMenuBar {
         val menu = JMenuBar()
-        val storyMenuItem = JMenu("Story")
-        val importJarMenuItem = JMenuItem("Load .jar...")
+        val gameMenuItem = JMenu("Game")
+        val importJarMenuItem = JMenuItem("Load StoryTemplate from .jar...")
         val examplesMenuItem = JMenu("Examples")
         val ktvnDemoMenuItem = JMenuItem("ktvn-demo")
 
@@ -93,7 +92,7 @@ class App : JFrame("Ktvn Debugger"), Logging {
             val returnValue = fileChooser.showOpenDialog(this@App)
             if (returnValue == JFileChooser.APPROVE_OPTION) {
                 val file = fileChooser.selectedFile
-                loadStoryFromFile(file)
+                loadStoryTemplateFromFile(file)
                 println(file.name)
             }
         }
@@ -103,32 +102,32 @@ class App : JFrame("Ktvn Debugger"), Logging {
         }
 
         examplesMenuItem.add(ktvnDemoMenuItem)
-        storyMenuItem.add(examplesMenuItem)
-        storyMenuItem.add(importJarMenuItem)
-        menu.add(storyMenuItem)
+        gameMenuItem.add(examplesMenuItem)
+        gameMenuItem.add(importJarMenuItem)
+        menu.add(gameMenuItem)
         return menu
     }
 
-    private fun loadStoryFromFile(file: File) {
+    private fun loadStoryTemplateFromFile(file: File) {
         val catalogEntries = StoryCatalogResolver.resolveCatalogFromJar(file)
         val storyTemplates = catalogEntries.get()
         if (storyTemplates.size == 1) {
             beginStory(storyTemplates.first().template)
         } else if (storyTemplates.size > 1) {
-            handleMultipleStoriesFoundInJar(storyTemplates)
+            handleMultipleStoryTemplatesFoundInJar(storyTemplates)
         } else {
-            logger.error("No stories found in ${file.name}.")
+            eventTerminal.println(Severity.ERROR, "No stories found in ${file.name}.")
             JOptionPane.showMessageDialog(
                 this,
                 "No stories were found.",
                 "No stories found in ${file.name}",
-                JOptionPane.INFORMATION_MESSAGE,
+                JOptionPane.INFORMATION_MESSAGE
             )
         }
     }
 
-    private fun handleMultipleStoriesFoundInJar(storyTemplates: List<CatalogEntry<StoryTemplate>>, ) {
-        val dialog = JDialog(this, "Select Story", true)
+    private fun handleMultipleStoryTemplatesFoundInJar(storyTemplates: List<CatalogEntry<StoryTemplate>>) {
+        val dialog = JDialog(this, "Select Story Template", true)
         dialog.defaultCloseOperation = JDialog.DISPOSE_ON_CLOSE
         dialog.layout = FlowLayout()
 
@@ -146,21 +145,21 @@ class App : JFrame("Ktvn Debugger"), Logging {
         dialog.isVisible = true
     }
 
-    private fun beginStory(storyTemplate: StoryTemplate) {
-        logger.info("Ending execution of any executing games...")
+    private fun beginStory(
+        storyTemplate: StoryTemplate,
+        gameSave: GameSave = GameSave.empty,
+        restorePoint: RestorePoint = RestorePoint.empty
+    ) {
+        eventTerminal.println(Severity.INFO, "Ending execution of any executing games...")
         GameExecutor.cancel()
-        logger.info("Beginning async execution of $storyTemplate...")
-        val configuration = storyTemplate.configuration.also {
-            it?.gameEngine = engine
+        eventTerminal.println(Severity.INFO, "Beginning async execution of $storyTemplate...")
+        storyTemplate.also {
+            it.configuration?.engine = engine
         }
 
-        if (configuration == null) {
-            eventTerminal.println(Severity.ERROR, "No configuration found.")
-        } else {
-            val game = Game(storyTemplate.instantiate(), configuration, GameSave.empty, RestorePoint.empty)
-            GameExecutor.executeAysnc(game) {
-                // handle end
-            }
+        val game = Game(storyTemplate, gameSave, restorePoint)
+        GameExecutor.executeAysnc(game) {
+            // handle end
         }
     }
 

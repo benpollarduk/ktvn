@@ -28,7 +28,8 @@ class GameTest {
                 }
             }
         }
-        game = Game(story, TestGameConfiguration, GameSave.empty, RestorePoint.empty)
+        val template = StoryTemplate.create(story, TestGameConfiguration)
+        game = Game(template, GameSave.empty, RestorePoint.empty)
 
         // When
         val result = game.execute()
@@ -51,7 +52,8 @@ class GameTest {
                 }
             }
         }
-        val game = Game(story, TestGameConfiguration, GameSave.empty, RestorePoint.empty)
+        val template = StoryTemplate.create(story, TestGameConfiguration)
+        val game = Game(template, GameSave.empty, RestorePoint.empty)
 
         // When
         val result = game.execute()
@@ -74,7 +76,8 @@ class GameTest {
                 }
             }
         }
-        val game = Game(story, TestGameConfiguration, GameSave.empty, RestorePoint.empty)
+        val template = StoryTemplate.create(story, TestGameConfiguration)
+        val game = Game(template, GameSave.empty, RestorePoint.empty)
 
         // When
         game.execute()
@@ -103,7 +106,8 @@ class GameTest {
                 }
             }
         }
-        val game = Game(story, TestGameConfiguration, GameSave.empty, RestorePoint.empty)
+        val template = StoryTemplate.create(story, TestGameConfiguration)
+        val game = Game(template, GameSave.empty, RestorePoint.empty)
 
         // When
         game.execute()

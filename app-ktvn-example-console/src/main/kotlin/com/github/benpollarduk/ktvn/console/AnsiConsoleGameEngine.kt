@@ -66,10 +66,8 @@ internal class AnsiConsoleGameEngine(
                 // get the mode - if the mode is set to skip and the current step can be skipped, or skip unseen is on
                 // then skip sequencing the frame
                 val mode = progressionController.progressionMode
-                if (mode is ProgressionMode.Skip) {
-                    if (canSkipCurrentStep || mode.skipUnseen) {
-                        textController.skip()
-                    }
+                if (mode is ProgressionMode.Skip && (canSkipCurrentStep || mode.skipUnseen)) {
+                    textController.skip()
                 }
             }
 

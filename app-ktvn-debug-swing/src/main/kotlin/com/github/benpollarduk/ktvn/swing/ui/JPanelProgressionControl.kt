@@ -15,14 +15,15 @@ import javax.swing.JPanel
 @Suppress("MagicNumber")
 public class JPanelProgressionControl(private val engine: DebugGameEngine) : JPanel(), ProgressionControl {
     private val progressionLabel: JLabel = JLabel("Progression:")
+    private val modeLabel: JLabel = JLabel("Mode:")
+    private val forceSkipLabel: JLabel = JLabel("Skip unread?:")
+    private val autoDelayLabel: JLabel = JLabel("Auto delay (ms):")
 
     private val ackButton: JButton = JButton("Acknowledge").also {
         it.addActionListener {
             acknowledge()
         }
     }
-
-    private val modeLabel: JLabel = JLabel("Mode:")
 
     private val modeComboBox: JComboBox<String> = JComboBox(arrayOf(MANUAL, SKIP, AUTO)).also {
         it.preferredSize = Dimension(100, it.preferredSize.height)
@@ -33,7 +34,7 @@ public class JPanelProgressionControl(private val engine: DebugGameEngine) : JPa
         }
     }
 
-    private val forceSkipCheckBox: JCheckBox = JCheckBox("Force Skip").also {
+    private val forceSkipCheckBox: JCheckBox = JCheckBox().also {
         it.addItemListener { event ->
             if (event.stateChange == ItemEvent.SELECTED || event.stateChange == ItemEvent.DESELECTED) {
                 forceSkip = it.isSelected
@@ -42,7 +43,7 @@ public class JPanelProgressionControl(private val engine: DebugGameEngine) : JPa
         }
     }
 
-    private val autoTimeComboBox: JComboBox<String> = JComboBox(arrayOf("0", "250", "500", "1000", "2500")).also {
+    private val autoDelayComboBox: JComboBox<String> = JComboBox(arrayOf("0", "1000", "2500", "5000")).also {
         it.preferredSize = Dimension(100, it.preferredSize.height)
         it.addItemListener { event ->
             if (event.stateChange == ItemEvent.SELECTED) {
@@ -56,24 +57,24 @@ public class JPanelProgressionControl(private val engine: DebugGameEngine) : JPa
         get() = engine.progressionController.progressionMode
 
     override var forceSkip: Boolean = false
-    override var autoTimeInMs: Long = 500
+    override var autoTimeInMs: Long = 1000
 
     private fun setMode(mode: String) {
         when (mode) {
             MANUAL -> {
                 engine.progressionController.progressionMode = ProgressionMode.WaitForConfirmation
                 forceSkipCheckBox.isEnabled = false
-                autoTimeComboBox.isEnabled = false
+                autoDelayComboBox.isEnabled = false
             }
             SKIP -> {
                 engine.progressionController.progressionMode = ProgressionMode.Skip(forceSkip)
                 forceSkipCheckBox.isEnabled = true
-                autoTimeComboBox.isEnabled = false
+                autoDelayComboBox.isEnabled = false
             }
             AUTO -> {
                 engine.progressionController.progressionMode = ProgressionMode.Auto(autoTimeInMs)
                 forceSkipCheckBox.isEnabled = false
-                autoTimeComboBox.isEnabled = true
+                autoDelayComboBox.isEnabled = true
             }
         }
     }
@@ -94,8 +95,10 @@ public class JPanelProgressionControl(private val engine: DebugGameEngine) : JPa
         add(ackButton)
         add(modeLabel)
         add(modeComboBox)
+        add(forceSkipLabel)
         add(forceSkipCheckBox)
-        add(autoTimeComboBox)
+        add(autoDelayLabel)
+        add(autoDelayComboBox)
 
         setMode("Manual")
     }

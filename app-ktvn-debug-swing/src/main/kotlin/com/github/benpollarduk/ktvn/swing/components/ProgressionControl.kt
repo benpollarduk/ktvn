@@ -1,7 +1,6 @@
 package com.github.benpollarduk.ktvn.swing.components
 
 import com.github.benpollarduk.ktvn.logic.ProgressionMode
-import com.github.benpollarduk.ktvn.logic.structure.AcknowledgeListener
 
 /**
  * Provides an interface for controlling progression.

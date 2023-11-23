@@ -12,6 +12,7 @@ import com.github.benpollarduk.ktvn.layout.Position
 import com.github.benpollarduk.ktvn.logic.Answer
 import com.github.benpollarduk.ktvn.logic.GameEngine
 import com.github.benpollarduk.ktvn.logic.ProgressionController
+import com.github.benpollarduk.ktvn.logic.ProgressionMode
 import com.github.benpollarduk.ktvn.logic.Question
 import com.github.benpollarduk.ktvn.logic.structure.CancellationToken
 import com.github.benpollarduk.ktvn.logic.structure.Chapter
@@ -22,12 +23,13 @@ import com.github.benpollarduk.ktvn.logic.structure.Step
 import com.github.benpollarduk.ktvn.logic.structure.Story
 import com.github.benpollarduk.ktvn.swing.components.Background
 import com.github.benpollarduk.ktvn.swing.components.EventTerminal
-import com.github.benpollarduk.ktvn.swing.components.ProgressionControl
 import com.github.benpollarduk.ktvn.swing.components.SequencedTextArea
 import com.github.benpollarduk.ktvn.text.frames.SizeConstrainedTextFrame
+import com.github.benpollarduk.ktvn.text.frames.TextFrame
 import com.github.benpollarduk.ktvn.text.frames.TextFrameParameters
 import com.github.benpollarduk.ktvn.text.log.Log
 import com.github.benpollarduk.ktvn.text.sequencing.SequencedTextController
+import com.github.benpollarduk.ktvn.text.sequencing.SequencedTextControllerListener
 import com.github.benpollarduk.ktvn.text.sequencing.TimeBasedTextSequencer
 import java.awt.Color
 import java.awt.image.BufferedImage
@@ -55,6 +57,26 @@ public class DebugGameEngine(
 
     override val log: Log = Log()
     override val progressionController: ProgressionController = ProgressionController()
+
+    init {
+        textController.addListener(object : SequencedTextControllerListener {
+            override fun startedFrame(frame: TextFrame) {
+                val mode = progressionController.progressionMode
+                if (mode is ProgressionMode.Skip && (canSkipCurrentStep || mode.skipUnseen)) {
+                    textController.skip()
+                }
+            }
+
+            override fun finishedFrame(frame: TextFrame) {
+                // no handling
+            }
+
+            override fun waitFor() {
+                // wait for enter to be pressed before continuing
+                waitForAcknowledge(cancellationToken)
+            }
+        })
+    }
 
     private fun print(string: String) {
         sequencedTextArea.clear()
