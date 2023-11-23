@@ -13,7 +13,7 @@ import com.github.benpollarduk.ktvn.logic.structure.AcknowledgeListener
 internal class DynamicLayoutAdapter(internal var gameEngine: GameEngine? = null) : LayoutAdapter {
     override val moveAcknowledgementListener: AcknowledgeListener = object : AcknowledgeListener {
         override fun waitFor() {
-            gameEngine?.acknowledgeLayoutMovement()
+            gameEngine?.waitForLayoutMovementAcknowledgement()
         }
     }
 

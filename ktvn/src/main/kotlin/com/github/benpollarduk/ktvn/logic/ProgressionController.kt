@@ -36,7 +36,7 @@ public class ProgressionController {
     /**
      * Release the acknowledgement latch.
      */
-    public fun releaseAcknowledgementLatch() {
+    private fun releaseAcknowledgementLatch() {
         try {
             lock.lock()
             acknowledgementReceived = null
@@ -48,7 +48,7 @@ public class ProgressionController {
     /**
      * Reset the acknowledgement latch.
      */
-    public fun resetAcknowledgementLatch() {
+    private fun resetAcknowledgementLatch() {
         try {
             lock.lock()
             acknowledgementReceived = CountDownLatch(1)

@@ -36,29 +36,29 @@ public interface GameEngine {
     public fun playSoundEffect(soundEffect: SoundEffect)
 
     /**
-     * Acknowledge a [Character] [Emotion] changed.
+     * Wait for a [Character] [Emotion] acknowledgement.
      */
-    public fun acknowledgeCharacterEmotionChanged()
+    public fun waitForCharacterEmotionAcknowledgement()
 
     /**
-     * Acknowledge a [Character] [Animation] changed.
+     * Wait for a [Character] [Animation] acknowledgement.
      */
-    public fun acknowledgeCharacterAnimationChanged()
+    public fun waitForCharacterAnimationAcknowledgement()
 
     /**
-     * Acknowledge a [Character] line of speech.
+     * Wait for a [Character] speech acknowledgement.
      */
-    public fun acknowledgeCharacterSpeak()
+    public fun waitForCharacterSpeakAcknowledgement()
 
     /**
-     * Acknowledge a [Narrator] narration.
+     * Wait for a [Narrator] narrate acknowledgement.
      */
-    public fun acknowledgeNarratorNarrate()
+    public fun waitForNarratorNarrateAcknowledgement()
 
     /**
-     * Acknowledge a movement in a [Layout].
+     * Wait for a [Layout] movement acknowledgement.
      */
-    public fun acknowledgeLayoutMovement()
+    public fun waitForLayoutMovementAcknowledgement()
 
     /**
      * Handle a [character] asking a [question].

@@ -22,19 +22,19 @@ import com.github.benpollarduk.ktvn.text.log.LogElement
 internal class DynamicCharacterAdapter(internal var gameEngine: GameEngine? = null) : CharacterAdapter {
     override val emoteAcknowledgementListener: AcknowledgeListener = object : AcknowledgeListener {
         override fun waitFor() {
-            gameEngine?.acknowledgeCharacterEmotionChanged()
+            gameEngine?.waitForCharacterEmotionAcknowledgement()
         }
     }
 
     override val animateAcknowledgementListener: AcknowledgeListener = object : AcknowledgeListener {
         override fun waitFor() {
-            gameEngine?.acknowledgeCharacterAnimationChanged()
+            gameEngine?.waitForCharacterAnimationAcknowledgement()
         }
     }
 
     override val speakAcknowledgementListener: AcknowledgeListener = object : AcknowledgeListener {
         override fun waitFor() {
-            gameEngine?.acknowledgeCharacterSpeak()
+            gameEngine?.waitForCharacterSpeakAcknowledgement()
         }
     }
 

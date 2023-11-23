@@ -22,6 +22,7 @@ import com.github.benpollarduk.ktvn.logic.structure.Step
 import com.github.benpollarduk.ktvn.logic.structure.Story
 import com.github.benpollarduk.ktvn.swing.components.Background
 import com.github.benpollarduk.ktvn.swing.components.EventTerminal
+import com.github.benpollarduk.ktvn.swing.components.ProgressionControl
 import com.github.benpollarduk.ktvn.swing.components.SequencedTextArea
 import com.github.benpollarduk.ktvn.text.frames.SizeConstrainedTextFrame
 import com.github.benpollarduk.ktvn.text.frames.TextFrameParameters
@@ -49,6 +50,8 @@ public class DebugGameEngine(
             }
         }
     )
+    private var canSkipCurrentStep = false
+    private var cancellationToken: CancellationToken = CancellationToken()
 
     override val log: Log = Log()
     override val progressionController: ProgressionController = ProgressionController()
@@ -93,28 +96,40 @@ public class DebugGameEngine(
         return image
     }
 
+    public fun generalAcknowledge() {
+        if (textController.sequencing) {
+            textController.skip()
+        } else {
+            progressionController.triggerAcknowledgementLatch()
+        }
+    }
+
+    private fun waitForAcknowledge(cancellationToken: CancellationToken) {
+        progressionController.awaitAcknowledgement(canSkipCurrentStep, cancellationToken)
+    }
+
     override fun playSoundEffect(soundEffect: SoundEffect) {
         // nothing
     }
 
-    override fun acknowledgeCharacterEmotionChanged() {
-        // nothing
+    override fun waitForCharacterEmotionAcknowledgement() {
+        // pass through
     }
 
-    override fun acknowledgeCharacterAnimationChanged() {
-        // nothing
+    override fun waitForCharacterAnimationAcknowledgement() {
+        // pass through
     }
 
-    override fun acknowledgeCharacterSpeak() {
-        // nothing
+    override fun waitForCharacterSpeakAcknowledgement() {
+        waitForAcknowledge(cancellationToken)
     }
 
-    override fun acknowledgeNarratorNarrate() {
-        // nothing
+    override fun waitForNarratorNarrateAcknowledgement() {
+        waitForAcknowledge(cancellationToken)
     }
 
-    override fun acknowledgeLayoutMovement() {
-        // nothing
+    override fun waitForLayoutMovementAcknowledgement() {
+        // pass through
     }
 
     override fun characterAsksQuestion(character: Character, question: Question) {
@@ -187,6 +202,8 @@ public class DebugGameEngine(
 
     override fun enterStep(step: Step, canSkip: Boolean, cancellationToken: CancellationToken) {
         eventTerminal.println(Severity.INFO, "Started step '${step.name}' (${step.identifier}).")
+        canSkipCurrentStep = canSkip
+        this.cancellationToken = cancellationToken
     }
 
     override fun exitStep(step: Step) {

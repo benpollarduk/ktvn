@@ -17,7 +17,7 @@ import com.github.benpollarduk.ktvn.text.log.LogElement
 internal class StaticNarratorAdapter(private val gameEngine: GameEngine) : NarratorAdapter {
     override val narrateAcknowledgementListener: AcknowledgeListener = object : AcknowledgeListener {
         override fun waitFor() {
-            gameEngine.acknowledgeNarratorNarrate()
+            gameEngine.waitForNarratorNarrateAcknowledgement()
         }
     }
 

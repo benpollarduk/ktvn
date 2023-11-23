@@ -228,28 +228,6 @@ internal class AnsiConsoleGameEngine(
         isProcessingInput = false
     }
 
-    override fun acknowledgeCharacterAnimationChanged() {
-        // nothing
-    }
-
-    override fun acknowledgeCharacterEmotionChanged() {
-        // nothing
-    }
-
-    override fun acknowledgeLayoutMovement() {
-        // nothing
-    }
-
-    override fun acknowledgeCharacterSpeak() {
-        waitForAcknowledge(cancellationToken)
-        clear()
-    }
-
-    override fun acknowledgeNarratorNarrate() {
-        waitForAcknowledge(cancellationToken)
-        clear()
-    }
-
     override fun characterSpeaks(character: Character, line: String) {
         print("${character.name}: $line", getCharacterColor(character))
     }
@@ -306,6 +284,28 @@ internal class AnsiConsoleGameEngine(
                 printlnDirectTemp("Sound effect: $soundEffect")
             }
         }
+    }
+
+    override fun waitForCharacterEmotionAcknowledgement() {
+        // nothing
+    }
+
+    override fun waitForCharacterAnimationAcknowledgement() {
+        // nothing
+    }
+
+    override fun waitForCharacterSpeakAcknowledgement() {
+        waitForAcknowledge(cancellationToken)
+        clear()
+    }
+
+    override fun waitForNarratorNarrateAcknowledgement() {
+        waitForAcknowledge(cancellationToken)
+        clear()
+    }
+
+    override fun waitForLayoutMovementAcknowledgement() {
+        // nothing
     }
 
     override fun characterMoves(character: Character, from: Position, to: Position) {

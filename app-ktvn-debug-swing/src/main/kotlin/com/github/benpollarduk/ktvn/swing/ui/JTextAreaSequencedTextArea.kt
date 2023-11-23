@@ -31,7 +31,7 @@ public class JTextAreaSequencedTextArea : JTextArea(), SequencedTextArea {
 
     override val areaHeight: Int
         get() = height
-    
+
     override val areaFont: Font
         get() = font
 
@@ -40,6 +40,7 @@ public class JTextAreaSequencedTextArea : JTextArea(), SequencedTextArea {
     }
 
     override fun print(char: Char, x: Int, y: Int) {
+        caretPosition = y * (columns + 1) + x
         text += char
     }
 }

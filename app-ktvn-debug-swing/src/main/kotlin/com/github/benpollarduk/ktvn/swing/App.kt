@@ -6,10 +6,10 @@ import com.github.benpollarduk.ktvn.io.discovery.StoryCatalogResolver
 import com.github.benpollarduk.ktvn.io.game.GameSave
 import com.github.benpollarduk.ktvn.io.restore.RestorePoint
 import com.github.benpollarduk.ktvn.logic.Game
-import com.github.benpollarduk.ktvn.logic.GameEngine
 import com.github.benpollarduk.ktvn.logic.GameExecutor
 import com.github.benpollarduk.ktvn.logic.StoryTemplate
 import com.github.benpollarduk.ktvn.swing.ui.JLabelBackground
+import com.github.benpollarduk.ktvn.swing.ui.JPanelProgressionControl
 import com.github.benpollarduk.ktvn.swing.ui.JTextAreaSequencedTextArea
 import com.github.benpollarduk.ktvn.swing.ui.JTextPaneEventTerminal
 import org.apache.logging.log4j.kotlin.Logging
@@ -26,16 +26,14 @@ import javax.swing.JMenu
 import javax.swing.JMenuBar
 import javax.swing.JMenuItem
 import javax.swing.JOptionPane
+import javax.swing.JPanel
 import javax.swing.JSplitPane
 import javax.swing.SwingUtilities
 import javax.swing.filechooser.FileNameExtensionFilter
 
 @Suppress("MagicNumber")
 class App : JFrame("Ktvn Debugger"), Logging {
-    /**
-     * Get the application settings.
-     */
-    public val settings: ApplicationSettings = ApplicationSettings()
+    private val settings: ApplicationSettings = ApplicationSettings()
     private val sequencedTextArea = JTextAreaSequencedTextArea()
     private val background = JLabelBackground(settings.resolutionWidth, settings.resolutionHeight).also {
         it.horizontalAlignment = JLabel.CENTER
@@ -45,12 +43,13 @@ class App : JFrame("Ktvn Debugger"), Logging {
         it.preferredSize = Dimension(0, 80)
         it.minimumSize = it.preferredSize
     }
-    private val engine: GameEngine = DebugGameEngine(eventTerminal, background, sequencedTextArea)
+    private val engine: DebugGameEngine = DebugGameEngine(eventTerminal, background, sequencedTextArea)
+    private val progressionControl = JPanelProgressionControl(engine)
 
     init {
-        // setImage up main frame
-        this.defaultCloseOperation = EXIT_ON_CLOSE
-        this.setSize(1024, 768)
+        defaultCloseOperation = EXIT_ON_CLOSE
+        setSize(1024, 768)
+        layout = BorderLayout()
 
         val imageAndStorySplitPane = JSplitPane(
             JSplitPane.HORIZONTAL_SPLIT,
@@ -68,13 +67,16 @@ class App : JFrame("Ktvn Debugger"), Logging {
             it.resizeWeight = 0.8
         }
 
-        this.layout = BorderLayout()
+        val centralAndProgressionJPanel = JPanel().also {
+            it.layout = BorderLayout()
+            it.add(progressionControl, BorderLayout.NORTH)
+            it.add(centralSplitPane, BorderLayout.CENTER)
+        }
 
-        // add panels to this frame
-        this.add(createMenu(), BorderLayout.NORTH)
-        this.add(centralSplitPane, BorderLayout.CENTER)
+        add(createMenu(), BorderLayout.NORTH)
+        add(centralAndProgressionJPanel, BorderLayout.CENTER)
 
-        this.isVisible = true
+        isVisible = true
     }
 
     private fun createMenu(): JMenuBar {
