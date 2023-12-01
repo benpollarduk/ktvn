@@ -11,7 +11,7 @@ import com.github.benpollarduk.ktvn.logic.structure.Story.Companion.story
 
 public class ShuttleLaunch : VisualNovel(
     story {
-        it name "Shuttle;Launch"
+        it name "Shuttle Launch"
         it add prologue()
         it add launch()
     },

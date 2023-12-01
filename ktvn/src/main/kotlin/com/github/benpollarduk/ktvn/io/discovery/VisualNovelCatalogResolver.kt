@@ -8,7 +8,9 @@ import java.net.URLClassLoader
 import java.util.jar.JarFile
 
 /**
- * Provides an object for resolving a [Catalog] of [VisualNovel] objects.
+ * Provides an object for resolving a [Catalog] of [VisualNovel] objects. Caution should be exercised as this can be a
+ * volatile method of adding extensibility as any changes to the targeted [VisualNovel] class or its dependencies can
+ * cause the class loader to fail.
  */
 public object VisualNovelCatalogResolver {
     /**

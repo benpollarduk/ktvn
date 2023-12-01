@@ -286,7 +286,7 @@ class JMenuBarMainMenu(
             }
         }
 
-        val shuttleLaunchDemoMenuItem = JMenuItem("Shuttle;Launch").apply {
+        val shuttleLaunchDemoMenuItem = JMenuItem("Shuttle Launch").apply {
             addActionListener {
                 app.beginGame(ShuttleLaunch(), app.stepDataPath, app.gameSave, RestorePoint.EMPTY)
             }

@@ -8,15 +8,15 @@ while retaining Kotlins powerful and feature rich syntax.
 Please visit [https://benpollarduk.github.io/ktvn-docs/](https://benpollarduk.github.io/ktvn-docs/) to view the Ktvn documentation.
 
 # Getting Started
-* Clone the repo
-* Build the example
+* Clone the repo.
+* Build the prototyping console.
 ```bash
-./gradlew :app-ktvn-example-console:build
+./gradlew :app-ktvn-prototyper-console:build
 ```
-* Run the example
+* Run an example through the prototyping console.
 ```bash
-cd app-ktvn-example-console/build/libs
-java -jar app-ktvn-example-console-all.jar
+cd app-ktvn-prototyper-console/build/libs
+java -jar app-ktvn-prototyper-console-all.jar
 ```
 
 # Hello World
