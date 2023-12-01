@@ -23,6 +23,25 @@ java -jar app-ktvn-prototyper-swing-all.jar
   * Shuttle Launch:
     * Minimal content.
     * Demonstrates audio and visual resources.
+   
+# What ktvn-app-prototyper-swing does #
+ktvn-app-prototyper-swing supports:
+* Loading and execution of bundled example visual novels
+* Dynamic loading of VisualNovel instances in .jar files
+* Sequenced rendering of text
+* Rendering of backgrounds an characters
+* Simple audio playback for tracks and sfx
+* Progression controls and ability to jump to specified chapter, scene, step
+* Simple log viewer
+* Simple resource viewer
+* Simple flag viewer
+   
+# What ktvn-app-prototyper-swing doesn't do #
+ktvn-app-prototyper-swing doesn't currently support:
+* Character animations
+* Animations when a character moves
+* Scene transitions
+* Distinct UI for narrative scenes
 
 # For Open Questions
 Visit https://github.com/benpollarduk/ktvn/issues
