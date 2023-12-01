@@ -10,5 +10,5 @@ public interface CharacterAskListener {
     /**
      * Invoke the listener with a specified [character] and [question]. Returns the selected answer.
      */
-    public fun ask(character: Character, question: Question, answerListener: AnswerListener): Answer
+    public fun ask(character: Character, question: Question): Answer
 }

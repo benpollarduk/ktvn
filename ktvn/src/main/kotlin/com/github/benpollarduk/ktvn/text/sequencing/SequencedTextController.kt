@@ -9,6 +9,15 @@ public class SequencedTextController(private val sequencer: TextSequencer) {
     private var listener: SequencedTextControllerListener? = null
 
     /**
+     * Get or set the delay between characters, in milliseconds.
+     */
+    public var msBetweenCharacters: Long
+        get() = sequencer.msBetweenCharacters
+        set(value) {
+            sequencer.msBetweenCharacters = value
+        }
+
+    /**
      * Get if sequencing is running.
      */
     public val sequencing: Boolean
@@ -36,6 +45,13 @@ public class SequencedTextController(private val sequencer: TextSequencer) {
     }
 
     /**
+     * Stop any running sequencing.
+     */
+    public fun stop() {
+        sequencer.cancel()
+    }
+
+    /**
      * Render a collection of [frames].
      */
     public fun render(frames: Collection<TextFrame>) {
@@ -48,5 +64,12 @@ public class SequencedTextController(private val sequencer: TextSequencer) {
                 listener?.waitFor()
             }
         }
+    }
+
+    public companion object {
+        /**
+         * Get the default milliseconds between characters.
+         */
+        public const val DEFAULT_MS_BETWEEN_CHARACTERS: Long = 50
     }
 }

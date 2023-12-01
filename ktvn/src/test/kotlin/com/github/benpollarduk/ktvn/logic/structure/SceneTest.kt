@@ -3,6 +3,7 @@ package com.github.benpollarduk.ktvn.logic.structure
 import com.github.benpollarduk.ktvn.io.tracking.identifier.StepIdentifierTracker
 import com.github.benpollarduk.ktvn.layout.Layout.Companion.createLayout
 import com.github.benpollarduk.ktvn.logic.structure.Scene.Companion.scene
+import com.github.benpollarduk.ktvn.logic.structure.SceneTypes.narrative
 import com.github.benpollarduk.ktvn.logic.structure.steps.Then.Companion.then
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
@@ -26,14 +27,14 @@ class SceneTest {
     fun `given scene when type is narrative then type is set to narrative`() {
         // Given
         val scene = scene {
-            it type SceneType.Narrative
+            it type narrative
         }
 
         // When
         val result = scene.type
 
         // Then
-        Assertions.assertEquals(SceneType.Narrative, result)
+        Assertions.assertEquals(narrative, result)
     }
 
     @Test

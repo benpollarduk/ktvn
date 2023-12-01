@@ -16,8 +16,8 @@ public data class GameExecutionResult(
          */
         public val cancelled: GameExecutionResult = GameExecutionResult(
             false,
-            Ending.noEnding,
-            GameSave.empty
+            Ending.none,
+            GameSave.EMPTY
         )
 
         /**
@@ -26,8 +26,8 @@ public data class GameExecutionResult(
          */
         public val invaidTemplate: GameExecutionResult = GameExecutionResult(
             false,
-            Ending.noEnding,
-            GameSave.empty
+            Ending.none,
+            GameSave.EMPTY
         )
     }
 }

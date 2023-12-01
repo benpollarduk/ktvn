@@ -36,31 +36,6 @@ public interface GameEngine {
     public fun playSoundEffect(soundEffect: SoundEffect)
 
     /**
-     * Wait for a [Character] [Emotion] acknowledgement.
-     */
-    public fun waitForCharacterEmotionAcknowledgement()
-
-    /**
-     * Wait for a [Character] [Animation] acknowledgement.
-     */
-    public fun waitForCharacterAnimationAcknowledgement()
-
-    /**
-     * Wait for a [Character] speech acknowledgement.
-     */
-    public fun waitForCharacterSpeakAcknowledgement()
-
-    /**
-     * Wait for a [Narrator] narrate acknowledgement.
-     */
-    public fun waitForNarratorNarrateAcknowledgement()
-
-    /**
-     * Wait for a [Layout] movement acknowledgement.
-     */
-    public fun waitForLayoutMovementAcknowledgement()
-
-    /**
      * Handle a [character] asking a [question].
      */
     public fun characterAsksQuestion(character: Character, question: Question)
@@ -73,7 +48,7 @@ public interface GameEngine {
     /**
      * Get an [Answer] to a [question].
      */
-    public fun answerQuestion(question: Question): Answer
+    public fun getAnswerQuestion(question: Question): Answer
 
     /**
      * Handle a [character] speaking a [line].
@@ -136,13 +111,13 @@ public interface GameEngine {
     public fun clearScene(scene: Scene)
 
     /**
-     * Enter a [step]. When the step can be skipped [canSkip] will be true. A [cancellationToken] must be provided to
-     * support cancellation.
+     * Enter a [step] with [flags]. When the step can be skipped [canSkip] will be true. A [cancellationToken] must be
+     * provided to support cancellation.
      */
-    public fun enterStep(step: Step, canSkip: Boolean, cancellationToken: CancellationToken)
+    public fun enterStep(step: Step, flags: Flags, canSkip: Boolean, cancellationToken: CancellationToken)
 
     /**
      * Exit a [step].
      */
-    public fun exitStep(step: Step)
+    public fun exitStep(step: Step, flags: Flags)
 }

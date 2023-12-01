@@ -6,5 +6,5 @@ package com.github.benpollarduk.ktvn.io.discovery
 public data class CatalogEntry<T>(
     public val name: String,
     public val qualifiedClassName: String,
-    public val template: T
+    public val entry: T
 )

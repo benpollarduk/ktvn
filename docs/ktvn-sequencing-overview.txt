@@ -28,7 +28,7 @@ ProgressionController->GameEngine: ack
 GameEngine->CharacterAdapter: ack
 CharacterAdapter->Character: ack
 Character->Step: ack
-Step->Scene: result
+Step->Scene: step result
 Scene->Step: invoke
 Step->Character: ask
 Character->CharacterAdapter: ask
@@ -38,8 +38,9 @@ UI->GameEngine: answer
 GameEngine->CharacterAdapter: answer
 CharacterAdapter->Character: answer
 Character->Step: answer
-Step->Scene: result
-Scene->Chapter: result
-Chapter->Story: result
+Step->Scene: step result
+Scene->Chapter: scene result
+Chapter->Story: chapter result
 Story->Game: ending
-Game->GameExecutor: result
+Game->GameExecutor: game execution result
+GameExecutor->UI: game execution result

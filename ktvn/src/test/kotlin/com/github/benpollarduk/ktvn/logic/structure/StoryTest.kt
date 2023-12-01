@@ -51,11 +51,11 @@ class StoryTest {
     }
 
     private val emptyStepListener = object : StepListener {
-        override fun enter(step: Step, canSkip: Boolean, cancellationToken: CancellationToken) {
+        override fun enter(step: Step, flags: Flags, canSkip: Boolean, cancellationToken: CancellationToken) {
             // nothing
         }
 
-        override fun exit(step: Step) {
+        override fun exit(step: Step, flags: Flags) {
             // nothing
         }
     }
@@ -113,7 +113,7 @@ class StoryTest {
         val result = story.begin(
             StoryBeginParameters(
                 Flags(),
-                StoryRestorePoint.start,
+                StoryRestorePoint.START,
                 configuration,
                 StepIdentifierTracker(),
                 CancellationToken()
@@ -144,7 +144,7 @@ class StoryTest {
         val result = story.begin(
             StoryBeginParameters(
                 Flags(),
-                StoryRestorePoint.start,
+                StoryRestorePoint.START,
                 configuration,
                 StepIdentifierTracker(),
                 CancellationToken()
@@ -189,7 +189,7 @@ class StoryTest {
         story.begin(
             StoryBeginParameters(
                 Flags(),
-                StoryRestorePoint.start,
+                StoryRestorePoint.START,
                 configuration,
                 StepIdentifierTracker(),
                 CancellationToken()
@@ -239,7 +239,7 @@ class StoryTest {
         story.begin(
             StoryBeginParameters(
                 Flags(),
-                StoryRestorePoint.start,
+                StoryRestorePoint.START,
                 configuration,
                 StepIdentifierTracker(),
                 CancellationToken()
@@ -288,7 +288,7 @@ class StoryTest {
         story.begin(
             StoryBeginParameters(
                 Flags(),
-                StoryRestorePoint.start,
+                StoryRestorePoint.START,
                 configuration,
                 StepIdentifierTracker(),
                 CancellationToken()

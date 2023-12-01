@@ -7,12 +7,12 @@ import com.github.benpollarduk.ktvn.logic.structure.StoryBeginParameters
 import java.util.concurrent.locks.ReentrantLock
 
 /**
- * An executable game with a specified [storyTemplate] and optional [gameSave] and [restorePoint].
+ * An executable game with a specified [visualNovel] and optional [gameSave] and [restorePoint].
  */
 public class Game(
-    private val storyTemplate: StoryTemplate,
-    private val gameSave: GameSave = GameSave.empty,
-    private val restorePoint: RestorePoint = RestorePoint.empty
+    private val visualNovel: VisualNovel,
+    private val gameSave: GameSave = GameSave.EMPTY,
+    private val restorePoint: RestorePoint = RestorePoint.EMPTY
 ) {
     private val cancellationToken = CancellationToken()
     private val endingsReached: MutableList<Ending> = mutableListOf()
@@ -30,42 +30,38 @@ public class Game(
      * Begin execution of the game. Returns a [GameExecutionResult].
      */
     internal fun execute(): GameExecutionResult {
-        val configuration = storyTemplate.configuration
-        val story = storyTemplate.story
-        return if (configuration == null || story == null) {
-            GameExecutionResult.invaidTemplate
-        } else {
-            isExecuting = true
-            startTimeInSeconds = System.currentTimeMillis() / MILLISECONDS_PER_SECOND
+        val configuration = visualNovel.configuration
+        val story = visualNovel.story
+        isExecuting = true
+        startTimeInSeconds = System.currentTimeMillis() / MILLISECONDS_PER_SECOND
 
-            val ending = story.begin(
-                StoryBeginParameters(
-                    Flags.fromMap(restorePoint.flags),
-                    restorePoint.storyRestorePoint,
-                    configuration.gameAdapter.storyAdapter,
-                    configuration.stepTracker,
-                    cancellationToken
-                )
+        val ending = story.begin(
+            StoryBeginParameters(
+                Flags.fromMap(restorePoint.flags),
+                restorePoint.storyRestorePoint,
+                configuration.gameAdapter.storyAdapter,
+                configuration.stepTracker,
+                cancellationToken
             )
+        )
 
-            try {
-                lock.lock()
+        try {
+            lock.lock()
 
-                if (ending != Ending.noEnding && !endingsReached.contains(ending)) {
-                    endingsReached.add(ending)
-                }
-            } finally {
-                lock.unlock()
+            if (ending != Ending.none && !endingsReached.contains(ending)) {
+                endingsReached.add(ending)
             }
+        } finally {
+            lock.unlock()
+        }
 
-            endTimeInSeconds = System.currentTimeMillis() / MILLISECONDS_PER_SECOND
-            isExecuting = false
+        endTimeInSeconds = System.currentTimeMillis() / MILLISECONDS_PER_SECOND
+        isExecuting = false
 
-            if (cancellationToken.wasCancelled) {
-                GameExecutionResult.cancelled
-            } else {
-                GameExecutionResult(true, ending, getGameSave())
-            }
+        return if (cancellationToken.wasCancelled) {
+            GameExecutionResult.cancelled
+        } else {
+            GameExecutionResult(true, ending, getGameSave())
         }
     }
 
@@ -80,7 +76,7 @@ public class Game(
      * Get a [RestorePoint] for the game with a specified [name].
      */
     public fun getRestorePoint(name: String): RestorePoint {
-        val s = storyTemplate.story ?: return RestorePoint.empty
+        val s = visualNovel.story
 
         return RestorePoint(
             name,

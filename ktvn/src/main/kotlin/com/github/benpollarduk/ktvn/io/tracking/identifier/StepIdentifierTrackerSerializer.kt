@@ -39,11 +39,11 @@ public object StepIdentifierTrackerSerializer {
             val json = File(path).readText()
             LoadResult(true, "", StepIdentifierTrackerJsonParser.fromJson(json))
         } catch (e: IOException) {
-            LoadResult(false, e.message ?: "Load failed - IOException.", StepIdentifierTracker.empty)
+            LoadResult(false, e.message ?: "Load failed - IOException.", StepIdentifierTracker.EMPTY)
         } catch (e: FileNotFoundException) {
-            LoadResult(false, e.message ?: "Load failed - FileNotFoundException.", StepIdentifierTracker.empty)
+            LoadResult(false, e.message ?: "Load failed - FileNotFoundException.", StepIdentifierTracker.EMPTY)
         } catch (e: SecurityException) {
-            LoadResult(false, e.message ?: "Load failed - SecurityException.", StepIdentifierTracker.empty)
+            LoadResult(false, e.message ?: "Load failed - SecurityException.", StepIdentifierTracker.EMPTY)
         }
     }
 }

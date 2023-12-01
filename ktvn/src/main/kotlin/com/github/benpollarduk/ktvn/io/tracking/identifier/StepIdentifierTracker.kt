@@ -68,6 +68,6 @@ constructor(
         /**
          * Provides an empty [StepIdentifierTracker].
          */
-        public val empty: StepIdentifierTracker = StepIdentifierTracker()
+        public val EMPTY: StepIdentifierTracker = StepIdentifierTracker()
     }
 }

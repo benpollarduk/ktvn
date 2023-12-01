@@ -12,6 +12,6 @@ public data class Thumbnail(
         /**
          * Get a default value for no thumbnail.
          */
-        public val none: Thumbnail = Thumbnail(0, 0, emptyList())
+        public val NONE: Thumbnail = Thumbnail(0, 0, emptyList())
     }
 }

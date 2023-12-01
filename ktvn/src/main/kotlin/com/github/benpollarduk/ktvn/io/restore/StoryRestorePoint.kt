@@ -11,6 +11,6 @@ public data class StoryRestorePoint(
         /**
          * Provides a restore point at the start of a [Story].
          */
-        public val start: StoryRestorePoint = StoryRestorePoint(ChapterRestorePoint.start, 0)
+        public val START: StoryRestorePoint = StoryRestorePoint(ChapterRestorePoint.START, 1)
     }
 }

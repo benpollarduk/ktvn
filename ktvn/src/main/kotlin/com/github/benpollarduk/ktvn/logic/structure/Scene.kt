@@ -4,13 +4,14 @@ import com.github.benpollarduk.ktvn.audio.NoAudio.Companion.silence
 import com.github.benpollarduk.ktvn.audio.ResourceTrack.Companion.trackFromResource
 import com.github.benpollarduk.ktvn.audio.Track
 import com.github.benpollarduk.ktvn.backgrounds.Background
-import com.github.benpollarduk.ktvn.backgrounds.ColorBackground.Companion.emptyBackground
+import com.github.benpollarduk.ktvn.backgrounds.ColorBackground.Companion.empty
 import com.github.benpollarduk.ktvn.backgrounds.ResourceBackground.Companion.backgroundFromResource
 import com.github.benpollarduk.ktvn.io.restore.CharacterRestorePoint
 import com.github.benpollarduk.ktvn.io.restore.SceneRestorePoint
 import com.github.benpollarduk.ktvn.io.tracking.StepTracker
 import com.github.benpollarduk.ktvn.layout.Layout
 import com.github.benpollarduk.ktvn.layout.Layout.Companion.createLayout
+import com.github.benpollarduk.ktvn.logic.structure.SceneTypes.dialog
 import com.github.benpollarduk.ktvn.logic.structure.steps.Pause
 import com.github.benpollarduk.ktvn.logic.structure.steps.Then
 
@@ -32,7 +33,7 @@ public class Scene private constructor(setup: (Scene) -> Unit) {
     /**
      * Get the background for this [Scene].
      */
-    public var background: Background = emptyBackground
+    public var background: Background = empty
         private set
 
     /**
@@ -44,7 +45,7 @@ public class Scene private constructor(setup: (Scene) -> Unit) {
     /**
      * Get the type of [Scene] this is.
      */
-    public var type: SceneType = SceneType.Dialog
+    public var type: SceneType = dialog
         private set
 
     /**
@@ -92,7 +93,7 @@ public class Scene private constructor(setup: (Scene) -> Unit) {
      * Restore this [Scene] from a [sceneRestorePoint].
      */
     private fun restore(sceneRestorePoint: SceneRestorePoint) {
-        if (sceneRestorePoint != SceneRestorePoint.start) {
+        if (sceneRestorePoint != SceneRestorePoint.START) {
             layout.clear()
             sceneRestorePoint.characterRestorePoints.forEach {
                 layout.add(it.character, it.position)
@@ -191,14 +192,19 @@ public class Scene private constructor(setup: (Scene) -> Unit) {
         sceneListener: SceneListener,
         stepListener: StepListener
     ): SceneResult {
-        var indexOfCurrentStep = parameters.sceneRestorePoint.step
+        indexOfCurrentStep = maxOf(0, minOf(content.size - 1, parameters.sceneRestorePoint.step - 1))
         var sceneResult: SceneResult? = null
         restore(parameters.sceneRestorePoint)
         sceneListener.enter(this, transitionIn)
 
         while (indexOfCurrentStep < content.size) {
             val step = content[indexOfCurrentStep]
-            stepListener.enter(step, canSkipStep(step, parameters.stepTracker), parameters.cancellationToken)
+            stepListener.enter(
+                step,
+                parameters.flags,
+                canSkipStep(step, parameters.stepTracker),
+                parameters.cancellationToken
+            )
 
             val result = step(parameters.flags, parameters.cancellationToken)
             parameters.stepTracker.registerStepSeen(step)
@@ -228,7 +234,7 @@ public class Scene private constructor(setup: (Scene) -> Unit) {
                 }
             }
 
-            stepListener.exit(step)
+            stepListener.exit(step, parameters.flags)
 
             if (sceneResult != null) {
                 break

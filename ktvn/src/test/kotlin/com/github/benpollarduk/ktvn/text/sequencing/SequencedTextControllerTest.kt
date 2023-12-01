@@ -16,7 +16,7 @@ class SequencedTextControllerTest {
         val font = Font("Arial", Font.PLAIN, 12)
         val parameters = TextFrameParameters(100, 4, font)
         val frames = SizeConstrainedTextFrame.create(text, parameters)
-        val sequencer = TimeBasedTextSequencer(1) {
+        val sequencer = GridTextSequencer(1) {
             for (position in it) {
                 print(position.character)
             }

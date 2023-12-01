@@ -10,5 +10,5 @@ public interface NarratorAskListener {
     /**
      * Invoke the listener with a specified [narrator] and [question]. Returns the selected answer.
      */
-    public fun ask(narrator: Narrator, question: Question, answerListener: AnswerListener): Answer
+    public fun ask(narrator: Narrator, question: Question): Answer
 }

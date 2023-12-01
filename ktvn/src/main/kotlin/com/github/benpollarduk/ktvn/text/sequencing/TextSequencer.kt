@@ -12,9 +12,19 @@ public interface TextSequencer {
     public val sequencing: Boolean
 
     /**
+     * Get or set the delay between characters, in milliseconds.
+     */
+    public var msBetweenCharacters: Long
+
+    /**
      * Request all characters now.
      */
     public fun requestAll()
+
+    /**
+     * Cancel all sequencing.
+     */
+    public fun cancel()
 
     /**
      * Start sequencing characters for a specified [frame].
