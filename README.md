@@ -339,14 +339,14 @@ internal fun onTheLaunchPad(): Scene {
         }
         scene steps listOf(
             next {
-                scene.layout moveCenter sophie
+                layout moveCenter sophie
                 sophie looks normal
                 sophie says "Where has that fool gotten to now?"
             },
             next { audio sfx sfxWoosh },
             next {
-                scene.layout moveLeft sophie
-                scene.layout moveRight toki
+                layout moveLeft sophie
+                layout moveRight toki
                 toki looks normal
                 toki says "Here I am!"
                 toki says "Ready for duty!"
