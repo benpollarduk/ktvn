@@ -317,11 +317,48 @@ The following sequence diagram shows the sequence of starting a game and a chara
 
 # Prototyping #
 Ktvn is focused on providing a framework for writing visual novels that can be pulled in to other frameworks rather than 
-a full out of the box solution. A swing prototyping app is included in the repo to help with the prototyping phases of 
-development. Please see 
+attempting to provide a full solution for writing visual novels from start to finish. This puts some emphasis on writing 
+an engine to fit the target framwork but allows for bespoke UI solutions to be created. However, a swing prototyping app 
+is included in the repo to help with the prototyping phases of development. Please see 
 [app-ktvn-prototyper-swing](https://github.com/benpollarduk/ktvn/tree/main/app-ktvn-prototyper-swing) for more information.
 
 ![app-ktvn-prototyping-swing](https://github.com/benpollarduk/ktvn/assets/129943363/d665ed4b-56a1-4a9b-b938-faf767ffaf71)
+
+The source for the above scene:
+
+```kotlin
+internal fun onTheLaunchPad(): Scene {
+    return scene { scene ->
+        scene name "On the launch pad"
+        scene background shuttleDay
+        scene music shuttleDayMusic
+        scene layout createLayout { layout ->
+            layout addLeftOf sophie
+            layout addRightOf toki
+            layout configure configuration.gameAdapter.layoutAdapter
+        }
+        scene steps listOf(
+            next {
+                scene.layout moveCenter sophie
+                sophie looks normal
+                sophie says "Where has that fool gotten to now?"
+            },
+            next { audio sfx sfxWoosh },
+            next {
+                scene.layout moveLeft sophie
+                scene.layout moveRight toki
+                toki looks normal
+                toki says "Here I am!"
+                toki says "Ready for duty!"
+            },
+            next {
+                sophie looks happy
+                sophie says "Ever the fool."
+            }
+        )
+    }
+}
+```
 
 # For Open Questions
 Visit https://github.com/benpollarduk/ktvn/issues
