@@ -1,5 +1,6 @@
 package com.github.benpollarduk.ktvn.logic.adapters.dynamic
 
+import com.github.benpollarduk.ktvn.logic.Flags
 import com.github.benpollarduk.ktvn.logic.GameEngine
 import com.github.benpollarduk.ktvn.logic.adapters.StoryAdapter
 import com.github.benpollarduk.ktvn.logic.structure.CancellationToken
@@ -53,12 +54,12 @@ internal class DynamicStoryAdapter(internal var gameEngine: GameEngine? = null) 
     }
 
     override val stepListener: StepListener = object : StepListener {
-        override fun enter(step: Step, canSkip: Boolean, cancellationToken: CancellationToken) {
-            gameEngine?.enterStep(step, canSkip, cancellationToken)
+        override fun enter(step: Step, flags: Flags, canSkip: Boolean, cancellationToken: CancellationToken) {
+            gameEngine?.enterStep(step, flags, canSkip, cancellationToken)
         }
 
-        override fun exit(step: Step) {
-            gameEngine?.exitStep(step)
+        override fun exit(step: Step, flags: Flags) {
+            gameEngine?.exitStep(step, flags)
         }
     }
 }

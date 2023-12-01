@@ -10,6 +10,6 @@ public class ColorBackground(public val color: Color = Color.BLACK) : Background
         /**
          * Provides an empty background.
          */
-        public val emptyBackground: ColorBackground = ColorBackground()
+        public val empty: ColorBackground = ColorBackground()
     }
 }

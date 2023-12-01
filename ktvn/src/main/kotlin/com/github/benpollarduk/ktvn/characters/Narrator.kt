@@ -12,13 +12,13 @@ public class Narrator(private val adapter: NarratorAdapter) {
      * Narrate a [line].
      */
     public infix fun narrates(line: String) {
-        adapter.narrateListener.narrate(this, line, adapter.narrateAcknowledgementListener)
+        adapter.narrateListener.narrate(this, line)
     }
 
     /**
      * Ask a [question]. Returns the selected answer.
      */
     public infix fun asks(question: Question): Answer {
-        return adapter.askListener.ask(this, question, adapter.answerListener)
+        return adapter.askListener.ask(this, question)
     }
 }

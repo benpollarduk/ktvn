@@ -2,7 +2,6 @@ package com.github.benpollarduk.ktvn.logic.adapters.dynamic
 
 import com.github.benpollarduk.ktvn.characters.AnimateListener
 import com.github.benpollarduk.ktvn.characters.Animation
-import com.github.benpollarduk.ktvn.characters.AnswerListener
 import com.github.benpollarduk.ktvn.characters.Character
 import com.github.benpollarduk.ktvn.characters.CharacterAskListener
 import com.github.benpollarduk.ktvn.characters.EmoteListener
@@ -13,64 +12,36 @@ import com.github.benpollarduk.ktvn.logic.Answer.Companion.answer
 import com.github.benpollarduk.ktvn.logic.GameEngine
 import com.github.benpollarduk.ktvn.logic.Question
 import com.github.benpollarduk.ktvn.logic.adapters.CharacterAdapter
-import com.github.benpollarduk.ktvn.logic.structure.AcknowledgeListener
 import com.github.benpollarduk.ktvn.text.log.LogElement
 
 /**
  * Provides a [CharacterAdapter] with a [gameEngine] that can be specified after initialization.
  */
 internal class DynamicCharacterAdapter(internal var gameEngine: GameEngine? = null) : CharacterAdapter {
-    override val emoteAcknowledgementListener: AcknowledgeListener = object : AcknowledgeListener {
-        override fun waitFor() {
-            gameEngine?.waitForCharacterEmotionAcknowledgement()
-        }
-    }
-
-    override val animateAcknowledgementListener: AcknowledgeListener = object : AcknowledgeListener {
-        override fun waitFor() {
-            gameEngine?.waitForCharacterAnimationAcknowledgement()
-        }
-    }
-
-    override val speakAcknowledgementListener: AcknowledgeListener = object : AcknowledgeListener {
-        override fun waitFor() {
-            gameEngine?.waitForCharacterSpeakAcknowledgement()
-        }
-    }
-
     override val askListener: CharacterAskListener = object : CharacterAskListener {
-        override fun ask(character: Character, question: Question, answerListener: AnswerListener): Answer {
+        override fun ask(character: Character, question: Question): Answer {
             gameEngine?.log?.add(LogElement.CharacterLog(character, question.line))
             gameEngine?.characterAsksQuestion(character, question)
-            return answerListener.waitFor(question)
-        }
-    }
-
-    override val answerListener: AnswerListener = object : AnswerListener {
-        override fun waitFor(question: Question): Answer {
-            return gameEngine?.answerQuestion(question) ?: answer { }
+            return gameEngine?.getAnswerQuestion(question) ?: answer { }
         }
     }
 
     override val speakListener: SpeakListener = object : SpeakListener {
-        override fun speak(character: Character, line: String, acknowledgement: AcknowledgeListener) {
+        override fun speak(character: Character, line: String) {
             gameEngine?.log?.add(LogElement.CharacterLog(character, line))
             gameEngine?.characterSpeaks(character, line)
-            acknowledgement.waitFor()
         }
     }
 
     override val emoteListener: EmoteListener = object : EmoteListener {
-        override fun emote(character: Character, emotion: Emotion, acknowledgement: AcknowledgeListener) {
+        override fun emote(character: Character, emotion: Emotion) {
             gameEngine?.characterShowsEmotion(character, emotion)
-            acknowledgement.waitFor()
         }
     }
 
     override val animateListener: AnimateListener = object : AnimateListener {
-        override fun animate(character: Character, animation: Animation, acknowledgement: AcknowledgeListener) {
+        override fun animate(character: Character, animation: Animation) {
             gameEngine?.characterAnimation(character, animation)
-            acknowledgement.waitFor()
         }
     }
 }

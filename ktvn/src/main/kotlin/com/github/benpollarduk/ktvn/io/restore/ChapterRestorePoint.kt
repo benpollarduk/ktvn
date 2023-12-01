@@ -11,6 +11,6 @@ public data class ChapterRestorePoint(
         /**
          * Provides a restore point at the start of a [Chapter].
          */
-        public val start: ChapterRestorePoint = ChapterRestorePoint(SceneRestorePoint.start, 0)
+        public val START: ChapterRestorePoint = ChapterRestorePoint(SceneRestorePoint.START, 1)
     }
 }

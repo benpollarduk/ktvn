@@ -8,15 +8,15 @@ while retaining Kotlins powerful and feature rich syntax.
 Please visit [https://benpollarduk.github.io/ktvn-docs/](https://benpollarduk.github.io/ktvn-docs/) to view the Ktvn documentation.
 
 # Getting Started
-* Clone the repo
-* Build the example
+* Clone the repo.
+* Build the prototyping console.
 ```bash
-./gradlew :app-ktvn-example-console:build
+./gradlew :app-ktvn-prototyper-console:build
 ```
-* Run the example
+* Run an example through the prototyping console.
 ```bash
-cd app-ktvn-example-console/build/libs
-java -jar app-ktvn-example-console-all.jar
+cd app-ktvn-prototyper-console/build/libs
+java -jar app-ktvn-prototyper-console-all.jar
 ```
 
 # Hello World
@@ -33,7 +33,7 @@ val story = story {
 ```
 # Story Structure
 A Ktvn visual novel starts with a **Story**. A Story contains one or more **Chapters**. Each Chapter contains one or 
-more **Scenes**. Each Scene contains one or more **Steps**. There are several types of Step, and Step is extensisible 
+more **Scenes**. Each Scene contains one or more **Steps**. There are several types of Step, and Step is extensible 
 so that the DSL can be customised.
 
 For example:
@@ -83,16 +83,16 @@ val story = story { story ->
     }
 }
 
-// create template for the story and the game configuration
-val storyTemplate = StoryTemplate.create(story, DynamicGameConfiguration())
+// create visual novel to host the story and the game configuration
+val visualNovel = VisualNovel.create(story, DynamicGameConfiguration())
 
-// create a game based on the template
-val game = Game(storyTemplate)
+// create a game based on the visual novel
+val game = Game(visualNovel)
 
 // execute the game synchronously
 GameExecutor.execute(game)
 ```
-The constructor for Game objects accepts an instance of **StoryTemplate**. The StoryTemplate is a critical component of 
+The constructor for Game objects accepts an instance of **VisualNovel**. The VisualNovel is a critical component of 
 Ktvn, it essentially wraps a Story and a **GameConfiguration** into a single discoverable file. The GameConfiguration 
 ties together how the story and the UI interact with one another. Please see the **Integration** section of this readme 
 for more information.
@@ -152,7 +152,7 @@ next { layout moveRight morgana }
 ```
 Or play a sound effect:
 ```kotlin
-next { audio sfx "crash" }
+next { audio sfx sfxFromResource("crash") }
 ```
 
 ### then ###

@@ -57,7 +57,7 @@ public class Flags {
         /**
          * Provides an empty implementation of [Flags].
          */
-        public val empty: Flags = Flags()
+        public val EMPTY: Flags = Flags()
 
         /**
          * Create a new [Flags] from a map.

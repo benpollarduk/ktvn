@@ -10,22 +10,35 @@ import com.github.benpollarduk.ktvn.layout.Positions.none
 import com.github.benpollarduk.ktvn.layout.Positions.right
 import com.github.benpollarduk.ktvn.layout.Positions.rightOf
 import com.github.benpollarduk.ktvn.logic.adapters.LayoutAdapter
+import java.util.concurrent.locks.ReentrantLock
 
 /**
  * Provides a layout for positioning characters.
  */
 @Suppress("TooManyFunctions")
-public class Layout private constructor(setup: (Layout) -> Unit) {
+public open class Layout private constructor(private val setup: (Layout) -> Unit) {
     private val mutablePositions: MutableList<CharacterPosition> = mutableListOf()
     private var adapter: LayoutAdapter? = null
+    private val lock = ReentrantLock()
 
     /**
      * Get the number of characters in this layout.
      */
     public val characters: Int
-        get() = mutablePositions.size
+        get() {
+            try {
+                lock.lock()
+                return mutablePositions.size
+            } finally {
+                lock.unlock()
+            }
+        }
 
     init {
+        runSetup()
+    }
+
+    private fun runSetup() {
         setup(this)
     }
 
@@ -33,42 +46,58 @@ public class Layout private constructor(setup: (Layout) -> Unit) {
      * Clear this layout.
      */
     public fun clear() {
-        mutablePositions.forEach {
-            move(it.character, none)
+        try {
+            lock.lock()
+            mutablePositions.clear()
+        } finally {
+            lock.unlock()
         }
-        mutablePositions.clear()
     }
 
     /**
      * Get an array of all [CharacterPosition] in this [Layout].
      */
     public fun toArrayOfCharacterPosition(): Array<CharacterPosition> {
-        return mutablePositions.toTypedArray()
+        try {
+            lock.lock()
+            return mutablePositions.toTypedArray()
+        } finally {
+            lock.unlock()
+        }
     }
 
     /**
      * Add a [character] to this [Layout] at a [position].
      */
     public fun add(character: Character, position: Position) {
-        mutablePositions.removeAll { it.character == character }
-        mutablePositions.add(CharacterPosition(character, position))
+        try {
+            lock.lock()
+            mutablePositions.removeAll { it.character == character }
+            mutablePositions.add(CharacterPosition(character, position))
+        } finally {
+            lock.unlock()
+        }
     }
 
     /**
      * Move a [character] to a [position].
      */
     public fun move(character: Character, position: Position) {
-        val current = mutablePositions.firstOrNull { it.character == character }
-        val from = current?.position ?: none
-        mutablePositions.removeAll { it.character == character }
-        mutablePositions.add(CharacterPosition(character, position))
-        val config = adapter ?: return
-        config.moveListener.move(
-            character,
-            from,
-            position,
-            config.moveAcknowledgementListener
-        )
+        try {
+            lock.lock()
+            val current = mutablePositions.firstOrNull { it.character == character }
+            val from = current?.position ?: none
+            mutablePositions.removeAll { it.character == character }
+            mutablePositions.add(CharacterPosition(character, position))
+            val config = adapter ?: return
+            config.moveListener.move(
+                character,
+                from,
+                position
+            )
+        } finally {
+            lock.unlock()
+        }
     }
 
     /**

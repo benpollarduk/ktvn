@@ -8,7 +8,7 @@ public data class Ending(public val name: String, public val number: Int) {
         /**
          * A default value for no ending.
          */
-        public val noEnding: Ending = Ending("", -1)
+        public val none: Ending = Ending("", -1)
 
         /**
          * A default ending.

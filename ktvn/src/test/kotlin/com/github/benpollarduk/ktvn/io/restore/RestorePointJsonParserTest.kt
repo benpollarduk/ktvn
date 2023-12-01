@@ -15,10 +15,10 @@ class RestorePointJsonParserTest {
         val restorePoint = RestorePoint(
             "Test",
             flags.toMap(),
-            StoryRestorePoint.start,
+            StoryRestorePoint.START,
             LocalDateTime.MIN
         )
-        val expected = """{"name":"Test","flags":{"Test":true},"storyRestorePoint":{"chapterRestorePoint":{"sceneRestorePoint":{"characterRestorePoints":[],"step":0},"scene":0},"chapter":0},"creationDate":[-999999999,1,1,0,0],"thumbnail":{"width":0,"height":0,"rgbBytes":[]},"version":"1.0.0"}"""
+        val expected = """{"name":"Test","flags":{"Test":true},"storyRestorePoint":{"chapterRestorePoint":{"sceneRestorePoint":{"characterRestorePoints":[],"step":1},"scene":1},"chapter":1},"creationDate":[-999999999,1,1,0,0],"thumbnail":{"width":0,"height":0,"rgbBytes":[]},"version":"1.0.0"}"""
 
         // When
         val result = RestorePointJsonParser.toJson(restorePoint)

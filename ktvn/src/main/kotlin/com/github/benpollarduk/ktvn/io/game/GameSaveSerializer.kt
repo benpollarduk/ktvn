@@ -39,11 +39,11 @@ public object GameSaveSerializer {
             val json = File(path).readText()
             LoadResult(true, "", GameSaveJsonParser.fromJson(json))
         } catch (e: IOException) {
-            LoadResult(false, e.message ?: "Load failed - IOException.", GameSave.empty)
+            LoadResult(false, e.message ?: "Load failed - IOException.", GameSave.EMPTY)
         } catch (e: FileNotFoundException) {
-            LoadResult(false, e.message ?: "Load failed - FileNotFoundException.", GameSave.empty)
+            LoadResult(false, e.message ?: "Load failed - FileNotFoundException.", GameSave.EMPTY)
         } catch (e: SecurityException) {
-            LoadResult(false, e.message ?: "Load failed - SecurityException.", GameSave.empty)
+            LoadResult(false, e.message ?: "Load failed - SecurityException.", GameSave.EMPTY)
         }
     }
 }

@@ -12,7 +12,7 @@ import com.github.benpollarduk.ktvn.logic.adapters.StoryAdapter
  */
 internal data class StoryBeginParameters(
     internal val flags: Flags,
-    internal val storyRestorePoint: StoryRestorePoint = StoryRestorePoint.start,
+    internal val storyRestorePoint: StoryRestorePoint = StoryRestorePoint.START,
     internal val storyAdapter: StoryAdapter,
     internal val stepTracker: StepTracker,
     internal val cancellationToken: CancellationToken

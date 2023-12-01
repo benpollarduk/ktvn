@@ -11,4 +11,11 @@ public data class StepIdentifier(
     override fun toString(): String {
         return "$chapter-$scene-$step"
     }
+
+    public companion object {
+        /**
+         * Get a default value for no identifier.
+         */
+        public val NONE: StepIdentifier = StepIdentifier(-1, -1, -1)
+    }
 }

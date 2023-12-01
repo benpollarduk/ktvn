@@ -1,6 +1,5 @@
 package com.github.benpollarduk.ktvn.logic.structure
 
-import com.github.benpollarduk.ktvn.io.restore.ChapterRestorePoint
 import com.github.benpollarduk.ktvn.io.restore.StoryRestorePoint
 import com.github.benpollarduk.ktvn.logic.Ending
 import com.github.benpollarduk.ktvn.logic.Flags
@@ -10,7 +9,6 @@ import com.github.benpollarduk.ktvn.logic.Flags
  */
 public class Story private constructor(setup: (Story) -> Unit) {
     private val chapters: MutableList<Chapter> = mutableListOf()
-    private val idGenerator = StepIdentifierGenerator()
 
     /**
      * Get the name of this [Chapter].
@@ -27,7 +25,7 @@ public class Story private constructor(setup: (Story) -> Unit) {
     /**
      * Get the flags
      */
-    public var flags: Flags = Flags.empty
+    public var flags: Flags = Flags.EMPTY
         private set
 
     /**
@@ -47,17 +45,6 @@ public class Story private constructor(setup: (Story) -> Unit) {
     }
 
     /**
-     * Assign step ids for the [chapter].
-     */
-    private fun assignStepIds(chapter: Chapter) {
-        chapter.getAllScenes().forEach { scene ->
-            scene.getAllSteps().forEach { step ->
-                step.identifier = idGenerator.next(chapter, scene)
-            }
-        }
-    }
-
-    /**
      * Create a restore point for this [Story]. The returned [StoryRestorePoint] allows this [Story] to be restored.
      */
     internal fun createRestorePoint(): StoryRestorePoint {
@@ -65,53 +52,42 @@ public class Story private constructor(setup: (Story) -> Unit) {
     }
 
     /**
+     * Get all chapters in this story.
+     */
+    internal fun getAllChapters(): List<Chapter> {
+        return chapters.toList()
+    }
+
+    /**
      * Begin the [Story] with specified [parameters]. Returns an [Ending].
      **/
     internal fun begin(parameters: StoryBeginParameters): Ending {
-        var i = parameters.storyRestorePoint.chapter
+        indexOfCurrentChapter = maxOf(0, minOf(chapters.size - 1, parameters.storyRestorePoint.chapter - 1))
         var ending: Ending? = null
-
-        idGenerator.reset()
-
         parameters.storyAdapter.storyListener.enter(this)
 
-        while (i < chapters.size) {
-            indexOfCurrentChapter = i
-            val chapter = chapters[i]
+        while (indexOfCurrentChapter < chapters.size) {
+            val chapter = chapters[indexOfCurrentChapter]
 
-            assignStepIds(chapter)
-
-            val result = if (i == parameters.storyRestorePoint.chapter) {
-                chapter.begin(
-                    ChapterBeginParameters(
-                        flags,
-                        parameters.storyRestorePoint.chapterRestorePoint,
-                        parameters.stepTracker,
-                        parameters.cancellationToken
-                    ),
-                    parameters.storyAdapter.chapterListener,
-                    parameters.storyAdapter.sceneListener,
-                    parameters.storyAdapter.stepListener
-                )
-            } else {
-                chapter.begin(
-                    ChapterBeginParameters(
-                        flags,
-                        ChapterRestorePoint.start,
-                        parameters.stepTracker,
-                        parameters.cancellationToken
-                    ),
-                    parameters.storyAdapter.chapterListener,
-                    parameters.storyAdapter.sceneListener,
-                    parameters.storyAdapter.stepListener
-                )
-            }
+            val result = chapter.begin(
+                ChapterBeginParameters(
+                    flags,
+                    parameters.storyRestorePoint.chapterRestorePoint,
+                    parameters.stepTracker,
+                    parameters.cancellationToken
+                ),
+                parameters.storyAdapter.chapterListener,
+                parameters.storyAdapter.sceneListener,
+                parameters.storyAdapter.stepListener
+            )
 
             when (result) {
-                is ChapterResult.Continue -> { i++ }
-                is ChapterResult.SelectChapter -> { i = chapters.indexOfFirst { it.name.equals(result.name, true) } }
+                is ChapterResult.Continue -> { indexOfCurrentChapter++ }
+                is ChapterResult.SelectChapter -> {
+                    indexOfCurrentChapter = chapters.indexOfFirst { it.name.equals(result.name, true) }
+                }
                 is ChapterResult.End -> { ending = result.ending }
-                is ChapterResult.Cancelled -> { ending = Ending.noEnding }
+                is ChapterResult.Cancelled -> { ending = Ending.none }
             }
 
             if (ending != null) {

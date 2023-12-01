@@ -8,12 +8,12 @@ import java.awt.Font
 public data class TextFrameParameters(
     public val widthConstraint: Int,
     public val availableLines: Int,
-    public val font: Font = defaultFont
+    public val font: Font = DEFAULT_FONT
 ) {
     public companion object {
         /**
          * Get a default value for font.
          */
-        public val defaultFont: Font = Font("Arial", Font.PLAIN, 12)
+        public val DEFAULT_FONT: Font = Font("Arial", Font.PLAIN, 12)
     }
 }

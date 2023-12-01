@@ -39,11 +39,11 @@ public object RestorePointSerializer {
             val json = File(path).readText()
             LoadResult(true, "", RestorePointJsonParser.fromJson(json))
         } catch (e: IOException) {
-            LoadResult(false, e.message ?: "Load failed - IOException.", RestorePoint.empty)
+            LoadResult(false, e.message ?: "Load failed - IOException.", RestorePoint.EMPTY)
         } catch (e: FileNotFoundException) {
-            LoadResult(false, e.message ?: "Load failed - FileNotFoundException.", RestorePoint.empty)
+            LoadResult(false, e.message ?: "Load failed - FileNotFoundException.", RestorePoint.EMPTY)
         } catch (e: SecurityException) {
-            LoadResult(false, e.message ?: "Load failed - SecurityException.", RestorePoint.empty)
+            LoadResult(false, e.message ?: "Load failed - SecurityException.", RestorePoint.EMPTY)
         }
     }
 }

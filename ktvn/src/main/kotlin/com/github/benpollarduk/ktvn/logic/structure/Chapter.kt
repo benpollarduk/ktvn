@@ -63,7 +63,7 @@ public class Chapter private constructor(setup: (Chapter) -> Unit) {
         sceneListener: SceneListener,
         stepListener: StepListener
     ): ChapterResult {
-        indexOfCurrentScene = parameters.chapterRestorePoint.scene
+        indexOfCurrentScene = maxOf(0, minOf(scenes.size - 1, parameters.chapterRestorePoint.scene - 1))
         var chapterResult: ChapterResult? = null
 
         chapterListener.enter(this, transition)
@@ -71,29 +71,16 @@ public class Chapter private constructor(setup: (Chapter) -> Unit) {
         while (indexOfCurrentScene < scenes.size) {
             val currentScene = scenes[indexOfCurrentScene]
 
-            val result = if (indexOfCurrentScene == parameters.chapterRestorePoint.scene) {
-                currentScene.begin(
-                    SceneBeginParameters(
-                        parameters.flags,
-                        parameters.chapterRestorePoint.sceneRestorePoint,
-                        parameters.stepTracker,
-                        parameters.cancellationToken
-                    ),
-                    sceneListener,
-                    stepListener
-                )
-            } else {
-                currentScene.begin(
-                    SceneBeginParameters(
-                        parameters.flags,
-                        ChapterRestorePoint.start.sceneRestorePoint,
-                        parameters.stepTracker,
-                        parameters.cancellationToken
-                    ),
-                    sceneListener,
-                    stepListener
-                )
-            }
+            val result = currentScene.begin(
+                SceneBeginParameters(
+                    parameters.flags,
+                    parameters.chapterRestorePoint.sceneRestorePoint,
+                    parameters.stepTracker,
+                    parameters.cancellationToken
+                ),
+                sceneListener,
+                stepListener
+            )
 
             when (result) {
                 SceneResult.Cancelled -> {

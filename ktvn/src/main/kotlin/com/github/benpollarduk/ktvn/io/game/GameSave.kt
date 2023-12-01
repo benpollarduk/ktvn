@@ -4,12 +4,12 @@ import com.github.benpollarduk.ktvn.logic.Ending
 
 /**
  * Provides a game save with [totalSeconds] and list of [endingsReached]. Optionally [settings] can be provided. If no
- * value is specified [GameSettings.default] will be used.
+ * value is specified [GameSettings.DEFAULT] will be used.
  */
 public class GameSave(
     public val totalSeconds: Long,
     public val endingsReached: List<Ending>,
-    public val settings: GameSettings = GameSettings.default
+    public val settings: GameSettings = GameSettings.DEFAULT
 ) {
     /**
      * Get the version of this [GameSave].
@@ -25,7 +25,7 @@ public class GameSave(
         /**
          * Provides an empty [GameSave].
          */
-        public val empty: GameSave = GameSave(
+        public val EMPTY: GameSave = GameSave(
             0,
             emptyList()
         )

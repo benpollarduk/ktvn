@@ -27,8 +27,8 @@ class GameExecutorTest {
                     }
                 }
             }
-            val template = StoryTemplate.create(story, TestGameConfiguration)
-            val game = Game(template, GameSave.empty, RestorePoint.empty)
+            val visualNovel = VisualNovel.create(story, TestGameConfiguration)
+            val game = Game(visualNovel, GameSave.EMPTY, RestorePoint.EMPTY)
 
             // When
             GameExecutor.execute(game)

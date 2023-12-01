@@ -11,7 +11,7 @@ public data class RestorePoint(
     public val flags: Map<String, Boolean>,
     public val storyRestorePoint: StoryRestorePoint,
     public val creationDate: LocalDateTime = LocalDateTime.now(),
-    public val thumbnail: Thumbnail = Thumbnail.none
+    public val thumbnail: Thumbnail = Thumbnail.NONE
 ) {
     /**
      * Get the version of this [RestorePoint].
@@ -27,10 +27,10 @@ public data class RestorePoint(
         /**
          * Provides an empty [RestorePoint].
          */
-        public val empty: RestorePoint = RestorePoint(
+        public val EMPTY: RestorePoint = RestorePoint(
             "",
             emptyMap(),
-            StoryRestorePoint.start
+            StoryRestorePoint.START
         )
     }
 }

@@ -1,5 +1,6 @@
 package com.github.benpollarduk.ktvn.text.log
 
+import java.lang.StringBuilder
 import java.util.LinkedList
 import java.util.Queue
 
@@ -39,6 +40,28 @@ public class Log(public val maximumCapacity: Int = DEFAULT_CAPACITY) {
      */
     public fun toArray(): Array<LogElement> {
         return queue.toTypedArray()
+    }
+
+    override fun toString(): String {
+        val builder = StringBuilder()
+
+        val log = toArray()
+        log.forEach {
+            when (it) {
+                is LogElement.NarratorLog -> {
+                    builder.appendLine(it.value)
+                }
+                is LogElement.CharacterLog -> {
+                    builder.appendLine("${it.character.name}: ${it.value}")
+                }
+                is LogElement.StringLog -> {
+                    builder.appendLine(it.value)
+                }
+            }
+            builder.appendLine()
+        }
+
+        return builder.toString()
     }
 
     public companion object {

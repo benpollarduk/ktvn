@@ -11,6 +11,6 @@ public data class GameSettings(
         /**
          * Get default [GameSettings].
          */
-        public val default: GameSettings = GameSettings(false, 500)
+        public val DEFAULT: GameSettings = GameSettings(false, 500)
     }
 }

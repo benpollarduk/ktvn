@@ -5,31 +5,18 @@ import com.github.benpollarduk.ktvn.logic.Answer.Companion.answer
 import com.github.benpollarduk.ktvn.logic.Question
 import com.github.benpollarduk.ktvn.logic.Question.Companion.question
 import com.github.benpollarduk.ktvn.logic.adapters.NarratorAdapter
-import com.github.benpollarduk.ktvn.logic.structure.AcknowledgeListener
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
 class NarratorTest {
     private val emptyNarrateListener = object : NarrateListener {
-        override fun narrate(narrator: Narrator, line: String, acknowledgement: AcknowledgeListener) {
+        override fun narrate(narrator: Narrator, line: String) {
             // nothing
         }
     }
 
     private val emptyAskListener = object : NarratorAskListener {
-        override fun ask(narrator: Narrator, question: Question, answerListener: AnswerListener): Answer {
-            return question.answers.first()
-        }
-    }
-
-    private val emptyAcknowledgeListener = object : AcknowledgeListener {
-        override fun waitFor() {
-            // nothing
-        }
-    }
-
-    private val emptyAnswerListener = object : AnswerListener {
-        override fun waitFor(question: Question): Answer {
+        override fun ask(narrator: Narrator, question: Question): Answer {
             return question.answers.first()
         }
     }
@@ -39,11 +26,9 @@ class NarratorTest {
         // Given
         var called = false
         val configuration: NarratorAdapter = object : NarratorAdapter {
-            override val narrateAcknowledgementListener: AcknowledgeListener = emptyAcknowledgeListener
-            override val answerListener: AnswerListener = emptyAnswerListener
             override val askListener: NarratorAskListener = emptyAskListener
             override val narrateListener: NarrateListener = object : NarrateListener {
-                override fun narrate(narrator: Narrator, line: String, acknowledgement: AcknowledgeListener) {
+                override fun narrate(narrator: Narrator, line: String) {
                     called = true
                 }
             }
@@ -62,11 +47,9 @@ class NarratorTest {
         // Given
         var called = false
         val configuration: NarratorAdapter = object : NarratorAdapter {
-            override val narrateAcknowledgementListener: AcknowledgeListener = emptyAcknowledgeListener
-            override val answerListener: AnswerListener = emptyAnswerListener
             override val narrateListener: NarrateListener = emptyNarrateListener
             override val askListener: NarratorAskListener = object : NarratorAskListener {
-                override fun ask(narrator: Narrator, question: Question, answerListener: AnswerListener): Answer {
+                override fun ask(narrator: Narrator, question: Question): Answer {
                     called = true
                     return answer { }
                 }

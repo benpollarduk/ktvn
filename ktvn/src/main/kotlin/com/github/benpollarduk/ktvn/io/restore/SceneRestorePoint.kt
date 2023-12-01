@@ -11,6 +11,6 @@ public data class SceneRestorePoint(
         /**
          * Provides a restore point at the start of a [Scene].
          */
-        public val start: SceneRestorePoint = SceneRestorePoint(emptyList(), 0)
+        public val START: SceneRestorePoint = SceneRestorePoint(emptyList(), 1)
     }
 }
