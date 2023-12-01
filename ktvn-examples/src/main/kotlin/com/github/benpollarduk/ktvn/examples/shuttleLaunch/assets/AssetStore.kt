@@ -49,7 +49,7 @@ public object AssetStore {
     /**
      * Get the track for the shuttle day scene.
      */
-    public val shuttleDayMusic: Track = trackFromResource("shuttleLaunch/audio/evening-test.wav")
+    public val shuttleDayMusic: Track = trackFromResource("shuttleLaunch/audio/shuttle-day.wav")
 
     /**
      * Get the 'woosh' sound effect.
