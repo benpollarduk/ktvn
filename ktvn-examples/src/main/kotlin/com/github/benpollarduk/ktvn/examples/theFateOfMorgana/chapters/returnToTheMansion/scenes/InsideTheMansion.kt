@@ -10,24 +10,25 @@ import com.github.benpollarduk.ktvn.examples.theFateOfMorgana.assets.AssetStore.
 import com.github.benpollarduk.ktvn.examples.theFateOfMorgana.assets.AssetStore.michel
 import com.github.benpollarduk.ktvn.examples.theFateOfMorgana.assets.AssetStore.morgana
 import com.github.benpollarduk.ktvn.examples.theFateOfMorgana.assets.AssetStore.narrator
-import com.github.benpollarduk.ktvn.layout.Layout
+import com.github.benpollarduk.ktvn.layout.Layout.Companion.createLayout
 import com.github.benpollarduk.ktvn.logic.Answer.Companion.answer
 import com.github.benpollarduk.ktvn.logic.Ending
 import com.github.benpollarduk.ktvn.logic.Question.Companion.question
 import com.github.benpollarduk.ktvn.logic.structure.Scene
-import com.github.benpollarduk.ktvn.logic.structure.StepResult
+import com.github.benpollarduk.ktvn.logic.structure.Scene.Companion.scene
 import com.github.benpollarduk.ktvn.logic.structure.StepResult.Continue
+import com.github.benpollarduk.ktvn.logic.structure.StepResult.End
 import com.github.benpollarduk.ktvn.logic.structure.steps.Conditional.Companion.conditional
 import com.github.benpollarduk.ktvn.logic.structure.steps.Decision.Companion.decision
 import com.github.benpollarduk.ktvn.logic.structure.steps.Then.Companion.next
 
 @Suppress("LongMethod")
 internal fun insideTheMansion(): Scene {
-    return Scene.scene { scene ->
+    return scene { scene ->
         scene name "Inside the mansion"
         scene background "mansion-interior"
         scene music "mansion-theme"
-        scene layout Layout.createLayout { layout ->
+        scene layout createLayout { layout ->
             layout addLeftOf michel
             layout addRightOf morgana
             layout configure configuration.gameAdapter.layoutAdapter
@@ -88,7 +89,7 @@ internal fun insideTheMansion(): Scene {
                     audio sfx "scream"
                     michel begins shaking
                 }
-                it returns StepResult.End(Ending("Michel dies alone.", 1))
+                it returns End(Ending("Michel dies alone.", 1))
             }
         )
     }

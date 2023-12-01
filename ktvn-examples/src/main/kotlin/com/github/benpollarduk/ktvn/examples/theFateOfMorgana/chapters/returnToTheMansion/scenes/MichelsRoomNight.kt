@@ -8,10 +8,11 @@ import com.github.benpollarduk.ktvn.examples.theFateOfMorgana.assets.AssetStore.
 import com.github.benpollarduk.ktvn.examples.theFateOfMorgana.assets.AssetStore.michel
 import com.github.benpollarduk.ktvn.examples.theFateOfMorgana.assets.AssetStore.morgana
 import com.github.benpollarduk.ktvn.examples.theFateOfMorgana.assets.AssetStore.narrator
-import com.github.benpollarduk.ktvn.layout.Layout
+import com.github.benpollarduk.ktvn.layout.Layout.Companion.createLayout
 import com.github.benpollarduk.ktvn.logic.Answer.Companion.answer
 import com.github.benpollarduk.ktvn.logic.Question.Companion.question
 import com.github.benpollarduk.ktvn.logic.structure.Scene
+import com.github.benpollarduk.ktvn.logic.structure.Scene.Companion.scene
 import com.github.benpollarduk.ktvn.logic.structure.StepResult
 import com.github.benpollarduk.ktvn.logic.structure.steps.Conditional.Companion.conditional
 import com.github.benpollarduk.ktvn.logic.structure.steps.Decision.Companion.decision
@@ -19,11 +20,11 @@ import com.github.benpollarduk.ktvn.logic.structure.steps.Then.Companion.next
 
 @Suppress("LongMethod", "MaxLineLength")
 internal fun michelsRoomNight(): Scene {
-    return Scene.scene { scene ->
+    return scene { scene ->
         scene name "Michel's Room (Night)"
         scene background "michels-room-night"
         scene music "mansion-theme-night"
-        scene layout Layout.createLayout { layout ->
+        scene layout createLayout { layout ->
             layout addCenter michel
             layout addRightOf morgana
             layout configure configuration.gameAdapter.layoutAdapter

@@ -5,9 +5,10 @@ import com.github.benpollarduk.ktvn.characters.Emotions.normal
 import com.github.benpollarduk.ktvn.examples.theFateOfMorgana.assets.AssetStore.configuration
 import com.github.benpollarduk.ktvn.examples.theFateOfMorgana.assets.AssetStore.michel
 import com.github.benpollarduk.ktvn.examples.theFateOfMorgana.assets.AssetStore.narrator
-import com.github.benpollarduk.ktvn.layout.Layout
+import com.github.benpollarduk.ktvn.layout.Layout.Companion.createLayout
 import com.github.benpollarduk.ktvn.logic.Ending.Companion.default
 import com.github.benpollarduk.ktvn.logic.structure.Scene
+import com.github.benpollarduk.ktvn.logic.structure.Scene.Companion.scene
 import com.github.benpollarduk.ktvn.logic.structure.StepResult.Continue
 import com.github.benpollarduk.ktvn.logic.structure.steps.Conditional.Companion.conditional
 import com.github.benpollarduk.ktvn.logic.structure.steps.End.Companion.end
@@ -15,11 +16,11 @@ import com.github.benpollarduk.ktvn.logic.structure.steps.Then.Companion.next
 
 @Suppress("LongMethod", "MaxLineLength")
 internal fun michelsRoomMorning(): Scene {
-    return Scene.scene { scene ->
+    return scene { scene ->
         scene name "Michel's Room (Morning)"
         scene background "michels-room-morning"
         scene music "mansion-theme"
-        scene layout Layout.createLayout { layout ->
+        scene layout createLayout { layout ->
             layout addCenter michel
             layout configure configuration.gameAdapter.layoutAdapter
         }
