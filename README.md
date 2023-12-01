@@ -315,5 +315,13 @@ The following sequence diagram shows the sequence of starting a game and a chara
 
 ![ktvn-sequencing-overview.png](docs%2Fktvn-sequencing-overview.png)
 
+# Prototyping #
+Ktvn is focused on providing a framework for writing visual novels that can be pulled in to other frameworks rather than 
+a full out of the box solution. A swing prototyping app is included in the repo to help with the prototyping phases of 
+development. Please see 
+[app-ktvn-prototyper-swing](https://github.com/benpollarduk/ktvn/tree/main/app-ktvn-prototyper-swing) for more information.
+
+![app-ktvn-prototyping-swing](https://github.com/benpollarduk/ktvn/assets/129943363/d665ed4b-56a1-4a9b-b938-faf767ffaf71)
+
 # For Open Questions
 Visit https://github.com/benpollarduk/ktvn/issues
