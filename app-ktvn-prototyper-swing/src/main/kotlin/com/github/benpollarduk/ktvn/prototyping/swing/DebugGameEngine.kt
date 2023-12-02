@@ -306,6 +306,7 @@ class DebugGameEngine(
 
     override fun enterScene(scene: Scene, transition: SceneTransition) {
         location = "Scene: ${scene.name}"
+        visualScene.reset()
 
         setSceneBackground(scene.background)
         if (scene.music is NoAudio) {
