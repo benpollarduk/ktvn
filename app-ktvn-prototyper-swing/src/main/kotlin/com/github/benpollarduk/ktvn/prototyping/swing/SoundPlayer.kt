@@ -13,6 +13,7 @@ import javax.sound.sampled.LineEvent
  * Provides a simple class for playing sounds.
  */
 class SoundPlayer : Logging {
+    private var currentSource: String? = null
     private var clip: Clip? = null
 
     /**
@@ -20,12 +21,17 @@ class SoundPlayer : Logging {
      * true the audio will loop indefinitely.
      */
     fun playFromResource(key: String, loop: Boolean = false): Boolean {
-        val stream = javaClass.classLoader.getResourceAsStream(key)
-        return if (stream != null) {
-            val bufferedStream = AudioSystem.getAudioInputStream(BufferedInputStream(stream))
-            play(bufferedStream, loop)
+        return if (currentSource == key && clip != null) {
+            return true
         } else {
-            false
+            val stream = javaClass.classLoader.getResourceAsStream(key)
+            if (stream != null) {
+                currentSource = key
+                val bufferedStream = AudioSystem.getAudioInputStream(BufferedInputStream(stream))
+                play(bufferedStream, loop)
+            } else {
+                false
+            }
         }
     }
 
@@ -34,11 +40,16 @@ class SoundPlayer : Logging {
      * the audio will loop indefinitely.
      */
     fun playFromFile(path: String, loop: Boolean = false): Boolean {
-        val file = File(path)
-        return if (file.exists()) {
-            play(AudioSystem.getAudioInputStream(file), loop)
+        return if (currentSource == path && clip != null) {
+            return true
         } else {
-            false
+            val file = File(path)
+            if (file.exists()) {
+                currentSource = path
+                play(AudioSystem.getAudioInputStream(file), loop)
+            } else {
+                false
+            }
         }
     }
 
@@ -66,7 +77,9 @@ class SoundPlayer : Logging {
             if (audioClip != null) {
                 audioClip.addLineListener {
                     if (it.type == LineEvent.Type.STOP) {
-                        audioClip.close()
+                        clip?.close()
+                        clip = null
+                        currentSource = null
                     }
                 }
 
