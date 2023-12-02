@@ -56,6 +56,11 @@ public interface GameEngine {
     public fun characterSpeaks(character: Character, line: String)
 
     /**
+     * Handle a [character] thinking a [line].
+     */
+    public fun characterThinks(character: Character, line: String)
+
+    /**
      * Show a [character] [emotion].
      */
     public fun characterShowsEmotion(character: Character, emotion: Emotion)

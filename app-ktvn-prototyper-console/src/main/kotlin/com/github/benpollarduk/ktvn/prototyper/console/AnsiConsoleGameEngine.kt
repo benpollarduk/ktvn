@@ -234,6 +234,12 @@ internal class AnsiConsoleGameEngine(
         clear()
     }
 
+    override fun characterThinks(character: Character, line: String) {
+        print("${character.name}: $line", getCharacterColor(character))
+        waitForAcknowledge(cancellationToken)
+        clear()
+    }
+
     override fun characterShowsEmotion(character: Character, emotion: Emotion) {
         printlnDirectTemp("${character.name} looks $emotion.")
     }

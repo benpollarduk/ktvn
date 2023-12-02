@@ -252,6 +252,12 @@ class DebugGameEngine(
         waitForAcknowledge(cancellationToken)
     }
 
+    override fun characterThinks(character: Character, line: String) {
+        sequencedTextArea.styleFor(character)
+        print(line)
+        waitForAcknowledge(cancellationToken)
+    }
+
     override fun characterShowsEmotion(character: Character, emotion: Emotion) {
         eventTerminal.println(Severity.INFO, "${character.name} looks $emotion.")
         val image = imageResolver?.getCharacterImage(character, emotion, location)

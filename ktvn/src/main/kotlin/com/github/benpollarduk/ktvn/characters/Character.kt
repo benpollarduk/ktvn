@@ -3,6 +3,8 @@ package com.github.benpollarduk.ktvn.characters
 import com.github.benpollarduk.ktvn.logic.Answer
 import com.github.benpollarduk.ktvn.logic.Question
 import com.github.benpollarduk.ktvn.logic.adapters.CharacterAdapter
+import org.jetbrains.kotlin.util.prefixIfNot
+import org.jetbrains.kotlin.util.suffixIfNot
 
 /**
  * Provides a character with a specified [name]. An [adapter] must be specified. Optionally a string representing the
@@ -31,7 +33,15 @@ public class Character(
      * Say a [line].
      */
     public infix fun says(line: String) {
-        adapter.speakListener.speak(this, line)
+        var formattedLine = line.prefixIfNot("\"").suffixIfNot("\"")
+        adapter.speakListener.speak(this, formattedLine)
+    }
+
+    /**
+     * Think a [line].
+     */
+    public infix fun thinks(line: String) {
+        adapter.thinkListener.think(this, line)
     }
 
     /**
