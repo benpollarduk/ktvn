@@ -31,7 +31,7 @@ public class LazyCharacterResourceLookup(
         val v = character.variation.lowercase()
         val e = emotion.toString().lowercase()
         return if (character.variation != "") {
-            "$root$n-$v-${e}$extension".lowercase()
+            "$root$n-$v-${e}$extension"
         } else {
             "$root$n-${e}$extension"
         }
