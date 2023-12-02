@@ -7,6 +7,7 @@ import com.github.benpollarduk.ktvn.characters.CharacterAskListener
 import com.github.benpollarduk.ktvn.characters.EmoteListener
 import com.github.benpollarduk.ktvn.characters.Emotion
 import com.github.benpollarduk.ktvn.characters.SpeakListener
+import com.github.benpollarduk.ktvn.characters.ThinkListener
 import com.github.benpollarduk.ktvn.layout.Positions.left
 import com.github.benpollarduk.ktvn.layout.Positions.right
 import com.github.benpollarduk.ktvn.logic.Answer
@@ -19,6 +20,12 @@ import org.junit.jupiter.api.Test
 class LayoutTest {
     private val emptySpeakListener = object : SpeakListener {
         override fun speak(character: Character, line: String) {
+            // nothing
+        }
+    }
+
+    private val emptyThinkListener = object : ThinkListener {
+        override fun think(character: Character, line: String) {
             // nothing
         }
     }
@@ -46,6 +53,7 @@ class LayoutTest {
         override val emoteListener: EmoteListener = emptyEmoteListener
         override val animateListener: AnimateListener = emptyAnimateListener
         override val speakListener: SpeakListener = emptySpeakListener
+        override val thinkListener: ThinkListener = emptyThinkListener
     }
 
     @Test

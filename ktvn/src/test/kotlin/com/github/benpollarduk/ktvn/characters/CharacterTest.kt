@@ -14,6 +14,12 @@ class CharacterTest {
         }
     }
 
+    private val emptyThinkListener = object : ThinkListener {
+        override fun think(character: Character, line: String) {
+            // nothing
+        }
+    }
+
     private val emptyEmoteListener = object : EmoteListener {
         override fun emote(character: Character, emotion: Emotion) {
             // nothing
@@ -37,6 +43,7 @@ class CharacterTest {
         override val emoteListener: EmoteListener = emptyEmoteListener
         override val animateListener: AnimateListener = emptyAnimateListener
         override val speakListener: SpeakListener = emptySpeakListener
+        override val thinkListener: ThinkListener = emptyThinkListener
     }
 
     @Test
@@ -80,6 +87,7 @@ class CharacterTest {
             override val askListener: CharacterAskListener = emptyAskListener
             override val emoteListener: EmoteListener = emptyEmoteListener
             override val animateListener: AnimateListener = emptyAnimateListener
+            override val thinkListener: ThinkListener = emptyThinkListener
         }
 
         val character = Character(
@@ -102,6 +110,7 @@ class CharacterTest {
             override val emoteListener: EmoteListener = emptyEmoteListener
             override val animateListener: AnimateListener = emptyAnimateListener
             override val speakListener: SpeakListener = emptySpeakListener
+            override val thinkListener: ThinkListener = emptyThinkListener
             override val askListener = object : CharacterAskListener {
                 override fun ask(character: Character, question: Question): Answer {
                     called = true
@@ -130,6 +139,7 @@ class CharacterTest {
             override val askListener: CharacterAskListener = emptyAskListener
             override val animateListener: AnimateListener = emptyAnimateListener
             override val speakListener: SpeakListener = emptySpeakListener
+            override val thinkListener: ThinkListener = emptyThinkListener
             override val emoteListener = object : EmoteListener {
                 override fun emote(character: Character, emotion: Emotion) {
                     called = true
