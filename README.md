@@ -307,10 +307,10 @@ following progression modes are supported:
 Ktvn provides a structure, DSL and flow control for creating visual novels, but it does not provide a framework for 
 creating UIs and managing assets. Many frameworks for this exist. To integrate with a story a **GameConfiguration** is 
 required. The easiest way of achieving this is by using **DynamicGameConfiguration** with a **GameEngine**. 
-Please see **AnsiConsoleGameEngine** in app-ktvn-example-console for a simple example that demonstrates how to 
+Please see **AnsiConsoleGameEngine** in app-ktvn-prototyper-console for a simple example that demonstrates how to 
 create a game engine that integrates with an ANSI compatible console.
 
-The UI and the GameEngine will be unique for each project. In app-ktvn-example-console the UI is provided by the 
+The UI and the GameEngine will be unique for each project. In app-ktvn-prototyper-console the UI is provided by the 
 terminal and **AnsiConsoleGameEngine** interacts directly with this.
 
 ![ktvn-sequencing-overview-components.png](docs%2Fktvn-sequencing-overview-components.png)
