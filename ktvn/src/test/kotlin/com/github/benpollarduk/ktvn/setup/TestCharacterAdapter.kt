@@ -7,6 +7,7 @@ import com.github.benpollarduk.ktvn.characters.CharacterAskListener
 import com.github.benpollarduk.ktvn.characters.EmoteListener
 import com.github.benpollarduk.ktvn.characters.Emotion
 import com.github.benpollarduk.ktvn.characters.SpeakListener
+import com.github.benpollarduk.ktvn.characters.ThinkListener
 import com.github.benpollarduk.ktvn.logic.Answer
 import com.github.benpollarduk.ktvn.logic.Question
 import com.github.benpollarduk.ktvn.logic.adapters.CharacterAdapter
@@ -20,6 +21,12 @@ internal class TestCharacterAdapter : CharacterAdapter {
 
     override val speakListener: SpeakListener = object : SpeakListener {
         override fun speak(character: Character, line: String) {
+            // nothing
+        }
+    }
+
+    override val thinkListener: ThinkListener = object : ThinkListener {
+        override fun think(character: Character, line: String) {
             // nothing
         }
     }

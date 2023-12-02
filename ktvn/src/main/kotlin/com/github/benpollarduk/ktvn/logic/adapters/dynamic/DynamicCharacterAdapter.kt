@@ -7,6 +7,7 @@ import com.github.benpollarduk.ktvn.characters.CharacterAskListener
 import com.github.benpollarduk.ktvn.characters.EmoteListener
 import com.github.benpollarduk.ktvn.characters.Emotion
 import com.github.benpollarduk.ktvn.characters.SpeakListener
+import com.github.benpollarduk.ktvn.characters.ThinkListener
 import com.github.benpollarduk.ktvn.logic.Answer
 import com.github.benpollarduk.ktvn.logic.Answer.Companion.answer
 import com.github.benpollarduk.ktvn.logic.GameEngine
@@ -30,6 +31,12 @@ internal class DynamicCharacterAdapter(internal var gameEngine: GameEngine? = nu
         override fun speak(character: Character, line: String) {
             gameEngine?.log?.add(LogElement.CharacterLog(character, line))
             gameEngine?.characterSpeaks(character, line)
+        }
+    }
+    override val thinkListener: ThinkListener = object : ThinkListener {
+        override fun think(character: Character, line: String) {
+            gameEngine?.log?.add(LogElement.CharacterLog(character, line))
+            gameEngine?.characterThinks(character, line)
         }
     }
 

@@ -215,6 +215,7 @@ class App : JFrame(FALLBACK_TITLE) {
 
         GameExecutor.executeAysnc(newGame) {
             this.gameSave = it.gameSave
+            unloadGame()
         }
     }
 

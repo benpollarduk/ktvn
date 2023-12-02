@@ -138,6 +138,10 @@ Or a character may speak:
 ```kotlin
 next { morgana says "The two of us are cursed to spend eternity in this mansion." }
 ```
+Or a character may think:
+```kotlin
+next { morgana thinks "I could never tell Michel I don't actually think he is a fool." }
+```
 Characters can show emotions:
 ```kotlin
 next { michel looks concerned }

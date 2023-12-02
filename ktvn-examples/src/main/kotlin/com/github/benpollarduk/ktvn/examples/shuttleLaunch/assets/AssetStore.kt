@@ -36,6 +36,11 @@ public object AssetStore {
     public val toki: Character = Character("Toki", configuration.gameAdapter.characterAdapter)
 
     /**
+     * Memory of Toki, a cosmonaut.
+     */
+    public val tokiMemory: Character = Character("Toki", configuration.gameAdapter.characterAdapter, "Memory")
+
+    /**
      * Sophie, a scholar.
      */
     public val sophie: Character = Character("Sophie", configuration.gameAdapter.characterAdapter)
@@ -45,6 +50,12 @@ public object AssetStore {
      */
     public val shuttleDay: Background =
         ResourceBackground.backgroundFromResource("shuttleLaunch/images/backgrounds/shuttle-day.png")
+
+    /**
+     * Get the shuttle memory background.
+     */
+    public val shuttleMemory: Background =
+        ResourceBackground.backgroundFromResource("shuttleLaunch/images/backgrounds/shuttle-memory.png")
 
     /**
      * Get the track for the shuttle day scene.
