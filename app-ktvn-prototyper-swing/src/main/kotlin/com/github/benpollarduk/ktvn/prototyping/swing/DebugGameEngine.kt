@@ -120,16 +120,28 @@ class DebugGameEngine(
     /**
      * Set up for a [visualNovel].
      */
-    fun setupForVisualNovel(visualNovel: VisualNovel?) {
+    fun setupForVisualNovel(visualNovel: VisualNovel) {
         log.clear()
-        characterResourceLookup = visualNovel?.characterResourceLookup
-        structure = visualNovel?.structure ?: emptyArray()
+        characterResourceLookup = visualNovel.characterResourceLookup
+        structure = visualNovel.structure
         imageResolver = ImageResolver(
             characterResourceLookup ?: LazyCharacterResourceLookup(),
             eventTerminal,
             resourceTracker,
             visualScene
         )
+        musicSoundPlayer.stop()
+        sfxSoundPlayer.stop()
+    }
+
+    /**
+     * Set up for no visual novel
+     */
+    fun setupForNoVisualNovel() {
+        log.clear()
+        characterResourceLookup = null
+        structure = emptyArray()
+        imageResolver = null
         musicSoundPlayer.stop()
         sfxSoundPlayer.stop()
     }
@@ -296,7 +308,11 @@ class DebugGameEngine(
         location = "Scene: ${scene.name}"
 
         setSceneBackground(scene.background)
-        playSceneMusic(scene.music)
+        if (scene.music is NoAudio) {
+            musicSoundPlayer.stop()
+        } else {
+            playSceneMusic(scene.music)
+        }
 
         eventTerminal.println(Severity.INFO, "Started scene '${scene.name}' with transition $transition.")
     }

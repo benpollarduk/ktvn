@@ -333,20 +333,20 @@ internal fun onTheLaunchPad(): Scene {
         scene background shuttleDay
         scene music shuttleDayMusic
         scene layout createLayout { layout ->
-            layout addLeftOf sophie
-            layout addRightOf toki
-            layout configure configuration.gameAdapter.layoutAdapter
+            scene.layout addLeftOf sophie
+            scene.layout addRightOf toki
+            scene.layout configure configuration.gameAdapter.layoutAdapter
         }
         scene steps listOf(
             next {
-                layout moveCenter sophie
+                scene.layout moveCenter sophie
                 sophie looks normal
                 sophie says "Where has that fool gotten to now?"
             },
             next { audio sfx sfxWoosh },
             next {
-                layout moveLeft sophie
-                layout moveRight toki
+                scene.layout moveLeft sophie
+                scene.layout moveRight toki
                 toki looks normal
                 toki says "Here I am!"
                 toki says "Ready for duty!"

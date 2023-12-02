@@ -220,7 +220,7 @@ class App : JFrame(FALLBACK_TITLE) {
 
     fun unloadGame() {
         eventTerminal.println(Severity.INFO, "Ending execution of any executing games...")
-        engine.setupForVisualNovel(null)
+        engine.setupForNoVisualNovel()
         GameExecutor.cancel()
         visualNovel = null
         engine.textController.stop()
