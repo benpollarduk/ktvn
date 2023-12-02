@@ -333,9 +333,9 @@ internal fun onTheLaunchPad(): Scene {
         scene background shuttleDay
         scene music shuttleDayMusic
         scene layout createLayout { layout ->
-            scene.layout addLeftOf sophie
-            scene.layout addRightOf toki
-            scene.layout configure configuration.gameAdapter.layoutAdapter
+            layout addLeftOf sophie
+            layout addRightOf toki
+            layout configure configuration.gameAdapter.layoutAdapter
         }
         scene steps listOf(
             next {
