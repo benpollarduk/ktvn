@@ -15,6 +15,7 @@ internal class InstantCharacter(
 ) : Animation {
     override operator fun invoke(listener: () -> Unit) {
         render.opacity = 1.0
+        render.position = position
         render.currentX = position.normalizedX
         render.currentY = position.normalizedY
 

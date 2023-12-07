@@ -20,6 +20,7 @@ internal class FadeOutCharacter(
 ) : Animation {
     override operator fun invoke(listener: () -> Unit) {
         render.opacity = startOpacity
+        render.position = position
         render.currentX = position.normalizedX
         render.currentY = position.normalizedY
 
