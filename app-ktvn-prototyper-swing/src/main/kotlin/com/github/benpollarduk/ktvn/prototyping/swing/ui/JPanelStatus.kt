@@ -1,7 +1,7 @@
 package com.github.benpollarduk.ktvn.prototyping.swing.ui
 
-import com.github.benpollarduk.ktvn.logic.structure.StepIdentifier
 import com.github.benpollarduk.ktvn.prototyping.swing.components.Status
+import com.github.benpollarduk.ktvn.structure.StepIdentifier
 import java.awt.FlowLayout
 import javax.swing.JLabel
 import javax.swing.JPanel

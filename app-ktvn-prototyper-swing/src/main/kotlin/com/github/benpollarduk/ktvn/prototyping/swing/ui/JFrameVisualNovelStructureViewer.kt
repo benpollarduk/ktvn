@@ -1,6 +1,6 @@
 package com.github.benpollarduk.ktvn.prototyping.swing.ui
 
-import com.github.benpollarduk.ktvn.logic.structure.StepIdentifier
+import com.github.benpollarduk.ktvn.structure.StepIdentifier
 import java.awt.BorderLayout
 import java.awt.Dimension
 import javax.swing.JFrame

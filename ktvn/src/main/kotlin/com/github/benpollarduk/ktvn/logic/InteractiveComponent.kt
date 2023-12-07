@@ -1,7 +1,7 @@
 package com.github.benpollarduk.ktvn.logic
 
-import com.github.benpollarduk.ktvn.logic.structure.CancellationToken
-import com.github.benpollarduk.ktvn.logic.structure.StepResult
+import com.github.benpollarduk.ktvn.structure.CancellationToken
+import com.github.benpollarduk.ktvn.structure.StepResult
 
 /**
  * Provides an interface for interactive components.

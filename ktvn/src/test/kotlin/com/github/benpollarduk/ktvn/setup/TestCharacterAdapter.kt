@@ -1,13 +1,13 @@
 package com.github.benpollarduk.ktvn.setup
 
 import com.github.benpollarduk.ktvn.characters.AnimateListener
-import com.github.benpollarduk.ktvn.characters.Animation
 import com.github.benpollarduk.ktvn.characters.Character
 import com.github.benpollarduk.ktvn.characters.CharacterAskListener
 import com.github.benpollarduk.ktvn.characters.EmoteListener
 import com.github.benpollarduk.ktvn.characters.Emotion
 import com.github.benpollarduk.ktvn.characters.SpeakListener
 import com.github.benpollarduk.ktvn.characters.ThinkListener
+import com.github.benpollarduk.ktvn.characters.animations.Animation
 import com.github.benpollarduk.ktvn.logic.Answer
 import com.github.benpollarduk.ktvn.logic.Question
 import com.github.benpollarduk.ktvn.logic.adapters.CharacterAdapter

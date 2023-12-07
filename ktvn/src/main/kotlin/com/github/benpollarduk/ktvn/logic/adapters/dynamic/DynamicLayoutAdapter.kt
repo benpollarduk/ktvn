@@ -3,6 +3,7 @@ package com.github.benpollarduk.ktvn.logic.adapters.dynamic
 import com.github.benpollarduk.ktvn.characters.Character
 import com.github.benpollarduk.ktvn.layout.MoveListener
 import com.github.benpollarduk.ktvn.layout.Position
+import com.github.benpollarduk.ktvn.layout.transitions.LayoutTransition
 import com.github.benpollarduk.ktvn.logic.GameEngine
 import com.github.benpollarduk.ktvn.logic.adapters.LayoutAdapter
 
@@ -14,9 +15,10 @@ internal class DynamicLayoutAdapter(internal var gameEngine: GameEngine? = null)
         override fun move(
             character: Character,
             fromPosition: Position,
-            toPosition: Position
+            toPosition: Position,
+            transition: LayoutTransition
         ) {
-            gameEngine?.characterMoves(character, fromPosition, toPosition)
+            gameEngine?.characterMoves(character, fromPosition, toPosition, transition)
         }
     }
 }

@@ -2,7 +2,7 @@ package com.github.benpollarduk.ktvn.io.tracking
 
 import com.github.benpollarduk.ktvn.io.LoadResult
 import com.github.benpollarduk.ktvn.io.SaveResult
-import com.github.benpollarduk.ktvn.logic.structure.Step
+import com.github.benpollarduk.ktvn.structure.Step
 
 /**
  * Provides an interface for tracking which [Steps] in a [Game] have been seen.

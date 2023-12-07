@@ -1,5 +1,7 @@
 package com.github.benpollarduk.ktvn.characters
 
+import com.github.benpollarduk.ktvn.characters.animations.Animation
+
 /**
  * Provides an interface for listeners to animate events.
  */

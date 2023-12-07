@@ -1,15 +1,17 @@
 package com.github.benpollarduk.ktvn.layout
 
 import com.github.benpollarduk.ktvn.characters.AnimateListener
-import com.github.benpollarduk.ktvn.characters.Animation
 import com.github.benpollarduk.ktvn.characters.Character
 import com.github.benpollarduk.ktvn.characters.CharacterAskListener
 import com.github.benpollarduk.ktvn.characters.EmoteListener
 import com.github.benpollarduk.ktvn.characters.Emotion
 import com.github.benpollarduk.ktvn.characters.SpeakListener
 import com.github.benpollarduk.ktvn.characters.ThinkListener
+import com.github.benpollarduk.ktvn.characters.animations.Animation
 import com.github.benpollarduk.ktvn.layout.Positions.left
 import com.github.benpollarduk.ktvn.layout.Positions.right
+import com.github.benpollarduk.ktvn.layout.transitions.Instant
+import com.github.benpollarduk.ktvn.layout.transitions.LayoutTransition
 import com.github.benpollarduk.ktvn.logic.Answer
 import com.github.benpollarduk.ktvn.logic.Question
 import com.github.benpollarduk.ktvn.logic.adapters.CharacterAdapter
@@ -144,7 +146,8 @@ class LayoutTest {
             override fun move(
                 character: Character,
                 fromPosition: Position,
-                toPosition: Position
+                toPosition: Position,
+                transition: LayoutTransition
             ) {
                 called = true
             }
@@ -160,7 +163,7 @@ class LayoutTest {
         layout.add(character, left)
 
         // When
-        layout.move(character, right)
+        layout.move(character, right, Instant())
 
         // Then
         Assertions.assertTrue(called)

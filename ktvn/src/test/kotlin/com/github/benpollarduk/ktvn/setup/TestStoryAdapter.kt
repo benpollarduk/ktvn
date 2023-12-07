@@ -2,17 +2,17 @@ package com.github.benpollarduk.ktvn.setup
 
 import com.github.benpollarduk.ktvn.logic.Flags
 import com.github.benpollarduk.ktvn.logic.adapters.StoryAdapter
-import com.github.benpollarduk.ktvn.logic.structure.CancellationToken
-import com.github.benpollarduk.ktvn.logic.structure.Chapter
-import com.github.benpollarduk.ktvn.logic.structure.ChapterListener
-import com.github.benpollarduk.ktvn.logic.structure.ChapterTransition
-import com.github.benpollarduk.ktvn.logic.structure.Scene
-import com.github.benpollarduk.ktvn.logic.structure.SceneListener
-import com.github.benpollarduk.ktvn.logic.structure.SceneTransition
-import com.github.benpollarduk.ktvn.logic.structure.Step
-import com.github.benpollarduk.ktvn.logic.structure.StepListener
-import com.github.benpollarduk.ktvn.logic.structure.Story
-import com.github.benpollarduk.ktvn.logic.structure.StoryListener
+import com.github.benpollarduk.ktvn.structure.CancellationToken
+import com.github.benpollarduk.ktvn.structure.Chapter
+import com.github.benpollarduk.ktvn.structure.ChapterListener
+import com.github.benpollarduk.ktvn.structure.ChapterTransition
+import com.github.benpollarduk.ktvn.structure.Scene
+import com.github.benpollarduk.ktvn.structure.SceneListener
+import com.github.benpollarduk.ktvn.structure.Step
+import com.github.benpollarduk.ktvn.structure.StepListener
+import com.github.benpollarduk.ktvn.structure.Story
+import com.github.benpollarduk.ktvn.structure.StoryListener
+import com.github.benpollarduk.ktvn.structure.transitions.SceneTransition
 
 internal class TestStoryAdapter : StoryAdapter {
     override val storyListener: StoryListener = object : StoryListener {

@@ -17,8 +17,8 @@ import com.github.benpollarduk.ktvn.prototyping.swing.ui.JPanelProgressionContro
 import com.github.benpollarduk.ktvn.prototyping.swing.ui.JPanelResourceTracker
 import com.github.benpollarduk.ktvn.prototyping.swing.ui.JPanelStatus
 import com.github.benpollarduk.ktvn.prototyping.swing.ui.JPanelVisualScene
-import com.github.benpollarduk.ktvn.prototyping.swing.ui.JTextAreaSequencedTextArea
 import com.github.benpollarduk.ktvn.prototyping.swing.ui.JTextPaneEventTerminal
+import com.github.benpollarduk.ktvn.prototyping.swing.ui.JTextPaneSequencedTextArea
 import java.awt.BorderLayout
 import java.awt.Dimension
 import java.awt.GridLayout
@@ -50,30 +50,30 @@ class App : JFrame(FALLBACK_TITLE) {
      */
     var stepDataPath: String = ""
 
+    private val sequencedTextArea = JTextPaneSequencedTextArea()
+    private val visualScene = JPanelVisualScene(sequencedTextArea)
+    private val answerPicker = JFrameAnswerPicker()
+    private val status = JPanelStatus()
+
     private val eventTerminal = JTextPaneEventTerminal().apply {
         preferredSize = Dimension(0, 80)
         minimumSize = preferredSize
     }
-    private val sequencedTextArea = JTextAreaSequencedTextArea().apply {
-        preferredSize = Dimension(0, 80)
-        minimumSize = preferredSize
-    }
-    private val visualScene = JPanelVisualScene()
-    private val answerPicker = JFrameAnswerPicker()
-    private val status = JPanelStatus()
+
     private val resourceTracker = JPanelResourceTracker().apply {
         preferredSize = Dimension(350, 0)
         minimumSize = preferredSize
     }
+
     private val flagViewer = JPanelFlagViewer().apply {
         preferredSize = Dimension(350, 0)
         minimumSize = preferredSize
     }
-    private val engine: com.github.benpollarduk.ktvn.prototyping.swing.DebugGameEngine =
-        com.github.benpollarduk.ktvn.prototyping.swing.DebugGameEngine(
+
+    private val engine: DebugGameEngine =
+        DebugGameEngine(
             eventTerminal,
             visualScene,
-            sequencedTextArea,
             answerPicker,
             status,
             resourceTracker,
@@ -81,9 +81,13 @@ class App : JFrame(FALLBACK_TITLE) {
         ) {
             progressionControl.allowAcknowledge(it)
         }
+
     private val mainMenu = JMenuBarMainMenu(this, eventTerminal, engine)
-    private val progressionControl = JPanelProgressionControl(engine) { chapter, scene, step ->
+
+    private val progressionControl = JPanelProgressionControl(engine, visualScene) { chapter, scene, step ->
         eventTerminal.println(Severity.INFO, "Jumping to $chapter.$scene.$step...")
+        visualScene.reset()
+
         val visualNovel = visualNovel
         if (visualNovel != null) {
             val storyRestorePoint = StoryRestorePoint(
@@ -96,10 +100,12 @@ class App : JFrame(FALLBACK_TITLE) {
                 ),
                 chapter
             )
+
             val tracker = visualNovel.configuration.stepTracker
             if (stepDataPath != "") {
                 mainMenu.saveStepDataFile(tracker, stepDataPath)
             }
+
             beginGame(
                 visualNovel,
                 stepDataPath,
@@ -118,8 +124,7 @@ class App : JFrame(FALLBACK_TITLE) {
         mainFrame.layout = BorderLayout()
 
         val toolsPanel = JPanel().apply {
-            layout = GridLayout(3, 1)
-            add(sequencedTextArea)
+            layout = GridLayout(2, 1)
             add(resourceTracker)
             add(flagViewer)
         }

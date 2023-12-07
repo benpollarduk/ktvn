@@ -4,10 +4,10 @@ import com.github.benpollarduk.ktvn.backgrounds.ColorBackground.Companion.empty
 import com.github.benpollarduk.ktvn.examples.theFateOfMorgana.assets.AssetStore.configuration
 import com.github.benpollarduk.ktvn.examples.theFateOfMorgana.assets.AssetStore.narrator
 import com.github.benpollarduk.ktvn.layout.Layout.Companion.createLayout
-import com.github.benpollarduk.ktvn.logic.structure.Scene
-import com.github.benpollarduk.ktvn.logic.structure.Scene.Companion.scene
-import com.github.benpollarduk.ktvn.logic.structure.SceneTypes.narrative
-import com.github.benpollarduk.ktvn.logic.structure.steps.Then.Companion.next
+import com.github.benpollarduk.ktvn.structure.Scene
+import com.github.benpollarduk.ktvn.structure.Scene.Companion.scene
+import com.github.benpollarduk.ktvn.structure.SceneTypes.narrative
+import com.github.benpollarduk.ktvn.structure.steps.Then.Companion.next
 
 internal fun introduction(): Scene {
     return scene { scene ->

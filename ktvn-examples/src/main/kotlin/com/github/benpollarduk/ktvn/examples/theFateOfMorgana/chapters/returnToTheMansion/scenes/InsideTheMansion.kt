@@ -1,6 +1,5 @@
 package com.github.benpollarduk.ktvn.examples.theFateOfMorgana.chapters.returnToTheMansion.scenes
 
-import com.github.benpollarduk.ktvn.characters.Animations.shaking
 import com.github.benpollarduk.ktvn.characters.Emotions.amused
 import com.github.benpollarduk.ktvn.characters.Emotions.angry
 import com.github.benpollarduk.ktvn.characters.Emotions.concerned
@@ -10,17 +9,18 @@ import com.github.benpollarduk.ktvn.examples.theFateOfMorgana.assets.AssetStore.
 import com.github.benpollarduk.ktvn.examples.theFateOfMorgana.assets.AssetStore.michel
 import com.github.benpollarduk.ktvn.examples.theFateOfMorgana.assets.AssetStore.morgana
 import com.github.benpollarduk.ktvn.examples.theFateOfMorgana.assets.AssetStore.narrator
+import com.github.benpollarduk.ktvn.examples.theFateOfMorgana.assets.AssetStore.shaking
 import com.github.benpollarduk.ktvn.layout.Layout.Companion.createLayout
 import com.github.benpollarduk.ktvn.logic.Answer.Companion.answer
 import com.github.benpollarduk.ktvn.logic.Ending
 import com.github.benpollarduk.ktvn.logic.Question.Companion.question
-import com.github.benpollarduk.ktvn.logic.structure.Scene
-import com.github.benpollarduk.ktvn.logic.structure.Scene.Companion.scene
-import com.github.benpollarduk.ktvn.logic.structure.StepResult.Continue
-import com.github.benpollarduk.ktvn.logic.structure.StepResult.End
-import com.github.benpollarduk.ktvn.logic.structure.steps.Conditional.Companion.conditional
-import com.github.benpollarduk.ktvn.logic.structure.steps.Decision.Companion.decision
-import com.github.benpollarduk.ktvn.logic.structure.steps.Then.Companion.next
+import com.github.benpollarduk.ktvn.structure.Scene
+import com.github.benpollarduk.ktvn.structure.Scene.Companion.scene
+import com.github.benpollarduk.ktvn.structure.StepResult.Continue
+import com.github.benpollarduk.ktvn.structure.StepResult.End
+import com.github.benpollarduk.ktvn.structure.steps.Conditional.Companion.conditional
+import com.github.benpollarduk.ktvn.structure.steps.Decision.Companion.decision
+import com.github.benpollarduk.ktvn.structure.steps.Then.Companion.next
 
 @Suppress("LongMethod")
 internal fun insideTheMansion(): Scene {

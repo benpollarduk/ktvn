@@ -2,8 +2,8 @@ package com.github.benpollarduk.ktvn.logic
 
 import com.github.benpollarduk.ktvn.io.game.GameSave
 import com.github.benpollarduk.ktvn.io.restore.RestorePoint
-import com.github.benpollarduk.ktvn.logic.structure.CancellationToken
-import com.github.benpollarduk.ktvn.logic.structure.StoryBeginParameters
+import com.github.benpollarduk.ktvn.structure.CancellationToken
+import com.github.benpollarduk.ktvn.structure.StoryBeginParameters
 import java.util.concurrent.locks.ReentrantLock
 
 /**

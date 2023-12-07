@@ -7,6 +7,8 @@ import com.github.benpollarduk.ktvn.prototyping.swing.components.EventTerminal
 import com.github.benpollarduk.ktvn.prototyping.swing.components.ResourceTracker
 import com.github.benpollarduk.ktvn.prototyping.swing.components.VisualScene
 import java.awt.Color
+import java.awt.Image
+import java.awt.geom.AffineTransform
 import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
@@ -75,6 +77,9 @@ class ImageResolver(
         return getImageFromColor(color, visualScene.desiredResolution.width, visualScene.desiredResolution.height)
     }
 
+    /**
+     * Get a missing character resource.
+     */
     private fun getMissingCharacterResourceImage(): BufferedImage {
         return getMissingCharacterResourceImage(
             Color.BLUE,
@@ -83,6 +88,9 @@ class ImageResolver(
         )
     }
 
+    /**
+     * Get a character from a resource with a given [key] and [storyLocation].
+     */
     private fun getCharacterFromResource(key: String, storyLocation: String): BufferedImage? {
         val inputStream = javaClass.classLoader.getResourceAsStream(key)
         return if (inputStream != null) {
@@ -117,6 +125,27 @@ class ImageResolver(
                 width,
                 height
             )
+        }
+
+        /**
+         * Scale an [image] by a specified [scaleFactor].
+         */
+        fun scaleImage(image: Image, scaleFactor: Double): BufferedImage {
+            val originalWidth = image.getWidth(null)
+            val originalHeight = image.getHeight(null)
+            val newWidth = (originalWidth * scaleFactor).toInt()
+            val newHeight = (originalHeight * scaleFactor).toInt()
+            val bufferedImage = BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_ARGB)
+            val graphics2D = bufferedImage.createGraphics()
+            val transform = AffineTransform()
+
+            transform.scale(scaleFactor, scaleFactor)
+
+            graphics2D.transform(transform)
+            graphics2D.drawImage(image, 0, 0, null)
+            graphics2D.dispose()
+
+            return bufferedImage
         }
     }
 }

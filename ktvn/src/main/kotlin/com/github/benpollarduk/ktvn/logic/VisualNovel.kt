@@ -4,9 +4,9 @@ import com.github.benpollarduk.ktvn.io.CharacterResourceLookup
 import com.github.benpollarduk.ktvn.io.LazyCharacterResourceLookup
 import com.github.benpollarduk.ktvn.layout.Resolution
 import com.github.benpollarduk.ktvn.logic.configuration.GameConfiguration
-import com.github.benpollarduk.ktvn.logic.structure.StepIdentifier
-import com.github.benpollarduk.ktvn.logic.structure.StepIdentifierMapper
-import com.github.benpollarduk.ktvn.logic.structure.Story
+import com.github.benpollarduk.ktvn.structure.StepIdentifier
+import com.github.benpollarduk.ktvn.structure.StepIdentifierMapper
+import com.github.benpollarduk.ktvn.structure.Story
 
 /**
  * A visual novel. Contains all the components required to create a [Game] including a [story] and [configuration]. A

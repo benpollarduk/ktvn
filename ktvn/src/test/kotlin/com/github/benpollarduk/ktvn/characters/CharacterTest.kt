@@ -1,6 +1,7 @@
 package com.github.benpollarduk.ktvn.characters
 
 import com.github.benpollarduk.ktvn.characters.Emotions.happy
+import com.github.benpollarduk.ktvn.characters.animations.Animation
 import com.github.benpollarduk.ktvn.logic.Answer
 import com.github.benpollarduk.ktvn.logic.Question
 import com.github.benpollarduk.ktvn.logic.adapters.CharacterAdapter
