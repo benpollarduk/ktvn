@@ -2,7 +2,7 @@ package com.github.benpollarduk.ktvn.prototyper.console
 
 import com.github.benpollarduk.ktvn.audio.ResourceSoundEffect
 import com.github.benpollarduk.ktvn.audio.SoundEffect
-import com.github.benpollarduk.ktvn.characters.Animation
+import com.github.benpollarduk.ktvn.characters.animations.Animation
 import com.github.benpollarduk.ktvn.characters.Character
 import com.github.benpollarduk.ktvn.characters.Emotion
 import com.github.benpollarduk.ktvn.characters.Narrator
@@ -15,13 +15,14 @@ import com.github.benpollarduk.ktvn.logic.GameEngine
 import com.github.benpollarduk.ktvn.logic.ProgressionController
 import com.github.benpollarduk.ktvn.logic.ProgressionMode
 import com.github.benpollarduk.ktvn.logic.Question
-import com.github.benpollarduk.ktvn.logic.structure.CancellationToken
-import com.github.benpollarduk.ktvn.logic.structure.Chapter
-import com.github.benpollarduk.ktvn.logic.structure.ChapterTransition
-import com.github.benpollarduk.ktvn.logic.structure.Scene
-import com.github.benpollarduk.ktvn.logic.structure.SceneTransition
-import com.github.benpollarduk.ktvn.logic.structure.Step
-import com.github.benpollarduk.ktvn.logic.structure.Story
+import com.github.benpollarduk.ktvn.structure.CancellationToken
+import com.github.benpollarduk.ktvn.structure.Chapter
+import com.github.benpollarduk.ktvn.structure.ChapterTransition
+import com.github.benpollarduk.ktvn.structure.Scene
+import com.github.benpollarduk.ktvn.layout.transitions.LayoutTransition
+import com.github.benpollarduk.ktvn.structure.Step
+import com.github.benpollarduk.ktvn.structure.Story
+import com.github.benpollarduk.ktvn.structure.transitions.SceneTransition
 import com.github.benpollarduk.ktvn.text.frames.CharacterConstrainedTextFrame
 import com.github.benpollarduk.ktvn.text.frames.TextFrame
 import com.github.benpollarduk.ktvn.text.frames.TextFrameParameters
@@ -294,8 +295,8 @@ internal class AnsiConsoleGameEngine(
         }
     }
 
-    override fun characterMoves(character: Character, from: Position, to: Position) {
-        printlnDirectTemp("${character.name} moves from '$from' to '$to'.")
+    override fun characterMoves(character: Character, from: Position, to: Position, transition: LayoutTransition) {
+        printlnDirectTemp("${character.name} moves from '$from' to '$to' with transition '$transition'.")
     }
 
     override fun narratorNarrates(narrator: Narrator, line: String) {

@@ -1,6 +1,6 @@
 package com.github.benpollarduk.ktvn.logic
 
-import com.github.benpollarduk.ktvn.logic.structure.CancellationToken
+import com.github.benpollarduk.ktvn.structure.CancellationToken
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.locks.ReentrantLock
 

@@ -7,7 +7,7 @@ import com.github.benpollarduk.ktvn.io.CharacterResourceLookup
 import com.github.benpollarduk.ktvn.io.LazyCharacterResourceLookup
 import com.github.benpollarduk.ktvn.layout.Resolution
 import com.github.benpollarduk.ktvn.logic.VisualNovel
-import com.github.benpollarduk.ktvn.logic.structure.Story.Companion.story
+import com.github.benpollarduk.ktvn.structure.Story.Companion.story
 
 public class ShuttleLaunch : VisualNovel(
     story {

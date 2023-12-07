@@ -1,6 +1,6 @@
 package com.github.benpollarduk.ktvn.prototyping.swing.components
 
-import com.github.benpollarduk.ktvn.logic.structure.StepIdentifier
+import com.github.benpollarduk.ktvn.structure.StepIdentifier
 
 /**
  * Provides an interface for a display of sequenced text output.

@@ -5,8 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.github.benpollarduk.ktvn.io.LoadResult
 import com.github.benpollarduk.ktvn.io.SaveResult
 import com.github.benpollarduk.ktvn.io.tracking.StepTracker
-import com.github.benpollarduk.ktvn.logic.structure.Step
-import com.github.benpollarduk.ktvn.logic.structure.StepIdentifier
+import com.github.benpollarduk.ktvn.structure.Step
+import com.github.benpollarduk.ktvn.structure.StepIdentifier
 
 /**
  * Provides a simple implementation of a [StepTracker] that uses [StepIdentifier] to track if a [Step] has been seen.

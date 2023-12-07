@@ -1,6 +1,6 @@
 package com.github.benpollarduk.ktvn.io.tracking.identifier
 
-import com.github.benpollarduk.ktvn.logic.structure.steps.Then.Companion.next
+import com.github.benpollarduk.ktvn.structure.steps.Then.Companion.next
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 

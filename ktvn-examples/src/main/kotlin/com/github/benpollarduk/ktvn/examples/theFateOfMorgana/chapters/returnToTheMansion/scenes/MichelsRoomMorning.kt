@@ -7,12 +7,12 @@ import com.github.benpollarduk.ktvn.examples.theFateOfMorgana.assets.AssetStore.
 import com.github.benpollarduk.ktvn.examples.theFateOfMorgana.assets.AssetStore.narrator
 import com.github.benpollarduk.ktvn.layout.Layout.Companion.createLayout
 import com.github.benpollarduk.ktvn.logic.Ending.Companion.default
-import com.github.benpollarduk.ktvn.logic.structure.Scene
-import com.github.benpollarduk.ktvn.logic.structure.Scene.Companion.scene
-import com.github.benpollarduk.ktvn.logic.structure.StepResult.Continue
-import com.github.benpollarduk.ktvn.logic.structure.steps.Conditional.Companion.conditional
-import com.github.benpollarduk.ktvn.logic.structure.steps.End.Companion.end
-import com.github.benpollarduk.ktvn.logic.structure.steps.Then.Companion.next
+import com.github.benpollarduk.ktvn.structure.Scene
+import com.github.benpollarduk.ktvn.structure.Scene.Companion.scene
+import com.github.benpollarduk.ktvn.structure.StepResult.Continue
+import com.github.benpollarduk.ktvn.structure.steps.Conditional.Companion.conditional
+import com.github.benpollarduk.ktvn.structure.steps.End.Companion.end
+import com.github.benpollarduk.ktvn.structure.steps.Then.Companion.next
 
 @Suppress("LongMethod", "MaxLineLength")
 internal fun michelsRoomMorning(): Scene {

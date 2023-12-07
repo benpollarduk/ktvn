@@ -1,6 +1,6 @@
 package com.github.benpollarduk.ktvn.logic
 
-import com.github.benpollarduk.ktvn.logic.structure.CancellationToken
+import com.github.benpollarduk.ktvn.structure.CancellationToken
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 

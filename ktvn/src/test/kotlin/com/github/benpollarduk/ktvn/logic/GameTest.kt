@@ -2,13 +2,13 @@ package com.github.benpollarduk.ktvn.logic
 
 import com.github.benpollarduk.ktvn.io.game.GameSave
 import com.github.benpollarduk.ktvn.io.restore.RestorePoint
-import com.github.benpollarduk.ktvn.logic.structure.Chapter.Companion.chapter
-import com.github.benpollarduk.ktvn.logic.structure.Scene.Companion.scene
-import com.github.benpollarduk.ktvn.logic.structure.Story.Companion.story
-import com.github.benpollarduk.ktvn.logic.structure.steps.End.Companion.end
-import com.github.benpollarduk.ktvn.logic.structure.steps.Then.Companion.next
-import com.github.benpollarduk.ktvn.logic.structure.steps.Then.Companion.then
 import com.github.benpollarduk.ktvn.setup.TestGameConfiguration
+import com.github.benpollarduk.ktvn.structure.Chapter.Companion.chapter
+import com.github.benpollarduk.ktvn.structure.Scene.Companion.scene
+import com.github.benpollarduk.ktvn.structure.Story.Companion.story
+import com.github.benpollarduk.ktvn.structure.steps.End.Companion.end
+import com.github.benpollarduk.ktvn.structure.steps.Then.Companion.next
+import com.github.benpollarduk.ktvn.structure.steps.Then.Companion.then
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 

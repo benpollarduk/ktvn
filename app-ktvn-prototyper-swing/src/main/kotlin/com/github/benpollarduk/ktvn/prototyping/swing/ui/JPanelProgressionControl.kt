@@ -25,6 +25,7 @@ import javax.swing.text.NumberFormatter
 @Suppress("MagicNumber")
 class JPanelProgressionControl(
     private val engine: DebugGameEngine,
+    private val visualScene: JPanelVisualScene,
     private val jumpToListener: (Int, Int, Int) -> Unit
 ) : JPanel(), ProgressionControl {
     private val modeLabel: JLabel = JLabel("Progression mode:")
@@ -35,6 +36,7 @@ class JPanelProgressionControl(
     private val chapterLabel: JLabel = JLabel("Ch:")
     private val sceneLabel: JLabel = JLabel("Sc:")
     private val stepLabel: JLabel = JLabel("St:")
+    private val showTextAreaLabel: JLabel = JLabel("Show text area?:")
 
     private val speedComboBox: JComboBox<String> = JComboBox(
         arrayOf(
@@ -79,6 +81,15 @@ class JPanelProgressionControl(
             if (event.stateChange == ItemEvent.SELECTED || event.stateChange == ItemEvent.DESELECTED) {
                 forceSkip = isSelected
                 setMode(SKIP_PROGRESSION)
+            }
+        }
+    }
+
+    private val showTextAreaCheckBox: JCheckBox = JCheckBox().apply {
+        isSelected = visualScene.displayTextArea
+        addItemListener { event ->
+            if (event.stateChange == ItemEvent.SELECTED || event.stateChange == ItemEvent.DESELECTED) {
+                visualScene.displayTextArea = isSelected
             }
         }
     }
@@ -238,6 +249,8 @@ class JPanelProgressionControl(
         add(stepIndexTextField)
         add(jumpToButton)
         add(ackButton)
+        add(showTextAreaLabel)
+        add(showTextAreaCheckBox)
 
         setMode(MANUAL_PROGRESSION)
     }

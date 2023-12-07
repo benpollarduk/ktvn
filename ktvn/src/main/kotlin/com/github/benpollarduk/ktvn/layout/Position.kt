@@ -1,19 +1,10 @@
 package com.github.benpollarduk.ktvn.layout
 
 /**
- * Provides an interface for position. This refers positions relative to the screen.
+ * Provides an interface for position. Positions are relative to the top left corner, top left ix 0,0, bottom right is
+ * 1,1.
  */
 public interface Position {
-    /**
-     * Get the X origin.
-     */
-    public val xOrigin: XOrigin
-
-    /**
-     * Get the Y origin.
-     */
-    public val yOrigin: YOrigin
-
     /**
      * Get the normalized X position.
      */

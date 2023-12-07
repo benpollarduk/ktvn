@@ -10,13 +10,14 @@ import com.github.benpollarduk.ktvn.audio.Track
 import com.github.benpollarduk.ktvn.backgrounds.ColorBackground
 import com.github.benpollarduk.ktvn.backgrounds.FileBackground
 import com.github.benpollarduk.ktvn.backgrounds.ResourceBackground
-import com.github.benpollarduk.ktvn.characters.Animation
 import com.github.benpollarduk.ktvn.characters.Character
 import com.github.benpollarduk.ktvn.characters.Emotion
 import com.github.benpollarduk.ktvn.characters.Narrator
+import com.github.benpollarduk.ktvn.characters.animations.Animation
 import com.github.benpollarduk.ktvn.io.CharacterResourceLookup
 import com.github.benpollarduk.ktvn.io.LazyCharacterResourceLookup
 import com.github.benpollarduk.ktvn.layout.Position
+import com.github.benpollarduk.ktvn.layout.transitions.LayoutTransition
 import com.github.benpollarduk.ktvn.logic.Answer
 import com.github.benpollarduk.ktvn.logic.Flags
 import com.github.benpollarduk.ktvn.logic.GameEngine
@@ -24,21 +25,20 @@ import com.github.benpollarduk.ktvn.logic.ProgressionController
 import com.github.benpollarduk.ktvn.logic.ProgressionMode
 import com.github.benpollarduk.ktvn.logic.Question
 import com.github.benpollarduk.ktvn.logic.VisualNovel
-import com.github.benpollarduk.ktvn.logic.structure.CancellationToken
-import com.github.benpollarduk.ktvn.logic.structure.Chapter
-import com.github.benpollarduk.ktvn.logic.structure.ChapterTransition
-import com.github.benpollarduk.ktvn.logic.structure.Scene
-import com.github.benpollarduk.ktvn.logic.structure.SceneTransition
-import com.github.benpollarduk.ktvn.logic.structure.Step
-import com.github.benpollarduk.ktvn.logic.structure.StepIdentifier
-import com.github.benpollarduk.ktvn.logic.structure.Story
 import com.github.benpollarduk.ktvn.prototyping.swing.components.AnswerPicker
 import com.github.benpollarduk.ktvn.prototyping.swing.components.EventTerminal
 import com.github.benpollarduk.ktvn.prototyping.swing.components.FlagViewer
 import com.github.benpollarduk.ktvn.prototyping.swing.components.ResourceTracker
-import com.github.benpollarduk.ktvn.prototyping.swing.components.SequencedTextArea
 import com.github.benpollarduk.ktvn.prototyping.swing.components.Status
 import com.github.benpollarduk.ktvn.prototyping.swing.components.VisualScene
+import com.github.benpollarduk.ktvn.structure.CancellationToken
+import com.github.benpollarduk.ktvn.structure.Chapter
+import com.github.benpollarduk.ktvn.structure.ChapterTransition
+import com.github.benpollarduk.ktvn.structure.Scene
+import com.github.benpollarduk.ktvn.structure.Step
+import com.github.benpollarduk.ktvn.structure.StepIdentifier
+import com.github.benpollarduk.ktvn.structure.Story
+import com.github.benpollarduk.ktvn.structure.transitions.SceneTransition
 import com.github.benpollarduk.ktvn.text.frames.SizeConstrainedTextFrame
 import com.github.benpollarduk.ktvn.text.frames.TextFrame
 import com.github.benpollarduk.ktvn.text.frames.TextFrameParameters
@@ -47,6 +47,8 @@ import com.github.benpollarduk.ktvn.text.sequencing.AppenderTextSequencer
 import com.github.benpollarduk.ktvn.text.sequencing.SequencedTextController
 import com.github.benpollarduk.ktvn.text.sequencing.SequencedTextControllerListener
 import java.awt.Color
+import java.awt.image.BufferedImage
+import java.util.concurrent.CountDownLatch
 
 /**
  * A class that functions as an engine for the debugger.
@@ -55,7 +57,6 @@ import java.awt.Color
 class DebugGameEngine(
     private val eventTerminal: EventTerminal,
     private val visualScene: VisualScene,
-    private val sequencedTextArea: SequencedTextArea,
     private val answerPicker: AnswerPicker,
     private val status: Status,
     private val resourceTracker: ResourceTracker,
@@ -77,7 +78,7 @@ class DebugGameEngine(
     val textController = SequencedTextController(
         AppenderTextSequencer(SequencedTextController.DEFAULT_MS_BETWEEN_CHARACTERS) {
             for (c in it) {
-                sequencedTextArea.print(c)
+                visualScene.sequencedTextArea.print(c)
             }
         }
     )
@@ -146,7 +147,10 @@ class DebugGameEngine(
         sfxSoundPlayer.stop()
     }
 
-    private fun setSceneBackground(sceneBackground: com.github.benpollarduk.ktvn.backgrounds.Background) {
+    private fun setSceneBackground(
+        sceneBackground: com.github.benpollarduk.ktvn.backgrounds.Background,
+        transition: SceneTransition
+    ) {
         val backgroundImage = when (sceneBackground) {
             is ResourceBackground -> imageResolver?.getBackgroundFromResource(sceneBackground.key, location)
             is ColorBackground -> imageResolver?.getBackgroundFromColor(sceneBackground.color)
@@ -158,7 +162,18 @@ class DebugGameEngine(
             visualScene.desiredResolution.height
         )
 
-        visualScene.setBackgroundImage(backgroundImage)
+        val latch = CountDownLatch(1)
+        visualScene.setBackgroundImage(backgroundImage, transition) { latch.countDown() }
+        latch.await()
+    }
+
+    private fun getCharacterImage(character: Character, emotion: Emotion): BufferedImage {
+        return imageResolver?.getCharacterImage(character, emotion, location)
+            ?: ImageResolver.getMissingCharacterResourceImage(
+                Color.BLUE,
+                visualScene.desiredResolution.width / 4,
+                (visualScene.desiredResolution.height * 0.75).toInt()
+            )
     }
 
     private fun playSceneMusic(track: Track) {
@@ -188,10 +203,15 @@ class DebugGameEngine(
     }
 
     private fun print(string: String) {
-        sequencedTextArea.clear()
+        visualScene.sequencedTextArea.clear()
         val frames = SizeConstrainedTextFrame.create(
             string,
-            TextFrameParameters(sequencedTextArea.areaWidth, sequencedTextArea.areaHeight, sequencedTextArea.areaFont)
+            TextFrameParameters(
+                visualScene.sequencedTextArea.areaWidth,
+                visualScene.sequencedTextArea.areaHeight,
+                visualScene
+                    .sequencedTextArea.areaFont
+            )
         )
 
         textController.render(frames)
@@ -233,29 +253,33 @@ class DebugGameEngine(
     }
 
     override fun characterAsksQuestion(character: Character, question: Question) {
-        sequencedTextArea.styleFor(character)
+        visualScene.sequencedTextArea.styleFor(character)
         print(question.line)
     }
 
     override fun narratorAsksQuestion(narrator: Narrator, question: Question) {
-        sequencedTextArea.styleFor(narrator)
+        visualScene.sequencedTextArea.styleFor(narrator)
         print(question.line)
     }
 
     override fun getAnswerQuestion(question: Question): Answer {
-        return answerPicker.getAnswer(question)
+        val answer = answerPicker.getAnswer(question)
+        visualScene.sequencedTextArea.clear()
+        return answer
     }
 
     override fun characterSpeaks(character: Character, line: String) {
-        sequencedTextArea.styleFor(character)
+        visualScene.sequencedTextArea.styleFor(character)
         print(line)
         waitForAcknowledge(cancellationToken)
+        visualScene.sequencedTextArea.clear()
     }
 
     override fun characterThinks(character: Character, line: String) {
-        sequencedTextArea.styleFor(character)
+        visualScene.sequencedTextArea.styleFor(character)
         print(line)
         waitForAcknowledge(cancellationToken)
+        visualScene.sequencedTextArea.clear()
     }
 
     override fun characterShowsEmotion(character: Character, emotion: Emotion) {
@@ -266,30 +290,36 @@ class DebugGameEngine(
                 visualScene.desiredResolution.width / 4,
                 (visualScene.desiredResolution.height * 0.75).toInt()
             )
-        visualScene.addOrUpdate(character, image)
+        visualScene.updateCharacter(character, image)
     }
 
     override fun characterAnimation(character: Character, animation: Animation) {
         eventTerminal.println(Severity.INFO, "${character.name} animated with $animation.")
-        visualScene.animateCharacter(character, animation)
+        val latch = CountDownLatch(1)
+        visualScene.animateCharacter(character, animation) { latch.countDown() }
+        latch.await()
     }
 
-    override fun characterMoves(character: Character, from: Position, to: Position) {
-        eventTerminal.println(Severity.INFO, "${character.name} moves from '$from' to '$to'.")
-        val image = imageResolver?.getCharacterImage(character, character.emotion, location)
-            ?: ImageResolver.getMissingCharacterResourceImage(
-                Color.BLUE,
-                visualScene.desiredResolution.width / 4,
-                (visualScene.desiredResolution.height * 0.75).toInt()
-            )
-        visualScene.addOrUpdate(character, image)
-        visualScene.moveCharacter(character, from, to)
+    override fun characterMoves(character: Character, from: Position, to: Position, transition: LayoutTransition) {
+        eventTerminal.println(
+            Severity.INFO,
+            "${character.name} moves from '$from' to '$to' with transition '$transition'."
+        )
+        val latch = CountDownLatch(1)
+
+        if (!visualScene.containsCharacter(character)) {
+            visualScene.addCharacter(character, from, getCharacterImage(character, character.emotion))
+        }
+
+        visualScene.moveCharacter(character, from, to, transition) { latch.countDown() }
+        latch.await()
     }
 
     override fun narratorNarrates(narrator: Narrator, line: String) {
-        sequencedTextArea.styleFor(narrator)
+        visualScene.sequencedTextArea.styleFor(narrator)
         print(line)
         waitForAcknowledge(cancellationToken)
+        visualScene.sequencedTextArea.clear()
     }
 
     override fun enterStory(story: Story) {
@@ -312,25 +342,35 @@ class DebugGameEngine(
 
     override fun enterScene(scene: Scene, transition: SceneTransition) {
         location = "Scene: ${scene.name}"
-        visualScene.reset()
+        visualScene.clearVisuals()
 
-        setSceneBackground(scene.background)
         if (scene.music is NoAudio) {
             musicSoundPlayer.stop()
         } else {
             playSceneMusic(scene.music)
         }
 
+        for (pos in scene.layout.toArrayOfCharacterPosition()) {
+            visualScene.addCharacter(
+                pos.character,
+                pos.position,
+                getCharacterImage(pos.character, pos.character.emotion)
+            )
+        }
+
+        setSceneBackground(scene.background, transition)
         eventTerminal.println(Severity.INFO, "Started scene '${scene.name}' with transition $transition.")
     }
 
     override fun exitScene(scene: Scene, transition: SceneTransition) {
+        visualScene.sequencedTextArea.clear()
+        setSceneBackground(scene.background, transition)
         eventTerminal.println(Severity.INFO, "Finished scene '${scene.name}' with transition $transition.")
     }
 
     override fun clearScene(scene: Scene) {
-        eventTerminal.println(Severity.INFO, "Clearing scene '${scene.name}'.")
-        visualScene.reset()
+        visualScene.clearVisuals()
+        eventTerminal.println(Severity.INFO, "Cleared scene '${scene.name}'.")
     }
 
     override fun enterStep(step: Step, flags: Flags, canSkip: Boolean, cancellationToken: CancellationToken) {

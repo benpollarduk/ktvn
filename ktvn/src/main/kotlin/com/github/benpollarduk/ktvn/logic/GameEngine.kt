@@ -1,18 +1,19 @@
 package com.github.benpollarduk.ktvn.logic
 
 import com.github.benpollarduk.ktvn.audio.SoundEffect
-import com.github.benpollarduk.ktvn.characters.Animation
 import com.github.benpollarduk.ktvn.characters.Character
 import com.github.benpollarduk.ktvn.characters.Emotion
 import com.github.benpollarduk.ktvn.characters.Narrator
+import com.github.benpollarduk.ktvn.characters.animations.Animation
 import com.github.benpollarduk.ktvn.layout.Position
-import com.github.benpollarduk.ktvn.logic.structure.CancellationToken
-import com.github.benpollarduk.ktvn.logic.structure.Chapter
-import com.github.benpollarduk.ktvn.logic.structure.ChapterTransition
-import com.github.benpollarduk.ktvn.logic.structure.Scene
-import com.github.benpollarduk.ktvn.logic.structure.SceneTransition
-import com.github.benpollarduk.ktvn.logic.structure.Step
-import com.github.benpollarduk.ktvn.logic.structure.Story
+import com.github.benpollarduk.ktvn.layout.transitions.LayoutTransition
+import com.github.benpollarduk.ktvn.structure.CancellationToken
+import com.github.benpollarduk.ktvn.structure.Chapter
+import com.github.benpollarduk.ktvn.structure.ChapterTransition
+import com.github.benpollarduk.ktvn.structure.Scene
+import com.github.benpollarduk.ktvn.structure.Step
+import com.github.benpollarduk.ktvn.structure.Story
+import com.github.benpollarduk.ktvn.structure.transitions.SceneTransition
 import com.github.benpollarduk.ktvn.text.log.Log
 
 /**
@@ -71,9 +72,9 @@ public interface GameEngine {
     public fun characterAnimation(character: Character, animation: Animation)
 
     /**
-     * Move a [character] [from] a position [to] another position.
+     * Move a [character] [from] a position [to] another position with a specified [transition].
      */
-    public fun characterMoves(character: Character, from: Position, to: Position)
+    public fun characterMoves(character: Character, from: Position, to: Position, transition: LayoutTransition)
 
     /**
      * Handle a [narrator] narrating a [line].
