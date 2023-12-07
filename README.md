@@ -250,7 +250,7 @@ The **seconds** keyword allows the delay time to be specified, in seconds. Short
 milliseconds using the **milliseconds** keyword.
 
 ### clear ###
-clear is a step that signals that the current scene should be cleared. How this is interpreted is up to the calling UI.
+clear is a step that signals that the current scene should be cleared. The engine is responsible for actioning this in a way that makes sense for the running visual novel.
 ```kotlin
 clear { }
 ```
