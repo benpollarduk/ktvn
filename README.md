@@ -1,3 +1,8 @@
+[![main-ci](https://github.com/benpollarduk/ktvn/actions/workflows/main-ci.yml/badge.svg?branch=main)](https://github.com/benpollarduk/ktvn/actions/workflows/main-ci.yml)
+[![GitHub release](https://img.shields.io/github/release/benpollarduk/ktvn.svg)](https://github.com/benpollarduk/ktvn/releases)
+[![License](https://img.shields.io/github/license/benpollarduk/ktvn.svg)](https://opensource.org/licenses/MIT)
+[![Documentation Status](https://img.shields.io/badge/docs-latest-brightgreen.svg)](https://benpollarduk.github.io/ktvn-docs/)
+
 # Introduction 
 Ktvn is a framework for writing visual novels in Kotlin. It is largely based on Kotlins strong Domain Specific Language
 (DSL) capabilities. The aim of Ktvn is to provide a flexible framework for writing visual novels that can be pulled in 
