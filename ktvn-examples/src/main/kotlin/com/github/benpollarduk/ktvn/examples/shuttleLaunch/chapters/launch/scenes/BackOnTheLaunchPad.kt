@@ -21,6 +21,7 @@ import com.github.benpollarduk.ktvn.structure.Scene
 import com.github.benpollarduk.ktvn.structure.Scene.Companion.scene
 import com.github.benpollarduk.ktvn.structure.steps.Then.Companion.next
 
+@Suppress("LongMethod")
 internal fun backOnTheLaunchPad(): Scene {
     return scene { scene ->
         scene name "Back on the launch pad"
@@ -50,7 +51,7 @@ internal fun backOnTheLaunchPad(): Scene {
                 audio sfx sfxWoosh
                 scene.layout transition layoutSlide
                 scene.layout moveRight toki
-             },
+            },
             next {
                 toki thinks "...or maybe here"
                 audio sfx sfxWoosh
@@ -86,7 +87,7 @@ internal fun backOnTheLaunchPad(): Scene {
             },
             next {
                 toki says "I should learn to keep quiet."
-            },
+            }
         )
     }
 }
