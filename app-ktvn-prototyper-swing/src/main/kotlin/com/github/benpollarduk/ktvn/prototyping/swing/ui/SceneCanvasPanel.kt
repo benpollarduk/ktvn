@@ -4,7 +4,6 @@ import com.github.benpollarduk.ktvn.characters.Character
 import com.github.benpollarduk.ktvn.characters.animations.Animation
 import com.github.benpollarduk.ktvn.characters.animations.Laugh
 import com.github.benpollarduk.ktvn.characters.animations.Shake
-import com.github.benpollarduk.ktvn.characters.animations.Stop
 import com.github.benpollarduk.ktvn.layout.Position
 import com.github.benpollarduk.ktvn.layout.PositionTranslator
 import com.github.benpollarduk.ktvn.layout.Positions
@@ -18,7 +17,6 @@ import com.github.benpollarduk.ktvn.prototyping.swing.CharacterRender
 import com.github.benpollarduk.ktvn.prototyping.swing.ImageResolver
 import com.github.benpollarduk.ktvn.prototyping.swing.animations.character.LaughAnimation
 import com.github.benpollarduk.ktvn.prototyping.swing.animations.character.ShakeAnimation
-import com.github.benpollarduk.ktvn.prototyping.swing.animations.character.StopAnimation
 import com.github.benpollarduk.ktvn.prototyping.swing.animations.layout.FadeInCharacter
 import com.github.benpollarduk.ktvn.prototyping.swing.animations.layout.FadeOutCharacter
 import com.github.benpollarduk.ktvn.prototyping.swing.animations.layout.InstantCharacter
@@ -115,10 +113,9 @@ class SceneCanvasPanel(
             lock.lock()
 
             val bk = backgroundImage
-            val scaledImage: BufferedImage?
 
             // get dimensions
-            scaledImage = if (bk != null) {
+            val scaledImage: BufferedImage? = if (bk != null) {
                 // use the image, but scale it
                 ImageResolver.scaleImage(bk, scale)
             } else if (resolution.width * resolution.height > 0) {
@@ -360,9 +357,6 @@ class SceneCanvasPanel(
                 }
                 is Shake -> {
                     ShakeAnimation(this, render, animation)
-                }
-                is Stop -> {
-                    StopAnimation(this, render)
                 }
                 else -> {
                     null
