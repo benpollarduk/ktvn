@@ -12,7 +12,6 @@ import com.github.benpollarduk.ktvn.characters.Narrator
 import com.github.benpollarduk.ktvn.characters.animations.Animation
 import com.github.benpollarduk.ktvn.characters.animations.Laugh
 import com.github.benpollarduk.ktvn.characters.animations.Shake
-import com.github.benpollarduk.ktvn.characters.animations.Stop
 import com.github.benpollarduk.ktvn.layout.transitions.FadeIn
 import com.github.benpollarduk.ktvn.layout.transitions.LayoutTransition
 import com.github.benpollarduk.ktvn.layout.transitions.Slide
@@ -122,10 +121,5 @@ public object AssetStore {
     /**
      * A shaking animation.
      */
-    public val indefiniteShaking: Animation = Shake(0.2, 0.0, Shake.NO_OSCILLATION_LIMIT, 20)
-
-    /**
-     * No animation.
-     */
-    public val stop: Animation = Stop()
+    public val shaking: Animation = Shake(0.2, 0.0, 10, 20)
 }

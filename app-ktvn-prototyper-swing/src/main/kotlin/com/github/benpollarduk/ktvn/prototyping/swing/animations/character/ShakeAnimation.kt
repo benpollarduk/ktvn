@@ -31,7 +31,6 @@ internal class ShakeAnimation(
         val msPerFrame = (AnimationController.MILLISECONDS_PER_SECOND / shake.framesPerSecond)
         val duration = msPerFrame * totalMoves
         var i = 0
-        var hasReportedFinished = false
 
         val animationController = AnimationController(
             duration.toLong(),
@@ -48,9 +47,6 @@ internal class ShakeAnimation(
             scene.reRender()
 
             if (progress.finished) {
-                listener.invoke()
-            } else if (shake.oscillations == Shake.NO_OSCILLATION_LIMIT && !hasReportedFinished) {
-                hasReportedFinished = true
                 listener.invoke()
             }
         }

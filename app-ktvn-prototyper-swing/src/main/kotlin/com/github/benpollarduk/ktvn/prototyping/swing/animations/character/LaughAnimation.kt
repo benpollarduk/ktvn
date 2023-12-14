@@ -26,7 +26,6 @@ internal class LaughAnimation(
         val msPerFrame = (AnimationController.MILLISECONDS_PER_SECOND / laugh.framesPerSecond)
         val duration = msPerFrame * totalMoves
         var i = 0
-        var hasReportedFinished = false
 
         val animationController = AnimationController(
             duration.toLong(),
@@ -42,9 +41,6 @@ internal class LaughAnimation(
             scene.reRender()
 
             if (progress.finished) {
-                listener.invoke()
-            } else if (laugh.oscillations == Laugh.NO_OSCILLATION_LIMIT && !hasReportedFinished) {
-                hasReportedFinished = true
                 listener.invoke()
             }
         }

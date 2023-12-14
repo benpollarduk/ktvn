@@ -4,17 +4,16 @@ import com.github.benpollarduk.ktvn.characters.Emotions.happy
 import com.github.benpollarduk.ktvn.characters.Emotions.normal
 import com.github.benpollarduk.ktvn.examples.shuttleLaunch.assets.AssetStore.audio
 import com.github.benpollarduk.ktvn.examples.shuttleLaunch.assets.AssetStore.configuration
-import com.github.benpollarduk.ktvn.examples.shuttleLaunch.assets.AssetStore.indefiniteShaking
 import com.github.benpollarduk.ktvn.examples.shuttleLaunch.assets.AssetStore.laughing
 import com.github.benpollarduk.ktvn.examples.shuttleLaunch.assets.AssetStore.layoutFadeIn
 import com.github.benpollarduk.ktvn.examples.shuttleLaunch.assets.AssetStore.layoutSlide
 import com.github.benpollarduk.ktvn.examples.shuttleLaunch.assets.AssetStore.sceneFadeIn
 import com.github.benpollarduk.ktvn.examples.shuttleLaunch.assets.AssetStore.sceneFadeOut
 import com.github.benpollarduk.ktvn.examples.shuttleLaunch.assets.AssetStore.sfxWoosh
+import com.github.benpollarduk.ktvn.examples.shuttleLaunch.assets.AssetStore.shaking
 import com.github.benpollarduk.ktvn.examples.shuttleLaunch.assets.AssetStore.shuttleDay
 import com.github.benpollarduk.ktvn.examples.shuttleLaunch.assets.AssetStore.shuttleDayMusic
 import com.github.benpollarduk.ktvn.examples.shuttleLaunch.assets.AssetStore.sophie
-import com.github.benpollarduk.ktvn.examples.shuttleLaunch.assets.AssetStore.stop
 import com.github.benpollarduk.ktvn.examples.shuttleLaunch.assets.AssetStore.toki
 import com.github.benpollarduk.ktvn.layout.Layout.Companion.createLayout
 import com.github.benpollarduk.ktvn.structure.Scene
@@ -75,11 +74,10 @@ internal fun backOnTheLaunchPad(): Scene {
                 sophie looks normal
                 scene.layout exitRight sophie
                 toki says "Why does she always call me that?!"
-                toki begins indefiniteShaking
+                toki begins shaking
             },
             next {
                 scene.layout moveRight sophie
-                toki begins stop
                 sophie says "Because you are."
             },
             next {
