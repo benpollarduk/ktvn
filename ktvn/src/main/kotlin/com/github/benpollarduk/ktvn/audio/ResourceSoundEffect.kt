@@ -8,7 +8,7 @@ public data class ResourceSoundEffect(public var key: String) : SoundEffect {
         /**
          * Create a sound effect from a resource with a [key].
          */
-        public infix fun sfxFromResource(key: String): ResourceSoundEffect {
+        public infix fun soundEffectFromResource(key: String): ResourceSoundEffect {
             return ResourceSoundEffect(key)
         }
     }

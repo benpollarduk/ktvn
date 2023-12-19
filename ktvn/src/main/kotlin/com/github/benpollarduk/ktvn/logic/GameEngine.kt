@@ -1,6 +1,7 @@
 package com.github.benpollarduk.ktvn.logic
 
 import com.github.benpollarduk.ktvn.audio.SoundEffect
+import com.github.benpollarduk.ktvn.audio.VolumeManager
 import com.github.benpollarduk.ktvn.characters.Character
 import com.github.benpollarduk.ktvn.characters.Emotion
 import com.github.benpollarduk.ktvn.characters.Narrator
@@ -30,6 +31,11 @@ public interface GameEngine {
      * Get the progression controller.
      */
     public val progressionController: ProgressionController
+
+    /**
+     * Get the volume manager.
+     */
+    public val volumeManager: VolumeManager
 
     /**
      * Play a [soundEffect].

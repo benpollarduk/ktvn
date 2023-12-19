@@ -1,7 +1,7 @@
 package com.github.benpollarduk.ktvn.examples.shuttleLaunch.assets
 
 import com.github.benpollarduk.ktvn.audio.AudioManager
-import com.github.benpollarduk.ktvn.audio.ResourceSoundEffect.Companion.sfxFromResource
+import com.github.benpollarduk.ktvn.audio.ResourceSoundEffect.Companion.soundEffectFromResource
 import com.github.benpollarduk.ktvn.audio.ResourceTrack.Companion.trackFromResource
 import com.github.benpollarduk.ktvn.audio.SoundEffect
 import com.github.benpollarduk.ktvn.audio.Track
@@ -89,7 +89,7 @@ public object AssetStore {
     /**
      * Get the 'woosh' sound effect.
      */
-    public val sfxWoosh: SoundEffect = sfxFromResource("shuttleLaunch/audio/woosh.wav")
+    public val sfxWoosh: SoundEffect = soundEffectFromResource("shuttleLaunch/audio/woosh.wav")
 
     /**
      * Get the fade in scene transition.

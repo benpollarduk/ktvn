@@ -3,13 +3,11 @@ package com.github.benpollarduk.ktvn.io.game
 import com.github.benpollarduk.ktvn.logic.Ending
 
 /**
- * Provides a game save with [totalSeconds] and list of [endingsReached]. Optionally [settings] can be provided. If no
- * value is specified [GameSettings.DEFAULT] will be used.
+ * Provides a game save with [totalSeconds] and list of [endingsReached].
  */
 public class GameSave(
     public val totalSeconds: Long,
-    public val endingsReached: List<Ending>,
-    public val settings: GameSettings = GameSettings.DEFAULT
+    public val endingsReached: List<Ending>
 ) {
     /**
      * Get the version of this [GameSave].

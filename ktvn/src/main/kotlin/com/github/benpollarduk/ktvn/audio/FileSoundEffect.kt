@@ -8,7 +8,7 @@ public data class FileSoundEffect(public var path: String) : SoundEffect {
         /**
          * Create a sound effect from a file at a specified [path].
          */
-        public infix fun sfxFromFile(path: String): FileSoundEffect {
+        public infix fun soundEffectFromFile(path: String): FileSoundEffect {
             return FileSoundEffect(path)
         }
     }
