@@ -1,5 +1,6 @@
 package com.github.benpollarduk.ktvn.prototyper.console
 
+import com.github.benpollarduk.ktvn.audio.VolumeManager
 import com.github.benpollarduk.ktvn.audio.ResourceSoundEffect
 import com.github.benpollarduk.ktvn.audio.SoundEffect
 import com.github.benpollarduk.ktvn.characters.animations.Animation
@@ -57,6 +58,7 @@ internal class AnsiConsoleGameEngine(
 
     override val log: Log = Log()
     override val progressionController: ProgressionController = ProgressionController()
+    override val volumeManager: VolumeManager = VolumeManager()
 
     init {
         // set up the listener for when the textController has to split a text frame and requires acknowledgement to

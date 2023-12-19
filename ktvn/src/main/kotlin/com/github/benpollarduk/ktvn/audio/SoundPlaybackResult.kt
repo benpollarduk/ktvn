@@ -9,6 +9,6 @@ public data class SoundPlaybackResult(public val wasSuccessful: Boolean, public 
         /**
          * Provides a default value for success.
          */
-        public val SUCCESS : SoundPlaybackResult = SoundPlaybackResult(true, "")
+        public val SUCCESS: SoundPlaybackResult = SoundPlaybackResult(true, "")
     }
 }

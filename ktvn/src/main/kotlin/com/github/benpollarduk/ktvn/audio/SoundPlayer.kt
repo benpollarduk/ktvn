@@ -102,7 +102,7 @@ public class SoundPlayer {
                 // set the volume, if available
                 if (audioClip.isControlSupported(FloatControl.Type.MASTER_GAIN)) {
                     val gainControl = audioClip.getControl(FloatControl.Type.MASTER_GAIN) as FloatControl
-                    val volumeInDb = (20.0f * log10(volume)).toFloat()
+                    val volumeInDb = (LINEAR_TO_DB_CONVERSION_FACTOR * log10(volume)).toFloat()
                     gainControl.value = volumeInDb
                 }
 
@@ -154,8 +154,13 @@ public class SoundPlayer {
         private const val LAST_FRAME: Int = -1
 
         /**
-         * Get the value for no attenuation
+         * Get the value for no attenuation.
          */
         private const val NO_ATTENUATION: Double = 1.0
+
+        /**
+         * The factor used to convert linear amplitude to decibels.
+         */
+        private const val LINEAR_TO_DB_CONVERSION_FACTOR: Float = 20.0f
     }
 }

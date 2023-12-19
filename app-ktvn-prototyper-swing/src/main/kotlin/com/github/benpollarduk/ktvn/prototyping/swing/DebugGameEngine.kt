@@ -8,6 +8,7 @@ import com.github.benpollarduk.ktvn.audio.ResourceTrack
 import com.github.benpollarduk.ktvn.audio.SoundEffect
 import com.github.benpollarduk.ktvn.audio.SoundPlayer
 import com.github.benpollarduk.ktvn.audio.Track
+import com.github.benpollarduk.ktvn.audio.VolumeManager
 import com.github.benpollarduk.ktvn.backgrounds.ColorBackground
 import com.github.benpollarduk.ktvn.backgrounds.FileBackground
 import com.github.benpollarduk.ktvn.backgrounds.ResourceBackground
@@ -86,6 +87,7 @@ class DebugGameEngine(
 
     override val log: Log = Log()
     override val progressionController: ProgressionController = ProgressionController()
+    override val volumeManager: VolumeManager = VolumeManager()
 
     init {
         textController.addListener(object : SequencedTextControllerListener {
@@ -178,9 +180,10 @@ class DebugGameEngine(
     }
 
     private fun playSceneMusic(track: Track) {
+        val volume = volumeManager.calculateMusicVolume()
         when (track) {
             is ResourceTrack -> {
-                if (musicSoundPlayer.playFromResource(track.key, track.loop).wasSuccessful) {
+                if (musicSoundPlayer.playFromResource(track.key, volume, track.loop).wasSuccessful) {
                     resourceTracker.registerResourceLocated(track.key, location, ResourceType.MUSIC)
                     eventTerminal.println(Severity.INFO, "Playing ${track.key}.")
                 } else {
@@ -189,7 +192,7 @@ class DebugGameEngine(
                 }
             }
             is FileTrack -> {
-                if (musicSoundPlayer.playFromFile(track.path, track.loop).wasSuccessful) {
+                if (musicSoundPlayer.playFromFile(track.path, volume, track.loop).wasSuccessful) {
                     resourceTracker.registerResourceLocated(track.path, location, ResourceType.MUSIC)
                     eventTerminal.println(Severity.INFO, "Playing ${track.path}.")
                 } else {
@@ -231,9 +234,10 @@ class DebugGameEngine(
     }
 
     override fun playSoundEffect(soundEffect: SoundEffect) {
+        val volume = volumeManager.calculateMusicVolume()
         when (soundEffect) {
             is ResourceSoundEffect -> {
-                if (sfxSoundPlayer.playFromResource(soundEffect.key).wasSuccessful) {
+                if (sfxSoundPlayer.playFromResource(soundEffect.key, volume).wasSuccessful) {
                     resourceTracker.registerResourceLocated(soundEffect.key, location, ResourceType.SOUND_EFFECT)
                     eventTerminal.println(Severity.INFO, "Played ${soundEffect.key}.")
                 } else {
@@ -242,7 +246,7 @@ class DebugGameEngine(
                 }
             }
             is FileSoundEffect -> {
-                if (sfxSoundPlayer.playFromFile(soundEffect.path).wasSuccessful) {
+                if (sfxSoundPlayer.playFromFile(soundEffect.path, volume).wasSuccessful) {
                     resourceTracker.registerResourceLocated(soundEffect.path, location, ResourceType.SOUND_EFFECT)
                     eventTerminal.println(Severity.INFO, "Played ${soundEffect.path}.")
                 } else {
