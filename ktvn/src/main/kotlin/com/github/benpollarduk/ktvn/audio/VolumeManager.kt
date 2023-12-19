@@ -12,7 +12,7 @@ public class VolumeManager {
     private var soundEffectVolume: Double = NO_ATTENUATION
     private var voiceVolume: Double = NO_ATTENUATION
     private var otherVoiceVolume: Double = NO_ATTENUATION
-    private var characterVoiceVolumes: MutableMap<Character, Double> = mutableMapOf()
+    private var characterVoiceVolumes: MutableMap<String, Double> = mutableMapOf()
 
     /**
      * Set the master volume to the specified [volume]. The [volume] is specified using a normalised value between 0.0
@@ -83,7 +83,7 @@ public class VolumeManager {
      * between 0.0 (silence) and 1.0 (no attenuation).
      */
     public fun setCharacterVoiceVolume(character: Character, volume: Double) {
-        characterVoiceVolumes[character] = volume
+        characterVoiceVolumes[character.name] = volume
     }
 
     /**
@@ -91,7 +91,7 @@ public class VolumeManager {
      * (no attenuation).
      */
     public fun getCharacterVoiceVolume(character: Character): Double {
-        return characterVoiceVolumes[character] ?: otherVoiceVolume
+        return characterVoiceVolumes[character.name] ?: otherVoiceVolume
     }
 
     /**
@@ -118,14 +118,7 @@ public class VolumeManager {
         val characterVolume = if (character != null) getCharacterVoiceVolume(character) else otherVoiceVolume
         return masterVolume * voiceVolume * characterVolume
     }
-
-    /**
-     * Get a list of characters that are managed by this class.
-     */
-    public fun getManagerCharacters(): List<Character> {
-        return characterVoiceVolumes.keys.toList()
-    }
-
+    
     /**
      * Reset all volumes.
      */
