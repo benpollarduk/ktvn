@@ -118,7 +118,7 @@ public class VolumeManager {
         val characterVolume = if (character != null) getCharacterVoiceVolume(character) else otherVoiceVolume
         return masterVolume * voiceVolume * characterVolume
     }
-    
+
     /**
      * Reset all volumes.
      */
@@ -129,6 +129,32 @@ public class VolumeManager {
         voiceVolume = NO_ATTENUATION
         otherVoiceVolume = NO_ATTENUATION
         characterVoiceVolumes.clear()
+    }
+
+    /**
+     * Configure this volume manager from a [configuration].
+     */
+    public fun configure(configuration: VolumeManagerConfiguration) {
+        masterVolume = configuration.masterVolume
+        musicVolume = configuration.musicVolume
+        soundEffectVolume = configuration.soundEffectVolume
+        voiceVolume = configuration.voiceVolume
+        otherVoiceVolume = configuration.otherVoiceVolume
+        characterVoiceVolumes = configuration.characterVoiceVolumes.toMutableMap()
+    }
+
+    /**
+     * Create a [VolumeManagerConfiguration] from this volume manager.
+     */
+    public fun toConfiguration() : VolumeManagerConfiguration {
+        return VolumeManagerConfiguration(
+            masterVolume,
+            musicVolume,
+            soundEffectVolume,
+            voiceVolume,
+            characterVoiceVolumes,
+            otherVoiceVolume
+        )
     }
 
     public companion object {
