@@ -11,10 +11,9 @@ class GameSaveJsonParserTest {
         // Given
         val gameSave = GameSave(
             456,
-            listOf(Ending("Test", 1)),
-            GameSettings(false, 500)
+            listOf(Ending("Test", 1))
         )
-        val expected = """{"totalSeconds":456,"endingsReached":[{"name":"Test","number":1}],"settings":{"skipUnseen":false,"autoPostDelayInMs":500},"version":"1.0.0"}"""
+        val expected = """{"totalSeconds":456,"endingsReached":[{"name":"Test","number":1}],"version":"1.0.0"}"""
 
         // When
         val result = GameSaveJsonParser.toJson(gameSave)
@@ -26,7 +25,7 @@ class GameSaveJsonParserTest {
     @Test
     fun `given valid json when from json then return valid game save`() {
         // Given
-        val json = """{"totalSeconds":456,"endingsReached":[{"name":"Test","number":1}],"settings":{"skipUnseen":false,"autoPostDelayInMs":500},"version":"1.0.0"}"""
+        val json = """{"totalSeconds":456,"endingsReached":[{"name":"Test","number":1}],"version":"1.0.0"}"""
 
         // When
         val result = GameSaveJsonParser.fromJson(json)
@@ -35,8 +34,6 @@ class GameSaveJsonParserTest {
         Assertions.assertEquals(456, result.totalSeconds)
         Assertions.assertEquals("Test", result.endingsReached.first().name)
         Assertions.assertEquals(1, result.endingsReached.first().number)
-        Assertions.assertEquals(false, result.settings.skipUnseen)
-        Assertions.assertEquals(500, result.settings.autoPostDelayInMs)
         Assertions.assertEquals(GameSave.VERSION_1_0_0, result.version)
     }
 }

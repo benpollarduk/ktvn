@@ -120,18 +120,6 @@ public class VolumeManager {
     }
 
     /**
-     * Reset all volumes.
-     */
-    public fun reset() {
-        masterVolume = NO_ATTENUATION
-        musicVolume = NO_ATTENUATION
-        soundEffectVolume = NO_ATTENUATION
-        voiceVolume = NO_ATTENUATION
-        otherVoiceVolume = NO_ATTENUATION
-        characterVoiceVolumes.clear()
-    }
-
-    /**
      * Configure this volume manager from a [configuration].
      */
     public fun configure(configuration: VolumeManagerConfiguration) {
@@ -146,7 +134,7 @@ public class VolumeManager {
     /**
      * Create a [VolumeManagerConfiguration] from this volume manager.
      */
-    public fun toConfiguration() : VolumeManagerConfiguration {
+    public fun toConfiguration(): VolumeManagerConfiguration {
         return VolumeManagerConfiguration(
             masterVolume,
             musicVolume,
@@ -161,11 +149,11 @@ public class VolumeManager {
         /**
          * Get the value for no attenuation.
          */
-        private const val NO_ATTENUATION: Double = 1.0
+        public const val NO_ATTENUATION: Double = 1.0
 
         /**
          * Get the value for full attenuation.
          */
-        private const val FULL_ATTENUATION: Double = 0.0
+        public const val FULL_ATTENUATION: Double = 0.0
     }
 }

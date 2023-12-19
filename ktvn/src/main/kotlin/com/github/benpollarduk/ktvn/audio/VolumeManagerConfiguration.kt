@@ -10,4 +10,18 @@ public data class VolumeManagerConfiguration(
     public var voiceVolume: Double,
     public var characterVoiceVolumes: Map<String, Double>,
     public var otherVoiceVolume: Double
-)
+) {
+    public companion object {
+        /**
+         * Get a default configuration.
+         */
+        public val DEFAULT: VolumeManagerConfiguration = VolumeManagerConfiguration(
+            VolumeManager.NO_ATTENUATION,
+            VolumeManager.NO_ATTENUATION,
+            VolumeManager.NO_ATTENUATION,
+            VolumeManager.NO_ATTENUATION,
+            emptyMap(),
+            VolumeManager.NO_ATTENUATION
+        )
+    }
+}
