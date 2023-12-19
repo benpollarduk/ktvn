@@ -233,6 +233,14 @@ class DebugGameEngine(
         progressionController.awaitAcknowledgement(canSkipCurrentStep, cancellationToken)
     }
 
+    /**
+     * Adjust the volume of any playing background music to a specified [volume], specified using a normalised value
+     * between 0.0 (silence) and 1.0 (no attenuation).
+     */
+    fun adjustPlayingBackgroundMusicVolume(volume: Double) {
+        musicSoundPlayer.adjustVolume(volume)
+    }
+
     override fun playSoundEffect(soundEffect: SoundEffect) {
         val volume = volumeManager.calculateMusicVolume()
         when (soundEffect) {

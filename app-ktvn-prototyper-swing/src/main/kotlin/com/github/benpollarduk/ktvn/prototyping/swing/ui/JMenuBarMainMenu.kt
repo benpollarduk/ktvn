@@ -40,6 +40,7 @@ class JMenuBarMainMenu(
         add(createGameMenu())
         add(createDataMenu())
         add(createViewMenu())
+        add(createAudioMenu())
     }
 
     private fun loadRestorePoint(file: File) {
@@ -246,6 +247,20 @@ class JMenuBarMainMenu(
         val x = (mainWindowBounds.width - width) / 2 + mainWindowBounds.x
         val y = (mainWindowBounds.height - height) / 2 + mainWindowBounds.y
         return Point(x, y)
+    }
+
+    private fun createAudioMenu(): JMenu {
+        val volumeMenuItem = JMenuItem("Volume...").also {
+            it.addActionListener {
+                val volumeFrame = JFrameVolumeControl(engine)
+                volumeFrame.location = getCentralisedLocation(volumeFrame.width, volumeFrame.height)
+                volumeFrame.isVisible = true
+            }
+        }
+
+        return JMenu("Audio").also {
+            it.add(volumeMenuItem)
+        }
     }
 
     private fun createViewMenu(): JMenu {

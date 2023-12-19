@@ -19,13 +19,12 @@ public class SoundPlayer {
 
     /**
      * Play a sound from a resource [key]. If [volume] is specified then the signal can be attenuated. The [volume] is
-     * specified using a normalised value between 0.0 (silence) and 1.0 (no attenuation), but is set to 1.0 as default.
-     * If [loop] is set true the audio will loop indefinitely. Returns a result detailing if the operation was
-     * successful.
+     * specified using a normalised value between 0.0 (silence) and 1.0 (no attenuation). If [loop] is set true the
+     * audio will loop indefinitely. Returns a result detailing if the operation was successful.
      */
     public fun playFromResource(
         key: String,
-        volume: Double = NO_ATTENUATION,
+        volume: Double,
         loop: Boolean = false
     ): SoundPlaybackResult {
         return if (currentSource == key && clip != null) {
@@ -44,12 +43,12 @@ public class SoundPlayer {
 
     /**
      * Play a sound from a file [path]. The [volume] is specified using a normalised value between 0.0 (silence) and 1.0
-     * (no attenuation), but is set to 1.0 as default. If [loop] is set true the audio will loop indefinitely. Returns a
-     * result detailing if the operation was successful.
+     * (no attenuation). If [loop] is set true the audio will loop indefinitely. Returns a result detailing if the
+     * operation was successful.
      */
     public fun playFromFile(
         path: String,
-        volume: Double = NO_ATTENUATION,
+        volume: Double,
         loop: Boolean = false
     ): SoundPlaybackResult {
         return if (currentSource == path && clip != null) {
@@ -98,13 +97,7 @@ public class SoundPlayer {
 
                 clip = audioClip
                 audioClip.open(decodedInputStream)
-
-                // set the volume, if available
-                if (audioClip.isControlSupported(FloatControl.Type.MASTER_GAIN)) {
-                    val gainControl = audioClip.getControl(FloatControl.Type.MASTER_GAIN) as FloatControl
-                    val volumeInDb = (LINEAR_TO_DB_CONVERSION_FACTOR * log10(volume)).toFloat()
-                    gainControl.value = volumeInDb
-                }
+                adjustVolume(volume)
 
                 if (loop) {
                     audioClip.setLoopPoints(FIRST_FRAME, LAST_FRAME)
@@ -132,6 +125,18 @@ public class SoundPlayer {
         clip?.stop()
     }
 
+    /**
+     * Adjusts the volume of any currently playing clip. This adjustment will only affect the currently playing clip.
+     * The [volume] is specified using a normalised value between 0.0 (silence) and 1.0 (no attenuation).
+     */
+    public fun adjustVolume(volume: Double) {
+        if (clip?.isControlSupported(FloatControl.Type.MASTER_GAIN) == true) {
+            val gainControl = clip?.getControl(FloatControl.Type.MASTER_GAIN) as FloatControl
+            val volumeInDb = (LINEAR_TO_DB_CONVERSION_FACTOR * log10(volume)).toFloat()
+            gainControl.value = volumeInDb
+        }
+    }
+
     private companion object {
         /**
          * Get the default sample size, in bits.
@@ -152,11 +157,6 @@ public class SoundPlayer {
          * Get the value for the last frame.
          */
         private const val LAST_FRAME: Int = -1
-
-        /**
-         * Get the value for no attenuation.
-         */
-        private const val NO_ATTENUATION: Double = 1.0
 
         /**
          * The factor used to convert linear amplitude to decibels.
