@@ -1,6 +1,5 @@
-package com.github.benpollarduk.ktvn.prototyping.swing
+package com.github.benpollarduk.ktvn.audio
 
-import org.apache.logging.log4j.kotlin.Logging
 import java.io.BufferedInputStream
 import java.io.File
 import javax.sound.sampled.AudioFormat
@@ -14,18 +13,23 @@ import kotlin.math.log10
 /**
  * Provides a simple class for playing sounds.
  */
-class SoundPlayer : Logging {
+public class SoundPlayer {
     private var currentSource: String? = null
     private var clip: Clip? = null
 
     /**
      * Play a sound from a resource [key]. If [volume] is specified then the signal can be attenuated. The [volume] is
      * specified using a normalised value between 0.0 (silence) and 1.0 (no attenuation), but is set to 1.0 as default.
-     * If [loop] is set true the audio will loop indefinitely. Returns true if the operation was successful, else false.
+     * If [loop] is set true the audio will loop indefinitely. Returns a result detailing if the operation was
+     * successful.
      */
-    fun playFromResource(key: String, volume: Double = NO_ATTENUATION, loop: Boolean = false): Boolean {
+    public fun playFromResource(
+        key: String,
+        volume: Double = NO_ATTENUATION,
+        loop: Boolean = false
+    ): SoundPlaybackResult {
         return if (currentSource == key && clip != null) {
-            return true
+            return SoundPlaybackResult.SUCCESS
         } else {
             val stream = javaClass.classLoader.getResourceAsStream(key)
             if (stream != null) {
@@ -33,36 +37,40 @@ class SoundPlayer : Logging {
                 val bufferedStream = AudioSystem.getAudioInputStream(BufferedInputStream(stream))
                 play(bufferedStream, volume, loop)
             } else {
-                false
+                SoundPlaybackResult(false, "Stream was null.")
             }
         }
     }
 
     /**
      * Play a sound from a file [path]. The [volume] is specified using a normalised value between 0.0 (silence) and 1.0
-     * (no attenuation), but is set to 1.0 as default. If [loop] is set true the audio will loop indefinitely. Returns
-     * true if the operation was successful, else false.
+     * (no attenuation), but is set to 1.0 as default. If [loop] is set true the audio will loop indefinitely. Returns a
+     * result detailing if the operation was successful.
      */
-    fun playFromFile(path: String, volume: Double = NO_ATTENUATION, loop: Boolean = false): Boolean {
+    public fun playFromFile(
+        path: String,
+        volume: Double = NO_ATTENUATION,
+        loop: Boolean = false
+    ): SoundPlaybackResult {
         return if (currentSource == path && clip != null) {
-            return true
+            return SoundPlaybackResult.SUCCESS
         } else {
             val file = File(path)
             if (file.exists()) {
                 currentSource = path
                 play(AudioSystem.getAudioInputStream(file), volume, loop)
             } else {
-                false
+                SoundPlaybackResult(false, "File does not exist.")
             }
         }
     }
 
     /**
      * Play a [audioInputStream]. The [volume] is specified using a normalised value between 0.0 (silence) and 1.0
-     * (no attenuation). If [loop] is set true the audio will loop indefinitely. Returns true if the operation was
-     * successful, else false.
+     * (no attenuation). If [loop] is set true the audio will loop indefinitely. Returns a result detailing if the
+     * operation was successful.
      */
-    private fun play(audioInputStream: AudioInputStream, volume: Double, loop: Boolean): Boolean {
+    private fun play(audioInputStream: AudioInputStream, volume: Double, loop: Boolean): SoundPlaybackResult {
         return try {
             val baseFormat = audioInputStream.format
 
@@ -96,8 +104,6 @@ class SoundPlayer : Logging {
                     val gainControl = audioClip.getControl(FloatControl.Type.MASTER_GAIN) as FloatControl
                     val volumeInDb = (20.0f * log10(volume)).toFloat()
                     gainControl.value = volumeInDb
-                } else {
-                    logger.warn("Volume control not supported on this system.")
                 }
 
                 if (loop) {
@@ -106,27 +112,23 @@ class SoundPlayer : Logging {
                 } else {
                     audioClip.start()
                 }
-                true
+                SoundPlaybackResult.SUCCESS
             } else {
-                logger.error("Exception caught playing stream: Clip was null.")
-                false
+                SoundPlaybackResult(false, "Exception caught playing stream: Clip was null.")
             }
         } catch (e: javax.sound.sampled.LineUnavailableException) {
-            logger.error("Exception caught playing stream: ${e.message}")
-            false
+            SoundPlaybackResult(false, "Exception caught playing stream: ${e.message}")
         } catch (e: java.io.IOException) {
-            logger.error("Exception caught playing stream: ${e.message}")
-            false
+            SoundPlaybackResult(false, "Exception caught playing stream: ${e.message}")
         } catch (e: javax.sound.sampled.UnsupportedAudioFileException) {
-            logger.error("Exception caught playing stream: ${e.message}")
-            false
+            SoundPlaybackResult(false, "Exception caught playing stream: ${e.message}")
         }
     }
 
     /**
      * Stop any playing audio.
      */
-    fun stop() {
+    public fun stop() {
         clip?.stop()
     }
 

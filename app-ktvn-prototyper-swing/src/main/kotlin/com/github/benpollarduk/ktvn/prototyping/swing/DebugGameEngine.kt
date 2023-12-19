@@ -6,6 +6,7 @@ import com.github.benpollarduk.ktvn.audio.NoAudio
 import com.github.benpollarduk.ktvn.audio.ResourceSoundEffect
 import com.github.benpollarduk.ktvn.audio.ResourceTrack
 import com.github.benpollarduk.ktvn.audio.SoundEffect
+import com.github.benpollarduk.ktvn.audio.SoundPlayer
 import com.github.benpollarduk.ktvn.audio.Track
 import com.github.benpollarduk.ktvn.backgrounds.ColorBackground
 import com.github.benpollarduk.ktvn.backgrounds.FileBackground
@@ -179,7 +180,7 @@ class DebugGameEngine(
     private fun playSceneMusic(track: Track) {
         when (track) {
             is ResourceTrack -> {
-                if (musicSoundPlayer.playFromResource(track.key, track.loop)) {
+                if (musicSoundPlayer.playFromResource(track.key, track.loop).wasSuccessful) {
                     resourceTracker.registerResourceLocated(track.key, location, ResourceType.MUSIC)
                     eventTerminal.println(Severity.INFO, "Playing ${track.key}.")
                 } else {
@@ -188,7 +189,7 @@ class DebugGameEngine(
                 }
             }
             is FileTrack -> {
-                if (musicSoundPlayer.playFromFile(track.path, track.loop)) {
+                if (musicSoundPlayer.playFromFile(track.path, track.loop).wasSuccessful) {
                     resourceTracker.registerResourceLocated(track.path, location, ResourceType.MUSIC)
                     eventTerminal.println(Severity.INFO, "Playing ${track.path}.")
                 } else {
@@ -232,7 +233,7 @@ class DebugGameEngine(
     override fun playSoundEffect(soundEffect: SoundEffect) {
         when (soundEffect) {
             is ResourceSoundEffect -> {
-                if (sfxSoundPlayer.playFromResource(soundEffect.key)) {
+                if (sfxSoundPlayer.playFromResource(soundEffect.key).wasSuccessful) {
                     resourceTracker.registerResourceLocated(soundEffect.key, location, ResourceType.SOUND_EFFECT)
                     eventTerminal.println(Severity.INFO, "Played ${soundEffect.key}.")
                 } else {
@@ -241,7 +242,7 @@ class DebugGameEngine(
                 }
             }
             is FileSoundEffect -> {
-                if (sfxSoundPlayer.playFromFile(soundEffect.path)) {
+                if (sfxSoundPlayer.playFromFile(soundEffect.path).wasSuccessful) {
                     resourceTracker.registerResourceLocated(soundEffect.path, location, ResourceType.SOUND_EFFECT)
                     eventTerminal.println(Severity.INFO, "Played ${soundEffect.path}.")
                 } else {
