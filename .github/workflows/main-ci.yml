@@ -36,7 +36,7 @@ jobs:
         mkdir -p ${{ github.workspace }}/build/reports/jacoco/test
         cp -r ktvn/build/reports/jacoco/test jacoco-report
       if: always()
-    - name: Upload JaCoCo Test Report
+    - name: Upload JaCoCo test report
       uses: actions/upload-artifact@v3
       with:
         name: jacoco-report
