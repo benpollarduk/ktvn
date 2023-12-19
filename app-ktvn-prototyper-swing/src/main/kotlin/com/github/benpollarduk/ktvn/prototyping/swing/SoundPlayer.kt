@@ -7,7 +7,9 @@ import javax.sound.sampled.AudioFormat
 import javax.sound.sampled.AudioInputStream
 import javax.sound.sampled.AudioSystem
 import javax.sound.sampled.Clip
+import javax.sound.sampled.FloatControl
 import javax.sound.sampled.LineEvent
+import kotlin.math.log10
 
 /**
  * Provides a simple class for playing sounds.
@@ -17,10 +19,11 @@ class SoundPlayer : Logging {
     private var clip: Clip? = null
 
     /**
-     * Play a sound from a resource [key]. Returns true if the operation was successful, else false. If [loop] is set
-     * true the audio will loop indefinitely.
+     * Play a sound from a resource [key]. If [volume] is specified then the signal can be attenuated. The [volume] is
+     * specified using a normalised value between 0.0 (silence) and 1.0 (no attenuation), but is set to 1.0 as default.
+     * If [loop] is set true the audio will loop indefinitely. Returns true if the operation was successful, else false.
      */
-    fun playFromResource(key: String, loop: Boolean = false): Boolean {
+    fun playFromResource(key: String, volume: Double = NO_ATTENUATION, loop: Boolean = false): Boolean {
         return if (currentSource == key && clip != null) {
             return true
         } else {
@@ -28,7 +31,7 @@ class SoundPlayer : Logging {
             if (stream != null) {
                 currentSource = key
                 val bufferedStream = AudioSystem.getAudioInputStream(BufferedInputStream(stream))
-                play(bufferedStream, loop)
+                play(bufferedStream, volume, loop)
             } else {
                 false
             }
@@ -36,17 +39,18 @@ class SoundPlayer : Logging {
     }
 
     /**
-     * Play a sound from a file [path]. Returns true if the operation was successful, else false. If [loop] is set true
-     * the audio will loop indefinitely.
+     * Play a sound from a file [path]. The [volume] is specified using a normalised value between 0.0 (silence) and 1.0
+     * (no attenuation), but is set to 1.0 as default. If [loop] is set true the audio will loop indefinitely. Returns
+     * true if the operation was successful, else false.
      */
-    fun playFromFile(path: String, loop: Boolean = false): Boolean {
+    fun playFromFile(path: String, volume: Double = NO_ATTENUATION, loop: Boolean = false): Boolean {
         return if (currentSource == path && clip != null) {
             return true
         } else {
             val file = File(path)
             if (file.exists()) {
                 currentSource = path
-                play(AudioSystem.getAudioInputStream(file), loop)
+                play(AudioSystem.getAudioInputStream(file), volume, loop)
             } else {
                 false
             }
@@ -54,10 +58,11 @@ class SoundPlayer : Logging {
     }
 
     /**
-     * Play a [audioInputStream]. Returns true if the operation was successful, else false. If [loop] is set true the
-     * audio will loop indefinitely.
+     * Play a [audioInputStream]. The [volume] is specified using a normalised value between 0.0 (silence) and 1.0
+     * (no attenuation). If [loop] is set true the audio will loop indefinitely. Returns true if the operation was
+     * successful, else false.
      */
-    private fun play(audioInputStream: AudioInputStream, loop: Boolean): Boolean {
+    private fun play(audioInputStream: AudioInputStream, volume: Double, loop: Boolean): Boolean {
         return try {
             val baseFormat = audioInputStream.format
 
@@ -85,6 +90,15 @@ class SoundPlayer : Logging {
 
                 clip = audioClip
                 audioClip.open(decodedInputStream)
+
+                // set the volume, if available
+                if (audioClip.isControlSupported(FloatControl.Type.MASTER_GAIN)) {
+                    val gainControl = audioClip.getControl(FloatControl.Type.MASTER_GAIN) as FloatControl
+                    val volumeInDb = (20.0f * log10(volume)).toFloat()
+                    gainControl.value = volumeInDb
+                } else {
+                    logger.warn("Volume control not supported on this system.")
+                }
 
                 if (loop) {
                     audioClip.setLoopPoints(FIRST_FRAME, LAST_FRAME)
@@ -136,5 +150,10 @@ class SoundPlayer : Logging {
          * Get the value for the last frame.
          */
         private const val LAST_FRAME: Int = -1
+
+        /**
+         * Get the value for no attenuation
+         */
+        private const val NO_ATTENUATION: Double = 1.0
     }
 }
