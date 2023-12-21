@@ -79,6 +79,22 @@ public class VolumeManager {
     }
 
     /**
+     * Set the other voice volume to the specified [volume]. The [volume] is specified using a normalised value
+     * between 0.0 (silence) and 1.0 (no attenuation).
+     */
+    public fun setOtherVoiceVolume(volume: Double) {
+        otherVoiceVolume = maxOf(FULL_ATTENUATION, minOf(NO_ATTENUATION, volume))
+    }
+
+    /**
+     * Get the other voice volume. The volume is returned using a normalised value between 0.0 (silence) and 1.0
+     * (no attenuation).
+     */
+    public fun getOtherVoiceVolume(): Double {
+        return otherVoiceVolume
+    }
+
+    /**
      * Set a [character] voice volume to the specified [volume]. The [volume] is specified using a normalised value
      * between 0.0 (silence) and 1.0 (no attenuation).
      */

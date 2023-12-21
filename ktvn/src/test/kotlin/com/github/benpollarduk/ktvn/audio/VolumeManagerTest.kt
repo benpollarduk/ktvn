@@ -168,4 +168,49 @@ class VolumeManagerTest {
         // When
         Assertions.assertEquals(0.125, result)
     }
+
+    @Test
+    fun `given default when configure then configured`() {
+        // Given
+        val manager = VolumeManager()
+        val configuration = VolumeManagerConfiguration(
+            0.0,
+            0.1,
+            0.2,
+            0.3,
+            emptyMap(),
+            0.4
+        )
+
+        // Then
+        manager.configure(configuration)
+
+        // When
+        Assertions.assertEquals(0.0, manager.getMasterVolume())
+        Assertions.assertEquals(0.1, manager.getMusicVolume())
+        Assertions.assertEquals(0.2, manager.getSoundEffectVolume())
+        Assertions.assertEquals(0.3, manager.getVoiceVolume())
+        Assertions.assertEquals(0.4, manager.getCharacterVoiceVolume(Character("ABC", TestCharacterAdapter())))
+    }
+
+    @Test
+    fun `given specified values when generating a configuration then returned configuration is correct`() {
+        // Given
+        val manager = VolumeManager()
+
+        // Then
+        manager.setMasterVolume(0.0)
+        manager.setMusicVolume(0.1)
+        manager.setSoundEffectVolume(0.2)
+        manager.setVoiceVolume(0.3)
+        manager.setOtherVoiceVolume(0.4)
+        val result = manager.toConfiguration()
+
+        // When
+        Assertions.assertEquals(0.0, result.masterVolume)
+        Assertions.assertEquals(0.1, result.musicVolume)
+        Assertions.assertEquals(0.2, result.soundEffectVolume)
+        Assertions.assertEquals(0.3, result.voiceVolume)
+        Assertions.assertEquals(0.4, result.otherVoiceVolume)
+    }
 }
