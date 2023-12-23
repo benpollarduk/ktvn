@@ -3,7 +3,7 @@ package com.github.benpollarduk.ktvn.characters
 /**
  * Provides an interface for listeners to speak events.
  */
-public interface SpeakListener {
+public fun interface SpeakListener {
     /**
      * Invoke the listener with a specified [character] and [line].
      */

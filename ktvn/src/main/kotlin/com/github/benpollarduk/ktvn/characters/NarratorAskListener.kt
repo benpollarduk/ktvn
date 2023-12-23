@@ -6,7 +6,7 @@ import com.github.benpollarduk.ktvn.logic.Question
 /**
  * Provides an interface for listeners to [Narrator] ask events.
  */
-public interface NarratorAskListener {
+public fun interface NarratorAskListener {
     /**
      * Invoke the listener with a specified [narrator] and [question]. Returns the selected answer.
      */

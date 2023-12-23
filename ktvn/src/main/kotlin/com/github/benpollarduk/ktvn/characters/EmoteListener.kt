@@ -3,7 +3,7 @@ package com.github.benpollarduk.ktvn.characters
 /**
  * Provides an interface for listeners to emote events.
  */
-public interface EmoteListener {
+public fun interface EmoteListener {
     /**
      * Invoke the listener with a specified [character] and [emotion].
      */
