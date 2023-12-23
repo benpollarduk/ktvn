@@ -6,7 +6,7 @@ import com.github.benpollarduk.ktvn.layout.transitions.LayoutTransition
 /**
  * Provides an interface for listeners to move events.
  */
-public interface MoveListener {
+public fun interface MoveListener {
     /**
      * Invoke the listener with a specified [character], [fromPosition] and [toPosition] with a specified [transition].
      */
