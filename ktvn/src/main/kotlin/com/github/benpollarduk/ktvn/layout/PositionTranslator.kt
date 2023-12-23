@@ -45,8 +45,8 @@ public object PositionTranslator {
         normalizedY: Double
     ): Point {
         return Point(
-            ((area.width * normalizedX)).toInt(),
-            ((normalizedY * area.height)).toInt()
+            (area.width * normalizedX).toInt(),
+            (normalizedY * area.height).toInt()
         )
     }
 }

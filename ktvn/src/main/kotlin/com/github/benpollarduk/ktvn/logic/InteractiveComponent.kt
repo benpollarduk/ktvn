@@ -6,7 +6,7 @@ import com.github.benpollarduk.ktvn.structure.StepResult
 /**
  * Provides an interface for interactive components.
  */
-public interface InteractiveComponent {
+public fun interface InteractiveComponent {
     /**
      * Invoke the interactive component. Any arguments can be specified with [args], as well as [flags]. A
      * [cancellationToken] can be specified to allow cancellation. Returns a [StepResult].

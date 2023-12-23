@@ -1,10 +1,10 @@
 package com.github.benpollarduk.ktvn.logic.adapters
 
-import com.github.benpollarduk.ktvn.characters.AnimateListener
 import com.github.benpollarduk.ktvn.characters.CharacterAskListener
 import com.github.benpollarduk.ktvn.characters.EmoteListener
 import com.github.benpollarduk.ktvn.characters.SpeakListener
 import com.github.benpollarduk.ktvn.characters.ThinkListener
+import com.github.benpollarduk.ktvn.characters.animations.AnimateListener
 
 /**
  * Provides an adapter for a characters. The adapter allows for character events to be passed to a receiving class.

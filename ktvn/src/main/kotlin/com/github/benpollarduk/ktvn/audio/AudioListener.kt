@@ -3,7 +3,7 @@ package com.github.benpollarduk.ktvn.audio
 /**
  * Provides an interface for listeners to audio events.
  */
-public interface AudioListener {
+public fun interface AudioListener {
     /**
      * Invoke the listener for playSoundEffect with a specified [soundEffect].
      */

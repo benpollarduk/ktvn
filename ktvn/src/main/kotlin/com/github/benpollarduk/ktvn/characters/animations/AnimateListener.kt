@@ -1,11 +1,11 @@
-package com.github.benpollarduk.ktvn.characters
+package com.github.benpollarduk.ktvn.characters.animations
 
-import com.github.benpollarduk.ktvn.characters.animations.Animation
+import com.github.benpollarduk.ktvn.characters.Character
 
 /**
  * Provides an interface for listeners to animate events.
  */
-public interface AnimateListener {
+public fun interface AnimateListener {
     /**
      * Invoke the listener with a specified [character] and [animation].
      */

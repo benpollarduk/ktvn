@@ -6,7 +6,7 @@ import com.github.benpollarduk.ktvn.logic.Question
 /**
  * Provides an interface for listeners to [Character] ask events.
  */
-public interface CharacterAskListener {
+public fun interface CharacterAskListener {
     /**
      * Invoke the listener with a specified [character] and [question]. Returns the selected answer.
      */
