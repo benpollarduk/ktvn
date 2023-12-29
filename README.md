@@ -10,7 +10,7 @@
 [![Documentation Status](https://img.shields.io/badge/docs-latest-brightgreen.svg)](https://benpollarduk.github.io/ktvn-docs/)
 
 # Introduction 
-Ktvn is a framework for writing visual novels in Kotlin. It is largely based on Kotlins strong Domain Specific Language
+Ktvn is a framework for writing visual novels in Kotlin or Java. It is largely based on Kotlins strong Domain Specific Language
 (DSL) capabilities. The aim of Ktvn is to provide a flexible framework for writing visual novels that can be pulled in 
 to other projects. Ktvn provides a quick, natural and flexible syntax that is easy to pick up and simple to maintain, 
 while retaining Kotlins powerful and feature rich syntax. 
