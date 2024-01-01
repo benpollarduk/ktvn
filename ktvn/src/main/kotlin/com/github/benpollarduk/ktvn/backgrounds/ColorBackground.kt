@@ -11,5 +11,12 @@ public class ColorBackground(public val color: Color = Color.BLACK) : Background
          * Provides an empty background.
          */
         public val empty: ColorBackground = ColorBackground()
+
+        /**
+         * Create a background from a specified [color].
+         */
+        public infix fun backgroundFromColor(color: Color): ColorBackground {
+            return ColorBackground(color)
+        }
     }
 }
