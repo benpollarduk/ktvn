@@ -12,10 +12,10 @@ class VolumeManagerTest {
         // Given
         val manager = VolumeManager()
 
-        // Then
+        // When
         val result = manager.calculateMusicVolume()
 
-        // When
+        // Then
         Assertions.assertEquals(1.0, result)
     }
 
@@ -25,10 +25,10 @@ class VolumeManagerTest {
         val manager = VolumeManager()
         manager.setMusicVolume(0.5)
 
-        // Then
+        // When
         val result = manager.calculateMusicVolume()
 
-        // When
+        // Then
         Assertions.assertEquals(0.5, result)
     }
 
@@ -38,10 +38,10 @@ class VolumeManagerTest {
         val manager = VolumeManager()
         manager.setMasterVolume(0.5)
 
-        // Then
+        // When
         val result = manager.calculateMusicVolume()
 
-        // When
+        // Then
         Assertions.assertEquals(0.5, result)
     }
 
@@ -52,10 +52,10 @@ class VolumeManagerTest {
         manager.setMasterVolume(0.5)
         manager.setMusicVolume(0.5)
 
-        // Then
+        // When
         val result = manager.calculateMusicVolume()
 
-        // When
+        // Then
         Assertions.assertEquals(0.25, result)
     }
 
@@ -65,10 +65,10 @@ class VolumeManagerTest {
         val manager = VolumeManager()
         manager.setSoundEffectVolume(0.5)
 
-        // Then
+        // When
         val result = manager.calculateSoundEffectVolume()
 
-        // When
+        // Then
         Assertions.assertEquals(0.5, result)
     }
 
@@ -78,10 +78,10 @@ class VolumeManagerTest {
         val manager = VolumeManager()
         manager.setMasterVolume(0.5)
 
-        // Then
+        // When
         val result = manager.calculateSoundEffectVolume()
 
-        // When
+        // Then
         Assertions.assertEquals(0.5, result)
     }
 
@@ -92,10 +92,10 @@ class VolumeManagerTest {
         manager.setMasterVolume(0.5)
         manager.setSoundEffectVolume(0.5)
 
-        // Then
+        // When
         val result = manager.calculateSoundEffectVolume()
 
-        // When
+        // Then
         Assertions.assertEquals(0.25, result)
     }
 
@@ -105,10 +105,10 @@ class VolumeManagerTest {
         val manager = VolumeManager()
         manager.setVoiceVolume(0.5)
 
-        // Then
+        // When
         val result = manager.calculateVoiceVolume(null)
 
-        // When
+        // Then
         Assertions.assertEquals(0.5, result)
     }
 
@@ -132,10 +132,10 @@ class VolumeManagerTest {
         manager.setMasterVolume(0.5)
         manager.setVoiceVolume(0.5)
 
-        // Then
+        // When
         val result = manager.calculateVoiceVolume(null)
 
-        // When
+        // Then
         Assertions.assertEquals(0.25, result)
     }
 
@@ -146,10 +146,10 @@ class VolumeManagerTest {
         val c = Character("", TestCharacterAdapter(), "")
         manager.setCharacterVoiceVolume(c, 0.5)
 
-        // Then
+        // When
         val result = manager.calculateVoiceVolume(c)
 
-        // When
+        // Then
         Assertions.assertEquals(0.5, result)
     }
 
@@ -162,10 +162,10 @@ class VolumeManagerTest {
         manager.setVoiceVolume(0.5)
         manager.setCharacterVoiceVolume(c, 0.5)
 
-        // Then
+        // When
         val result = manager.calculateVoiceVolume(c)
 
-        // When
+        // Then
         Assertions.assertEquals(0.125, result)
     }
 
@@ -182,10 +182,10 @@ class VolumeManagerTest {
             0.4
         )
 
-        // Then
+        // When
         manager.configure(configuration)
 
-        // When
+        // Then
         Assertions.assertEquals(0.0, manager.getMasterVolume())
         Assertions.assertEquals(0.1, manager.getMusicVolume())
         Assertions.assertEquals(0.2, manager.getSoundEffectVolume())
@@ -198,7 +198,7 @@ class VolumeManagerTest {
         // Given
         val manager = VolumeManager()
 
-        // Then
+        // When
         manager.setMasterVolume(0.0)
         manager.setMusicVolume(0.1)
         manager.setSoundEffectVolume(0.2)
@@ -206,7 +206,7 @@ class VolumeManagerTest {
         manager.setOtherVoiceVolume(0.4)
         val result = manager.toConfiguration()
 
-        // When
+        // Then
         Assertions.assertEquals(0.0, result.masterVolume)
         Assertions.assertEquals(0.1, result.musicVolume)
         Assertions.assertEquals(0.2, result.soundEffectVolume)
