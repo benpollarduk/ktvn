@@ -1,9 +1,9 @@
 package com.github.benpollarduk.ktvn.audio
 
-import java.io.File
-import java.io.FileOutputStream
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
+import java.io.File
+import java.io.FileOutputStream
 
 class SoundPlayerTest {
     @Test
