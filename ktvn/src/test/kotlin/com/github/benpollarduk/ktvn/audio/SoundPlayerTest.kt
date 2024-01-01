@@ -1,5 +1,7 @@
 package com.github.benpollarduk.ktvn.audio
 
+import java.io.File
+import java.io.FileOutputStream
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
@@ -53,13 +55,23 @@ class SoundPlayerTest {
     }
 
     @Test
-    fun `given play from resource when valid key then true`() {
+    fun `given play from file when valid file then true`() {
         // Given
         val player = SoundPlayer()
         val resource = "test-audio.wav"
+        val testStream = javaClass.classLoader.getResourceAsStream(resource)
+        val tempFile = File.createTempFile("test-audio", ".wav")
+        tempFile.deleteOnExit()
+
+        // write the contents of the resource to the temporary file
+        testStream.use { input ->
+            FileOutputStream(tempFile).use { output ->
+                input.copyTo(output)
+            }
+        }
 
         // When
-        val result = player.playFromResource(resource, VolumeManager.FULL_ATTENUATION)
+        val result = player.playFromFile(tempFile.absolutePath, VolumeManager.FULL_ATTENUATION)
 
         // Then
         Assertions.assertTrue(result.wasSuccessful)

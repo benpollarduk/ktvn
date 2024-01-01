@@ -30,7 +30,7 @@ public class SoundPlayer {
         return if (currentSource == key && clip != null) {
             return SoundPlaybackResult.SUCCESS
         } else {
-            val stream = SoundPlayer::class.java.classLoader.getResourceAsStream(key)
+            val stream = javaClass.classLoader.getResourceAsStream(key)
             if (stream != null) {
                 currentSource = key
                 val bufferedStream = AudioSystem.getAudioInputStream(BufferedInputStream(stream))
