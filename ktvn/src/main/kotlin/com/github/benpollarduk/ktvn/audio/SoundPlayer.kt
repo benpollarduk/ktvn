@@ -70,6 +70,8 @@ public class SoundPlayer {
      * operation was successful.
      */
     private fun play(audioInputStream: AudioInputStream, volume: Double, loop: Boolean): SoundPlaybackResult {
+        val exceptionPrefix = "Exception caught playing stream:"
+
         return try {
             val baseFormat = audioInputStream.format
 
@@ -107,14 +109,14 @@ public class SoundPlayer {
                 }
                 SoundPlaybackResult.SUCCESS
             } else {
-                SoundPlaybackResult(false, "Exception caught playing stream: Clip was null.")
+                SoundPlaybackResult(false, "$exceptionPrefix Clip was null.")
             }
         } catch (e: javax.sound.sampled.LineUnavailableException) {
-            SoundPlaybackResult(false, "Exception caught playing stream: ${e.message}")
+            SoundPlaybackResult(false, "$exceptionPrefix ${e.message}")
         } catch (e: java.io.IOException) {
-            SoundPlaybackResult(false, "Exception caught playing stream: ${e.message}")
+            SoundPlaybackResult(false, "$exceptionPrefix ${e.message}")
         } catch (e: javax.sound.sampled.UnsupportedAudioFileException) {
-            SoundPlaybackResult(false, "Exception caught playing stream: ${e.message}")
+            SoundPlaybackResult(false, "$exceptionPrefix ${e.message}")
         }
     }
 
