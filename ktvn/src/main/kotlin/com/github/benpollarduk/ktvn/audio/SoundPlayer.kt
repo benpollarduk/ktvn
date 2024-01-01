@@ -69,7 +69,7 @@ public class SoundPlayer {
      * (no attenuation). If [loop] is set true the audio will loop indefinitely. Returns a result detailing if the
      * operation was successful.
      */
-    internal fun play(audioInputStream: AudioInputStream, volume: Double, loop: Boolean): SoundPlaybackResult {
+    private fun play(audioInputStream: AudioInputStream, volume: Double, loop: Boolean): SoundPlaybackResult {
         return try {
             val baseFormat = audioInputStream.format
 
