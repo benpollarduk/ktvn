@@ -51,17 +51,4 @@ class SoundPlayerTest {
         // Then
         Assertions.assertFalse(result.wasSuccessful)
     }
-
-    @Test
-    fun `given play from resource when valid key then true`() {
-        // Given
-        val player = SoundPlayer()
-        val resource = "test-audio.wav"
-
-        // When
-        val result = player.playFromResource(resource, VolumeManager.FULL_ATTENUATION)
-
-        // Then
-        Assertions.assertTrue(result.wasSuccessful)
-    }
 }

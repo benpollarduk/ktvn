@@ -28,4 +28,35 @@ class FlagsTest {
         // Then
         Assertions.assertTrue(result)
     }
+
+    @Test
+    fun `given flags when setting a flag false then flag is false`() {
+        // Given
+        val flags = Flags()
+
+        // When
+        flags setFalse "Test"
+        val result = flags["Test"]
+
+        // Then
+        Assertions.assertFalse(result)
+    }
+
+    @Test
+    fun `given map when from map then values match map`() {
+        // Given
+        val map = mapOf(
+            "A" to true,
+            "B" to false
+        )
+        val flags = Flags.fromMap(map)
+
+        // When
+        val a = flags.getValue("A")
+        val b = flags.getValue("B")
+
+        // Then
+        Assertions.assertTrue(a)
+        Assertions.assertFalse(b)
+    }
 }

@@ -61,4 +61,46 @@ class LazyCharacterResourceLookupTest {
         // Then
         Assertions.assertEquals("characters//gabby-ski-happy.png", result)
     }
+
+    @Test
+    fun `given register resource with key test when get key then return test`() {
+        // Given
+        val character = Character("Gabby", TestCharacterAdapter())
+        val lookup = LazyCharacterResourceLookup("characters//", ".png")
+        lookup.registerResource(character, "test")
+
+        // When
+        val result = lookup.getKey(character)
+
+        // Then
+        Assertions.assertEquals("test", result)
+    }
+
+    @Test
+    fun `given register resource with emotion and key test when get key then return test`() {
+        // Given
+        val character = Character("Gabby", TestCharacterAdapter())
+        val lookup = LazyCharacterResourceLookup("characters//", ".png")
+        lookup.registerResource(character, happy, "test")
+
+        // When
+        val result = lookup.getKey(character, happy)
+
+        // Then
+        Assertions.assertEquals("test", result)
+    }
+
+    @Test
+    fun `given register resource with character look up state when get key then return test`() {
+        // Given
+        val character = Character("Gabby", TestCharacterAdapter())
+        val lookup = LazyCharacterResourceLookup("characters//", ".png")
+        lookup.registerResource(CharacterLookupState("Gabby", "", "happy"), "test")
+
+        // When
+        val result = lookup.getKey(character, happy)
+
+        // Then
+        Assertions.assertEquals("test", result)
+    }
 }
