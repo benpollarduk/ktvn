@@ -337,7 +337,7 @@ an engine to fit the target framwork but allows for bespoke UI solutions to be c
 is included in the repo to help with the prototyping phases of development. Please see 
 [app-ktvn-prototyper-swing](https://github.com/benpollarduk/ktvn/tree/main/app-ktvn-prototyper-swing) for more information.
 
-![image](https://github.com/benpollarduk/ktvn/assets/129943363/ea7898c8-85f5-4724-8ee4-2dffc052c69d)
+![image](https://github.com/benpollarduk/ktvn/assets/129943363/8ec6f17e-797e-463e-bdce-3bfa8af76249)
 
 The source for the above scene:
 
