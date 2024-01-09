@@ -1,3 +1,9 @@
+# Ktvn
+Ktvn is a framework for writing visual novels in Kotlin or Java. It is largely based on Kotlins strong Domain Specific Language
+(DSL) capabilities. The aim of Ktvn is to provide a flexible framework for writing visual novels that can be pulled in 
+to other projects. Ktvn provides a quick, natural and flexible syntax that is easy to pick up and simple to maintain, 
+while retaining Kotlins powerful and feature rich syntax. 
+
 [![main-ci](https://github.com/benpollarduk/ktvn/actions/workflows/main-ci.yml/badge.svg?branch=main)](https://github.com/benpollarduk/ktvn/actions/workflows/main-ci.yml)
 [![codecov](https://codecov.io/gh/benpollarduk/ktvn/graph/badge.svg?token=H9RCA8F7DE)](https://codecov.io/gh/benpollarduk/ktvn)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=benpollarduk_ktvn&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=benpollarduk_ktvn)
@@ -9,16 +15,10 @@
 [![License](https://img.shields.io/github/license/benpollarduk/ktvn.svg)](https://opensource.org/licenses/MIT)
 [![Documentation Status](https://img.shields.io/badge/docs-latest-brightgreen.svg)](https://benpollarduk.github.io/ktvn-docs/)
 
-# Introduction 
-Ktvn is a framework for writing visual novels in Kotlin or Java. It is largely based on Kotlins strong Domain Specific Language
-(DSL) capabilities. The aim of Ktvn is to provide a flexible framework for writing visual novels that can be pulled in 
-to other projects. Ktvn provides a quick, natural and flexible syntax that is easy to pick up and simple to maintain, 
-while retaining Kotlins powerful and feature rich syntax. 
-
-# Documentation
+## Documentation
 Please visit [https://benpollarduk.github.io/ktvn-docs/](https://benpollarduk.github.io/ktvn-docs/) to view the Ktvn documentation.
 
-# Getting Started
+## Getting Started
 * Clone the repo.
 * Build the prototyping console.
 ```bash
@@ -30,7 +30,7 @@ cd app-ktvn-prototyper-console/build/libs
 java -jar app-ktvn-prototyper-console-all.jar
 ```
 
-# Hello World
+## Hello World
 ```kotlin
 val story = story {
     it add chapter {
@@ -42,7 +42,7 @@ val story = story {
     }
 }
 ```
-# Story Structure
+## Story Structure
 A Ktvn visual novel starts with a **Story**. A Story contains one or more **Chapters**. Each Chapter contains one or 
 more **Scenes**. Each Scene contains one or more **Steps**. There are several types of Step, and Step is extensible 
 so that the DSL can be customised.
@@ -77,7 +77,7 @@ Listeners are provided for:
 * Chapter - when chapters transition.
 * Audio - when audio is changed.
 
-# Execution #
+## Execution
 Stories can be executed as a **Game**. Games must be executed through the **GameExecutor**, an object dedicated to game 
 management. The game executor can run games synchronously or asynchronously.
 ```kotlin
@@ -108,17 +108,17 @@ Ktvn, it essentially wraps a Story and a **GameConfiguration** into a single dis
 ties together how the story and the UI interact with one another. Please see the **Integration** section of this readme 
 for more information.
 
-# Persistence #
+## Persistence
 Persistence is handled in 3 parts, **GameSave**, **RestorePoint** and **StepTracker** .
 
-### GameSave ###
+### GameSave
 The users settings, endings reached and total seconds played are saved in a **GameSave**.
 ```kotlin
 val gameSave = game.getGameSave()
 GameSaveSerializer.toFile(gameSave, path)
 ```
 
-### RestorePoint ###
+### RestorePoint
 Progress in a game can be persisted as a **RestorePoint**. A restore point can be generated at any point before, 
 during or after a games execution and persisted to file using the **RestorePointSerializer**. This stores the users 
 current position in the game, flags and has a name, a creation date and time and a thumbnail.
@@ -127,7 +127,7 @@ val restorePoint = game.getRestorePoint("File1")
 RestorePointSerializer.toFile(restorePoint, path)
 ```
 
-### StepTracker ###
+### StepTracker
 The **StepTracker** tracks which steps have been viewed by the player. This is important as it allows the skip feature 
 to skip viewed steps on a subsequent play through. As default a **StepIdentifierTracker** is provided and records steps 
 with a deterministic identifier.
@@ -135,7 +135,7 @@ with a deterministic identifier.
 gameEngine.stepTracker.persist(path)
 ```
 
-# Core DSL
+## Core DSL
 The Ktvn DSL is simple but powerful. Each step in a story has access to the parent story's flags, which allows variables 
 such as user responses to be captured and made accessible to other steps. **Ktvn is in the very early stages of 
 development and the DSL in particular may change.**
@@ -170,7 +170,7 @@ Or play a sound effect:
 next { audio sfx sfxFromResource("crash") }
 ```
 
-### then ###
+### then
 then is very similar to next, but allows the step to be named. This is useful if the story needs to jump to this step.
 ```kotlin
 then {
@@ -181,7 +181,7 @@ then {
 }
 ```
 
-### choice ###
+### choice
 choice allows the user to present a question to the user and receive an answer. A character or the narrator can ask a 
 multiple choice question:
 ```kotlin
@@ -209,7 +209,7 @@ between steps. Each flag has a string key and a boolean value. If a flag does no
 returned as default. In this 
 case a flag is set to register the option that the user picked.
 
-### decision ###
+### decision
 decision is very similar to choice, but allows the step to be named. This is useful if the story needs to jump to this step.
 ```kotlin
 decision { decision ->
@@ -234,7 +234,7 @@ decision { decision ->
 }
 ```
 
-### conditional ###
+### conditional
 conditional allows a step to only be invoked if a specified condition is met.
 ```kotlin
 conditional {
@@ -250,7 +250,7 @@ The **condition** keyword specifies the flag. If that flag is set to true then t
 keyword will be executed. Lastly the **returns** keyword specifies the result of the step so that the story can 
 continue, branch or end as required.
 
-### pause ###
+### pause
 pause is a step that prevents the story from progressing for the specified time, in milliseconds.
 ```kotlin
 pause {
@@ -260,14 +260,14 @@ pause {
 The **seconds** keyword allows the delay time to be specified, in seconds. Shorter delays can be specified in
 milliseconds using the **milliseconds** keyword.
 
-### clear ###
+### clear
 clear is a step that signals that the current scene should be cleared. The engine is responsible for actioning this in a way that makes sense for the executing game.
 ```kotlin
 clear { }
 ```
 Suggested use cases are for clearing the text from a narrative scene, or removing all dialog from a dialog scene.
 
-## interactive ##
+### interactive
 interactive is a step that adds extensibility to the game in the form of allowing other components to be called. For 
 example, some visual novels may contain mini-games. Providing the mini game implements or is wrapped by 
 **InteractiveComponent** it can be invoked in a step.
@@ -296,7 +296,7 @@ val component = object: InteractiveComponent {
 }
 ```
 
-### end ###
+### end
 end is a simple step that signifies that an ending has been reached.
 ```kotlin
 end {
@@ -307,14 +307,14 @@ The ending that was reached can be specified with the **ending** keyword.
 
 For further examples please see the ktvn-example directory in the repo.
 
-# Progression #
+## Progression
 Progression through a story is controlled by the **ProgressionController**, which is part of the **GameEngine**. The 
 following progression modes are supported:
 * Wait for acknowledgement - the user must acknowledge each step.
 * Skip - previously viewed steps will be skipped.
 * Auto - the step will be acknowledged after a specified time.
 
-# Integration #
+## Integration
 Ktvn provides a structure, DSL and flow control for creating visual novels, but it does not provide a framework for 
 creating UIs and managing assets. Many frameworks for this exist. To integrate with a story a **GameConfiguration** is 
 required. The easiest way of achieving this is by using **DynamicGameConfiguration** with a **GameEngine**. 
@@ -330,7 +330,7 @@ The following sequence diagram shows the sequence of starting a game and a chara
 
 ![ktvn-sequencing-overview.png](docs%2Fktvn-sequencing-overview.png)
 
-# Prototyping #
+## Prototyping
 Ktvn is focused on providing a framework for writing visual novels that can be pulled in to other frameworks rather than 
 attempting to provide a full solution for writing visual novels from start to finish. This puts some emphasis on writing 
 an engine to fit the target framwork but allows for bespoke UI solutions to be created. However, a swing prototyping app 
