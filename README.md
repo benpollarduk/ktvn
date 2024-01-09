@@ -19,9 +19,6 @@ while retaining Kotlins powerful and feature rich syntax.
 
 </div>
 
-## Documentation
-Please visit [https://benpollarduk.github.io/ktvn-docs/](https://benpollarduk.github.io/ktvn-docs/) to view the Ktvn documentation.
-
 ## Getting Started
 * Clone the repo.
 * Build the prototyping console.
@@ -378,6 +375,9 @@ internal fun onTheLaunchPad(): Scene {
     }
 }
 ```
+
+## Documentation
+Please visit [https://benpollarduk.github.io/ktvn-docs/](https://benpollarduk.github.io/ktvn-docs/) to view the Ktvn documentation.
 
 ## For Open Questions
 Visit https://github.com/benpollarduk/ktvn/issues
