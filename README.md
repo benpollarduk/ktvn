@@ -69,7 +69,7 @@ The quickest way to start getting to grips with the structure of Ktvn and the DS
 Example visual novels are provided in the [ktvn-exmples](https://github.com/benpollarduk/ktvn/tree/main/ktvn-examples/src/main/kotlin/com/github/benpollarduk/ktvn/examples) directory 
 and have been designed with the aim of showcasing the various features.
 
-### Running the exmaples
+### Running the examples
 The included examples can be run with a couple of included apps:
 
 #### Prototyping console
