@@ -66,7 +66,7 @@ GameExecutor.execute(game)
 
 ### Example visual novels
 The quickest way to start getting to grips with the structure of Ktvn and the DSL is by taking a look at the examples. 
-Example visual novels are provided in the [ktvn-exmples]([url](https://github.com/benpollarduk/ktvn/tree/main/ktvn-examples/src/main/kotlin/com/github/benpollarduk/ktvn/examples)) directory 
+Example visual novels are provided in the [ktvn-exmples](https://github.com/benpollarduk/ktvn/tree/main/ktvn-examples/src/main/kotlin/com/github/benpollarduk/ktvn/examples) directory 
 and have been designed with the aim of showcasing the various features.
 
 ### Running the exmaples
