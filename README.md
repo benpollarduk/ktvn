@@ -22,7 +22,7 @@ while retaining Kotlins powerful and feature rich syntax.
 ## Getting Started
 
 ### Clone the repo
-Clone the repo to the local machine
+Clone the repo to the local machine.
 ```bash
 git clone https://github.com/benpollarduk/ktvn.git
 ```
