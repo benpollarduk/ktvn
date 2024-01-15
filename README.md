@@ -20,7 +20,61 @@ while retaining Kotlins powerful and feature rich syntax.
 </div>
 
 ## Getting Started
-* Clone the repo.
+
+### Clone the repo
+Clone the repo to the local machine
+```bash
+git clone https://github.com/benpollarduk/ktvn.git
+```
+
+### Hello World
+```kotlin
+// each game requires a configuration, DynamicGameConfiguration provides a default that can be tailored to the UI being used
+val configuration = DynamicGameConfiguration()
+
+// the narrator provides a class that can narrate the story
+val narrator = Narrator(configuration.gameAdapter.narratorAdapter)
+
+// create a simple story
+val story = story {
+
+    // add a single chapter
+    it add chapter {
+
+        // add a new scene
+        it add scene {
+
+            // set the steps that make up the scene
+            it steps listOf(
+
+                // include a simple narration step
+                next { narrator narrates "Welcome to a Ktvn visual novel!" }
+            )
+        }
+    }
+}
+
+// a visual novel provides a wrapper for a story that hooks together the story and the configuration
+val visualNovel = VisualNovel.create(story, configuration)
+
+// a game provides an object that is used to control execution of the visual novel
+val game = Game(visualNovel)
+
+// execute the game synchronously
+GameExecutor.execute(game)
+```
+
+### Example visual novels
+The quickest way to start getting to grips with the structure of Ktvn and the DSL is by taking a look at the examples. 
+Example visual novels are provided in the [ktvn-exmples]([url](https://github.com/benpollarduk/ktvn/tree/main/ktvn-examples/src/main/kotlin/com/github/benpollarduk/ktvn/examples)) directory 
+and have been designed with the aim of showcasing the various features.
+
+### Running the exmaples
+The included examples can be run with a couple of included apps:
+
+#### Prototyping console
+The prototyping console is useful for running through visual novels through a basic console application.
+
 * Build the prototyping console.
 ```bash
 ./gradlew :app-ktvn-prototyper-console:build
@@ -31,18 +85,19 @@ cd app-ktvn-prototyper-console/build/libs
 java -jar app-ktvn-prototyper-console-all.jar
 ```
 
-## Hello World
-```kotlin
-val story = story {
-    it add chapter {
-        it add scene {
-            it steps listOf(
-                next { narrator narrates "Welcome to a Ktvn visual novel!" }
-            )
-        }
-    }
-}
+#### Prototyping Swing UI
+The prototyping Swing app provides a simple application that supports the core Ktvn concepts.
+
+* Build the prototyping Swing app.
+```bash
+./gradlew :app-ktvn-prototyper-swing:build
 ```
+* Run an example through the prototyping Swing app.
+```bash
+cd app-ktvn-prototyper-swing/build/libs
+java -jar app-ktvn-prototyper-swing-all.jar
+```
+
 ## Story Structure
 A Ktvn visual novel starts with a **Story**. A Story contains one or more **Chapters**. Each Chapter contains one or 
 more **Scenes**. Each Scene contains one or more **Steps**. There are several types of Step, and Step is extensible 
@@ -82,27 +137,16 @@ Listeners are provided for:
 Stories can be executed as a **Game**. Games must be executed through the **GameExecutor**, an object dedicated to game 
 management. The game executor can run games synchronously or asynchronously.
 ```kotlin
-// create a story
-val story = story { story ->
-    story add chapter { chapter ->
-        chapter add scene { scene ->
-            scene steps listOf(
-                end {
-                    it ending default
-                }
-            )
-        }
-    }
-}
-
-// create visual novel to host the story and the game configuration
-val visualNovel = VisualNovel.create(story, DynamicGameConfiguration())
-
-// create a game based on the visual novel
-val game = Game(visualNovel)
-
 // execute the game synchronously
 GameExecutor.execute(game)
+
+OR
+
+// execute the game asynchronously
+GameExecutor.executeAysnc(exampleGame) {
+
+    // TODO: handle game completion
+}
 ```
 The constructor for Game objects accepts an instance of **VisualNovel**. The VisualNovel is a critical component of 
 Ktvn, it essentially wraps a Story and a **GameConfiguration** into a single discoverable file. The GameConfiguration 
@@ -110,7 +154,7 @@ ties together how the story and the UI interact with one another. Please see the
 for more information.
 
 ## Persistence
-Persistence is handled in 3 parts, **GameSave**, **RestorePoint** and **StepTracker** .
+Persistence is handled in three distinct parts, **GameSave**, **RestorePoint** and **StepTracker** .
 
 ### GameSave
 The users settings, endings reached and total seconds played are saved in a **GameSave**.
