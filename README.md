@@ -136,18 +136,22 @@ Listeners are provided for:
 ## Execution
 Stories can be executed as a **Game**. Games must be executed through the **GameExecutor**, an object dedicated to game 
 management. The game executor can run games synchronously or asynchronously.
+
 ```kotlin
 // execute the game synchronously
 GameExecutor.execute(game)
+```
 
-OR
+Or:
 
+```kotlin
 // execute the game asynchronously
 GameExecutor.executeAysnc(exampleGame) {
 
     // TODO: handle game completion
 }
 ```
+
 The constructor for Game objects accepts an instance of **VisualNovel**. The VisualNovel is a critical component of 
 Ktvn, it essentially wraps a Story and a **GameConfiguration** into a single discoverable file. The GameConfiguration 
 ties together how the story and the UI interact with one another. Please see the **Integration** section of this readme 
