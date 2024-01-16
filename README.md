@@ -108,18 +108,22 @@ so that the DSL can be customised.
 
 For example:
 
-* Story
-  * Chapter
-    * Scene
-      * Step
-      * Step
-    * Scene
-      * Step
-      * Step
-  * Chapter
-    * Scene
-      * Step
-      * Step       
+```
+Story
+├── Chapter
+│   ├── Scene
+│   |   ├── Step
+│   |   ├── Step
+│   |   ├── Step
+|   ├── Scene
+│   |   ├── Step
+│   |   ├── Step
+├── Chapter
+│   ├── Scene
+│   |   ├── Step
+|   ├── Scene
+│   |   ├── Step
+```   
   
 Simple classes and DSL exist to support characters, narration, choices, flags, emotions and positioning of characters 
 and more. Emotions and character positions are fully and easily extensible. When a characters emotion  or position 
