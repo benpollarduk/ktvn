@@ -32,7 +32,7 @@ git clone https://github.com/benpollarduk/ktvn.git
 // a ktvn visual novel requires a configuration, DynamicGameConfiguration provides a default that can be tailored to the UI being used
 val configuration = DynamicGameConfiguration()
 
-// the configuration requires an engine to process input and output. the engine itself will vary depending on the UI framework being targeted.
+// the configuration requires an engine to process input and output. the engine itself will vary depending on the UI framework being targeted
 configuration.engine = AnsiConsoleGameEngine()
 
 // the narrator provides a class that can narrate the story
