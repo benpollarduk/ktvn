@@ -13,7 +13,7 @@ class SceneTest {
     fun `given scene when name is test then name is set to test`() {
         // Given
         val scene = scene {
-            it name "Test"
+            this name "Test"
         }
 
         // When
@@ -27,7 +27,7 @@ class SceneTest {
     fun `given scene when type is narrative then type is set to narrative`() {
         // Given
         val scene = scene {
-            it type narrative
+            this type narrative
         }
 
         // When
@@ -41,7 +41,7 @@ class SceneTest {
     fun `given scene when layout is set then layout is not null`() {
         // Given
         val scene = scene {
-            it layout createLayout { }
+            this layout createLayout { }
         }
 
         // When
@@ -55,7 +55,7 @@ class SceneTest {
     fun `given scene when steps is set to 1 step then number of steps is 1`() {
         // Given
         val scene = scene {
-            it steps listOf(
+            this steps listOf(
                 then { }
             )
         }
@@ -73,7 +73,7 @@ class SceneTest {
         val step = then { }
         val tracker = StepIdentifierTracker()
         val scene = scene {
-            it steps listOf(
+            this steps listOf(
                 step
             )
         }
@@ -92,7 +92,7 @@ class SceneTest {
         val tracker = StepIdentifierTracker()
         tracker.registerStepSeen(step)
         val scene = scene {
-            it steps listOf(
+            this steps listOf(
                 step
             )
         }

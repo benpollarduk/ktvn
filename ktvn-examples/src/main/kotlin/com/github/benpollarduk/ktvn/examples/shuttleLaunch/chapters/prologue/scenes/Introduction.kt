@@ -12,15 +12,15 @@ import com.github.benpollarduk.ktvn.structure.steps.Then.Companion.next
 
 @Suppress("MaxLineLength")
 internal fun introduction(): Scene {
-    return scene { scene ->
-        scene name "Introduction"
-        scene background empty
-        scene music silence
-        scene type narrative
-        scene layout createLayout {
-            it configure configuration.gameAdapter.layoutAdapter
+    return scene {
+        this name "Introduction"
+        this background empty
+        this music silence
+        this type narrative
+        this layout createLayout {
+            this configure configuration.gameAdapter.layoutAdapter
         }
-        scene steps listOf(
+        this steps listOf(
             next { narrator narrates "It's late afternoon and the the shuttle test flight looms ahead." },
             next { narrator narrates "In a few days time the launch sequence will initiate and the shuttle will leave earth for good." },
             next { narrator narrates "Is Toki ready?" }

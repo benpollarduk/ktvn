@@ -3,7 +3,7 @@ package com.github.benpollarduk.ktvn.logic
 /**
  * A question, provides the option for a user to branch a story based on input.
  */
-public class Question private constructor(setup: (Question) -> Unit) {
+public class Question private constructor(setup: Question.() -> Unit) {
     private val _answers: MutableList<Answer> = mutableListOf()
 
     /**
@@ -47,7 +47,7 @@ public class Question private constructor(setup: (Question) -> Unit) {
         /**
          * Create a [Question] with a specified [callback].
          */
-        public infix fun question(setup: (Question) -> Unit): Question {
+        public infix fun question(setup: Question.() -> Unit): Question {
             return Question(setup)
         }
     }

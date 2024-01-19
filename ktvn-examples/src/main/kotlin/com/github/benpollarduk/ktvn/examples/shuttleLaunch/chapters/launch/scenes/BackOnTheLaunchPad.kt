@@ -22,21 +22,21 @@ import com.github.benpollarduk.ktvn.structure.steps.Then.Companion.next
 
 @Suppress("LongMethod")
 internal fun backOnTheLaunchPad(): Scene {
-    return scene { scene ->
-        scene name "Back on the launch pad"
-        scene background shuttleDay
-        scene music shuttleDayMusic
-        scene transitionIn sceneFadeIn
-        scene transitionOut sceneFadeOut
-        scene layout createLayout { layout ->
-            layout addRightOf sophie
-            layout addHidden toki
-            layout configure configuration.gameAdapter.layoutAdapter
-            layout transition layoutFadeIn
+    return scene {
+        this name "Back on the launch pad"
+        this background shuttleDay
+        this music shuttleDayMusic
+        this transitionIn sceneFadeIn
+        this transitionOut sceneFadeOut
+        this layout createLayout {
+            this addRightOf sophie
+            this addHidden toki
+            this configure configuration.gameAdapter.layoutAdapter
+            this transition layoutFadeIn
         }
-        scene steps listOf(
+        this steps listOf(
             next {
-                scene.layout moveCenter toki
+                layout moveCenter toki
                 toki thinks "I know she doesn't trust me... but I aced basic training and the rest of astronaut school."
             },
             next {
@@ -48,18 +48,18 @@ internal fun backOnTheLaunchPad(): Scene {
             next {
                 toki thinks "Maybe I left it over here..."
                 audio sfx sfxWoosh
-                scene.layout transition layoutSlide
-                scene.layout moveRight toki
+                layout transition layoutSlide
+                layout moveRight toki
             },
             next {
                 toki thinks "...or maybe here"
                 audio sfx sfxWoosh
-                scene.layout transition layoutSlide
-                scene.layout moveLeft toki
+                layout transition layoutSlide
+                layout moveLeft toki
             },
             next {
                 sophie looks normal
-                scene.layout moveRight sophie
+                layout moveRight sophie
                 sophie says "There you are, I've been looking everywhere for you! What's up?"
             },
             next {
@@ -72,16 +72,16 @@ internal fun backOnTheLaunchPad(): Scene {
             },
             next {
                 sophie looks normal
-                scene.layout exitRight sophie
+                layout exitRight sophie
                 toki says "Why does she always call me that?!"
                 toki begins shaking
             },
             next {
-                scene.layout moveRight sophie
+                layout moveRight sophie
                 sophie says "Because you are."
             },
             next {
-                scene.layout exitRight sophie
+                layout exitRight sophie
             },
             next {
                 toki says "I should learn to keep quiet."

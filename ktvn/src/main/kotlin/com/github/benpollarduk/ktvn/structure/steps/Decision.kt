@@ -11,7 +11,7 @@ import com.github.benpollarduk.ktvn.structure.StepResult
 /**
  * A step that acts as a decision. A [setup] must be specified.
  */
-public class Decision private constructor(private val setup: (Decision) -> Unit) : Step {
+public class Decision private constructor(private val setup: Decision.() -> Unit) : Step {
     private var script: (Flags) -> Answer = { answer { } }
 
     override var name: String = "Decision"
@@ -57,7 +57,7 @@ public class Decision private constructor(private val setup: (Decision) -> Unit)
         /**
          * Create a step with a specified [setup].
          */
-        public infix fun decision(setup: (Decision) -> Unit): Decision {
+        public infix fun decision(setup: Decision.() -> Unit): Decision {
             return Decision(setup)
         }
 
@@ -67,7 +67,7 @@ public class Decision private constructor(private val setup: (Decision) -> Unit)
          */
         public infix fun choice(script: (Flags) -> Answer): Decision {
             return Decision {
-                it does script
+                this does script
             }
         }
     }

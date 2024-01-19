@@ -8,9 +8,9 @@ import com.github.benpollarduk.ktvn.structure.Chapter.Companion.chapter
 
 internal fun returnToTheMansion(): Chapter {
     return chapter {
-        it name "Chapter 1: Return to the mansion"
-        it add insideTheMansion()
-        it add michelsRoomNight()
-        it add michelsRoomMorning()
+        this name "Chapter 1: Return to the mansion"
+        this add insideTheMansion()
+        this add michelsRoomNight()
+        this add michelsRoomMorning()
     }
 }

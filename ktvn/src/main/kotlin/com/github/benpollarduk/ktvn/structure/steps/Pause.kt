@@ -10,7 +10,7 @@ import kotlin.math.min
 /**
  * A step that provides a pause. A [setup] must be specified.
  */
-public class Pause private constructor(private val setup: (Pause) -> Unit) : Step {
+public class Pause private constructor(private val setup: Pause.() -> Unit) : Step {
     private var delayInMs: Long = 0
 
     override var name: String = "Pause"
@@ -75,7 +75,7 @@ public class Pause private constructor(private val setup: (Pause) -> Unit) : Ste
         /**
          * Create a step with a specified [setup].
          */
-        public infix fun pause(setup: (Pause) -> Unit): Pause {
+        public infix fun pause(setup: Pause.() -> Unit): Pause {
             return Pause(setup)
         }
     }

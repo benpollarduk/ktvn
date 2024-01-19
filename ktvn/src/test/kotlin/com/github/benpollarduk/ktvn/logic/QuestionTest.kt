@@ -9,11 +9,11 @@ class QuestionTest {
     @Test
     fun `given question with 1 option when created then 1 answer available`() {
         // Given
-        val question = question { question ->
-            question line "Test"
-            question option answer { answer ->
-                answer line "A"
-                answer does {
+        val question = question {
+            this line "Test"
+            this option answer {
+                this line "A"
+                this does {
                     it setTrue "B"
                 }
             }

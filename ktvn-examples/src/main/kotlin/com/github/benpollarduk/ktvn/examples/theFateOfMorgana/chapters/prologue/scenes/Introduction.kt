@@ -10,14 +10,14 @@ import com.github.benpollarduk.ktvn.structure.SceneTypes.narrative
 import com.github.benpollarduk.ktvn.structure.steps.Then.Companion.next
 
 internal fun introduction(): Scene {
-    return scene { scene ->
-        scene name "Introduction"
-        scene background empty
-        scene type narrative
-        scene layout createLayout {
-            it configure configuration.gameAdapter.layoutAdapter
+    return scene {
+        this name "Introduction"
+        this background empty
+        this type narrative
+        this layout createLayout {
+            this configure configuration.gameAdapter.layoutAdapter
         }
-        scene steps listOf(
+        this steps listOf(
             next { narrator narrates "Many years have passed since Michel moved into the mansion." },
             next { narrator narrates "Although Michel has remained amicable, the witch, Morgana, has not." }
         )

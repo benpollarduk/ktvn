@@ -7,7 +7,7 @@ import com.github.benpollarduk.ktvn.logic.Flags
 /**
  * A story. A [setup] must be specified.
  */
-public class Story private constructor(setup: (Story) -> Unit) {
+public class Story private constructor(setup: Story.() -> Unit) {
     private val chapters: MutableList<Chapter> = mutableListOf()
 
     /**
@@ -118,7 +118,7 @@ public class Story private constructor(setup: (Story) -> Unit) {
         /**
          * Create a new [Story] with a specified [setup].
          */
-        public infix fun story(setup: (Story) -> Unit): Story {
+        public infix fun story(setup: Story.() -> Unit): Story {
             return Story(setup)
         }
     }

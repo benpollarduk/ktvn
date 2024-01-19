@@ -9,7 +9,7 @@ import com.github.benpollarduk.ktvn.structure.StepResult
 /**
  * A step that acts as a progression. A [setup] must be specified.
  */
-public class Then private constructor(private val setup: (Then) -> Unit) : Step {
+public class Then private constructor(private val setup: Then.() -> Unit) : Step {
     private var script: (Flags) -> Unit = { }
 
     override var name: String = "Then"
@@ -53,7 +53,7 @@ public class Then private constructor(private val setup: (Then) -> Unit) : Step 
         /**
          * Create a step with a specified [setup].
          */
-        public infix fun then(setup: (Then) -> Unit): Then {
+        public infix fun then(setup: Then.() -> Unit): Then {
             return Then(setup)
         }
 
@@ -63,7 +63,7 @@ public class Then private constructor(private val setup: (Then) -> Unit) : Step 
          */
         public infix fun next(script: (Flags) -> Unit): Then {
             return Then {
-                it does script
+                this does script
             }
         }
     }

@@ -12,7 +12,7 @@ class DecisionTest {
     fun `given decision when name is test then name is set to test`() {
         // Given
         val decision = decision {
-            it name "Test"
+            this name "Test"
         }
 
         // When
@@ -26,11 +26,11 @@ class DecisionTest {
     fun `given decision when invoke then script called`() {
         // Given
         var called = false
-        val decision = decision { decision ->
-            decision does {
+        val decision = decision {
+            this does {
                 called = true
                 answer {
-                    it line "Test"
+                    this line "Test"
                 }
             }
         }

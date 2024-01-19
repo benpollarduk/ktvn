@@ -17,10 +17,10 @@ class GameTest {
     fun `given simple game when execute and cancelled then cancelled result returned`() {
         // Given
         var game: Game? = null
-        val story = story { story ->
-            story add chapter { chapter ->
-                chapter add scene { scene ->
-                    scene steps listOf(
+        val story = story {
+            this add chapter {
+                this add scene {
+                    this steps listOf(
                         next {
                             game?.end()
                         }
@@ -41,12 +41,12 @@ class GameTest {
     @Test
     fun `given simple game when execute then default ending reached`() {
         // Given
-        val story = story { story ->
-            story add chapter { chapter ->
-                chapter add scene { scene ->
-                    scene steps listOf(
+        val story = story {
+            this add chapter {
+                this add scene {
+                    this steps listOf(
                         end {
-                            it ending Ending.default
+                            this ending Ending.default
                         }
                     )
                 }
@@ -65,12 +65,12 @@ class GameTest {
     @Test
     fun `given simple game when saved after execute and return ending 1 then save contains ending`() {
         // Given
-        val story = story { story ->
-            story add chapter { chapter ->
-                chapter add scene { scene ->
-                    scene steps listOf(
+        val story = story {
+            this add chapter {
+                this add scene {
+                    this steps listOf(
                         end {
-                            it ending Ending.default
+                            this ending Ending.default
                         }
                     )
                 }
@@ -90,17 +90,17 @@ class GameTest {
     @Test
     fun `given simple game when saved after execute with delay then save has valid total seconds`() {
         // Given
-        val story = story { story ->
-            story add chapter { chapter ->
-                chapter add scene { scene ->
-                    scene steps listOf(
+        val story = story {
+            this add chapter {
+                this add scene {
+                    this steps listOf(
                         then {
-                            it does {
+                            this does {
                                 Thread.sleep(1000)
                             }
                         },
                         end {
-                            it ending Ending.default
+                            this ending Ending.default
                         }
                     )
                 }

@@ -16,12 +16,12 @@ class GameExecutorTest {
         // Then
         Assertions.assertDoesNotThrow {
             // Given
-            val story = story { story ->
-                story add chapter { chapter ->
-                    chapter add scene { scene ->
-                        scene steps listOf(
+            val story = story {
+                this add chapter {
+                    this add scene {
+                        this steps listOf(
                             end {
-                                it ending Ending.default
+                                this ending Ending.default
                             }
                         )
                     }
@@ -40,12 +40,12 @@ class GameExecutorTest {
         // Then
         Assertions.assertDoesNotThrow {
             // Given
-            val story = story { story ->
-                story add chapter { chapter ->
-                    chapter add scene { scene ->
-                        scene steps listOf(
+            val story = story {
+                this add chapter {
+                    this add scene {
+                        this steps listOf(
                             end {
-                                it ending Ending.default
+                                this ending Ending.default
                             }
                         )
                     }
@@ -75,12 +75,12 @@ class GameExecutorTest {
         // Then
         Assertions.assertDoesNotThrow {
             // Given
-            val story = story { story ->
-                story add chapter { chapter ->
-                    chapter add scene { scene ->
-                        scene steps listOf(
+            val story = story {
+                this add chapter {
+                    this add scene {
+                        this steps listOf(
                             end {
-                                it ending Ending.default
+                                this ending Ending.default
                             }
                         )
                     }

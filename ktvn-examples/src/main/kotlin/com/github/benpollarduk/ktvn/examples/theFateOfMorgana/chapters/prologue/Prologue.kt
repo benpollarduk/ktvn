@@ -6,7 +6,7 @@ import com.github.benpollarduk.ktvn.structure.Chapter.Companion.chapter
 
 internal fun prologue(): Chapter {
     return chapter {
-        it name "Prologue"
-        it add introduction()
+        this name "Prologue"
+        this add introduction()
     }
 }

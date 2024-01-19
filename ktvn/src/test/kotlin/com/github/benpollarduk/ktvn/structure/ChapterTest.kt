@@ -10,7 +10,7 @@ class ChapterTest {
     fun `given chapter when name is test then name is set to test`() {
         // Given
         val chapter = chapter {
-            it name "Test"
+            this name "Test"
         }
 
         // When
@@ -24,8 +24,7 @@ class ChapterTest {
     fun `given chapter when scenes is set to 1 scene then number of scenes is 1`() {
         // Given
         val chapter = chapter {
-            it add scene {
-            }
+            this add scene { }
         }
 
         // When

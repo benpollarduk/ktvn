@@ -12,9 +12,9 @@ class StepIdentifierMapperTest {
     fun `given one chapter with one scene and one step when mapping then first step id is 1-1-1`() {
         // Given
         val story = story {
-            it add chapter {
-                it add scene {
-                    it steps listOf(
+            this add chapter {
+                this add scene {
+                    this steps listOf(
                         then { }
                     )
                 }
@@ -34,9 +34,9 @@ class StepIdentifierMapperTest {
     fun `given one chapter with one scene and two steps when mapping then step 2 id is 1-1-2`() {
         // Given
         val story = story {
-            it add chapter {
-                it add scene {
-                    it steps listOf(
+            this add chapter {
+                this add scene {
+                    this steps listOf(
                         then { },
                         then { }
                     )
@@ -57,14 +57,14 @@ class StepIdentifierMapperTest {
     fun `given one chapter with two scenes and one step when mapping then scene 2 step 1 id is  1-2-1`() {
         // Given
         val story = story {
-            it add chapter {
-                it add scene {
-                    it steps listOf(
+            this add chapter {
+                this add scene {
+                    this steps listOf(
                         then { }
                     )
                 }
-                it add scene {
-                    it steps listOf(
+                this add scene {
+                    this steps listOf(
                         then { }
                     )
                 }
@@ -84,16 +84,16 @@ class StepIdentifierMapperTest {
     fun `given two chapters with one scene and one step when mapping then chapter 2 scene 1 step 1 id is 2-1-1`() {
         // Given
         val story = story {
-            it add chapter {
-                it add scene {
-                    it steps listOf(
+            this add chapter {
+                this add scene {
+                    this steps listOf(
                         then { }
                     )
                 }
             }
-            it add chapter {
-                it add scene {
-                    it steps listOf(
+            this add chapter {
+                this add scene {
+                    this steps listOf(
                         then { }
                     )
                 }
