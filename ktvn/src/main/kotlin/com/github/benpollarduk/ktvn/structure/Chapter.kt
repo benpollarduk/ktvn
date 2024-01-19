@@ -5,7 +5,7 @@ import com.github.benpollarduk.ktvn.io.restore.ChapterRestorePoint
 /**
  * A chapter within a [Story].
  */
-public class Chapter private constructor(setup: (Chapter) -> Unit) {
+public class Chapter private constructor(setup: Chapter.() -> Unit) {
     private val scenes: MutableList<Scene> = mutableListOf()
     private var transition: ChapterTransition = ChapterTransitions.instant
 
@@ -135,7 +135,7 @@ public class Chapter private constructor(setup: (Chapter) -> Unit) {
         /**
          * Create a new [Chapter] with a specified [setup].
          */
-        public infix fun chapter(setup: (Chapter) -> Unit): Chapter {
+        public infix fun chapter(setup: Chapter.() -> Unit): Chapter {
             return Chapter(setup)
         }
     }

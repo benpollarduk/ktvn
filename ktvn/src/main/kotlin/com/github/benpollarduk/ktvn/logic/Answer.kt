@@ -3,7 +3,7 @@ package com.github.benpollarduk.ktvn.logic
 /**
  * An answer to a question.
  */
-public class Answer private constructor(setup: (Answer) -> Unit) {
+public class Answer private constructor(setup: Answer.() -> Unit) {
     /**
      * Get the line.
      */
@@ -38,7 +38,7 @@ public class Answer private constructor(setup: (Answer) -> Unit) {
         /**
          * Create an [Answer] with a specified [callback].
          */
-        public infix fun answer(setup: (Answer) -> Unit): Answer {
+        public infix fun answer(setup: Answer.() -> Unit): Answer {
             return Answer(setup)
         }
     }

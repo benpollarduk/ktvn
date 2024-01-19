@@ -10,7 +10,7 @@ import com.github.benpollarduk.ktvn.structure.StepResult
 /**
  * A step that contains an interactive. A [setup] must be specified.
  */
-public class Interactive private constructor(private val setup: (Interactive) -> Unit) : Step {
+public class Interactive private constructor(private val setup: Interactive.() -> Unit) : Step {
     private var interactiveComponent: InteractiveComponent? = null
     private var args: Array<String> = emptyArray()
 
@@ -62,7 +62,7 @@ public class Interactive private constructor(private val setup: (Interactive) ->
         /**
          * Create a step with a specified [setup].
          */
-        public infix fun interactive(setup: (Interactive) -> Unit): Interactive {
+        public infix fun interactive(setup: Interactive.() -> Unit): Interactive {
             return Interactive(setup)
         }
     }

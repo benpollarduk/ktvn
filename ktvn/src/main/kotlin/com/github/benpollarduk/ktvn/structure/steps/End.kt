@@ -10,7 +10,7 @@ import com.github.benpollarduk.ktvn.structure.StepResult
 /**
  * A step that signifies an end. A [setup] must be specified.
  */
-public class End private constructor(private val setup: (End) -> Unit) : Step {
+public class End private constructor(private val setup: End.() -> Unit) : Step {
     private var script: (Flags) -> Unit = { }
     private var ending: Ending = Ending.default
 
@@ -62,7 +62,7 @@ public class End private constructor(private val setup: (End) -> Unit) : Step {
         /**
          * Create a step with a specified [setup].
          */
-        public infix fun end(setup: (End) -> Unit): End {
+        public infix fun end(setup: End.() -> Unit): End {
             return End(setup)
         }
     }

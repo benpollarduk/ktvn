@@ -11,7 +11,7 @@ class ThenTest {
     fun `given then when name is test then name is set to test`() {
         // Given
         val then = then {
-            it name "Test"
+            this name "Test"
         }
 
         // When
@@ -26,7 +26,7 @@ class ThenTest {
         // Given
         var result = false
         val next = then {
-            it does {
+            this does {
                 result = true
             }
         }

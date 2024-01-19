@@ -21,7 +21,7 @@ import com.github.benpollarduk.ktvn.structure.transitions.SceneTransition
  * A scene within a [Chapter].
  */
 @Suppress("TooManyFunctions")
-public class Scene private constructor(setup: (Scene) -> Unit) {
+public class Scene private constructor(setup: Scene.() -> Unit) {
     private var content: List<Step> = emptyList()
     private var transitionIn: SceneTransition = Instant()
     private var transitionOut: SceneTransition = Instant()
@@ -252,7 +252,7 @@ public class Scene private constructor(setup: (Scene) -> Unit) {
         /**
          * Create a [Scene] with a specified [setup].
          */
-        public infix fun scene(setup: (Scene) -> Unit): Scene {
+        public infix fun scene(setup: Scene.() -> Unit): Scene {
             return Scene(setup)
         }
     }

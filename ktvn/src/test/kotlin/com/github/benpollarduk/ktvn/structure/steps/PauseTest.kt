@@ -11,7 +11,7 @@ class PauseTest {
     fun `given pause when name is test then name is set to test`() {
         // Given
         val pause = pause {
-            it name "Test"
+            this name "Test"
         }
 
         // When
@@ -25,7 +25,7 @@ class PauseTest {
     fun `given pause when 5 milliseconds then pause of at least 5 milliseconds`() {
         // Given
         val pause = pause {
-            it milliseconds 5
+            this milliseconds 5
         }
         val startTime = System.currentTimeMillis()
 
@@ -41,7 +41,7 @@ class PauseTest {
     fun `given pause when 1 second then pause of at least 1000 milliseconds`() {
         // Given
         val pause = pause {
-            it seconds 1
+            this seconds 1
         }
         val startTime = System.currentTimeMillis()
 

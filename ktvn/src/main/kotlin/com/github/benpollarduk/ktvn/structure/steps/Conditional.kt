@@ -9,7 +9,7 @@ import com.github.benpollarduk.ktvn.structure.StepResult
 /**
  * A step that only happens if a condition is true. A [script] must be specified.
  */
-public class Conditional private constructor(setup: (Conditional) -> Unit) : Step {
+public class Conditional private constructor(setup: Conditional.() -> Unit) : Step {
     private var script: (Flags) -> Unit = { }
     private var flag: String = ""
     private var result: StepResult = StepResult.Continue
@@ -76,7 +76,7 @@ public class Conditional private constructor(setup: (Conditional) -> Unit) : Ste
         /**
          * Create a step with a specified [setup].
          */
-        public infix fun conditional(setup: (Conditional) -> Unit): Conditional {
+        public infix fun conditional(setup: Conditional.() -> Unit): Conditional {
             return Conditional(setup)
         }
     }

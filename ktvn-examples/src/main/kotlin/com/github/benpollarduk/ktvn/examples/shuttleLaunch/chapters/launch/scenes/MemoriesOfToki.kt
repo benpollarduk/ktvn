@@ -15,23 +15,23 @@ import com.github.benpollarduk.ktvn.structure.steps.Then.Companion.next
 
 @Suppress("MaxLineLength")
 internal fun memoriesOfToki(): Scene {
-    return scene { scene ->
-        scene name "Memory of launch"
-        scene background shuttleMemory
-        scene music shuttleDayMusic
-        scene transitionIn sceneFadeIn
-        scene transitionOut sceneFadeOut
-        scene layout createLayout { layout ->
-            layout addHidden tokiMemory
-            layout configure configuration.gameAdapter.layoutAdapter
-            layout transition layoutFadeIn
+    return scene {
+        this name "Memory of launch"
+        this background shuttleMemory
+        this music shuttleDayMusic
+        this transitionIn sceneFadeIn
+        this transitionOut sceneFadeOut
+        this layout createLayout {
+            this addHidden tokiMemory
+            this configure configuration.gameAdapter.layoutAdapter
+            this transition layoutFadeIn
         }
-        scene steps listOf(
+        this steps listOf(
             next {
                 sophie thinks "Things never used to be so complex. However everything changed that fateful night..."
             },
             next {
-                scene.layout moveCenter tokiMemory
+                layout moveCenter tokiMemory
                 sophie thinks "He was always the class clown, but I knew before things went wrong that there was more to him than that."
             },
             next {

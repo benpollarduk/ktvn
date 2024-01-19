@@ -8,9 +8,9 @@ import com.github.benpollarduk.ktvn.structure.Chapter.Companion.chapter
 
 internal fun launch(): Chapter {
     return chapter {
-        it name "Chapter 1: Launch"
-        it add onTheLaunchPad()
-        it add memoriesOfToki()
-        it add backOnTheLaunchPad()
+        this name "Chapter 1: Launch"
+        this add onTheLaunchPad()
+        this add memoriesOfToki()
+        this add backOnTheLaunchPad()
     }
 }

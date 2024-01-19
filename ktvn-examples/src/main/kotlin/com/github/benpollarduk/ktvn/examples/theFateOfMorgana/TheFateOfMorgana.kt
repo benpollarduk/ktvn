@@ -8,9 +8,9 @@ import com.github.benpollarduk.ktvn.structure.Story.Companion.story
 
 public class TheFateOfMorgana : VisualNovel(
     story {
-        it name "The Fate of Morgana"
-        it add prologue()
-        it add returnToTheMansion()
+        this name "The Fate of Morgana"
+        this add prologue()
+        this add returnToTheMansion()
     },
     AssetStore.configuration
 )

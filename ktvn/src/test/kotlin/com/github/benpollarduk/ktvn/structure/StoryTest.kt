@@ -72,7 +72,7 @@ class StoryTest {
     fun `given story when name is test then name is set to test`() {
         // Given
         val story = story {
-            it name "Test"
+            this name "Test"
         }
 
         // When
@@ -86,8 +86,7 @@ class StoryTest {
     fun `given story when chapters is set to 1 scene then number of chapters is 1`() {
         // Given
         val story = story {
-            it add chapter {
-            }
+            this add chapter { }
         }
 
         // When
@@ -100,10 +99,10 @@ class StoryTest {
     @Test
     fun `given story that returns end 0 when begin then return end 0`() {
         // Given
-        val story = story { story ->
-            story add chapter { chapter ->
-                chapter add scene { scene ->
-                    scene steps listOf(
+        val story = story {
+            this add chapter {
+                this add scene {
+                    this steps listOf(
                         next { }
                     )
                 }
@@ -128,13 +127,13 @@ class StoryTest {
     @Test
     fun `given story that returns end 1 when begin then return end 1`() {
         // Given
-        val story = story { story ->
-            story add chapter { chapter ->
-                chapter add scene { scene ->
-                    scene steps listOf(
+        val story = story {
+            this add chapter {
+                this add scene {
+                    this steps listOf(
                         next { },
                         end {
-                            it ending Ending("", 1)
+                            this ending Ending("", 1)
                         }
                     )
                 }
@@ -159,10 +158,10 @@ class StoryTest {
     @Test
     fun `given story with one step when begin then chapter enter and exit called`() {
         // Given
-        val story = story { story ->
-            story add chapter { chapter ->
-                chapter add scene { scene ->
-                    scene steps listOf(
+        val story = story {
+            this add chapter {
+                this add scene {
+                    this steps listOf(
                         then { }
                     )
                 }
@@ -205,10 +204,10 @@ class StoryTest {
     @Test
     fun `given story with one step when begin then scene enter and exit called`() {
         // Given
-        val story = story { story ->
-            story add chapter { chapter ->
-                chapter add scene { scene ->
-                    scene steps listOf(
+        val story = story {
+            this add chapter {
+                this add scene {
+                    this steps listOf(
                         then { }
                     )
                 }
@@ -255,10 +254,10 @@ class StoryTest {
     @Test
     fun `given story with clear step when begin then clear called`() {
         // Given
-        val story = story { story ->
-            story add chapter { chapter ->
-                chapter add scene { scene ->
-                    scene steps listOf(
+        val story = story {
+            this add chapter {
+                this add scene {
+                    this steps listOf(
                         clear { }
                     )
                 }

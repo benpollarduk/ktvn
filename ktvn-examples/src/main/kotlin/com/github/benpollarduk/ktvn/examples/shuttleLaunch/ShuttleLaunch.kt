@@ -11,9 +11,9 @@ import com.github.benpollarduk.ktvn.structure.Story.Companion.story
 
 public class ShuttleLaunch : VisualNovel(
     story {
-        it name "Shuttle Launch"
-        it add prologue()
-        it add launch()
+        this name "Shuttle Launch"
+        this add prologue()
+        this add launch()
     },
     AssetStore.configuration,
     Resolution(RESOLUTION_WIDTH, RESOLUTION_HEIGHT)

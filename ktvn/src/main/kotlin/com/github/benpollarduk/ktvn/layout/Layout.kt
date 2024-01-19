@@ -18,7 +18,7 @@ import java.util.concurrent.locks.ReentrantLock
  * Provides a layout for positioning characters.
  */
 @Suppress("TooManyFunctions")
-public open class Layout private constructor(private val setup: (Layout) -> Unit) {
+public open class Layout private constructor(private val setup: Layout.() -> Unit) {
     private val mutablePositions: MutableList<CharacterPosition> = mutableListOf()
     private val lock = ReentrantLock()
     private var adapter: LayoutAdapter? = null
@@ -234,7 +234,7 @@ public open class Layout private constructor(private val setup: (Layout) -> Unit
         /**
          * Create a new [Layout] with a specified [setup].
          */
-        public infix fun createLayout(setup: (Layout) -> Unit): Layout {
+        public infix fun createLayout(setup: Layout.() -> Unit): Layout {
             return Layout(setup)
         }
     }

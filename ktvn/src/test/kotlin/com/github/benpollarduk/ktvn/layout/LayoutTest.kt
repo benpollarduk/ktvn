@@ -155,7 +155,7 @@ class LayoutTest {
         val configuration: LayoutAdapter = object : LayoutAdapter {
             override val moveListener: MoveListener = moveListener
         }
-        val layout = Layout.createLayout { it configure configuration }
+        val layout = Layout.createLayout { this configure configuration }
         val character = Character(
             "",
             characterAdapter

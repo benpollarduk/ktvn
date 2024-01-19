@@ -9,7 +9,7 @@ import com.github.benpollarduk.ktvn.structure.StepResult
 /**
  * A step that clears a scene. A [setup] must be specified.
  */
-public class Clear private constructor(private val setup: (Clear) -> Unit) : Step {
+public class Clear private constructor(private val setup: Clear.() -> Unit) : Step {
     override var name: String = "Clear"
         private set
 
@@ -42,7 +42,7 @@ public class Clear private constructor(private val setup: (Clear) -> Unit) : Ste
         /**
          * Create a step with a specified [setup].
          */
-        public infix fun clear(setup: (Clear) -> Unit): Clear {
+        public infix fun clear(setup: Clear.() -> Unit): Clear {
             return Clear(setup)
         }
     }

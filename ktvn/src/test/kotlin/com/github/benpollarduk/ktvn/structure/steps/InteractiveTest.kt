@@ -13,7 +13,7 @@ class InteractiveTest {
     fun `given interactive when name is test then name is set to test`() {
         // Given
         val interactive = interactive {
-            it name "Test"
+            this name "Test"
         }
 
         // When
@@ -32,7 +32,7 @@ class InteractiveTest {
             StepResult.Continue
         }
         val interactive = interactive {
-            it element component
+            this element component
         }
 
         // When

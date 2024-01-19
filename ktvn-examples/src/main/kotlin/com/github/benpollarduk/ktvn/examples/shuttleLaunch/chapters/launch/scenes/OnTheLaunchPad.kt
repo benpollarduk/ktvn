@@ -19,28 +19,28 @@ import com.github.benpollarduk.ktvn.structure.Scene.Companion.scene
 import com.github.benpollarduk.ktvn.structure.steps.Then.Companion.next
 
 internal fun onTheLaunchPad(): Scene {
-    return scene { scene ->
-        scene name "On the launch pad"
-        scene background shuttleDay
-        scene music shuttleDayMusic
-        scene transitionIn sceneFadeIn
-        scene transitionOut sceneFadeOut
-        scene layout createLayout { layout ->
-            layout addLeftOf sophie
-            layout addRightOf toki
-            layout configure configuration.gameAdapter.layoutAdapter
-            layout transition layoutSlide
+    return scene {
+        this name "On the launch pad"
+        this background shuttleDay
+        this music shuttleDayMusic
+        this transitionIn sceneFadeIn
+        this transitionOut sceneFadeOut
+        this layout createLayout {
+            this addLeftOf sophie
+            this addRightOf toki
+            this configure configuration.gameAdapter.layoutAdapter
+            this transition layoutSlide
         }
-        scene steps listOf(
+        this steps listOf(
             next {
-                scene.layout moveCenter sophie
+                layout moveCenter sophie
                 sophie looks normal
                 sophie says "Where has that fool gotten to now?"
             },
             next { audio sfx sfxWoosh },
             next {
-                scene.layout moveLeft sophie
-                scene.layout moveRight toki
+                layout moveLeft sophie
+                layout moveRight toki
                 toki looks normal
                 toki says "Here I am!"
                 toki says "Ready for duty!"

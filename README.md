@@ -42,13 +42,13 @@ val narrator = Narrator(configuration.gameAdapter.narratorAdapter)
 val story = story {
 
     // add a single chapter
-    it add chapter {
+    this add chapter {
 
         // add a new scene
-        it add scene {
+        this add scene {
 
             // set the steps that make up the scene
-            it steps listOf(
+            this steps listOf(
 
                 // include a simple narration step
                 next { narrator narrates "Welcome to a Ktvn visual novel!" }
@@ -230,8 +230,8 @@ next { audio sfx sfxFromResource("crash") }
 then is very similar to next, but allows the step to be named. This is useful if the story needs to jump to this step.
 ```kotlin
 then {
-    it name "Michel shows anger"
-    it does {
+    this name "Michel shows anger"
+    this does {
         michel looks angry
     }
 }
@@ -242,17 +242,17 @@ choice allows the user to present a question to the user and receive an answer. 
 multiple choice question:
 ```kotlin
 choice {
-    morgana asks question { question ->
-        question line "Why we do, don't we dear?"
-        question option answer { answer ->
-            answer line "Of course."
-            answer does { flags ->
+    morgana asks question {
+        this line "Why we do, don't we dear?"
+        this option answer {
+            this line "Of course."
+            this does { flags ->
                 flags setTrue "Michel likes Morgana"
             }
         }
-        question option answer { answer ->
-            answer line "I hate you!"
-            answer does { flags ->
+        this option answer {
+            this line "I hate you!"
+            this does { flags ->
                 flags setTrue "Michel hates Morgana"
             }
         }
@@ -268,20 +268,20 @@ case a flag is set to register the option that the user picked.
 ### decision
 decision is very similar to choice, but allows the step to be named. This is useful if the story needs to jump to this step.
 ```kotlin
-decision { decision ->
-    decision name "Michel's feeling towards Morgana"
-    decision does {
-        morgana asks question { question ->
-            question line "Why we do, don't we dear?"
-            question option answer { answer ->
-                answer line "Of course."
-                answer does { flags ->
+decision {
+    this name "Michel's feeling towards Morgana"
+    this does {
+        morgana asks question {
+            this line "Why we do, don't we dear?"
+            this option answer {
+                this line "Of course."
+                this does { flags ->
                   flags setTrue "Michel likes Morgana"
                 }
             }
-            question option answer { answer ->
-                answer line "I hate you!"
-                answer does { flags ->
+            this option answer {
+                this line "I hate you!"
+                this does { flags ->
                   flags setTrue "Michel hates Morgana"
                 }
             }
@@ -294,12 +294,12 @@ decision { decision ->
 conditional allows a step to only be invoked if a specified condition is met.
 ```kotlin
 conditional {
-    it condition "Michel likes Morgana"
-    it does {
+    this condition "Michel likes Morgana"
+    this does {
         morgana looks amused
         morgana says "Fool, I despise you!"
     }
-    it returns Continue
+    this returns Continue
 }
 ```
 The **condition** keyword specifies the flag. If that flag is set to true then the script specified by the **does** 
@@ -310,7 +310,7 @@ continue, branch or end as required.
 pause is a step that prevents the story from progressing for the specified time, in milliseconds.
 ```kotlin
 pause {
-    it seconds 5
+    this seconds 5
 }
 ```
 The **seconds** keyword allows the delay time to be specified, in seconds. Shorter delays can be specified in
@@ -329,8 +329,8 @@ example, some visual novels may contain mini-games. Providing the mini game impl
 **InteractiveComponent** it can be invoked in a step.
 ```kotlin
 interactive {
-    it element component
-    it args arrayOf("args1", "args2")
+    this element component
+    this args arrayOf("args1", "args2")
 }
 ```
 An example of wrapping a component:
@@ -356,7 +356,7 @@ val component = object: InteractiveComponent {
 end is a simple step that signifies that an ending has been reached.
 ```kotlin
 end {
-    it ending Ending("True End.", 1)
+    this ending Ending("True End.", 1)
 }
 ```
 The ending that was reached can be specified with the **ending** keyword.
@@ -398,25 +398,25 @@ The source for some of the above scene:
 
 ```kotlin
 internal fun onTheLaunchPad(): Scene {
-    return scene { scene ->
-        scene name "On the launch pad"
-        scene background shuttleDay
-        scene music shuttleDayMusic
-        scene layout createLayout { layout ->
-            layout addLeftOf sophie
-            layout addRightOf toki
-            layout configure configuration.gameAdapter.layoutAdapter
+    return scene {
+        this name "On the launch pad"
+        this background shuttleDay
+        this music shuttleDayMusic
+        this layout createLayout {
+            this addLeftOf sophie
+            this addRightOf toki
+            this configure configuration.gameAdapter.layoutAdapter
         }
-        scene steps listOf(
+        this steps listOf(
             next {
-                scene.layout moveCenter sophie
+                layout moveCenter sophie
                 sophie looks normal
                 sophie says "Where has that fool gotten to now?"
             },
             next { audio sfx sfxWoosh },
             next {
-                scene.layout moveLeft sophie
-                scene.layout moveRight toki
+                layout moveLeft sophie
+                layout moveRight toki
                 toki looks normal
                 toki says "Here I am!"
                 toki says "Ready for duty!"
