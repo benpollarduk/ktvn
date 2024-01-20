@@ -1,15 +1,16 @@
 package com.github.benpollarduk.ktvn.prototyper.console
 
-import com.github.benpollarduk.ktvn.audio.VolumeManager
 import com.github.benpollarduk.ktvn.audio.ResourceSoundEffect
 import com.github.benpollarduk.ktvn.audio.SoundEffect
-import com.github.benpollarduk.ktvn.characters.animations.Animation
+import com.github.benpollarduk.ktvn.audio.VolumeManager
 import com.github.benpollarduk.ktvn.characters.Character
 import com.github.benpollarduk.ktvn.characters.Emotion
 import com.github.benpollarduk.ktvn.characters.Narrator
+import com.github.benpollarduk.ktvn.characters.animations.Animation
 import com.github.benpollarduk.ktvn.examples.theFateOfMorgana.assets.AssetStore.michel
 import com.github.benpollarduk.ktvn.examples.theFateOfMorgana.assets.AssetStore.morgana
 import com.github.benpollarduk.ktvn.layout.Position
+import com.github.benpollarduk.ktvn.layout.transitions.LayoutTransition
 import com.github.benpollarduk.ktvn.logic.Answer
 import com.github.benpollarduk.ktvn.logic.Flags
 import com.github.benpollarduk.ktvn.logic.GameEngine
@@ -20,7 +21,6 @@ import com.github.benpollarduk.ktvn.structure.CancellationToken
 import com.github.benpollarduk.ktvn.structure.Chapter
 import com.github.benpollarduk.ktvn.structure.ChapterTransition
 import com.github.benpollarduk.ktvn.structure.Scene
-import com.github.benpollarduk.ktvn.layout.transitions.LayoutTransition
 import com.github.benpollarduk.ktvn.structure.Step
 import com.github.benpollarduk.ktvn.structure.Story
 import com.github.benpollarduk.ktvn.structure.transitions.SceneTransition
@@ -28,9 +28,9 @@ import com.github.benpollarduk.ktvn.text.frames.CharacterConstrainedTextFrame
 import com.github.benpollarduk.ktvn.text.frames.TextFrame
 import com.github.benpollarduk.ktvn.text.frames.TextFrameParameters
 import com.github.benpollarduk.ktvn.text.log.Log
+import com.github.benpollarduk.ktvn.text.sequencing.GridTextSequencer
 import com.github.benpollarduk.ktvn.text.sequencing.SequencedTextController
 import com.github.benpollarduk.ktvn.text.sequencing.SequencedTextControllerListener
-import com.github.benpollarduk.ktvn.text.sequencing.GridTextSequencer
 import java.util.concurrent.locks.ReentrantLock
 
 /**
@@ -162,9 +162,16 @@ internal class AnsiConsoleGameEngine(
      * Print a [string] to the console. Optionally an ANSI color code can be specified, otherwise 97 (white) will be
      * used.
      */
-    private fun print(string: String, colorCode: Int = 97) {
+    private fun print(string: String, colorCode: Int = ANSI_WHITE) {
+        // if color is suppressed ensure white is used
+        val color = if (isColorSuppressed()) {
+            ANSI_WHITE
+        } else {
+            colorCode
+        }
+
         // set color
-        kotlin.io.print("\u001B[${colorCode}m")
+        kotlin.io.print("\u001B[${color}m")
 
         // create frames from the string that describe how it should be rendered
         val frames = CharacterConstrainedTextFrame.create(
@@ -184,10 +191,18 @@ internal class AnsiConsoleGameEngine(
      * [durationInMs], in milliseconds. Optionally an ANSI color code can be specified, otherwise 90 (bright black)
      * will be used.
      */
-    private fun printlnDirectTemp(string: String, durationInMs: Long = 1000, colorCode: Int = 90) {
+    private fun printlnDirectTemp(string: String, durationInMs: Long = 1000, colorCode: Int = ANSI_BRIGHT_BLACK) {
         clear()
+
+        // if color is suppressed ensure white is used
+        val color = if (isColorSuppressed()) {
+            ANSI_WHITE
+        } else {
+            colorCode
+        }
+
         // print string wrapped in ANSI color setting to specified colour and then resetting to 0 (reset)
-        println("\u001B[${colorCode}m$string\u001B[0m")
+        println("\u001B[${color}m$string\u001B[0m")
 
         if (durationInMs > 0) {
             Thread.sleep(durationInMs)
@@ -199,9 +214,9 @@ internal class AnsiConsoleGameEngine(
      */
     private fun getCharacterColor(character: Character) : Int {
         return when (character) {
-            morgana -> 91   // red
-            michel -> 94    // blue
-            else -> 97      // white
+            morgana -> ANSI_RED   // red
+            michel -> ANSI_BLUE   // blue
+            else -> ANSI_WHITE    // white
         }
     }
 
@@ -354,5 +369,43 @@ internal class AnsiConsoleGameEngine(
          * Get the default lines.
          */
         internal const val DEFAULT_LINES: Int = 4
+
+        /**
+         * Get the ANSI color code for bright black.
+         */
+        private const val ANSI_BRIGHT_BLACK: Int = 90
+
+        /**
+         * Get the ANSI color code for white.
+         */
+        private const val ANSI_WHITE: Int = 90
+
+        /**
+         * Get the ANSI color code for blue.
+         */
+        private const val ANSI_BLUE: Int = 94
+
+        /**
+         * Get the ANSI color code for red.
+         */
+        private const val ANSI_RED: Int = 91
+
+        /**
+         * The environment variable for suppressing color.
+         */
+        private const val NO_COLOR: String = "NO_COLOR"
+
+        /**
+         * Determine if color output should be suppressed.
+         */
+        private fun isColorSuppressed(): Boolean {
+            // terminal color may be suppressed with the NO_COLOR environment variable
+            return when (System.getenv(NO_COLOR)?.lowercase() ?: "") {
+                "" -> false
+                "0" -> false
+                "false" -> false
+                else -> true
+            }
+        }
     }
 }
