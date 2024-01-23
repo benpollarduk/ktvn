@@ -5,6 +5,13 @@ name: main-release
 
 on:
   workflow_dispatch:
+    inputs:
+      ver:
+        description: 'The version number, should be specified as a semantic version e.g: X.Y.Z'
+        required: true
+      release-notes:
+        description: 'The versions release notes'
+        required: true
 
 jobs:
   build:
@@ -14,14 +21,58 @@ jobs:
       PUBLISH_URL: ${{ vars.PUBLISH_URL }}
       PUBLISH_USERNAME: ${{ vars.PUBLISH_USERNAME }}
       PUBLISH_PASSWORD: ${{ secrets.PUBLISH_PASSWORD }}
+      PUBLISH_VERSION: ${{ input.ver }}
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          repository: benpollarduk/ktvn
+          token: ${{ secrets.PAT }}
+        
       - name: Set up JDK 11
         uses: actions/setup-java@v3
         with:
           java-version: '11'
           distribution: 'temurin'
+          
       - name: Execute Gradle build and test and then publish
         run: |
-          sh ./gradlew build test :ktvn:publish -PpublishUrl=${PUBLISH_URL} -PpublishUsername=${PUBLISH_USERNAME} -PpublishPassword=${PUBLISH_PASSWORD}
+          sh ./gradlew build test :ktvn:publish -PpublishVErsion=${PUBLISH_VERSION} -PpublishUrl=${PUBLISH_URL} -PpublishUsername=${PUBLISH_USERNAME} -PpublishPassword=${PUBLISH_PASSWORD}
+
+      - name: Tag the commit
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git tag -a "${{ inputs.ver }}" -m "${{ inputs.ver }} tagged during GitHub action"
+          git push --tags
+      
+      - name: Build dokka documentation
+        run: |
+          sh ./gradlew build test :ktvn:dokkaHtml
+
+      - name: Copy website files, commit and tag, then push changes to ktvn-docs
+        run: |
+          mkdir ktvn-docs
+          cd ktvn-docs
+          git init
+          git remote add origin https://${{ secrets.PAT }}@github.com/benpollarduk/ktvn-docs.git
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git fetch
+          git checkout main
+          git rm -r --ignore-unmatch .
+          cp -r ../ktvn/build/dokka/html/* .
+          git add .
+          git commit -m "Update documentation"
+          git tag -a "${{ inputs.ver }}" -m "${{ inputs.ver }} tagged during GitHub action"
+          git push --follow-tags origin main:main
+
+      - name: Create GitHub release
+        uses: actions/create-release@v1
+        with:
+          tag_name: "${{ inputs.ver }}"
+          release_name: "${{ inputs.ver }}"
+          body: "${{ inputs.release-notes }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
