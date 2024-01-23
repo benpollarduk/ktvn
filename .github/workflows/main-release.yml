@@ -18,7 +18,7 @@ jobs:
       PUBLISH_URL: ${{ vars.PUBLISH_URL }}
       PUBLISH_USERNAME: ${{ vars.PUBLISH_USERNAME }}
       PUBLISH_PASSWORD: ${{ secrets.PUBLISH_PASSWORD }}
-      PUBLISH_VERSION: ${{ input.ver }}
+      PUBLISH_VERSION: ${{ inputs.ver }}
 
     steps:
       - name: Checkout repository
