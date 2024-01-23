@@ -38,7 +38,7 @@ jobs:
           
       - name: Execute Gradle build and test and then publish
         run: |
-          sh ./gradlew build test :ktvn:publish -PpublishVErsion=${PUBLISH_VERSION} -PpublishUrl=${PUBLISH_URL} -PpublishUsername=${PUBLISH_USERNAME} -PpublishPassword=${PUBLISH_PASSWORD}
+          sh ./gradlew build test :ktvn:publish -PpublishVersion=${PUBLISH_VERSION} -PpublishUrl=${PUBLISH_URL} -PpublishUsername=${PUBLISH_USERNAME} -PpublishPassword=${PUBLISH_PASSWORD}
 
       - name: Tag the commit
         run: |
@@ -49,7 +49,7 @@ jobs:
       
       - name: Build dokka documentation
         run: |
-          sh ./gradlew build test :ktvn:dokkaHtml
+          sh ./gradlew build test :ktvn:dokkaHtml -PpublishVersion=${PUBLISH_VERSION}
 
       - name: Copy website files, commit and tag, then push changes to ktvn-docs
         run: |
