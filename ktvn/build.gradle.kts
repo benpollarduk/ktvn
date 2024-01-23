@@ -41,11 +41,11 @@ plugins {
 // Publishing properties defined at a project level gradle.properties.
 val artifactId: String by project
 val artifactGroup: String by project
-val ver = "0.8.0"
+val publishVersion: String by project
 
 ext {
     // Set the version.
-    version = ver
+    version = publishVersion
 }
 
 repositories {
