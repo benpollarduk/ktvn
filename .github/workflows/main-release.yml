@@ -1,6 +1,3 @@
-# main release workflow for ktvn.
-# build and tests the code and if successful publishes the package.
-
 name: main-release
 
 on:
