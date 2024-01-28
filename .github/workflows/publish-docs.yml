@@ -59,23 +59,4 @@ jobs:
           git add .
           git commit -m "Update documentation"
           git push https://${{ secrets.PAT }}@github.com/benpollarduk/ktvn-docs.git HEAD:main
-      
-      - name: Build dokka documentation
-        run: |
-          sh ./gradlew build test :ktvn:dokkaHtml -PpublishVersion=${PUBLISH_VERSION}
-
-      - name: Copy api website files, commit, then push changes to ktvn-api-docs
-        run: |
-          mkdir ktvn-api-docs
-          cd ktvn-api-docs
-          git init
-          git remote add origin https://${{ secrets.PAT }}@github.com/benpollarduk/ktvn-api-docs.git
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git fetch
-          git checkout main
-          git rm -r --ignore-unmatch .
-          cp -r ../ktvn/build/dokka/html/* .
-          git add .
-          git commit -m "Update api documentation"
-          git push https://${{ secrets.PAT }}@github.com/benpollarduk/ktvn-api-docs.git HEAD:main
+          
