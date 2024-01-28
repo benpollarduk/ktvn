@@ -2,20 +2,10 @@ name: publish-docs
 
 on:
   workflow_dispatch:
-    inputs:
-      ver:
-        description: 'The version number, should be specified as a semantic version e.g: X.Y.Z'
-        required: true
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
-    env:
-      PUBLISH_URL: ${{ vars.PUBLISH_URL }}
-      PUBLISH_USERNAME: ${{ vars.PUBLISH_USERNAME }}
-      PUBLISH_PASSWORD: ${{ secrets.PUBLISH_PASSWORD }}
-      PUBLISH_VERSION: ${{ inputs.ver }}
 
     steps:
       - name: Checkout repository
