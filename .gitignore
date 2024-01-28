@@ -34,8 +34,11 @@ replay_pid*
 # Ignore Gradle build output directory
 build
 
-# Igbore all .idea files
+# Ignore all .idea files
 .idea/
+
+# mkdocs site
+docs/mkdocs/site/
 
 ### SonarQube ###
 # SonarQube ignore files.

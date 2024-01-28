@@ -1,0 +1,6 @@
+site_name: Ktvn
+theme:
+  name: material
+nav:
+  - Welcome: 'index.md'
+  - Api documentation: 'api-documentation.md'
