@@ -154,7 +154,6 @@ Or:
 ```kotlin
 // execute the game asynchronously
 GameExecutor.executeAysnc(game) {
-
     // TODO: handle game completion
 }
 ```
