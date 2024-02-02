@@ -3,4 +3,7 @@ theme:
   name: material
 nav:
   - Welcome: 'index.md'
+  - Getting Started: 'getting-started.md'
+  - DSL: 'dsl.md'
+  - Game Engine: 'game-engine.md'
   - Api documentation: 'api-documentation.md'
