@@ -5,7 +5,6 @@ import com.github.benpollarduk.ktvn.characters.Narrator
 import com.github.benpollarduk.ktvn.logic.configuration.DynamicGameConfiguration
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
-import kotlin.concurrent.thread
 
 class AnsiConsoleGameEngineTest {
     @Test
