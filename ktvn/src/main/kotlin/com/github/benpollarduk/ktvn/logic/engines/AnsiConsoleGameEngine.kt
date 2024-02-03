@@ -124,7 +124,10 @@ public class AnsiConsoleGameEngine(
     private fun waitForAcknowledge(cancellationToken: CancellationToken) {
         setCursorPosition(DEFAULT_WIDTH + 1, DEFAULT_LINES + 1)
         kotlin.io.print("<enter> ")
-        progressionController.awaitAcknowledgement(canSkipCurrentStep, cancellationToken)
+
+        if (isProcessingInput) {
+            progressionController.awaitAcknowledgement(canSkipCurrentStep, cancellationToken)
+        }
     }
 
     /**
