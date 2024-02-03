@@ -9,6 +9,7 @@ import com.github.benpollarduk.ktvn.io.restore.RestorePoint
 import com.github.benpollarduk.ktvn.logic.Game
 import com.github.benpollarduk.ktvn.logic.GameExecutor
 import com.github.benpollarduk.ktvn.logic.VisualNovel
+import com.github.benpollarduk.ktvn.logic.engines.AnsiConsoleGameEngine
 import java.io.File
 import java.lang.NumberFormatException
 import org.apache.logging.log4j.kotlin.Logging

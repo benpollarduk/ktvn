@@ -22,11 +22,11 @@ import com.github.benpollarduk.ktvn.layout.Position
 import com.github.benpollarduk.ktvn.layout.transitions.LayoutTransition
 import com.github.benpollarduk.ktvn.logic.Answer
 import com.github.benpollarduk.ktvn.logic.Flags
-import com.github.benpollarduk.ktvn.logic.GameEngine
 import com.github.benpollarduk.ktvn.logic.ProgressionController
 import com.github.benpollarduk.ktvn.logic.ProgressionMode
 import com.github.benpollarduk.ktvn.logic.Question
 import com.github.benpollarduk.ktvn.logic.VisualNovel
+import com.github.benpollarduk.ktvn.logic.engines.GameEngine
 import com.github.benpollarduk.ktvn.prototyping.swing.components.AnswerPicker
 import com.github.benpollarduk.ktvn.prototyping.swing.components.EventTerminal
 import com.github.benpollarduk.ktvn.prototyping.swing.components.FlagViewer

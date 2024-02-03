@@ -10,9 +10,9 @@ import com.github.benpollarduk.ktvn.characters.animations.AnimateListener
 import com.github.benpollarduk.ktvn.characters.animations.Animation
 import com.github.benpollarduk.ktvn.logic.Answer
 import com.github.benpollarduk.ktvn.logic.Answer.Companion.answer
-import com.github.benpollarduk.ktvn.logic.GameEngine
 import com.github.benpollarduk.ktvn.logic.Question
 import com.github.benpollarduk.ktvn.logic.adapters.CharacterAdapter
+import com.github.benpollarduk.ktvn.logic.engines.GameEngine
 import com.github.benpollarduk.ktvn.text.log.LogElement
 
 /**

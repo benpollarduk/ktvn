@@ -1,8 +1,8 @@
 package com.github.benpollarduk.ktvn.logic.adapters.dynamic
 
 import com.github.benpollarduk.ktvn.logic.Flags
-import com.github.benpollarduk.ktvn.logic.GameEngine
 import com.github.benpollarduk.ktvn.logic.adapters.StoryAdapter
+import com.github.benpollarduk.ktvn.logic.engines.GameEngine
 import com.github.benpollarduk.ktvn.structure.CancellationToken
 import com.github.benpollarduk.ktvn.structure.Chapter
 import com.github.benpollarduk.ktvn.structure.ChapterListener

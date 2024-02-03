@@ -4,6 +4,15 @@ theme:
 nav:
   - Welcome: 'index.md'
   - Getting Started: 'getting-started.md'
-  - DSL: 'dsl.md'
+  - DSL:
+    - 'Next': 'next.md'
+    - 'Then': 'then.md'
+    - 'Choice': 'choice.md'
+    - 'Conditional': 'conditional.md'
+    - 'Decision': 'decision.md'
+    - 'Interactive': 'interactive.md'
+    - 'Pause': 'pause.md'
+    - 'Clear': 'clear.md'
+    - 'End': 'end.md'
   - Game Engine: 'game-engine.md'
   - Api documentation: 'api-documentation.md'

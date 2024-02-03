@@ -2,8 +2,8 @@ package com.github.benpollarduk.ktvn.logic.adapters.dynamic
 
 import com.github.benpollarduk.ktvn.audio.AudioListener
 import com.github.benpollarduk.ktvn.audio.SoundEffect
-import com.github.benpollarduk.ktvn.logic.GameEngine
 import com.github.benpollarduk.ktvn.logic.adapters.AudioAdapter
+import com.github.benpollarduk.ktvn.logic.engines.GameEngine
 
 /**
  * Provides an [AudioAdapter] with a [gameEngine] that can be specified after initialization.

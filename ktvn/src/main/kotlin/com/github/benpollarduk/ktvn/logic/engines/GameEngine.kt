@@ -1,4 +1,4 @@
-package com.github.benpollarduk.ktvn.logic
+package com.github.benpollarduk.ktvn.logic.engines
 
 import com.github.benpollarduk.ktvn.audio.SoundEffect
 import com.github.benpollarduk.ktvn.audio.VolumeManager
@@ -8,6 +8,10 @@ import com.github.benpollarduk.ktvn.characters.Narrator
 import com.github.benpollarduk.ktvn.characters.animations.Animation
 import com.github.benpollarduk.ktvn.layout.Position
 import com.github.benpollarduk.ktvn.layout.transitions.LayoutTransition
+import com.github.benpollarduk.ktvn.logic.Answer
+import com.github.benpollarduk.ktvn.logic.Flags
+import com.github.benpollarduk.ktvn.logic.ProgressionController
+import com.github.benpollarduk.ktvn.logic.Question
 import com.github.benpollarduk.ktvn.structure.CancellationToken
 import com.github.benpollarduk.ktvn.structure.Chapter
 import com.github.benpollarduk.ktvn.structure.ChapterTransition
