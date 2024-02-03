@@ -19,7 +19,7 @@ object Main {
 }
 ```
 
-### Adding the core structure
-
+### Adding the engine
+Every Ktvn game requires a **GameEngine**.
 
 Simply build and run the application and congratulations, you have a working Ktvn visual novel!
