@@ -22,6 +22,7 @@ class AnsiConsoleGameEngineTest {
         Assertions.assertEquals(0, preSpeak)
         Assertions.assertEquals(1, postSpeak)
     }
+    
     @Test
     fun `Given narrator narrates then log has one entry`() {
         val engine = AnsiConsoleGameEngine()
