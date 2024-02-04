@@ -1,4 +1,4 @@
-package com.github.benpollarduk.ktvn.logic.engines
+package com.github.benpollarduk.ktvn.logic.engines.ansiConsole
 
 import com.github.benpollarduk.ktvn.audio.SoundEffect
 import com.github.benpollarduk.ktvn.characters.Character
@@ -22,56 +22,59 @@ import org.junit.jupiter.api.Test
 import kotlin.concurrent.thread
 
 class AnsiConsoleGameEngineTest {
-    private val inputDelayInMs = 1000L
+    private class TestConsoleAdapter : ConsoleAdapter {
+        internal val output = mutableListOf<String>()
+        internal var input = ""
+        override fun print(line: String) {
+            output.add(line)
+        }
+
+        override fun readln(): String {
+            return input
+        }
+    }
 
     @Test
-    fun `Given character speaks when monitoring log then log has one entry`() {
+    fun `Given character when speaks then adapter output has some entries`() {
         // Given
-        val engine = AnsiConsoleGameEngine()
+        val adapter = TestConsoleAdapter()
+        val engine = AnsiConsoleGameEngine(adapter = adapter)
         val configuration = DynamicGameConfiguration()
         configuration.engine = engine
         val character = Character("", configuration.gameAdapter.characterAdapter)
-        val preSpeak = engine.log.toArray().size
 
         // When
-        thread {
-            Thread.sleep(inputDelayInMs)
-            engine.progressionController.triggerAcknowledgementLatch()
-        }
+        thread { engine.beginProcessingInput() }
         character.says("Test")
-        val postSpeak = engine.log.toArray().size
+        engine.endProcessingInput()
 
         // Then
-        Assertions.assertEquals(0, preSpeak)
-        Assertions.assertEquals(1, postSpeak)
+        Assertions.assertTrue(adapter.output.any())
     }
 
     @Test
-    fun `Given character thinks when monitoring log then log has one entry`() {
+    fun `Given character thinks then adapter output has some entries`() {
         // Given
-        val engine = AnsiConsoleGameEngine()
+        val adapter = TestConsoleAdapter()
+        val engine = AnsiConsoleGameEngine(adapter = adapter)
         val configuration = DynamicGameConfiguration()
         configuration.engine = engine
         val character = Character("", configuration.gameAdapter.characterAdapter)
-        val preSpeak = engine.log.toArray().size
 
         // When
-        thread {
-            Thread.sleep(inputDelayInMs)
-            engine.progressionController.triggerAcknowledgementLatch()
-        }
+        thread { engine.beginProcessingInput() }
         character.thinks("Test")
-        val postSpeak = engine.log.toArray().size
+        engine.endProcessingInput()
 
         // Then
-        Assertions.assertEquals(0, preSpeak)
-        Assertions.assertEquals(1, postSpeak)
+        Assertions.assertTrue(adapter.output.any())
     }
 
     @Test
-    fun `Given character asks question when one answer then first returned`() {
+    fun `Given character when asks question with one answer then first returned`() {
         // Given
-        val engine = AnsiConsoleGameEngine()
+        val adapter = TestConsoleAdapter()
+        val engine = AnsiConsoleGameEngine(adapter = adapter)
         val configuration = DynamicGameConfiguration()
         configuration.engine = engine
         val character = Character("", configuration.gameAdapter.characterAdapter)
@@ -83,91 +86,94 @@ class AnsiConsoleGameEngineTest {
         }
 
         // When
-        thread {
-            Thread.sleep(inputDelayInMs)
-            engine.setInput("1")
-            engine.progressionController.triggerAcknowledgementLatch()
-        }
+        adapter.input = "1"
+        thread { engine.beginProcessingInput() }
         val result = character.asks(question)
+        engine.endProcessingInput()
 
         // Then
         Assertions.assertEquals(question.answers.first(), result)
     }
 
     @Test
-    fun `Given character emotes then no exception`() {
-        // Then
-        Assertions.assertDoesNotThrow {
-            // Given
-            val engine = AnsiConsoleGameEngine()
-            val configuration = DynamicGameConfiguration()
-            configuration.engine = engine
-            val character = Character("", configuration.gameAdapter.characterAdapter)
-
-            // When
-            character.looks(happy)
-        }
-    }
-
-    @Test
-    fun `Given character animates then no exception`() {
-        // Then
-        Assertions.assertDoesNotThrow {
-            // Given
-            val engine = AnsiConsoleGameEngine()
-            val configuration = DynamicGameConfiguration()
-            configuration.engine = engine
-            val character = Character("", configuration.gameAdapter.characterAdapter)
-
-            // When
-            character.begins(Laugh(10.0, 10, 10))
-        }
-    }
-
-    @Test
-    fun `Given character moves then no exception`() {
-        // Then
-        Assertions.assertDoesNotThrow {
-            // Given
-            val engine = AnsiConsoleGameEngine()
-            val configuration = DynamicGameConfiguration()
-            configuration.engine = engine
-            val character = Character("", configuration.gameAdapter.characterAdapter)
-            val layout = createLayout {
-                this configure configuration.gameAdapter.layoutAdapter
-            }
-
-            // When
-            layout.moveLeft(character)
-        }
-    }
-
-    @Test
-    fun `Given narrator narrates when monitoring log then log has one entry`() {
+    fun `Given character when emotes then adapter output has some entries`() {
         // Given
-        val engine = AnsiConsoleGameEngine()
+        val adapter = TestConsoleAdapter()
+        val engine = AnsiConsoleGameEngine(adapter = adapter)
+        val configuration = DynamicGameConfiguration()
+        configuration.engine = engine
+        val character = Character("", configuration.gameAdapter.characterAdapter)
+
+        // When
+        thread { engine.beginProcessingInput() }
+        character.looks(happy)
+        engine.endProcessingInput()
+
+        // Then
+        Assertions.assertTrue(adapter.output.any())
+    }
+
+    @Test
+    fun `Given character when animates then adapter output has some entries`() {
+        // Given
+        val adapter = TestConsoleAdapter()
+        val engine = AnsiConsoleGameEngine(adapter = adapter)
+        val configuration = DynamicGameConfiguration()
+        configuration.engine = engine
+        val character = Character("", configuration.gameAdapter.characterAdapter)
+
+        // When
+        thread { engine.beginProcessingInput() }
+        character.begins(Laugh(10.0, 10, 10))
+        engine.endProcessingInput()
+
+        // Then
+        Assertions.assertTrue(adapter.output.any())
+    }
+
+    @Test
+    fun `Given character when moves left then adapter output has some entries`() {
+        // Given
+        val adapter = TestConsoleAdapter()
+        val engine = AnsiConsoleGameEngine(adapter = adapter)
+        val configuration = DynamicGameConfiguration()
+        configuration.engine = engine
+        val character = Character("", configuration.gameAdapter.characterAdapter)
+        val layout = createLayout {
+            this configure configuration.gameAdapter.layoutAdapter
+        }
+
+        // When
+        thread { engine.beginProcessingInput() }
+        layout.moveLeft(character)
+        engine.endProcessingInput()
+
+        // Then
+        Assertions.assertTrue(adapter.output.any())
+    }
+
+    @Test
+    fun `Given narrator when narrates then adapter output has some entries`() {
+        // Given
+        val adapter = TestConsoleAdapter()
+        val engine = AnsiConsoleGameEngine(adapter = adapter)
         val configuration = DynamicGameConfiguration()
         configuration.engine = engine
         val narrator = Narrator(configuration.gameAdapter.narratorAdapter)
-        val preNarrate = engine.log.toArray().size
 
-        // When
-        thread {
-            Thread.sleep(inputDelayInMs)
-            engine.progressionController.triggerAcknowledgementLatch()
-        }
+        // / When
+        thread { engine.beginProcessingInput() }
         narrator.narrates("Test")
-        val postNarrate = engine.log.toArray().size
+        engine.endProcessingInput()
 
-        // Then
-        Assertions.assertEquals(0, preNarrate)
-        Assertions.assertEquals(1, postNarrate)
+        Assertions.assertTrue(adapter.output.any())
     }
 
     @Test
-    fun `Given narrator asks question when monitoring log then first returned`() {
+    fun `Given narrator when asks question with one answer then first returned`() {
         // Given
-        val engine = AnsiConsoleGameEngine()
+        val adapter = TestConsoleAdapter()
+        val engine = AnsiConsoleGameEngine(adapter = adapter)
         val configuration = DynamicGameConfiguration()
         configuration.engine = engine
         val narrator = Narrator(configuration.gameAdapter.narratorAdapter)
@@ -179,12 +185,10 @@ class AnsiConsoleGameEngineTest {
         }
 
         // When
-        thread {
-            Thread.sleep(inputDelayInMs)
-            engine.setInput("1")
-            engine.progressionController.triggerAcknowledgementLatch()
-        }
+        thread { engine.beginProcessingInput() }
+        adapter.input = "1"
         val result = narrator.asks(question)
+        engine.endProcessingInput()
 
         // Then
         Assertions.assertEquals(question.answers.first(), result)
@@ -373,14 +377,13 @@ class AnsiConsoleGameEngineTest {
         // Then
         Assertions.assertDoesNotThrow {
             // Given
-            val engine = AnsiConsoleGameEngine()
+            val engine = AnsiConsoleGameEngine(adapter = TestConsoleAdapter())
             val configuration = DynamicGameConfiguration()
             configuration.engine = engine
 
             // When
             thread {
-                Thread.sleep(inputDelayInMs)
-                engine.progressionController.triggerAcknowledgementLatch()
+                Thread.sleep(100)
                 engine.endProcessingInput()
             }
             engine.beginProcessingInput()

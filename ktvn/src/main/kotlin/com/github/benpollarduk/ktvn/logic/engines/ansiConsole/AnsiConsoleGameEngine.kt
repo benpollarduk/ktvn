@@ -1,4 +1,4 @@
-package com.github.benpollarduk.ktvn.logic.engines
+package com.github.benpollarduk.ktvn.logic.engines.ansiConsole
 
 import com.github.benpollarduk.ktvn.audio.ResourceSoundEffect
 import com.github.benpollarduk.ktvn.audio.SoundEffect
@@ -14,6 +14,7 @@ import com.github.benpollarduk.ktvn.logic.Flags
 import com.github.benpollarduk.ktvn.logic.ProgressionController
 import com.github.benpollarduk.ktvn.logic.ProgressionMode
 import com.github.benpollarduk.ktvn.logic.Question
+import com.github.benpollarduk.ktvn.logic.engines.GameEngine
 import com.github.benpollarduk.ktvn.structure.CancellationToken
 import com.github.benpollarduk.ktvn.structure.Chapter
 import com.github.benpollarduk.ktvn.structure.ChapterTransition
@@ -37,7 +38,8 @@ import java.util.concurrent.locks.ReentrantLock
 @Suppress("TooManyFunctions")
 public class AnsiConsoleGameEngine(
     private val parameters: TextFrameParameters = TextFrameParameters(DEFAULT_WIDTH, DEFAULT_LINES),
-    private val enterPrompt: String = "<enter> "
+    private val enterPrompt: String = "<enter> ",
+    private val adapter: ConsoleAdapter = AnsiConsoleAdapter()
 ) : GameEngine {
     private val lock: ReentrantLock = ReentrantLock()
     private var isProcessingInput = false
@@ -52,7 +54,7 @@ public class AnsiConsoleGameEngine(
             // render all the characters in the requested position on the console
             for (position in it) {
                 setCursorPosition(position.column + 1, position.row + 1)
-                print(position.character)
+                adapter.print(position.character.toString())
             }
         }
     )
@@ -96,7 +98,7 @@ public class AnsiConsoleGameEngine(
      */
     private fun setCursorPosition(x: Int, y: Int) {
         // use ANSI escape codes to set the cursor position
-        kotlin.io.print("\u001b[$y;${x}H")
+        adapter.print("\u001b[$y;${x}H")
     }
 
     /**
@@ -104,13 +106,13 @@ public class AnsiConsoleGameEngine(
      */
     private fun hideCursor() {
         // use ANSI escape codes to hide the cursor
-        kotlin.io.print("\u001b[?25l")
+        adapter.print("\u001b[?25l")
     }
 
     /**
      * Set the input value to a specified [input].
      */
-    internal fun setInput(input: String) {
+    private fun setInput(input: String) {
         try {
             lock.lock()
             this.input = input
@@ -125,7 +127,7 @@ public class AnsiConsoleGameEngine(
      */
     private fun waitForAcknowledge(cancellationToken: CancellationToken) {
         setCursorPosition(parameters.widthConstraint + 1, parameters.availableLines + 1)
-        kotlin.io.print(enterPrompt)
+        adapter.print(enterPrompt)
         progressionController.awaitAcknowledgement(canSkipCurrentStep, cancellationToken)
     }
 
@@ -154,7 +156,7 @@ public class AnsiConsoleGameEngine(
      */
     private fun clear() {
         // ANSI escape code to clear the screen
-        kotlin.io.print("\u001b[H\u001b[2J")
+        adapter.print("\u001b[H\u001b[2J")
         // flush output
         System.out.flush()
     }
@@ -172,7 +174,7 @@ public class AnsiConsoleGameEngine(
         }
 
         // set color
-        kotlin.io.print("\u001B[${color}m")
+        adapter.print("\u001B[${color}m")
 
         // create frames from the string that describe how it should be rendered
         val frames = CharacterConstrainedTextFrame.create(
@@ -184,7 +186,7 @@ public class AnsiConsoleGameEngine(
         textController.render(frames)
 
         // reset color
-        kotlin.io.print("\u001B[0m")
+        adapter.print("\u001B[0m")
     }
 
     /**
@@ -203,7 +205,7 @@ public class AnsiConsoleGameEngine(
         }
 
         // print string wrapped in ANSI color setting to specified colour and then resetting to 0 (reset)
-        println("\u001B[${color}m$string\u001B[0m")
+        adapter.print("\u001B[${color}m$string\u001B[0m\n")
 
         if (durationInMs > 0) {
             Thread.sleep(durationInMs)
@@ -217,7 +219,7 @@ public class AnsiConsoleGameEngine(
         isProcessingInput = true
 
         while (isProcessingInput) {
-            val input = readln()
+            val input = adapter.readln()
 
             if (textController.sequencing) {
                 textController.skip()
