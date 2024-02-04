@@ -20,3 +20,7 @@ for rough prototyping of games.
 ## Implementing a custom GameEngine
 It's important to understand the role of the GameEngine so that rich novels can be written that target any platform. In 
 this next section I'll describe how a GameEngine can be created to target a platform.
+
+```kotlin
+under construction
+```

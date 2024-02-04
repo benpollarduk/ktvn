@@ -7,6 +7,7 @@ import com.github.benpollarduk.ktvn.audio.SoundEffect
 import com.github.benpollarduk.ktvn.audio.Track
 import com.github.benpollarduk.ktvn.backgrounds.Background
 import com.github.benpollarduk.ktvn.backgrounds.ResourceBackground
+import com.github.benpollarduk.ktvn.backgrounds.ResourceBackground.Companion.backgroundFromResource
 import com.github.benpollarduk.ktvn.characters.Character
 import com.github.benpollarduk.ktvn.characters.Narrator
 import com.github.benpollarduk.ktvn.characters.animations.Animation
@@ -72,14 +73,13 @@ public object AssetStore {
     /**
      * Get the shuttle daytime background.
      */
-    public val shuttleDay: Background =
-        ResourceBackground.backgroundFromResource("shuttleLaunch/images/backgrounds/shuttle-day.png")
+    public val shuttleDay: Background = backgroundFromResource("shuttleLaunch/images/backgrounds/shuttle-day.png")
 
     /**
      * Get the shuttle memory background.
      */
     public val shuttleMemory: Background =
-        ResourceBackground.backgroundFromResource("shuttleLaunch/images/backgrounds/shuttle-memory.png")
+            backgroundFromResource("shuttleLaunch/images/backgrounds/shuttle-memory.png")
 
     /**
      * Get the track for the shuttle day scene.
