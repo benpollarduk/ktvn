@@ -19,14 +19,14 @@ object Main {
 }
 ```
 
-### Adding the configuration
+### Adding the GameConfiguration
 Every Ktvn game requires a **GameConfiguration**. The configuration ties together many of the concepts required to execute a game. For nearly all applications the **DynamicGameConfiguration** is a good match because it allows properties to specified after its instantiation. Let's added one to the **main** function.
 
 ```kotlin
 val configuration = DynamicGameConfiguration()
 ```
 
-### Adding the engine
+### Adding the GameEngine
 Every Ktvn game requires a **GameEngine**. The only engine currently included in the Ktvn core library is **AnsiConsoleGameEngine**. This engine allows a visual novel to be executed on an ANSI compatible console. The engine is specified on the configuration added in the previous step.
 
 ```kotlin
