@@ -1,4 +1,4 @@
-package com.github.benpollarduk.ktvn.prototyper.console
+package com.github.benpollarduk.ktvn.logic.engines.ansiConsole
 
 import com.github.benpollarduk.ktvn.audio.ResourceSoundEffect
 import com.github.benpollarduk.ktvn.audio.SoundEffect
@@ -7,16 +7,14 @@ import com.github.benpollarduk.ktvn.characters.Character
 import com.github.benpollarduk.ktvn.characters.Emotion
 import com.github.benpollarduk.ktvn.characters.Narrator
 import com.github.benpollarduk.ktvn.characters.animations.Animation
-import com.github.benpollarduk.ktvn.examples.theFateOfMorgana.assets.AssetStore.michel
-import com.github.benpollarduk.ktvn.examples.theFateOfMorgana.assets.AssetStore.morgana
 import com.github.benpollarduk.ktvn.layout.Position
 import com.github.benpollarduk.ktvn.layout.transitions.LayoutTransition
 import com.github.benpollarduk.ktvn.logic.Answer
 import com.github.benpollarduk.ktvn.logic.Flags
-import com.github.benpollarduk.ktvn.logic.GameEngine
 import com.github.benpollarduk.ktvn.logic.ProgressionController
 import com.github.benpollarduk.ktvn.logic.ProgressionMode
 import com.github.benpollarduk.ktvn.logic.Question
+import com.github.benpollarduk.ktvn.logic.engines.GameEngine
 import com.github.benpollarduk.ktvn.structure.CancellationToken
 import com.github.benpollarduk.ktvn.structure.Chapter
 import com.github.benpollarduk.ktvn.structure.ChapterTransition
@@ -34,10 +32,14 @@ import com.github.benpollarduk.ktvn.text.sequencing.SequencedTextControllerListe
 import java.util.concurrent.locks.ReentrantLock
 
 /**
- * A class that functions as an engine for an ANSI compatible console.
+ * A class that functions as an engine for an ANSI compatible console. The display [parameters] can be specified to
+ * set up the text frame. An [enterPrompt] can be specified, this will be displayed when user input is awaited.
  */
-internal class AnsiConsoleGameEngine(
-    private val parameters: TextFrameParameters = TextFrameParameters(DEFAULT_WIDTH, DEFAULT_LINES)
+@Suppress("TooManyFunctions")
+public class AnsiConsoleGameEngine(
+    private val parameters: TextFrameParameters = TextFrameParameters(DEFAULT_WIDTH, DEFAULT_LINES),
+    private val enterPrompt: String = "<enter> ",
+    private val adapter: ConsoleAdapter = AnsiConsoleAdapter()
 ) : GameEngine {
     private val lock: ReentrantLock = ReentrantLock()
     private var isProcessingInput = false
@@ -49,12 +51,13 @@ internal class AnsiConsoleGameEngine(
     // of frames. the listener is used to capture the requested characters and render them on the console
     private val textController = SequencedTextController(
         GridTextSequencer(SequencedTextController.DEFAULT_MS_BETWEEN_CHARACTERS) {
-        // render all the characters in the requested position on the console
-        for (position in it) {
-            setCursorPosition(position.column + 1, position.row + 1)
-            print(position.character)
+            // render all the characters in the requested position on the console
+            for (position in it) {
+                setCursorPosition(position.column + 1, position.row + 1)
+                adapter.print(position.character.toString())
+            }
         }
-    })
+    )
 
     override val log: Log = Log()
     override val progressionController: ProgressionController = ProgressionController()
@@ -87,7 +90,7 @@ internal class AnsiConsoleGameEngine(
         })
 
         // hide the cursor
-        setCursorVisibility(false)
+        hideCursor()
     }
 
     /**
@@ -95,15 +98,15 @@ internal class AnsiConsoleGameEngine(
      */
     private fun setCursorPosition(x: Int, y: Int) {
         // use ANSI escape codes to set the cursor position
-        kotlin.io.print("\u001b[$y;${x}H")
+        adapter.print("\u001b[$y;${x}H")
     }
 
     /**
-     * Set the cursor visibility. Setting [show] to true will show the cursor, false will hide it.
+     * Hide the cursor.
      */
-    private fun setCursorVisibility(show: Boolean = false) {
-        // use ANSI escape codes to hide or show the cursor
-        kotlin.io.print(if (show) "\u001b[?25h" else "\u001b[?25l")
+    private fun hideCursor() {
+        // use ANSI escape codes to hide the cursor
+        adapter.print("\u001b[?25l")
     }
 
     /**
@@ -123,8 +126,8 @@ internal class AnsiConsoleGameEngine(
      * must be provided to support cancellation.
      */
     private fun waitForAcknowledge(cancellationToken: CancellationToken) {
-        setCursorPosition(DEFAULT_WIDTH + 1, DEFAULT_LINES + 1)
-        kotlin.io.print("<enter> ")
+        setCursorPosition(parameters.widthConstraint + 1, parameters.availableLines + 1)
+        adapter.print(enterPrompt)
         progressionController.awaitAcknowledgement(canSkipCurrentStep, cancellationToken)
     }
 
@@ -153,7 +156,7 @@ internal class AnsiConsoleGameEngine(
      */
     private fun clear() {
         // ANSI escape code to clear the screen
-        kotlin.io.print("\u001b[H\u001b[2J")
+        adapter.print("\u001b[H\u001b[2J")
         // flush output
         System.out.flush()
     }
@@ -171,7 +174,7 @@ internal class AnsiConsoleGameEngine(
         }
 
         // set color
-        kotlin.io.print("\u001B[${color}m")
+        adapter.print("\u001B[${color}m")
 
         // create frames from the string that describe how it should be rendered
         val frames = CharacterConstrainedTextFrame.create(
@@ -183,7 +186,7 @@ internal class AnsiConsoleGameEngine(
         textController.render(frames)
 
         // reset color
-        kotlin.io.print("\u001B[0m")
+        adapter.print("\u001B[0m")
     }
 
     /**
@@ -202,7 +205,7 @@ internal class AnsiConsoleGameEngine(
         }
 
         // print string wrapped in ANSI color setting to specified colour and then resetting to 0 (reset)
-        println("\u001B[${color}m$string\u001B[0m")
+        adapter.print("\u001B[${color}m$string\u001B[0m\n")
 
         if (durationInMs > 0) {
             Thread.sleep(durationInMs)
@@ -210,24 +213,13 @@ internal class AnsiConsoleGameEngine(
     }
 
     /**
-     * Get an ANSI color for a character.
-     */
-    private fun getCharacterColor(character: Character) : Int {
-        return when (character) {
-            morgana -> ANSI_RED   // red
-            michel -> ANSI_BLUE   // blue
-            else -> ANSI_WHITE    // white
-        }
-    }
-
-    /**
      * Begin processing console input.
      */
-    internal fun beginProcessingInput() {
+    public fun beginProcessingInput() {
         isProcessingInput = true
 
         while (isProcessingInput) {
-            val input = readln()
+            val input = adapter.readln()
 
             if (textController.sequencing) {
                 textController.skip()
@@ -242,20 +234,25 @@ internal class AnsiConsoleGameEngine(
     /**
      * End processing of console input.
      */
-    internal fun endProcessingInput() {
+    public fun endProcessingInput() {
         isProcessingInput = false
     }
 
-    override fun characterSpeaks(character: Character, line: String) {
-        print("${character.name}: $line", getCharacterColor(character))
+    /**
+     * Print a [line] and wait for an acknowledgement.
+     */
+    private fun printAndWaitForAcknowledge(line: String) {
+        print(line)
         waitForAcknowledge(cancellationToken)
         clear()
     }
 
+    override fun characterSpeaks(character: Character, line: String) {
+        printAndWaitForAcknowledge("${character.name}: $line")
+    }
+
     override fun characterThinks(character: Character, line: String) {
-        print("${character.name}: $line", getCharacterColor(character))
-        waitForAcknowledge(cancellationToken)
-        clear()
+        printAndWaitForAcknowledge("${character.name}: $line")
     }
 
     override fun characterShowsEmotion(character: Character, emotion: Emotion) {
@@ -273,7 +270,7 @@ internal class AnsiConsoleGameEngine(
             questionString += "  ${i + 1}: ${question.answers[i].line}\n"
         }
 
-        print(questionString, getCharacterColor(character))
+        print(questionString)
     }
 
     override fun narratorAsksQuestion(narrator: Narrator, question: Question) {
@@ -317,9 +314,7 @@ internal class AnsiConsoleGameEngine(
     }
 
     override fun narratorNarrates(narrator: Narrator, line: String) {
-        print(line)
-        waitForAcknowledge(cancellationToken)
-        clear()
+        printAndWaitForAcknowledge(line)
     }
 
     override fun clearScene(scene: Scene) {
@@ -363,32 +358,22 @@ internal class AnsiConsoleGameEngine(
         /**
          * Get the default width.
          */
-        internal const val DEFAULT_WIDTH: Int = 50
+        const val DEFAULT_WIDTH: Int = 50
 
         /**
          * Get the default lines.
          */
-        internal const val DEFAULT_LINES: Int = 4
+        const val DEFAULT_LINES: Int = 4
 
         /**
          * Get the ANSI color code for bright black.
          */
-        private const val ANSI_BRIGHT_BLACK: Int = 90
+        const val ANSI_BRIGHT_BLACK: Int = 90
 
         /**
          * Get the ANSI color code for white.
          */
-        private const val ANSI_WHITE: Int = 90
-
-        /**
-         * Get the ANSI color code for blue.
-         */
-        private const val ANSI_BLUE: Int = 94
-
-        /**
-         * Get the ANSI color code for red.
-         */
-        private const val ANSI_RED: Int = 91
+        const val ANSI_WHITE: Int = 90
 
         /**
          * The environment variable for suppressing color.

@@ -3,4 +3,18 @@ theme:
   name: material
 nav:
   - Welcome: 'index.md'
+  - Getting Started: 'getting-started.md'
+  - Structure: 'structure.md'
+  - DSL:
+    - 'Next': 'dsl/next.md'
+    - 'Then': 'dsl/then.md'
+    - 'Choice': 'dsl/choice.md'
+    - 'Conditional': 'dsl/conditional.md'
+    - 'Decision': 'dsl/decision.md'
+    - 'Interactive': 'dsl/interactive.md'
+    - 'Pause': 'dsl/pause.md'
+    - 'Clear': 'dsl/clear.md'
+    - 'End': 'dsl/end.md'
+  - Customising Scenes: 'customising-scenes.md'
+  - Game Engine: 'game-engine.md'
   - Api documentation: 'api-documentation.md'
