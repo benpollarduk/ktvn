@@ -99,7 +99,7 @@ val story = story {
 ```
 
 ### Adding some steps
-Each scene can contain one or more steps. Let's add s simple step to introduce the story.
+Each scene can contain one or more steps. Let's add a simple step to introduce the story.
 
 ```kotlin
 val story = story {
