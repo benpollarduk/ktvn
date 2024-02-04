@@ -276,13 +276,13 @@ decision {
             this option answer {
                 this line "Of course."
                 this does { flags ->
-                  flags setTrue "Michel likes Morgana"
+                    flags setTrue "Michel likes Morgana"
                 }
             }
             this option answer {
                 this line "I hate you!"
                 this does { flags ->
-                  flags setTrue "Michel hates Morgana"
+                    flags setTrue "Michel hates Morgana"
                 }
             }
         }
@@ -307,7 +307,7 @@ keyword will be executed. Lastly the **returns** keyword specifies the result of
 continue, branch or end as required.
 
 ### pause
-pause is a step that prevents the story from progressing for the specified time, in milliseconds.
+pause is a step that prevents the story from progressing for the specified duration.
 ```kotlin
 pause {
     this seconds 5

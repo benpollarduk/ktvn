@@ -1,18 +1,17 @@
 package com.github.benpollarduk.ktvn.prototyper.console
 
 import com.github.benpollarduk.ktvn.examples.theFateOfMorgana.TheFateOfMorgana
-import com.github.benpollarduk.ktvn.prototyper.console.Persistence.persistGameSave
-import com.github.benpollarduk.ktvn.prototyper.console.Persistence.restoreGameSave
 import com.github.benpollarduk.ktvn.io.discovery.CatalogEntry
 import com.github.benpollarduk.ktvn.io.discovery.VisualNovelCatalogResolver
 import com.github.benpollarduk.ktvn.io.restore.RestorePoint
 import com.github.benpollarduk.ktvn.logic.Game
 import com.github.benpollarduk.ktvn.logic.GameExecutor
 import com.github.benpollarduk.ktvn.logic.VisualNovel
-import com.github.benpollarduk.ktvn.logic.engines.AnsiConsoleGameEngine
-import java.io.File
-import java.lang.NumberFormatException
+import com.github.benpollarduk.ktvn.logic.engines.ansiConsole.AnsiConsoleGameEngine
+import com.github.benpollarduk.ktvn.prototyper.console.Persistence.persistGameSave
+import com.github.benpollarduk.ktvn.prototyper.console.Persistence.restoreGameSave
 import org.apache.logging.log4j.kotlin.Logging
+import java.io.File
 
 @Suppress("TooGenericException")
 object Main : Logging {
@@ -54,7 +53,7 @@ object Main : Logging {
             }
 
             // allow the console engine to process input from the console.
-            // this will block the thread until consoleGameController.endProcessingInput is called
+            // this will block the thread until engine.endProcessingInput is called
             engine.beginProcessingInput()
 
             logger.info("Ended execution of visual novel.")
@@ -64,7 +63,6 @@ object Main : Logging {
             readln()
         }
     }
-
 
     private fun handleInvalidPath(path: String): VisualNovel {
         logger.error("Invalid path: $path.")
