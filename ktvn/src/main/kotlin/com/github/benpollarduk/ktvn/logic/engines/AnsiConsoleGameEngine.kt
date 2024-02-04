@@ -31,11 +31,13 @@ import com.github.benpollarduk.ktvn.text.sequencing.SequencedTextControllerListe
 import java.util.concurrent.locks.ReentrantLock
 
 /**
- * A class that functions as an engine for an ANSI compatible console.
+ * A class that functions as an engine for an ANSI compatible console. The display [parameters] can be specified to
+ * set up the text frame. An [enterPrompt] can be specified, this will be displayed when user input is awaited.
  */
 @Suppress("TooManyFunctions")
 public class AnsiConsoleGameEngine(
-    private val parameters: TextFrameParameters = TextFrameParameters(DEFAULT_WIDTH, DEFAULT_LINES)
+    private val parameters: TextFrameParameters = TextFrameParameters(DEFAULT_WIDTH, DEFAULT_LINES),
+    private val enterPrompt: String = "<enter> "
 ) : GameEngine {
     private val lock: ReentrantLock = ReentrantLock()
     private var isProcessingInput = false
@@ -108,7 +110,7 @@ public class AnsiConsoleGameEngine(
     /**
      * Set the input value to a specified [input].
      */
-    private fun setInput(input: String) {
+    internal fun setInput(input: String) {
         try {
             lock.lock()
             this.input = input
@@ -122,12 +124,9 @@ public class AnsiConsoleGameEngine(
      * must be provided to support cancellation.
      */
     private fun waitForAcknowledge(cancellationToken: CancellationToken) {
-        setCursorPosition(DEFAULT_WIDTH + 1, DEFAULT_LINES + 1)
-        kotlin.io.print("<enter> ")
-
-        if (isProcessingInput) {
-            progressionController.awaitAcknowledgement(canSkipCurrentStep, cancellationToken)
-        }
+        setCursorPosition(parameters.widthConstraint + 1, parameters.availableLines + 1)
+        kotlin.io.print(enterPrompt)
+        progressionController.awaitAcknowledgement(canSkipCurrentStep, cancellationToken)
     }
 
     /**
@@ -354,22 +353,22 @@ public class AnsiConsoleGameEngine(
         /**
          * Get the default width.
          */
-        public const val DEFAULT_WIDTH: Int = 50
+        const val DEFAULT_WIDTH: Int = 50
 
         /**
          * Get the default lines.
          */
-        public const val DEFAULT_LINES: Int = 4
+        const val DEFAULT_LINES: Int = 4
 
         /**
          * Get the ANSI color code for bright black.
          */
-        public const val ANSI_BRIGHT_BLACK: Int = 90
+        const val ANSI_BRIGHT_BLACK: Int = 90
 
         /**
          * Get the ANSI color code for white.
          */
-        public const val ANSI_WHITE: Int = 90
+        const val ANSI_WHITE: Int = 90
 
         /**
          * The environment variable for suppressing color.
