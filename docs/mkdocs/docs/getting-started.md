@@ -202,7 +202,7 @@ engine.beginProcessingInput()
 That was a lot to go through, but results in only a small amount of code. It should look like this:
 
 ```kotlin
-package com.github.benpollarduk.ktvn.prototyper.console
+package com.github.benpollarduk.ktvn.getting.started
 
 import com.github.benpollarduk.ktvn.characters.Character
 import com.github.benpollarduk.ktvn.characters.Emotions
