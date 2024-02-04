@@ -133,7 +133,9 @@ class AnsiConsoleGameEngineTest {
             val configuration = DynamicGameConfiguration()
             configuration.engine = engine
             val character = Character("", configuration.gameAdapter.characterAdapter)
-            val layout = createLayout { }
+            val layout = createLayout {
+                this configure configuration.gameAdapter.layoutAdapter
+            }
 
             // When
             layout.moveLeft(character)
@@ -349,6 +351,39 @@ class AnsiConsoleGameEngineTest {
 
             // When
             engine.exitStep(step, Flags())
+        }
+    }
+
+    @Test
+    fun `Given end processing input then no exception`() {
+        // Then
+        Assertions.assertDoesNotThrow {
+            // Given
+            val engine = AnsiConsoleGameEngine()
+            val configuration = DynamicGameConfiguration()
+            configuration.engine = engine
+
+            // When
+            engine.endProcessingInput()
+        }
+    }
+
+    @Test
+    fun `Given begin processing input then no exception`() {
+        // Then
+        Assertions.assertDoesNotThrow {
+            // Given
+            val engine = AnsiConsoleGameEngine()
+            val configuration = DynamicGameConfiguration()
+            configuration.engine = engine
+
+            // When
+            thread {
+                Thread.sleep(inputDelayInMs)
+                engine.progressionController.triggerAcknowledgementLatch()
+                engine.endProcessingInput()
+            }
+            engine.beginProcessingInput()
         }
     }
 }
