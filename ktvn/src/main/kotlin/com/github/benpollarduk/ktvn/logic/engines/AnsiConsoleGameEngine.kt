@@ -236,16 +236,21 @@ public class AnsiConsoleGameEngine(
         isProcessingInput = false
     }
 
-    override fun characterSpeaks(character: Character, line: String) {
-        print("${character.name}: $line")
+    /**
+     * Print a [line] and wait for an acknowledgement.
+     */
+    private fun printAndWaitForAcknowledge(line: String) {
+        print(line)
         waitForAcknowledge(cancellationToken)
         clear()
     }
 
+    override fun characterSpeaks(character: Character, line: String) {
+        printAndWaitForAcknowledge("${character.name}: $line")
+    }
+
     override fun characterThinks(character: Character, line: String) {
-        print("${character.name}: $line")
-        waitForAcknowledge(cancellationToken)
-        clear()
+        printAndWaitForAcknowledge("${character.name}: $line")
     }
 
     override fun characterShowsEmotion(character: Character, emotion: Emotion) {
@@ -307,9 +312,7 @@ public class AnsiConsoleGameEngine(
     }
 
     override fun narratorNarrates(narrator: Narrator, line: String) {
-        print(line)
-        waitForAcknowledge(cancellationToken)
-        clear()
+        printAndWaitForAcknowledge(line)
     }
 
     override fun clearScene(scene: Scene) {
