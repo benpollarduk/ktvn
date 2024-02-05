@@ -205,7 +205,7 @@ That was a lot to go through, but results in only a small amount of code. It sho
 package com.github.benpollarduk.ktvn.getting.started
 
 import com.github.benpollarduk.ktvn.characters.Character
-import com.github.benpollarduk.ktvn.characters.Emotions
+import com.github.benpollarduk.ktvn.characters.Emotions.happy
 import com.github.benpollarduk.ktvn.characters.Narrator
 import com.github.benpollarduk.ktvn.layout.Layout
 import com.github.benpollarduk.ktvn.layout.Layout.Companion.createLayout
@@ -241,7 +241,7 @@ fun main(args: Array<String>) {
                 next { narrator narrates "Welcome to the story!" }
                 next { layout moveLeft ben }
                 next { ben says "Hi." }
-                next { ben looks Emotions.happy }
+                next { ben looks happy }
             }
         }
     }
