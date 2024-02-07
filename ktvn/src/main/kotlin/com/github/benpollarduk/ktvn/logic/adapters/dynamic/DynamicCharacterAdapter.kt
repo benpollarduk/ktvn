@@ -23,7 +23,7 @@ internal class DynamicCharacterAdapter(internal var gameEngine: GameEngine? = nu
         override fun ask(character: Character, question: Question): Answer {
             gameEngine?.log?.add(LogElement.CharacterLog(character, question.line))
             gameEngine?.characterAsksQuestion(character, question)
-            return gameEngine?.getAnswerQuestion(question) ?: answer { }
+            return gameEngine?.getAnswerToQuestion(question) ?: answer { }
         }
     }
 

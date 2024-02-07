@@ -275,7 +275,7 @@ class DebugGameEngine(
         print(question.line)
     }
 
-    override fun getAnswerQuestion(question: Question): Answer {
+    override fun getAnswerToQuestion(question: Question): Answer {
         val answer = answerPicker.getAnswer(question)
         visualScene.sequencedTextArea.clear()
         return answer

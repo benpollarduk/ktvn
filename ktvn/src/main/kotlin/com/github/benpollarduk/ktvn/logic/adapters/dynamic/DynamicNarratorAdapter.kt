@@ -18,7 +18,7 @@ internal class DynamicNarratorAdapter(internal var gameEngine: GameEngine? = nul
         override fun ask(narrator: Narrator, question: Question): Answer {
             gameEngine?.log?.add(LogElement.NarratorLog(narrator, question.line))
             gameEngine?.narratorAsksQuestion(narrator, question)
-            return gameEngine?.getAnswerQuestion(question) ?: answer { }
+            return gameEngine?.getAnswerToQuestion(question) ?: answer { }
         }
     }
 

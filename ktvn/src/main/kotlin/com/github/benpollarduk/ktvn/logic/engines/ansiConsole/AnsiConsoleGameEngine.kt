@@ -283,7 +283,7 @@ public class AnsiConsoleGameEngine(
         print(questionString)
     }
 
-    override fun getAnswerQuestion(question: Question): Answer {
+    override fun getAnswerToQuestion(question: Question): Answer {
         var index = Int.MIN_VALUE
 
         while (index == Int.MIN_VALUE) {

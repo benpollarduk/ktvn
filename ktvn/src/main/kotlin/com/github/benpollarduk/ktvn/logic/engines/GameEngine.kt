@@ -59,7 +59,7 @@ public interface GameEngine {
     /**
      * Get an [Answer] to a [question].
      */
-    public fun getAnswerQuestion(question: Question): Answer
+    public fun getAnswerToQuestion(question: Question): Answer
 
     /**
      * Handle a [character] speaking a [line].
