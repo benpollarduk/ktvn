@@ -8,7 +8,7 @@ class RestorePointJsonSerializerTest {
     @Test
     fun `given toFile when temp file then file exists and has content`() {
         // Given
-        val gameSave = RestorePoint(
+        val restorePoint = RestorePoint(
             "Test",
             emptyMap(),
             StoryRestorePoint.START
@@ -17,7 +17,7 @@ class RestorePointJsonSerializerTest {
         tempFile.deleteOnExit()
 
         // When
-        RestorePointSerializer.toFile(gameSave, tempFile.absolutePath)
+        RestorePointSerializer.toFile(restorePoint, tempFile.absolutePath)
 
         // Then
         Assertions.assertTrue(tempFile.exists())
@@ -25,9 +25,26 @@ class RestorePointJsonSerializerTest {
     }
 
     @Test
+    fun `given toFile when invalid path then result is false`() {
+        // Given
+        val restorePoint = RestorePoint(
+            "Test",
+            emptyMap(),
+            StoryRestorePoint.START
+        )
+        val path = "abcxyz.jkl"
+
+        // When
+        val result = RestorePointSerializer.toFile(restorePoint, path)
+
+        // Then
+        Assertions.assertFalse(result.result)
+    }
+
+    @Test
     fun `given fromFile when temp file with valid contents then result is true`() {
         // Given
-        val gameSave = RestorePoint(
+        val restorePoint = RestorePoint(
             "Test",
             emptyMap(),
             StoryRestorePoint.START
@@ -36,10 +53,22 @@ class RestorePointJsonSerializerTest {
         tempFile.deleteOnExit()
 
         // When
-        RestorePointSerializer.toFile(gameSave, tempFile.absolutePath)
+        RestorePointSerializer.toFile(restorePoint, tempFile.absolutePath)
         val result = RestorePointSerializer.fromFile(tempFile.absolutePath)
 
         // Then
         Assertions.assertTrue(result.result)
+    }
+
+    @Test
+    fun `given fromFile when no file exists then result is false`() {
+        // Given
+        val path = "abcxyz.jkl"
+
+        // When
+        val result = RestorePointSerializer.fromFile(path)
+
+        // Then
+        Assertions.assertFalse(result.result)
     }
 }

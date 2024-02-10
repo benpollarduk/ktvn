@@ -25,6 +25,22 @@ class GameSaveSerializerTest {
     }
 
     @Test
+    fun `given toFile when invalid path then result is false`() {
+        // Given
+        val gameSave = GameSave(
+            456,
+            listOf(Ending("Test", 1))
+        )
+        val path = "abcxyz.jkl"
+
+        // When
+        val result = GameSaveSerializer.toFile(gameSave, path)
+
+        // Then
+        Assertions.assertFalse(result.result)
+    }
+
+    @Test
     fun `given fromFile when temp file with valid contents then result is true`() {
         // Given
         val gameSave = GameSave(
@@ -40,5 +56,17 @@ class GameSaveSerializerTest {
 
         // Then
         Assertions.assertTrue(result.result)
+    }
+
+    @Test
+    fun `given fromFile when no file exists then result is false`() {
+        // Given
+        val path = "abcxyz.jkl"
+
+        // When
+        val result = GameSaveSerializer.fromFile(path)
+
+        // Then
+        Assertions.assertFalse(result.result)
     }
 }

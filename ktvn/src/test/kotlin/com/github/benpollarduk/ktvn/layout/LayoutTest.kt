@@ -11,7 +11,6 @@ import com.github.benpollarduk.ktvn.characters.animations.Animation
 import com.github.benpollarduk.ktvn.layout.Positions.left
 import com.github.benpollarduk.ktvn.layout.Positions.right
 import com.github.benpollarduk.ktvn.layout.transitions.Instant
-import com.github.benpollarduk.ktvn.layout.transitions.LayoutTransition
 import com.github.benpollarduk.ktvn.logic.Answer
 import com.github.benpollarduk.ktvn.logic.Question
 import com.github.benpollarduk.ktvn.logic.adapters.CharacterAdapter
@@ -226,7 +225,6 @@ class LayoutTest {
         Assertions.assertTrue(called)
     }
 
-
     @Test
     fun `given layout when add left character then moves is called`() {
         // Given
@@ -270,6 +268,7 @@ class LayoutTest {
         // Then
         Assertions.assertTrue(called)
     }
+
     @Test
     fun `given layout when add right character then moves is called`() {
         // Given
