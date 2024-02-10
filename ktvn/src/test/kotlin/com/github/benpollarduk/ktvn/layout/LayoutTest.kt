@@ -3,51 +3,36 @@ package com.github.benpollarduk.ktvn.layout
 import com.github.benpollarduk.ktvn.characters.Character
 import com.github.benpollarduk.ktvn.characters.CharacterAskListener
 import com.github.benpollarduk.ktvn.characters.EmoteListener
-import com.github.benpollarduk.ktvn.characters.Emotion
 import com.github.benpollarduk.ktvn.characters.SpeakListener
 import com.github.benpollarduk.ktvn.characters.ThinkListener
 import com.github.benpollarduk.ktvn.characters.animations.AnimateListener
-import com.github.benpollarduk.ktvn.characters.animations.Animation
 import com.github.benpollarduk.ktvn.layout.Positions.left
 import com.github.benpollarduk.ktvn.layout.Positions.right
 import com.github.benpollarduk.ktvn.layout.transitions.Instant
-import com.github.benpollarduk.ktvn.logic.Answer
-import com.github.benpollarduk.ktvn.logic.Question
 import com.github.benpollarduk.ktvn.logic.adapters.CharacterAdapter
 import com.github.benpollarduk.ktvn.logic.adapters.LayoutAdapter
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
 class LayoutTest {
-    private val emptySpeakListener = object : SpeakListener {
-        override fun speak(character: Character, line: String) {
-            // nothing
-        }
+    private val emptySpeakListener = SpeakListener { _, _ ->
+        // nothing
     }
 
-    private val emptyThinkListener = object : ThinkListener {
-        override fun think(character: Character, line: String) {
-            // nothing
-        }
+    private val emptyThinkListener = ThinkListener { _, _ ->
+        // nothing
     }
 
-    private val emptyEmoteListener = object : EmoteListener {
-        override fun emote(character: Character, emotion: Emotion) {
-            // nothing
-        }
+    private val emptyEmoteListener = EmoteListener { _, _ ->
+        // nothing
     }
 
-    private val emptyAnimateListener: AnimateListener = object : AnimateListener {
-        override fun animate(character: Character, animation: Animation) {
+    private val emptyAnimateListener: AnimateListener =
+        AnimateListener { _, _ ->
             // nothing
         }
-    }
 
-    private val emptyAskListener = object : CharacterAskListener {
-        override fun ask(character: Character, question: Question): Answer {
-            return question.answers.first()
-        }
-    }
+    private val emptyAskListener = CharacterAskListener { _, question -> question.answers.first() }
 
     private val characterAdapter: CharacterAdapter = object : CharacterAdapter {
         override val askListener: CharacterAskListener = emptyAskListener
@@ -163,9 +148,8 @@ class LayoutTest {
     fun `given layout when move left character then moves is called`() {
         // Given
         var called = false
-        val moveListener = MoveListener { _, _, _, _ -> called = true }
         val configuration: LayoutAdapter = object : LayoutAdapter {
-            override val moveListener: MoveListener = moveListener
+            override val moveListener: MoveListener = MoveListener { _, _, _, _ -> called = true }
         }
         val layout = Layout.createLayout { this configure configuration }
         val character = Character(
@@ -185,9 +169,8 @@ class LayoutTest {
     fun `given layout when move center character then moves is called`() {
         // Given
         var called = false
-        val moveListener = MoveListener { _, _, _, _ -> called = true }
         val configuration: LayoutAdapter = object : LayoutAdapter {
-            override val moveListener: MoveListener = moveListener
+            override val moveListener: MoveListener = MoveListener { _, _, _, _ -> called = true }
         }
         val layout = Layout.createLayout { this configure configuration }
         val character = Character(
@@ -207,9 +190,8 @@ class LayoutTest {
     fun `given layout when move right character then moves is called`() {
         // Given
         var called = false
-        val moveListener = MoveListener { _, _, _, _ -> called = true }
         val configuration: LayoutAdapter = object : LayoutAdapter {
-            override val moveListener: MoveListener = moveListener
+            override val moveListener: MoveListener = MoveListener { _, _, _, _ -> called = true }
         }
         val layout = Layout.createLayout { this configure configuration }
         val character = Character(
@@ -251,9 +233,8 @@ class LayoutTest {
     fun `given layout when add left of character then moves is called`() {
         // Given
         var called = false
-        val moveListener = MoveListener { _, _, _, _ -> called = true }
         val configuration: LayoutAdapter = object : LayoutAdapter {
-            override val moveListener: MoveListener = moveListener
+            override val moveListener: MoveListener = MoveListener { _, _, _, _ -> called = true }
         }
         val layout = Layout.createLayout { this configure configuration }
         val character = Character(
@@ -273,9 +254,8 @@ class LayoutTest {
     fun `given layout when add right character then moves is called`() {
         // Given
         var called = false
-        val moveListener = MoveListener { _, _, _, _ -> called = true }
         val configuration: LayoutAdapter = object : LayoutAdapter {
-            override val moveListener: MoveListener = moveListener
+            override val moveListener: MoveListener = MoveListener { _, _, _, _ -> called = true }
         }
         val layout = Layout.createLayout { this configure configuration }
         val character = Character(
@@ -295,9 +275,8 @@ class LayoutTest {
     fun `given layout when add right of character then moves is called`() {
         // Given
         var called = false
-        val moveListener = MoveListener { _, _, _, _ -> called = true }
         val configuration: LayoutAdapter = object : LayoutAdapter {
-            override val moveListener: MoveListener = moveListener
+            override val moveListener: MoveListener = MoveListener { _, _, _, _ -> called = true }
         }
         val layout = Layout.createLayout { this configure configuration }
         val character = Character(
@@ -317,9 +296,8 @@ class LayoutTest {
     fun `given layout when exit left character then moves is called`() {
         // Given
         var called = false
-        val moveListener = MoveListener { _, _, _, _ -> called = true }
         val configuration: LayoutAdapter = object : LayoutAdapter {
-            override val moveListener: MoveListener = moveListener
+            override val moveListener: MoveListener = MoveListener { _, _, _, _ -> called = true }
         }
         val layout = Layout.createLayout { this configure configuration }
         val character = Character(
@@ -339,9 +317,8 @@ class LayoutTest {
     fun `given layout when exit right character then moves is called`() {
         // Given
         var called = false
-        val moveListener = MoveListener { _, _, _, _ -> called = true }
         val configuration: LayoutAdapter = object : LayoutAdapter {
-            override val moveListener: MoveListener = moveListener
+            override val moveListener: MoveListener = MoveListener { _, _, _, _ -> called = true }
         }
         val layout = Layout.createLayout { this configure configuration }
         val character = Character(
@@ -383,9 +360,8 @@ class LayoutTest {
     fun `given layout when exit bottom character then moves is called`() {
         // Given
         var called = false
-        val moveListener = MoveListener { _, _, _, _ -> called = true }
         val configuration: LayoutAdapter = object : LayoutAdapter {
-            override val moveListener: MoveListener = moveListener
+            override val moveListener: MoveListener = MoveListener { _, _, _, _ -> called = true }
         }
         val layout = Layout.createLayout { this configure configuration }
         val character = Character(
@@ -426,10 +402,8 @@ class LayoutTest {
     @Test
     fun `given layout with a character when clear then no characters`() {
         // Given
-        var called = false
-        val moveListener = MoveListener { _, _, _, _ -> called = true }
         val configuration: LayoutAdapter = object : LayoutAdapter {
-            override val moveListener: MoveListener = moveListener
+            override val moveListener: MoveListener = MoveListener { _, _, _, _ -> }
         }
         val layout = Layout.createLayout { this configure configuration }
         val character = Character(
@@ -446,12 +420,10 @@ class LayoutTest {
     }
 
     @Test
-    fun `given layout with a character when to artray of character positions then array with one element returned`() {
+    fun `given layout with a character when to array of character positions then array with one element returned`() {
         // Given
-        var called = false
-        val moveListener = MoveListener { _, _, _, _ -> called = true }
         val configuration: LayoutAdapter = object : LayoutAdapter {
-            override val moveListener: MoveListener = moveListener
+            override val moveListener: MoveListener = MoveListener { _, _, _, _ -> }
         }
         val layout = Layout.createLayout { this configure configuration }
         val character = Character(
