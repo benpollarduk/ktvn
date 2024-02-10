@@ -45,6 +45,8 @@ class JTextPaneSequencedTextArea : JPanel(), SequencedTextArea {
 
         add(header, BorderLayout.NORTH)
         add(textPane, BorderLayout.CENTER)
+
+        clear()
     }
 
     private fun setHeader(value: String) {
