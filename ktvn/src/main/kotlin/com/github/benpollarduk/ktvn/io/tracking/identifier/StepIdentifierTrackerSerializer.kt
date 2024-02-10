@@ -13,6 +13,7 @@ public object StepIdentifierTrackerSerializer {
     /**
      * Save a [stepIdentifierTracker] to a specified [path].
      */
+    @Suppress("TooGenericExceptionCaught")
     public fun toFile(stepIdentifierTracker: StepIdentifierTracker, path: String): SaveResult {
         return try {
             val contents = StepIdentifierTrackerJsonParser.toJson(stepIdentifierTracker)
@@ -26,6 +27,8 @@ public object StepIdentifierTrackerSerializer {
             SaveResult(false, e.message ?: "Save failed - FileNotFoundException.")
         } catch (e: SecurityException) {
             SaveResult(false, e.message ?: "Save failed - SecurityException.")
+        } catch (e: NullPointerException) {
+            SaveResult(false, e.message ?: "Save failed - NullPointerException.")
         }
     }
 

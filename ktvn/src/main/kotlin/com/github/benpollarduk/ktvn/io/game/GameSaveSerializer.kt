@@ -13,6 +13,7 @@ public object GameSaveSerializer {
     /**
      * Save a [gameSave] to a specified [path].
      */
+    @Suppress("TooGenericExceptionCaught")
     public fun toFile(gameSave: GameSave, path: String): SaveResult {
         return try {
             val contents = GameSaveJsonParser.toJson(gameSave)
@@ -26,6 +27,8 @@ public object GameSaveSerializer {
             SaveResult(false, e.message ?: "Save failed - FileNotFoundException.")
         } catch (e: SecurityException) {
             SaveResult(false, e.message ?: "Save failed - SecurityException.")
+        } catch (e: NullPointerException) {
+            SaveResult(false, e.message ?: "Save failed - NullPointerException.")
         }
     }
 

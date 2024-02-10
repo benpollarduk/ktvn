@@ -13,6 +13,7 @@ public object RestorePointSerializer {
     /**
      * Save a [restorePoint] to a specified [path].
      */
+    @Suppress("TooGenericExceptionCaught")
     public fun toFile(restorePoint: RestorePoint, path: String): SaveResult {
         return try {
             val contents = RestorePointJsonParser.toJson(restorePoint)
@@ -26,6 +27,8 @@ public object RestorePointSerializer {
             SaveResult(false, e.message ?: "Save failed - FileNotFoundException.")
         } catch (e: SecurityException) {
             SaveResult(false, e.message ?: "Save failed - SecurityException.")
+        } catch (e: NullPointerException) {
+            SaveResult(false, e.message ?: "Save failed - NullPointerException.")
         }
     }
 
