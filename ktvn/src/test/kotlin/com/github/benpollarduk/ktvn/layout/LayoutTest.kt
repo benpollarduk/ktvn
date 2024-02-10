@@ -142,16 +142,7 @@ class LayoutTest {
     fun `given layout when move character then moves is called`() {
         // Given
         var called = false
-        val moveListener = object : MoveListener {
-            override fun move(
-                character: Character,
-                fromPosition: Position,
-                toPosition: Position,
-                transition: LayoutTransition
-            ) {
-                called = true
-            }
-        }
+        val moveListener = MoveListener { _, _, _, _ -> called = true }
         val configuration: LayoutAdapter = object : LayoutAdapter {
             override val moveListener: MoveListener = moveListener
         }
@@ -167,5 +158,313 @@ class LayoutTest {
 
         // Then
         Assertions.assertTrue(called)
+    }
+
+    @Test
+    fun `given layout when move left character then moves is called`() {
+        // Given
+        var called = false
+        val moveListener = MoveListener { _, _, _, _ -> called = true }
+        val configuration: LayoutAdapter = object : LayoutAdapter {
+            override val moveListener: MoveListener = moveListener
+        }
+        val layout = Layout.createLayout { this configure configuration }
+        val character = Character(
+            "",
+            characterAdapter
+        )
+        layout.add(character, left)
+
+        // When
+        layout.moveLeft(character)
+
+        // Then
+        Assertions.assertTrue(called)
+    }
+
+    @Test
+    fun `given layout when move center character then moves is called`() {
+        // Given
+        var called = false
+        val moveListener = MoveListener { _, _, _, _ -> called = true }
+        val configuration: LayoutAdapter = object : LayoutAdapter {
+            override val moveListener: MoveListener = moveListener
+        }
+        val layout = Layout.createLayout { this configure configuration }
+        val character = Character(
+            "",
+            characterAdapter
+        )
+        layout.add(character, left)
+
+        // When
+        layout.moveCenter(character)
+
+        // Then
+        Assertions.assertTrue(called)
+    }
+
+    @Test
+    fun `given layout when move right character then moves is called`() {
+        // Given
+        var called = false
+        val moveListener = MoveListener { _, _, _, _ -> called = true }
+        val configuration: LayoutAdapter = object : LayoutAdapter {
+            override val moveListener: MoveListener = moveListener
+        }
+        val layout = Layout.createLayout { this configure configuration }
+        val character = Character(
+            "",
+            characterAdapter
+        )
+        layout.add(character, left)
+
+        // When
+        layout.moveRight(character)
+
+        // Then
+        Assertions.assertTrue(called)
+    }
+
+
+    @Test
+    fun `given layout when add left character then moves is called`() {
+        // Given
+        var called = false
+        val moveListener = MoveListener { _, _, _, _ -> called = true }
+        val configuration: LayoutAdapter = object : LayoutAdapter {
+            override val moveListener: MoveListener = moveListener
+        }
+        val layout = Layout.createLayout { this configure configuration }
+        val character = Character(
+            "",
+            characterAdapter
+        )
+        layout.add(character, left)
+
+        // When
+        layout.addLeft(character)
+
+        // Then
+        Assertions.assertTrue(called)
+    }
+
+    @Test
+    fun `given layout when add left of character then moves is called`() {
+        // Given
+        var called = false
+        val moveListener = MoveListener { _, _, _, _ -> called = true }
+        val configuration: LayoutAdapter = object : LayoutAdapter {
+            override val moveListener: MoveListener = moveListener
+        }
+        val layout = Layout.createLayout { this configure configuration }
+        val character = Character(
+            "",
+            characterAdapter
+        )
+        layout.add(character, left)
+
+        // When
+        layout.addLeftOf(character)
+
+        // Then
+        Assertions.assertTrue(called)
+    }
+    @Test
+    fun `given layout when add right character then moves is called`() {
+        // Given
+        var called = false
+        val moveListener = MoveListener { _, _, _, _ -> called = true }
+        val configuration: LayoutAdapter = object : LayoutAdapter {
+            override val moveListener: MoveListener = moveListener
+        }
+        val layout = Layout.createLayout { this configure configuration }
+        val character = Character(
+            "",
+            characterAdapter
+        )
+        layout.add(character, left)
+
+        // When
+        layout.addRight(character)
+
+        // Then
+        Assertions.assertTrue(called)
+    }
+
+    @Test
+    fun `given layout when add right of character then moves is called`() {
+        // Given
+        var called = false
+        val moveListener = MoveListener { _, _, _, _ -> called = true }
+        val configuration: LayoutAdapter = object : LayoutAdapter {
+            override val moveListener: MoveListener = moveListener
+        }
+        val layout = Layout.createLayout { this configure configuration }
+        val character = Character(
+            "",
+            characterAdapter
+        )
+        layout.add(character, left)
+
+        // When
+        layout.addRightOf(character)
+
+        // Then
+        Assertions.assertTrue(called)
+    }
+
+    @Test
+    fun `given layout when exit left character then moves is called`() {
+        // Given
+        var called = false
+        val moveListener = MoveListener { _, _, _, _ -> called = true }
+        val configuration: LayoutAdapter = object : LayoutAdapter {
+            override val moveListener: MoveListener = moveListener
+        }
+        val layout = Layout.createLayout { this configure configuration }
+        val character = Character(
+            "",
+            characterAdapter
+        )
+        layout.add(character, left)
+
+        // When
+        layout.exitLeft(character)
+
+        // Then
+        Assertions.assertTrue(called)
+    }
+
+    @Test
+    fun `given layout when exit right character then moves is called`() {
+        // Given
+        var called = false
+        val moveListener = MoveListener { _, _, _, _ -> called = true }
+        val configuration: LayoutAdapter = object : LayoutAdapter {
+            override val moveListener: MoveListener = moveListener
+        }
+        val layout = Layout.createLayout { this configure configuration }
+        val character = Character(
+            "",
+            characterAdapter
+        )
+        layout.add(character, left)
+
+        // When
+        layout.exitRight(character)
+
+        // Then
+        Assertions.assertTrue(called)
+    }
+
+    @Test
+    fun `given layout when exit top character then moves is called`() {
+        // Given
+        var called = false
+        val moveListener = MoveListener { _, _, _, _ -> called = true }
+        val configuration: LayoutAdapter = object : LayoutAdapter {
+            override val moveListener: MoveListener = moveListener
+        }
+        val layout = Layout.createLayout { this configure configuration }
+        val character = Character(
+            "",
+            characterAdapter
+        )
+        layout.add(character, left)
+
+        // When
+        layout.exitTop(character)
+
+        // Then
+        Assertions.assertTrue(called)
+    }
+
+    @Test
+    fun `given layout when exit bottom character then moves is called`() {
+        // Given
+        var called = false
+        val moveListener = MoveListener { _, _, _, _ -> called = true }
+        val configuration: LayoutAdapter = object : LayoutAdapter {
+            override val moveListener: MoveListener = moveListener
+        }
+        val layout = Layout.createLayout { this configure configuration }
+        val character = Character(
+            "",
+            characterAdapter
+        )
+        layout.add(character, left)
+
+        // When
+        layout.exitBottom(character)
+
+        // Then
+        Assertions.assertTrue(called)
+    }
+
+    @Test
+    fun `given layout when disappear character then moves is called`() {
+        // Given
+        var called = false
+        val moveListener = MoveListener { _, _, _, _ -> called = true }
+        val configuration: LayoutAdapter = object : LayoutAdapter {
+            override val moveListener: MoveListener = moveListener
+        }
+        val layout = Layout.createLayout { this configure configuration }
+        val character = Character(
+            "",
+            characterAdapter
+        )
+        layout.add(character, left)
+
+        // When
+        layout.disappear(character)
+
+        // Then
+        Assertions.assertTrue(called)
+    }
+
+    @Test
+    fun `given layout with a character when clear then no characters`() {
+        // Given
+        var called = false
+        val moveListener = MoveListener { _, _, _, _ -> called = true }
+        val configuration: LayoutAdapter = object : LayoutAdapter {
+            override val moveListener: MoveListener = moveListener
+        }
+        val layout = Layout.createLayout { this configure configuration }
+        val character = Character(
+            "",
+            characterAdapter
+        )
+        layout.add(character, left)
+
+        // When
+        layout.clear()
+
+        // Then
+        Assertions.assertEquals(0, layout.characters)
+    }
+
+    @Test
+    fun `given layout with a character when to artray of character positions then array with one element returned`() {
+        // Given
+        var called = false
+        val moveListener = MoveListener { _, _, _, _ -> called = true }
+        val configuration: LayoutAdapter = object : LayoutAdapter {
+            override val moveListener: MoveListener = moveListener
+        }
+        val layout = Layout.createLayout { this configure configuration }
+        val character = Character(
+            "",
+            characterAdapter
+        )
+        layout.add(character, left)
+
+        // When
+        val result = layout.toArrayOfCharacterPosition()
+
+        // Then
+        Assertions.assertEquals(1, result.size)
     }
 }
