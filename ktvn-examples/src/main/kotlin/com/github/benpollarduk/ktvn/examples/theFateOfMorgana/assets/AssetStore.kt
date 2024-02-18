@@ -1,6 +1,6 @@
 package com.github.benpollarduk.ktvn.examples.theFateOfMorgana.assets
 
-import com.github.benpollarduk.ktvn.audio.AudioManager
+import com.github.benpollarduk.ktvn.audio.SoundEffectPlayer
 import com.github.benpollarduk.ktvn.characters.Character
 import com.github.benpollarduk.ktvn.characters.Narrator
 import com.github.benpollarduk.ktvn.characters.animations.Animation
@@ -23,9 +23,9 @@ public object AssetStore {
     public val narrator: Narrator = Narrator(configuration.gameAdapter.narratorAdapter)
 
     /**
-     * The audio manager, responsible for all audio.
+     * The sound effect player, responsible invoking sound effects.
      */
-    public val audio: AudioManager = AudioManager(configuration.gameAdapter.audioAdapter)
+    public val audio: SoundEffectPlayer = SoundEffectPlayer(configuration.gameAdapter.audioAdapter)
 
     /**
      * Morgana, a witch. The antagonist of the story.
