@@ -25,7 +25,7 @@ used to play *sfxWoosh*.
 next { audio sfx sfxWoosh }
 ```
 
-In this case *sfxWoosh** is a **ResourceSoundEffect**, but a **FileSoundEffect** could also be used.
+In this case *sfxWoosh* is a **ResourceSoundEffect**, but a **FileSoundEffect** could also be used.
 
 ```kotlin
 val sfxWoosh = soundEffectFromResource("shuttleLaunch/audio/woosh.wav")
