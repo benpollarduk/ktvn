@@ -16,6 +16,7 @@ nav:
     - 'Clear': 'dsl/clear.md'
     - 'End': 'dsl/end.md'
   - Customising Scenes: 'customising-scenes.md'
+  - Audio: 'audio.md'
   - Game Engine: 'game-engine.md'
   - Using Resources: 'using-resources.md'
   - Api documentation: 'api-documentation.md'
