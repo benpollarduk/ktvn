@@ -7,7 +7,7 @@ In Ktvn background music is specified as part of the **Scene**. This is document
 page.
 
 ## Sound Effects
-Sounds effects can be played during any **Step**. All sound effects require an **AudioManager** to play.
+Sounds effects can be played during any **Step**. All sound effects require a **SoundEffectPlayer** to play.
 
 ### SoundEffectPlayer
 The **SoundEffectPlayer** is a class that invokes sound effects in Ktvn. It depends on an **AudioAdapter**. The 
