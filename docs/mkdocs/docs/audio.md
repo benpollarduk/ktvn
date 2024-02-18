@@ -9,7 +9,7 @@ page.
 ## Sound Effects
 Sounds effects can be played during any **Step**. All sound effects require an **AudioManager** to play.
 
-### Sound Effect Player
+### SoundEffectPlayer
 The **SoundEffectPlayer** is a class that invokes sound effects in Ktvn. It depends on an **AudioAdapter**. The 
 **DynamicGameConfiguration** provides an instance of **AudioAdapter** that is suitable for nearly all use cases.
 
