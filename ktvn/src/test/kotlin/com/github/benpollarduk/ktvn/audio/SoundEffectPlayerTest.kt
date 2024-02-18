@@ -4,7 +4,7 @@ import com.github.benpollarduk.ktvn.logic.adapters.AudioAdapter
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
-class AudioManagerTest {
+class SoundEffectPlayerTest {
     @Test
     fun `given sfx from object when calling sfx then listener invoked`() {
         // Given
@@ -14,10 +14,10 @@ class AudioManagerTest {
                 called = true
             }
         }
-        val manager = AudioManager(adapter)
+        val player = SoundEffectPlayer(adapter)
 
         // When
-        manager.sfx(ResourceSoundEffect(""))
+        player.sfx(ResourceSoundEffect(""))
 
         // Then
         Assertions.assertTrue(called)
@@ -32,10 +32,10 @@ class AudioManagerTest {
                 called = true
             }
         }
-        val manager = AudioManager(adapter)
+        val player = SoundEffectPlayer(adapter)
 
         // When
-        manager.sfx("")
+        player.sfx("")
 
         // Then
         Assertions.assertTrue(called)

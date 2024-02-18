@@ -4,9 +4,9 @@ import com.github.benpollarduk.ktvn.audio.ResourceSoundEffect.Companion.soundEff
 import com.github.benpollarduk.ktvn.logic.adapters.AudioAdapter
 
 /**
- * Provides a class for managing audio playback and control. An [adapter] must be specified.
+ * Provides a class for playing sound effects. An [adapter] must be specified.
  */
-public class AudioManager(private val adapter: AudioAdapter) {
+public class SoundEffectPlayer(private val adapter: AudioAdapter) {
     /**
      * Play a specified [soundEffect].
      */

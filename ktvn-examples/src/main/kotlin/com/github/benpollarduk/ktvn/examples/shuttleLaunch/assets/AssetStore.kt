@@ -1,9 +1,9 @@
 package com.github.benpollarduk.ktvn.examples.shuttleLaunch.assets
 
-import com.github.benpollarduk.ktvn.audio.AudioManager
 import com.github.benpollarduk.ktvn.audio.ResourceSoundEffect.Companion.soundEffectFromResource
 import com.github.benpollarduk.ktvn.audio.ResourceTrack.Companion.trackFromResource
 import com.github.benpollarduk.ktvn.audio.SoundEffect
+import com.github.benpollarduk.ktvn.audio.SoundEffectPlayer
 import com.github.benpollarduk.ktvn.audio.Track
 import com.github.benpollarduk.ktvn.backgrounds.Background
 import com.github.benpollarduk.ktvn.backgrounds.ResourceBackground.Companion.backgroundFromResource
@@ -50,9 +50,9 @@ public object AssetStore {
     public val narrator: Narrator = Narrator(configuration.gameAdapter.narratorAdapter)
 
     /**
-     * The audio manager, responsible for all audio.
+     * The sound effect player, responsible invoking sound effects.
      */
-    public val audio: AudioManager = AudioManager(configuration.gameAdapter.audioAdapter)
+    public val audio: SoundEffectPlayer = SoundEffectPlayer(configuration.gameAdapter.audioAdapter)
 
     /**
      * Toki, a cosmonaut.
