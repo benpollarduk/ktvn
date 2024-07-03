@@ -378,11 +378,11 @@ Please see **AnsiConsoleGameEngine** for a simple example that demonstrates how 
 The UI and the GameEngine will be unique for each project. In app-ktvn-prototyper-console the UI is provided by the 
 terminal and **AnsiConsoleGameEngine** interacts directly with this.
 
-![ktvn-sequencing-overview-components.png](docs%2Fktvn-sequencing-overview-components.png)
+![ktvn-sequencing-overview-components.png](docs%2Foverview%2Fktvn-sequencing-overview-components.png)
 
 The following sequence diagram shows the sequence of starting a game and a character speaking then asking a question:
 
-![ktvn-sequencing-overview.png](docs%2Fktvn-sequencing-overview.png)
+![ktvn-sequencing-overview.png](docs%2Foverview%2Fktvn-sequencing-overview.png)
 
 ## Prototyping
 Ktvn is focused on providing a framework for writing visual novels that can be pulled in to other frameworks rather than 
